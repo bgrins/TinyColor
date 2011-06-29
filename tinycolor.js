@@ -340,7 +340,7 @@ var htmlcodes = {
 
 var colorparsers = [
 	{
-	    re: /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
+	    re: /^rgb\s*\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
 	    process: function (bits){
 	        return [
 	            parseInt(bits[1]),
