@@ -3,6 +3,9 @@ var tinycolor = (function() {
 
 var tc = _tinycolor;
 tc.version = "0.1";
+tc.equals = function(color1, color2) {
+	return tc(color1).toHex() == tc(color2).toHex();
+}
 
 var trimLeft = /^[\s,#]+/, trimRight = /\s+$/;
 
