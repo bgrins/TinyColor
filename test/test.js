@@ -18,6 +18,7 @@ test("RGB colors", function() {
 	equals (tinycolor("rgb(255, 0, 0)").toHexCss(), "#ff0000", "parenthesized input");
 	equals (tinycolor("rgb (255, 0, 0)").toHexCss(), "#ff0000", "parenthesized spaced input");
 	equals (tinycolor({ r: 255, g: 0, b: 0 }).toHexCss(), "#ff0000", "object input");
+	same (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
 });
 
 
