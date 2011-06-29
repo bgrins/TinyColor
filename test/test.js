@@ -10,23 +10,23 @@ test("TinyColor initialization", function() {
 module("Color translations");
 
 test("Named colors", function() {
-	equals (tinycolor("red").toHexCss(), "#ff0000", "red matches hex");
+	equal (tinycolor("red").toHexCss(), "#ff0000", "red matches hex");
 });
 
 test("RGB colors", function() {
-	equals (tinycolor("rgb 255 0 0").toHexCss(), "#ff0000", "spaced input");
-	equals (tinycolor("rgb(255, 0, 0)").toHexCss(), "#ff0000", "parenthesized input");
-	equals (tinycolor("rgb (255, 0, 0)").toHexCss(), "#ff0000", "parenthesized spaced input");
-	equals (tinycolor({ r: 255, g: 0, b: 0 }).toHexCss(), "#ff0000", "object input");
-	same (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
+	equal (tinycolor("rgb 255 0 0").toHexCss(), "#ff0000", "spaced input");
+	equal (tinycolor("rgb(255, 0, 0)").toHexCss(), "#ff0000", "parenthesized input");
+	equal (tinycolor("rgb (255, 0, 0)").toHexCss(), "#ff0000", "parenthesized spaced input");
+	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexCss(), "#ff0000", "object input");
+	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
 });
 
 
 test("Hex colors", function() {
-	equals (tinycolor("ff0000").toHexCss(), "#ff0000", "6 character, no pound");
-	equals (tinycolor("#ff0000").toHexCss(), "#ff0000", "6 character, with pound");
-	equals (tinycolor("f00").toHexCss(), "#ff0000", "3 character, no pound");
-	equals (tinycolor("#f00").toHexCss(), "#ff0000", "3 character, with pound");
+	equal (tinycolor("ff0000").toHexCss(), "#ff0000", "6 character, no pound");
+	equal (tinycolor("#ff0000").toHexCss(), "#ff0000", "6 character, with pound");
+	equal (tinycolor("f00").toHexCss(), "#ff0000", "3 character, no pound");
+	equal (tinycolor("#f00").toHexCss(), "#ff0000", "3 character, with pound");
 });
 
 module("Utilities");
