@@ -1,6 +1,4 @@
 
-console.log("HERE", test);
-
 test("TinyColor initialization", function() {
 	ok ( typeof tinycolor != "undefined", "tinycolor is initialized on the page" );
 	ok ( typeof tinycolor("red") == "object", "tinycolor is able to be instantiated." );
