@@ -1,3 +1,4 @@
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead
 
 var tinycolor = (function() {
 
@@ -352,7 +353,6 @@ var colorparsers = [
 	        ];
 	    }
 	},
-	// rgb 100 200 80 (with no parens or commas)
 	{
 	    re: /^rgb\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
 	    process: function (bits) {
