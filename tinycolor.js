@@ -8,8 +8,9 @@ tc.equals = function(color1, color2) {
 	return tc(color1).toHex() == tc(color2).toHex();
 }
 
-var trimLeft = /^[\s,#]+/, trimRight = /\s+$/;
-var counter = 0;
+var trimLeft = /^[\s,#]+/, 
+	trimRight = /\s+$/,
+	tinyCounter = 0;
 
 function _tinycolor (color) {
 	
@@ -22,7 +23,7 @@ function _tinycolor (color) {
 	var r = rgb.r, g = rgb.g, b = rgb.b;
 	
 	return {
-		_tc_id: counter++,
+		_tc_id: tinyCounter++,
 		toHsv: function() {
 			return rgbToHsv(r, g, b);
 		},
