@@ -73,7 +73,6 @@ function inputToRGB(color) {
     		color = htmlcodes[color];
     	}
     	
-    	console.log(color, parseInt(color, 16))
     	for (var i = 0; i < colorparsers.length; i++) {
     	    var processor = colorparsers[i].process;
     	    var bits = colorparsers[i].re.exec(color);
