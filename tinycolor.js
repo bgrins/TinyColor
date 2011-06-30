@@ -9,12 +9,20 @@ tc.equals = function(color1, color2) {
 }
 
 var trimLeft = /^[\s,#]+/, trimRight = /\s+$/;
+var counter = 0;
 
 function _tinycolor (color) {
+	
+	// If input is already a tinycolor, return itself
+	if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
+		return color;
+	}
+	
 	var rgb = inputToRGB(color);
 	var r = rgb.r, g = rgb.g, b = rgb.b;
 	
 	return {
+		_tc_id: counter++,
 		toHsv: function() {
 			return rgbToHsv(r, g, b);
 		},

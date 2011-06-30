@@ -19,6 +19,22 @@ test("RGB colors", function() {
 	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
 });
 
+test("RGB Text Parsing", function() {
+	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb(200, 100, 0)"));
+	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb 200 100 0"));
+	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb 200 100 0"));
+	
+	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb(200, 100, 0)"));
+	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb 200 100 0"));
+	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb 200 100 0"));
+	
+	
+	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb(200, 100, 0)"));
+	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
+	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
+	
+});
+
 
 test("Hex colors", function() {
 	equal (tinycolor("ff0000").toHexCss(), "#ff0000", "6 character, no pound");
@@ -26,6 +42,7 @@ test("Hex colors", function() {
 	equal (tinycolor("f00").toHexCss(), "#ff0000", "3 character, no pound");
 	equal (tinycolor("#f00").toHexCss(), "#ff0000", "3 character, with pound");
 });
+
 
 module("Utilities");
 
