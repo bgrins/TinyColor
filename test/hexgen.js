@@ -17,6 +17,7 @@ for (var i = 0x0; i <= 0xf; i++) {
     						//shorthands.push([char[i], char[k], char[m]].join(''));
     					}
     					
+    					
     					standards.push([char[i], char[j], char[k], char[l], char[m], char[n]].join(''));
     					
     					c++;
@@ -27,4 +28,17 @@ for (var i = 0x0; i <= 0xf; i++) {
     }
 }
 	
-s.puts(standards.join(""));
+var x = 16777216;
+
+s.puts(standards.slice(0*(x/10), x/10).join("\n"));
+s.puts(standards.slice(1*(x/10), x/10).join("\n"));
+s.puts(standards.slice(2*(x/10), x/10).join("\n"));
+s.puts(standards.slice(3*(x/10), x/10).join("\n"));
+s.puts(standards.slice(4*(x/10), x/10).join("\n"));
+s.puts(standards.slice(5*(x/10), x/10).join("\n"));
+s.puts(standards.slice(6*(x/10), x/10).join("\n"));
+s.puts(standards.slice(7*(x/10), x/10).join("\n"));
+s.puts(standards.slice(8*(x/10), x/10).join("\n"));
+s.puts(standards.slice(9*(x/10), x/10).join("\n"));
+
+//s.puts(standards.join("\n"));

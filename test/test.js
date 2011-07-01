@@ -4,7 +4,6 @@ test("TinyColor initialization", function() {
 	ok ( typeof tinycolor("red") == "object", "tinycolor is able to be instantiated." );
 });
 
-
 module("Color translations");
 
 test("RGB colors", function() {
@@ -32,6 +31,7 @@ test("RGB Text Parsing", function() {
 });
 
 test("Hex colors", function() {
+	//console.log(c, c.toString(16), shorthands.length, standards.length);
 	equal (tinycolor("ff0000").toHexCss(), "#ff0000", "6 character, no pound");
 	equal (tinycolor("#ff0000").toHexCss(), "#ff0000", "6 character, with pound");
 	equal (tinycolor("f00").toHexCss(), "#ff0000", "3 character, no pound");
@@ -195,3 +195,17 @@ test("Color equality", function() {
 	ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
 });
 
+
+/* Too slow: 1677731 possibilities
+asyncTest("Ajax load", function() {
+
+	$.get("allhex.txt", function(d) {
+		var hex = d.split('\n');
+		for (var i = 0, l = hex.length; i < l; i++) {
+			ok(tinycolor(hex[i]).toHex(), hex[i]);
+		}
+		console.log(hex.length);
+   		start();
+	});
+});
+*/
