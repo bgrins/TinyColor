@@ -1,4 +1,4 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.1
 
 var tinycolor = (function() {
 
