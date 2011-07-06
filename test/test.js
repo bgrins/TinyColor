@@ -30,6 +30,17 @@ test("RGB Text Parsing", function() {
 	
 });
 
+test("HSL parsing", function() {
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "#2200C1", "to hex" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "rgb(34, 0, 193)", "to rgb" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "#2200C1", "to hex" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "rgb(34, 0, 193)", "to rgb" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
+
+
+});
+
 test("Hex colors", function() {
 	//console.log(c, c.toString(16), shorthands.length, standards.length);
 	equal (tinycolor("ff0000").toHexCss(), "#ff0000", "6 character, no pound");
