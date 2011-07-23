@@ -31,14 +31,27 @@ test("RGB Text Parsing", function() {
 });
 
 test("HSL parsing", function() {
-	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "#2200C1", "to hex" );
-	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "rgb(34, 0, 193)", "to rgb" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "#2400c2", "to hex" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toRgbCss(), "rgb(36, 0, 194)", "to rgb" );
 	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
-	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "#2200C1", "to hex" );
-	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "rgb(34, 0, 193)", "to rgb" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "#2400c2", "to hex" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toRgbCss(), "rgb(36, 0, 194)", "to rgb" );
 	equal( tinycolor("hsl(251, 100%, 38%)").toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
+});
 
 
+test("HSV Parsing", function() {
+	var height = 500;
+	var index = 0;
+	var hue = 0.0;
+	var sat = 1;
+	var x,y;    
+	for(y = height-1; y >=0; y--){
+	   hue = y / height;
+	   hue = (hue - Math.floor(hue));
+	   
+	   var hsv = {h:hue, s:sat, v: 1};
+	}
 });
 
 test("Hex colors", function() {
@@ -205,6 +218,7 @@ test("Color equality", function() {
 	ok (tinycolor.equals("f00", "#ff0000"), "Same hex");
 	ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
 });
+
 
 
 /* Too slow: 1677731 possibilities

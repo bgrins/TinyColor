@@ -94,6 +94,7 @@ function inputToRGB(color) {
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 			var rgb = hsvToRgb(color.h, color.s, color.v);
+			
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
@@ -266,7 +267,7 @@ function hsvToRgb(h, s, v){
         case 5: r = v, g = p, b = q; break;
     }
     
-    return [r * 255, g * 255, b * 255];
+    return {r: r * 255, g: g * 255, b: b * 255};
 }
 
 
@@ -496,6 +497,7 @@ var colorparsers = [
 	}
 ];
 
+function log() { if (console) { console.log( Array.prototype.slice.call(arguments) ); } }
 
 return tc;
 
