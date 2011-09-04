@@ -51,8 +51,8 @@ function _tinycolor (color) {
 		},
 		toName: function() {
 			var hex = rgbToHex(r, g, b);
-			for (var i in htmlcodes) {
-				if (htmlcodes[i] == hex) {
+			for (var i in names) {
+				if (names[i] == hex) {
 					return i;
 				}
 			}
@@ -69,8 +69,8 @@ function inputToRGB(color) {
 	
 	if (typeof color == "string") {
     	color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
-    	if (htmlcodes[color]) {
-    		color = htmlcodes[color];
+    	if (names[color]) {
+    		color = names[color];
     	}
     	
     	for (var i = 0; i < colorparsers.length; i++) {
@@ -307,7 +307,7 @@ function rgbToHex(r, g, b) {
 
 
 
-var htmlcodes = {
+var names = tc.names = {
 	aliceblue: 'f0f8ff',
 	antiquewhite: 'faebd7',
 	aqua: '00ffff',
