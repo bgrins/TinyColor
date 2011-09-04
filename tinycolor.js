@@ -61,6 +61,25 @@ function _tinycolor (color) {
 	};
 };
 
+function stringInputToObject(color) {
+
+    color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
+    if (names[color]) {
+        color = names[color];
+    }
+    
+	var parsedInput = false;
+    for (var i = 0; i < colorparsers.length; i++) {
+    
+        var matched = colorparsers[i].re.exec(color);
+        if (matched) {
+        	parsedInput = colorparsers[i].process(matched);
+            break;
+        }
+    }
+    
+    return parsedInput;
+}
 
 function inputToRGB(color) {
 
@@ -68,29 +87,16 @@ function inputToRGB(color) {
 	var ok = false;
 	
 	if (typeof color == "string") {
-    	color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
-    	if (names[color]) {
-    		color = names[color];
-    	}
-    	
-    	for (var i = 0; i < colorparsers.length; i++) {
-    	    var processor = colorparsers[i].process;
-    	    var bits = colorparsers[i].re.exec(color);
-    	    if (bits) {
-    	        channels = processor(bits);
-    	        r = channels[0];
-    	        g = channels[1];
-    	        b = channels[2];
-    	        ok = true;
-    	    }
-		
-    	}
+		color = stringInputToObject(color);
 	}
-	else if (typeof color == "object") {
+	
+	if (typeof color == "object") {
 		if (color.hasOwnProperty("r")) {
-			r = color.r;
-			g = color.g;
-			b = color.b;		
+	
+			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
+			r = bound01(color.r, 255) * 255;
+			g = bound01(color.g, 255) * 255;
+			b = bound01(color.b, 255) * 255;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 		
@@ -117,16 +123,10 @@ function inputToRGB(color) {
 		}
 	}
 	
-	// Handle input case where r, g, b is within [0, 1] instead of
-	// [0, 255].
-	r = Math.round(bound01(r, 255) * 255);
-	g = Math.round(bound01(g, 255) * 255);
-	b = Math.round(bound01(b, 255) * 255);
-	
 	return {
-		r: Math.min(255, Math.max(parseInt(r, 10), 0)),
-		g: Math.min(255, Math.max(parseInt(g, 10), 0)),
-		b: Math.min(255, Math.max(parseInt(b, 10), 0))
+		r: Math.min(255, Math.max(Math.round(r), 0)),
+		g: Math.min(255, Math.max(Math.round(g), 0)),
+		b: Math.min(255, Math.max(Math.round(b), 0))
 	};
 }
 
@@ -458,64 +458,63 @@ var names = tc.names = {
 var colorparsers = [
 	{
 	    re: /^rgb\s*\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
-	    process: function (bits){
-	        return [
-	            parseInt(bits[1]),
-	            parseInt(bits[2]),
-	            parseInt(bits[3])
-	        ];
+	    process: function (bits) {
+	    
+	    	return {
+	    		r: bits[1],
+	    		g: bits[2],
+	    		b: bits[3]
+	    	};
 	    }
 	},
 	{
 	    re: /^rgb\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
 	    process: function (bits) {
-	        return [
-	            parseInt(bits[1]),
-	            parseInt(bits[2]),
-	            parseInt(bits[3])
-	        ];
+	    	return {
+	    		r: bits[1],
+	    		g: bits[2],
+	    		b: bits[3]
+	    	};
 	    }
 	},
 	{
 	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
 	    process: function (bits) {
-	        return [
-	            parseInt(bits[1], 16),
-	            parseInt(bits[2], 16),
-	            parseInt(bits[3], 16)
-	        ];
+	        return {
+	            r: parseInt(bits[1], 16),
+	            g: parseInt(bits[2], 16),
+	            b: parseInt(bits[3], 16)
+	        };
 	    }
 	},
 	{
 	    re: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
 	    process: function (bits) {
-	        return [
-	            parseInt(bits[1] + bits[1], 16),
-	            parseInt(bits[2] + bits[2], 16),
-	            parseInt(bits[3] + bits[3], 16)
-	        ];
+	        return {
+	            r: parseInt(bits[1] + bits[1], 16),
+	            g: parseInt(bits[2] + bits[2], 16),
+	            b: parseInt(bits[3] + bits[3], 16)
+	        };
 	    }
 	},
 	{
 	    re: /^hsl\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
 	    process: function (bits) {
-	    	var rgb = hslToRgb(bits[1], bits[2], bits[3]);
-	        return [
-	            rgb.r,
-	            rgb.g,
-	            rgb.b
-	        ];
+	    	return {
+	    		h: bits[1],
+	    		s: bits[2],
+	    		l: bits[3]
+	    	};
 	    }
 	},
 	{
 	    re: /^hsv\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
 	    process: function (bits) {
-	    	var rgb = hsvToRgb(bits[1], bits[2], bits[3]);
-	        return [
-	            rgb.r,
-	            rgb.g,
-	            rgb.b
-	        ];
+	    	return {
+	    		h: bits[1],
+	    		s: bits[2],
+	    		v: bits[3]
+	    	};
 	    }
 	}
 ];
