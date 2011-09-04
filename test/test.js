@@ -21,10 +21,10 @@ test("Color Equality", function() {
 		ok (tinycolor.equals(c.rgb, c.rgb), "RGB equals RGB " + c.hex);
 		
 		ok (tinycolor.equals(c.hex, c.hex), "hex equals hex " + c.hex);
-		//ok (tinycolor.equals(c.hex, c.hsl), "hex equals HSL");
+		ok (tinycolor.equals(c.hex, c.hsl), "hex equals HSL");
 		ok (tinycolor.equals(c.hex, c.hsv), "hex equals HSV " + c.hex);
 		
-		//ok (tinycolor.equals(c.hsl, c.hsv), "HSL equals HSV");
+		ok (tinycolor.equals(c.hsl, c.hsv), "HSL equals HSV");
 		
 	}
 });
