@@ -93,19 +93,35 @@ function inputToRGB(color) {
 			b = color.b;		
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-			var rgb = hsvToRgb(color.h, color.s, color.v);
+		
+			var h = bound01(color.h, 360);
+			var s = bound01(color.s, 100);
+			var v = bound01(color.v, 100);
+			
+			var rgb = hsvToRgb(h, s, v);
 			
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-			var rgb = hslToRgb(color.h, color.s, color.l);
+		
+			var h = bound01(color.h, 360);
+			var s = bound01(color.s, 100);
+			var l = bound01(color.l, 100);
+			
+			var rgb = hslToRgb(h, s, l);
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
 		}
 	}
+	
+	// Handle input case where r, g, b is within [0, 1] instead of
+	// [0, 255].
+	r = Math.round(bound01(r, 255) * 255);
+	g = Math.round(bound01(g, 255) * 255);
+	b = Math.round(bound01(b, 255) * 255);
 	
 	return {
 		r: Math.min(255, Math.max(parseInt(r, 10), 0)),
@@ -118,7 +134,7 @@ function inputToRGB(color) {
 /** 
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Assumes r, g, and b are contained in the set [0, 255] and
+ * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
  * returns h, s, and l in the set [0, 1].
  *
  * @param   Number  r       The red color value
@@ -127,7 +143,11 @@ function inputToRGB(color) {
  * @return  Array           The HSL representation
  */
 function rgbToHsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
+	
+	r = bound01(r, 255);
+	g = bound01(g, 255);
+	b = bound01(b, 255);
+	
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
 
@@ -161,7 +181,7 @@ function bound01(n, max) {
 /**
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Assumes h, s, and l are contained in the set [0, 1] and
+ * Assumes h, s, and l are contained in the set [0, 1] or [0, 360] and [0, 100] and
  * returns r, g, and b in the set [0, 255].
  *
  * @param   Number  h       The hue
@@ -202,7 +222,7 @@ function hslToRgb(h, s, l){
 /**
  * Converts an RGB color value to HSV. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
- * Assumes r, g, and b are contained in the set [0, 255] and
+ * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
  * returns h, s, and v in the set [0, 1].
  *
  * @param   Number  r       The red color value
@@ -211,7 +231,11 @@ function hslToRgb(h, s, l){
  * @return  Array           The HSV representation
  */
 function rgbToHsv(r, g, b){
-    r = r/255, g = g/255, b = b/255;
+
+	r = bound01(r, 255);
+	g = bound01(g, 255);
+	b = bound01(b, 255);
+	
     var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, v = max;
 
@@ -236,7 +260,7 @@ function rgbToHsv(r, g, b){
 /**
  * Converts an HSV color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
- * Assumes h, s, and v are contained in the set [0, 1] and
+ * Assumes h, s, and v are contained in the set [0, 1] or [0, 360] and [0, 100] and
  * returns r, g, and b in the set [0, 255].
  *
  * @param   Number  h       The hue
@@ -246,7 +270,6 @@ function rgbToHsv(r, g, b){
  */
 function hsvToRgb(h, s, v){
     var r, g, b;
-    
     
 	h = bound01(h, 360);
 	s = bound01(s, 100);
