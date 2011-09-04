@@ -2,7 +2,8 @@
 ## JavaScript color parsing
 
 ### Permissive Input
-Any of the following inputs are recognized
+Any of the following inputs are recognized:
+
     red
     #fff
     fff
