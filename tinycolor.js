@@ -3,7 +3,7 @@
 var tinycolor = (function() {
 
 var tc = _tinycolor;
-tc.version = "0.1";
+tc.version = "0.2";
 tc.equals = function(color1, color2) {
 	return tc(color1).toHex() == tc(color2).toHex();
 }
