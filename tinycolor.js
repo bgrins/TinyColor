@@ -59,26 +59,6 @@ function _tinycolor (color) {
 			return false;
 		}
 	};
-};
-
-function stringInputToObject(color) {
-
-    color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
-    if (names[color]) {
-        color = names[color];
-    }
-    
-	var parsedInput = false;
-    for (var i = 0; i < colorparsers.length; i++) {
-    
-        var matched = colorparsers[i].re.exec(color);
-        if (matched) {
-        	parsedInput = colorparsers[i].process(matched);
-            break;
-        }
-    }
-    
-    return parsedInput;
 }
 
 function inputToRGB(color) {
@@ -130,7 +110,7 @@ function inputToRGB(color) {
 	};
 }
 
-// hsv and hsl to and from rgb taken from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+// hsv and hsl to and from rgb modified from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
 /** 
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -165,17 +145,6 @@ function rgbToHsl(r, g, b){
     }
 
     return { h: h, s: s, l: l };
-}
-
-function bound01(n, max) {
-	n = parseFloat(n);
-	if (n == max) {
-		return 1;
-	}
-	else if (n > 1) {
-		return (n % max) / parseFloat(max);
-	}
-	return n;
 }
 
 /**
@@ -293,7 +262,6 @@ function hsvToRgb(h, s, v){
     return {r: r * 255, g: g * 255, b: b * 255};
 }
 
-
 function rgbToHex(r, g, b) {
 	function pad(c) {
 		return c.length == 1 ? '0' + c : c;
@@ -304,8 +272,6 @@ function rgbToHex(r, g, b) {
 		pad(b.toString(16))
 	].join("");
 }
-
-
 
 var names = tc.names = {
 	aliceblue: 'f0f8ff',
@@ -518,6 +484,37 @@ var colorparsers = [
 	    }
 	}
 ];
+
+function bound01(n, max) {
+	n = parseFloat(n);
+	if (n == max) {
+		return 1;
+	}
+	else if (n > 1) {
+		return (n % max) / parseFloat(max);
+	}
+	return n;
+}
+
+function stringInputToObject(color) {
+
+    color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
+    if (names[color]) {
+        color = names[color];
+    }
+    
+	var parsedInput = false;
+    for (var i = 0; i < colorparsers.length; i++) {
+    
+        var matched = colorparsers[i].re.exec(color);
+        if (matched) {
+        	parsedInput = colorparsers[i].process(matched);
+            break;
+        }
+    }
+    
+    return parsedInput;
+}
 
 function log() { if (console) { console.log( Array.prototype.slice.call(arguments) ); } }
 
