@@ -51,10 +51,10 @@ test("Color Equality", function() {
 
 test("RGB Text Parsing", function() {
 
-	equal (tinycolor("rgb 255 0 0").toHexCss(), "#ff0000", "spaced input");
-	equal (tinycolor("rgb(255, 0, 0)").toHexCss(), "#ff0000", "parenthesized input");
-	equal (tinycolor("rgb (255, 0, 0)").toHexCss(), "#ff0000", "parenthesized spaced input");
-	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexCss(), "#ff0000", "object input");
+	equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000", "spaced input");
+	equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#ff0000", "parenthesized input");
+	equal (tinycolor("rgb (255, 0, 0)").toHexString(), "#ff0000", "parenthesized spaced input");
+	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexString(), "#ff0000", "object input");
 	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
 
 
@@ -74,17 +74,17 @@ test("RGB Text Parsing", function() {
 });
 
 test("HSL parsing", function() {
-	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexCss(), "#2400c2", "to hex" );
-	equal( tinycolor({ h: 251, s: 100, l: .38 }).toRgbCss(), "rgb(36, 0, 194)", "to rgb" );
-	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
-	equal( tinycolor("hsl(251, 100%, 38%)").toHexCss(), "#2400c2", "to hex" );
-	equal( tinycolor("hsl(251, 100%, 38%)").toRgbCss(), "rgb(36, 0, 194)", "to rgb" );
-	equal( tinycolor("hsl(251, 100%, 38%)").toHslCss(), "hsl(251, 100%, 38%)", "to hsl" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexString(), "#2400c2", "to hex" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toRgbString(), "rgb(36, 0, 194)", "to rgb" );
+	equal( tinycolor({ h: 251, s: 100, l: .38 }).toHslString(), "hsl(251, 100%, 38%)", "to hsl" );
+	equal( tinycolor("hsl(251, 100, 38)").toHexString(), "#2400c2", "to hex" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toRgbString(), "rgb(36, 0, 194)", "to rgb" );
+	equal( tinycolor("hsl(251, 100%, 38%)").toHslString(), "hsl(251, 100%, 38%)", "to hsl" );
 });
 
 
 test("Hex Parsing", function() {
-	//equal (tinycolor(rgb).toHexCss().toLowerCase(), c.hex.toLowerCase());
+	//equal (tinycolor(rgb).toHexString().toLowerCase(), c.hex.toLowerCase());
 
 });
 

@@ -28,10 +28,17 @@ function _tinycolor (color) {
 		toHsv: function() {
 			return rgbToHsv(r, g, b);
 		},
+		toHsvString: function() {
+			var hsl = rgbToHsv(r, g, b);
+			var h = Math.round(hsl.h * 360);
+			var s = Math.round(hsl.s * 100);
+			var v = Math.round(hsl.v * 100);
+			return "hsv(" + h + ", " + s + "%, " + v + "%)";
+		},
 		toHsl: function() {
 			return rgbToHsl(r, g, b);
 		},
-		toHslCss: function() {
+		toHslString: function() {
 			var hsl = rgbToHsl(r, g, b);
 			var h = Math.round(hsl.h * 360);
 			var s = Math.round(hsl.s * 100);
@@ -41,13 +48,13 @@ function _tinycolor (color) {
 		toHex: function() {
 			return rgbToHex(r, g, b);
 		},
-		toHexCss: function() {
+		toHexString: function() {
 			return '#' + rgbToHex(r, g, b);
 		},
 		toRgb: function() {
 			return { r: r, g: g, b: b };
 		},
-		toRgbCss: function() {
+		toRgbString: function() {
 			return "rgb(" + r + ", " + g + ", " + b + ")";
 		},
 		toName: function() {
