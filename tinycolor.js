@@ -472,17 +472,7 @@ var colorparsers = [
 	    }
 	},
 	{
-	    re: /^hsv\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
-	    process: function (bits) {
-	    	return {
-	    		h: bits[1],
-	    		s: bits[2],
-	    		l: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /^\s*hsl\s*\((\d+),\s*(\d+),\s*(\d+)\)$/,
+	    re: /^\s*hsl\s*\(?(\d+),?\s*(\d+),?\s*(\d+)\)?$/,
 	    process: function (bits) {
 	    
 	    	return {
