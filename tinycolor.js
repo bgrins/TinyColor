@@ -431,27 +431,6 @@ var names = tc.names = {
 
 var colorparsers = [
 	{
-	    re: /^rgb\s*\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/,
-	    process: function (bits) {
-	    
-	    	return {
-	    		r: bits[1],
-	    		g: bits[2],
-	    		b: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /^rgb\s+(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})$/,
-	    process: function (bits) {
-	    	return {
-	    		r: bits[1],
-	    		g: bits[2],
-	    		b: bits[3]
-	    	};
-	    }
-	},
-	{
 	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
 	    process: function (bits) {
 	        return {
@@ -472,9 +451,20 @@ var colorparsers = [
 	    }
 	},
 	{
-	    re: /^\s*hsl\s*\(?(\d+),?\s*(\d+),?\s*(\d+)\)?$/,
+	    re: /^rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?$/,
 	    process: function (bits) {
-	    
+	    	
+	    	return {
+	    		r: bits[1],
+	    		g: bits[2],
+	    		b: bits[3]
+	    	};
+	    }
+	},
+	{
+	    re: /^hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?$/,
+	    process: function (bits) {
+	    	
 	    	return {
 	    		h: bits[1],
 	    		s: bits[2],
@@ -483,8 +473,9 @@ var colorparsers = [
 	    }
 	},
 	{
-	    re: /^hsv\s+(\d+)\s+(\d+)\s+(\d+)$/,
+	    re: /^hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?$/,
 	    process: function (bits) {
+	    	
 	    	return {
 	    		h: bits[1],
 	    		s: bits[2],
