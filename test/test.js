@@ -80,6 +80,7 @@ test("HSL parsing", function() {
 	equal( tinycolor("hsl(251, 100, 38)").toHexString(), "#2400c2", "to hex" );
 	equal( tinycolor("hsl(251, 100%, 38%)").toRgbString(), "rgb(36, 0, 194)", "to rgb" );
 	equal( tinycolor("hsl(251, 100%, 38%)").toHslString(), "hsl(251, 100%, 38%)", "to hsl" );
+	equal( tinycolor("hsl 100 20 10").toHslString(), "hsl(100, 20%, 10%)", "problematic hsl");
 });
 
 
