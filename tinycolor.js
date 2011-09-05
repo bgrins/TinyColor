@@ -431,26 +431,6 @@ var names = tc.names = {
 
 var colorparsers = [
 	{
-	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1], 16),
-	            g: parseInt(bits[2], 16),
-	            b: parseInt(bits[3], 16)
-	        };
-	    }
-	},
-	{
-	    re: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1] + bits[1], 16),
-	            g: parseInt(bits[2] + bits[2], 16),
-	            b: parseInt(bits[3] + bits[3], 16)
-	        };
-	    }
-	},
-	{
 	    re: /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/,
 	    process: function (bits) {
 	    	
@@ -481,6 +461,26 @@ var colorparsers = [
 	    		s: bits[2],
 	    		v: bits[3]
 	    	};
+	    }
+	},
+	{
+	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+	    process: function (bits) {
+	        return {
+	            r: parseInt(bits[1], 16),
+	            g: parseInt(bits[2], 16),
+	            b: parseInt(bits[3], 16)
+	        };
+	    }
+	},
+	{
+	    re: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+	    process: function (bits) {
+	        return {
+	            r: parseInt(bits[1] + bits[1], 16),
+	            g: parseInt(bits[2] + bits[2], 16),
+	            b: parseInt(bits[3] + bits[3], 16)
+	        };
 	    }
 	}
 ];
