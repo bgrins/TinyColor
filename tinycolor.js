@@ -23,6 +23,7 @@ function _tinycolor (color) {
 	var r = rgb.r, g = rgb.g, b = rgb.b;
 	
 	return {
+		ok: rgb.ok,
 		_tc_id: tinyCounter++,
 		toHsv: function() {
 			return rgbToHsv(r, g, b);
@@ -77,6 +78,8 @@ function inputToRGB(color) {
 			r = bound01(color.r, 255) * 255;
 			g = bound01(color.g, 255) * 255;
 			b = bound01(color.b, 255) * 255;
+			
+			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 		
@@ -89,6 +92,8 @@ function inputToRGB(color) {
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
+			
+			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
 		
@@ -100,10 +105,13 @@ function inputToRGB(color) {
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
+			
+			ok = true;
 		}
 	}
 	
 	return {
+		ok: ok,
 		r: Math.min(255, Math.max(Math.round(r), 0)),
 		g: Math.min(255, Math.max(Math.round(g), 0)),
 		b: Math.min(255, Math.max(Math.round(b), 0))
@@ -515,8 +523,6 @@ function stringInputToObject(color) {
     
     return parsedInput;
 }
-
-function log() { if (console) { console.log( Array.prototype.slice.call(arguments) ); } }
 
 return tc;
 
