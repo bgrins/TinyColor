@@ -66,8 +66,7 @@ function _tinycolor (color) {
 
 function inputToRGB(color) {
 
-	var r = g = b = 255;
-	var rgb = { };
+	var rgb = { r: 255, g: 255, b: 255 };
 	var ok = false;
 	
 	if (typeof color == "string") {
@@ -78,38 +77,30 @@ function inputToRGB(color) {
 		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
 	
 			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
-			r = bound01(color.r, 255) * 255;
-			g = bound01(color.g, 255) * 255;
-			b = bound01(color.b, 255) * 255;
+			// Other types handle this within the conversion function.
+			rgb = { 
+				r: bound01(color.r, 255) * 255, 
+				g: bound01(color.g, 255) * 255,
+				b: bound01(color.b, 255) * 255
+			};
 			
 			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-		
-			var rgb = hsvToRgb(color.h, color.s, color.v);
-			
-			r = rgb.r;
-			g = rgb.g;
-			b = rgb.b;
-			
+			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-		
 			var rgb = hslToRgb(color.h, color.s, color.l);
-			r = rgb.r;
-			g = rgb.g;
-			b = rgb.b;
-			
 			ok = true;
 		}
 	}
 	
 	return {
 		ok: ok,
-		r: Math.min(255, Math.max(r, 0)),
-		g: Math.min(255, Math.max(g, 0)),
-		b: Math.min(255, Math.max(b, 0))
+		r: Math.min(255, Math.max(rgb.r, 0)),
+		g: Math.min(255, Math.max(rgb.g, 0)),
+		b: Math.min(255, Math.max(rgb.b, 0))
 	};
 }
 
