@@ -10,7 +10,8 @@ tc.equals = function(color1, color2) {
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
-	tinyCounter = 0;
+	tinyCounter = 0,
+	round = Math.round;
 
 function _tinycolor (color) {
 	
@@ -52,10 +53,10 @@ function _tinycolor (color) {
 			return '#' + rgbToHex(r, g, b);
 		},
 		toRgb: function() {
-			return { r: r, g: g, b: b };
+			return { r: round(r), g: round(g), b: round(b) };
 		},
 		toRgbString: function() {
-			return "rgb(" + r + ", " + g + ", " + b + ")";
+			return "rgb(" + round(r) + ", " + round(g) + ", " + round(b) + ")";
 		},
 		toName: function() {
 			var hex = rgbToHex(r, g, b);
@@ -72,6 +73,7 @@ function _tinycolor (color) {
 function inputToRGB(color) {
 
 	var r = g = b = 255;
+	var rgb = { };
 	var ok = false;
 	
 	if (typeof color == "string") {
@@ -119,9 +121,9 @@ function inputToRGB(color) {
 	
 	return {
 		ok: ok,
-		r: Math.min(255, Math.max(Math.round(r), 0)),
-		g: Math.min(255, Math.max(Math.round(g), 0)),
-		b: Math.min(255, Math.max(Math.round(b), 0))
+		r: Math.min(255, Math.max(r, 0)),
+		g: Math.min(255, Math.max(g, 0)),
+		b: Math.min(255, Math.max(b, 0))
 	};
 }
 
@@ -282,9 +284,9 @@ function rgbToHex(r, g, b) {
 		return c.length == 1 ? '0' + c : c;
 	}	
 	return [ 
-		pad(r.toString(16)),
-		pad(g.toString(16)),
-		pad(b.toString(16))
+		pad(round(r).toString(16)),
+		pad(round(g).toString(16)),
+		pad(round(b).toString(16))
 	].join("");
 }
 
