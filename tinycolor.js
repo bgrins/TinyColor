@@ -75,7 +75,7 @@ function inputToRGB(color) {
 	}
 	
 	if (typeof color == "object") {
-		if (color.hasOwnProperty("r")) {
+		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
 	
 			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
 			r = bound01(color.r, 255) * 255;
@@ -86,11 +86,7 @@ function inputToRGB(color) {
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 		
-			var h = bound01(color.h, 360);
-			var s = bound01(color.s, 100);
-			var v = bound01(color.v, 100);
-			
-			var rgb = hsvToRgb(h, s, v);
+			var rgb = hsvToRgb(color.h, color.s, color.v);
 			
 			r = rgb.r;
 			g = rgb.g;
@@ -100,11 +96,7 @@ function inputToRGB(color) {
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
 		
-			var h = bound01(color.h, 360);
-			var s = bound01(color.s, 100);
-			var l = bound01(color.l, 100);
-			
-			var rgb = hslToRgb(h, s, l);
+			var rgb = hslToRgb(color.h, color.s, color.l);
 			r = rgb.r;
 			g = rgb.g;
 			b = rgb.b;
