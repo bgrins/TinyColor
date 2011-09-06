@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="demo/demo.css" type="text/css" media="screen" />
+	<script type='text/javascript' src='demo/jquery-1.6.1.js'></script>
+	<script type='text/javascript' src='tinycolor.js'></script>
+	<script type='text/javascript'>
+		
+		
+		function colorChange(color) {
+			var tiny = tinycolor(color);
+			
+			var output = [
+				"hex:\t" + tiny.toHexString(),
+				"rgb:\t" + tiny.toRgbString(),
+				"hsl:\t" + tiny.toHslString(),
+				"hsv:\t" + tiny.toHsvString(),
+				"name:\t" + (tiny.toName() || "none")
+			].join("\n");
+			
+			$("#code-output").text(output);
+			$("#color-output").css("background-color", tiny.toHexString());
+		}
+		
+		$(function() {
+			$("#color").bind("keyup change", function() {
+				colorChange($(this).val());
+			});
+			colorChange({r: 150, g: 0, b: 100});
+		});
+	
+	</script>
+</head>
+
+<body>
+
+	<h1>TinyColor</h1>
+	<h2>A fast, small JavaScript color manipulation library</h2>
+	
+	<p>TinyColor is meant for inputting colors and outputting them as, or comparing them with, different colors.  Input is meant to be as permissive as possible.  The following color types are supported:</p>
+		
+	<ul>
+		<li>RGB</li>
+		<li>Hex</li>
+		<li>HSL</li>
+		<li>HSV</li>
+		<li>Name (from HTML color codes)</li>
+	</ul>
+	
+	<h3>Demo</h3>
+	<div>
+	<input type="text" placeholder="Enter a color, any color." id='color' /><br />
+	</div>
+	
+	<div id='color-output'></div>
+	<pre id='code-output'></pre>
+	
+	<br style='clear:both;' />
+	
+	<h3>Usage</h3>
+	<p>
+		TinyColor is still in active development, but the basic syntax is:
+<pre>
+&lt;script type='text/javascript' src='tinycolor.js'&gt;&lt;/script&gt;
+</pre>
+<pre>
+&lt;script type='text/javascript'&gt;
+var tiny = tinycolor("green");
+alert(tiny.toHexCSS());
+// alerts #ffa500
+&lt;/script&gt;
+</pre>
+		
+		Supported functions are:
+		<ul>
+			<li>toHex() / toHexCss()</li>
+			<li>toHsl() / toHslCss()</li>
+			<li>toRgb() / toRgbCss()</li>
+			<li>toName()</li>
+			<li>toHsv()</li>
+		</ul>
+	</p>
+	
+	<h3>Credit</h3>
+	<p>
+	Big thanks to the following place for some converter functions:
+	</p>
+	<ul>
+		<li><a href='http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript'>RGB / HSL / HSV converters</a></li>
+	</ul>
+	
+	
+	
+</body>
+</html>
