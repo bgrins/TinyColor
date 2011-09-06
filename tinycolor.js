@@ -59,13 +59,7 @@ function _tinycolor (color) {
 			return "rgb(" + round(r) + ", " + round(g) + ", " + round(b) + ")";
 		},
 		toName: function() {
-			var hex = rgbToHex(r, g, b);
-			for (var i in names) {
-				if (names[i] == hex) {
-					return i;
-				}
-			}
-			return false;
+			return hexNames[rgbToHex(r, b, g)] || false;
 		}
 	};
 }
@@ -437,6 +431,7 @@ var names = tc.names = {
 	yellowgreen: '9acd32'
 };
 
+var hexNames = flip(names);
 
 var colorparsers = [
 	{
@@ -493,6 +488,16 @@ var colorparsers = [
 	    }
 	}
 ];
+
+function flip(o) {
+	var flipped = { };
+	for (var i in o) {
+		if (o.hasOwnProperty(i)) {
+			flipped[o[i]] = i;
+		}
+	}
+	return flipped;
+}
 
 function bound01(n, max) {
 	n = parseFloat(n);
