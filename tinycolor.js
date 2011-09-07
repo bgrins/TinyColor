@@ -321,7 +321,7 @@ var names = tc.names = {
 	goldenrod: 'daa520',
 	gray: '808080',
 	grey: '808080',
-	green: '00ff00',
+	green: '008000',
 	greenyellow: 'adff2f',
 	honeydew: 'f0fff0',
 	hotpink: 'ff69b4',
