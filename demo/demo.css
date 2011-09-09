@@ -20,3 +20,6 @@ a { color: #293c11; }
 pre { background: #000; color: #fff; padding: 15px;}
 hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 .footer { text-align:center; padding-top:30px; font-style: italic; }
+
+#filter-output div { width: 40px; height: 40px; display:inline-block; margin: 10px; }
+.invisible { visibility: hidden; } 

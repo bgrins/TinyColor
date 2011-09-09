@@ -24,6 +24,24 @@
 			
 			$("#code-output").text(output);
 			$("#color-output").css("background-color", tiny.toHexString());
+			
+			var filters = $("#filter-output").toggleClass("invisible", !tiny.ok);
+			
+			filters.find(".lighten").css("background-color", 
+			     tinycolor.lighten(tiny, 30).toHexString()
+            );
+			filters.find(".darken").css("background-color", 
+			     tinycolor.darken(tiny, 30).toHexString()
+            );
+			filters.find(".saturate").css("background-color", 
+			     tinycolor.saturate(tiny, 30).toHexString()
+			 );
+			filters.find(".desaturate").css("background-color", 
+			     tinycolor.desaturate(tiny, 30).toHexString()
+			 );
+			filters.find(".greyscale").css("background-color", 
+			     tinycolor.greyscale(tiny).toHexString()
+			 );
 		}
 		
 		$(function() {
@@ -59,8 +77,26 @@
 	
 	<div id='color-output'></div>
 	<pre id='code-output'></pre>
+    <br style='clear:both;' />
 	
-	<br style='clear:both;' />
+	<div id='filter-output'>
+	   <table align='center'>
+	       <tr>
+	           <th>Lighten</th>
+	           <th>Darken</th>
+	           <th>Saturate</th>
+	           <th>Desaturate</th>
+	           <th>Greyscale</th>
+	       </tr>
+	       <tr>             
+	         <td><div class='lighten'></div></td>
+	         <td><div class='darken'></div></td>
+	         <td><div class='saturate'></div></td>
+	         <td><div class='desaturate'></div></td>
+	         <td><div class='greyscale'></div></td>
+	       </tr>
+	   </table>
+    </div>
 	</div>
 	<h3>Usage</h3>
 	<p>

@@ -267,6 +267,37 @@ function rgbToHex(r, g, b) {
 	].join("");
 }
 
+
+// Thanks to less.js for some functions: 
+// https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
+tc.desaturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.s -= ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+};
+tc.saturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.s += ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+};
+tc.greyscale = function(color) {
+    return tc.desaturate(color, 100);
+};
+tc.lighten = function(color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.l += ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+};
+tc.darken = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.l -= ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+};
+
 var names = tc.names = {
 	aliceblue: 'f0f8ff',
 	antiquewhite: 'faebd7',
@@ -491,6 +522,10 @@ function bound01(n, max) {
 		return (n % max) / parseFloat(max);
 	}
 	return n;
+}
+
+function clamp01(val) {
+    return Math.min(1, Math.max(0, val));
 }
 
 function stringInputToObject(color) {
