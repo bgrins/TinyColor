@@ -70,19 +70,32 @@
 </pre>
 <pre>
 &lt;script type='text/javascript'&gt;
-var tiny = tinycolor("green");
-alert(tiny.toHexCSS());
-// alerts #ffa500
+var t = tinycolor("red");
+t.toHex() // "ff0000"
+t.toHexString() // "#ff0000"
+t.toRgb() // {"r":255,"g":0,"b":0}
+t.toRgbString() // "rgb(255, 0, 0)"
+t.toHsv() // {"h":0,"s":1,"v":1}
+t.toHsvString() // "hsv(0, 100%, 100%)"
+t.toHsl() // {"h":0,"s":1,"l":0.5}
+t.toHslString() // "hsl(0, 100%, 50%)"
+t.toName() // "red"
 &lt;/script&gt;
 </pre>
 		
 		Supported functions are:
 		<ul>
-			<li>toHex() / toHexCss()</li>
-			<li>toHsl() / toHslCss()</li>
-			<li>toRgb() / toRgbCss()</li>
 			<li>toName()</li>
-			<li>toHsv()</li>
+			<li>toHex() / toHexString()</li>
+			<li>toHsl() / toHslString()</li>
+			<li>toRgb() / toRgbString()</li>
+			<li>toHsv() / toHsvString()</li>
+		</ul>
+		
+		Supported global functions are:
+		<ul>
+			tinycolor.equals(color1, color2): returns true if both colors are equal.  Else returns false.
+			
 		</ul>
 	</p>
 	
