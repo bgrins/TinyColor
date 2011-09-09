@@ -74,7 +74,8 @@ function inputToRGB(color) {
 		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
 	
 			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
-			// Other types handle this within the conversion function.
+			// Other types handle this within the conversion function,
+			// but there is no need for a conversion function here (rgb to rgb)
 			rgb = { 
 				r: bound01(color.r, 255) * 255, 
 				g: bound01(color.g, 255) * 255,
@@ -101,7 +102,9 @@ function inputToRGB(color) {
 	};
 }
 
-// hsv and hsl to and from rgb modified from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+// rgbToHsl, rgbToHsv, hslToRgb, hsvToRgb modified from: 
+// http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+
 /** 
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -487,62 +490,6 @@ var names = tc.names = {
 
 var hexNames = flip(names);
 
-var colorparsers = [
-	{
-	    re: /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		r: bits[1],
-	    		g: bits[2],
-	    		b: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		h: bits[1],
-	    		s: bits[2],
-	    		l: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		h: bits[1],
-	    		s: bits[2],
-	    		v: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1], 16),
-	            g: parseInt(bits[2], 16),
-	            b: parseInt(bits[3], 16)
-	        };
-	    }
-	},
-	{
-	    re: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1] + bits[1], 16),
-	            g: parseInt(bits[2] + bits[2], 16),
-	            b: parseInt(bits[3] + bits[3], 16)
-	        };
-	    }
-	}
-];
-
 function flip(o) {
 	var flipped = { };
 	for (var i in o) {
@@ -567,6 +514,9 @@ function bound01(n, max) {
 function clamp01(val) {
     return Math.min(1, Math.max(0, val));
 }
+function parseHex(val) {
+    return parseInt(val, 16);
+}
 
 function stringInputToObject(color) {
 
@@ -574,18 +524,41 @@ function stringInputToObject(color) {
     if (names[color]) {
         color = names[color];
     }
-    
-	var parsedInput = false;
-    for (var i = 0; i < colorparsers.length; i++) {
-    
-        var matched = colorparsers[i].re.exec(color);
-        if (matched) {
-        	parsedInput = colorparsers[i].process(matched);
-            break;
-        }
+    if (color == 'transparent') { 
+        return { r: 0, g: 0, b: 0, a: 0 }; 
     }
     
-    return parsedInput;
+    // Try to match string input using regular expressions.  Keep most of the number bounding
+    // out of this function - don't worry about [0,1] or [0,100] or [0,360] - just return 
+    // an object and let the conversion functions handle that.  This way the result will
+    // be the same whether the tinycolor is initialized with string or object.
+    
+    var match;
+    if ((match = /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/.exec(color))) {
+        return { r: match[1], g: match[2], b: match[3] };
+    }
+    if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+        return { h: match[1], s: match[2], l: match[3] };
+    }
+    if ((match = /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+        return { h: match[1], s: match[2], v: match[3] };
+    }
+    if ((match = /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(color))) {
+        return {
+            r: parseHex(match[1]),
+            g: parseHex(match[2]),
+            b: parseHex(match[3])
+        };
+    }
+    if ((match = /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/.exec(color))) {
+        return {
+            r: parseHex(match[1] + '' + match[1]),
+            g: parseHex(match[2] + '' + match[2]),
+            b: parseHex(match[3] + '' + match[3])
+        };
+    }
+    
+    return false;
 }
 
 return tc;
