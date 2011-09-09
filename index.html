@@ -10,7 +10,6 @@
 	<script type='text/javascript' src='tinycolor.js'></script>
 	<script type='text/javascript'>
 		
-		
 		function colorChange(color) {
 			var tiny = tinycolor(color);
 			
@@ -24,9 +23,46 @@
 			
 			$("#code-output").text(output);
 			$("#color-output").css("background-color", tiny.toHexString());
+			
+			var filters = $("#filter-output").toggleClass("invisible", !tiny.ok);
+			
+			filters.find(".lighten").css("background-color", 
+			     tinycolor.lighten(tiny, 30).toHexString()
+            );
+			filters.find(".darken").css("background-color", 
+			     tinycolor.darken(tiny, 30).toHexString()
+            );
+			filters.find(".saturate").css("background-color", 
+			     tinycolor.saturate(tiny, 30).toHexString()
+			 );
+			filters.find(".desaturate").css("background-color", 
+			     tinycolor.desaturate(tiny, 30).toHexString()
+			 );
+			filters.find(".greyscale").css("background-color", 
+			     tinycolor.greyscale(tiny).toHexString()
+			 );
+			 
+			 var combines = $("#combine-output").toggleClass("invisible", !tiny.ok);
+			 
+			 var triad = tinycolor.triad(tiny);
+			 combines.find(".triad").html($.map(triad, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var tetrad = tinycolor.tetrad(tiny);
+			 combines.find(".tetrad").html($.map(tetrad, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var mono = tinycolor.monochromatic(tiny);
+			 combines.find(".mono").html($.map(mono, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
 		}
 		
 		$(function() {
+		
+			 
 			$("#color").bind("keyup change", function() {
 				colorChange($(this).val());
 			});
@@ -59,8 +95,40 @@
 	
 	<div id='color-output'></div>
 	<pre id='code-output'></pre>
+    <br style='clear:both;' />
 	
-	<br style='clear:both;' />
+	<div id='filter-output'>
+	   <table align='center'>
+	       <tr>
+	           <th>Lighten</th>
+	           <th>Darken</th>
+	           <th>Saturate</th>
+	           <th>Desaturate</th>
+	           <th>Greyscale</th>
+	       </tr>
+	       <tr>             
+	         <td><div class='lighten'></div></td>
+	         <td><div class='darken'></div></td>
+	         <td><div class='saturate'></div></td>
+	         <td><div class='desaturate'></div></td>
+	         <td><div class='greyscale'></div></td>
+	       </tr>
+	   </table>
+    </div>
+    
+	<div id='combine-output'>
+	   <table align='center'>
+	       <tr>
+	           <td>Triad</td> <td><div class='triad'></div></td>
+	       </tr>
+	       <tr>
+	           <td>Tetrad</td> <td><div class='tetrad'></div></td>
+	       </tr>
+	       <tr>
+	           <td>Monochromatic</td> <td><div class='mono'></div></td>
+	       </tr>
+	   </table>
+    </div>
 	</div>
 	<h3>Usage</h3>
 	<p>
@@ -70,19 +138,32 @@
 </pre>
 <pre>
 &lt;script type='text/javascript'&gt;
-var tiny = tinycolor("green");
-alert(tiny.toHexCSS());
-// alerts #ffa500
+var t = tinycolor("red");
+t.toHex() // "ff0000"
+t.toHexString() // "#ff0000"
+t.toRgb() // {"r":255,"g":0,"b":0}
+t.toRgbString() // "rgb(255, 0, 0)"
+t.toHsv() // {"h":0,"s":1,"v":1}
+t.toHsvString() // "hsv(0, 100%, 100%)"
+t.toHsl() // {"h":0,"s":1,"l":0.5}
+t.toHslString() // "hsl(0, 100%, 50%)"
+t.toName() // "red"
 &lt;/script&gt;
 </pre>
 		
 		Supported functions are:
 		<ul>
-			<li>toHex() / toHexCss()</li>
-			<li>toHsl() / toHslCss()</li>
-			<li>toRgb() / toRgbCss()</li>
 			<li>toName()</li>
-			<li>toHsv()</li>
+			<li>toHex() / toHexString()</li>
+			<li>toHsl() / toHslString()</li>
+			<li>toRgb() / toRgbString()</li>
+			<li>toHsv() / toHsvString()</li>
+		</ul>
+		
+		Supported global functions are:
+		<ul>
+			tinycolor.equals(color1, color2): returns true if both colors are equal.  Else returns false.
+			
 		</ul>
 	</p>
 	

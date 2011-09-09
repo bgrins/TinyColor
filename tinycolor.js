@@ -1,16 +1,14 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.3
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4
 
 var tinycolor = (function() {
 
 var tc = _tinycolor;
-tc.version = "0.3";
-tc.equals = function(color1, color2) {
-	return tc(color1).toHex() == tc(color2).toHex();
-}
+tc.version = "0.4";
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
-	tinyCounter = 0;
+	tinyCounter = 0,
+	round = Math.round;
 
 function _tinycolor (color) {
 	
@@ -52,26 +50,20 @@ function _tinycolor (color) {
 			return '#' + rgbToHex(r, g, b);
 		},
 		toRgb: function() {
-			return { r: r, g: g, b: b };
+			return { r: round(r), g: round(g), b: round(b) };
 		},
 		toRgbString: function() {
-			return "rgb(" + r + ", " + g + ", " + b + ")";
+			return "rgb(" + round(r) + ", " + round(g) + ", " + round(b) + ")";
 		},
 		toName: function() {
-			var hex = rgbToHex(r, g, b);
-			for (var i in names) {
-				if (names[i] == hex) {
-					return i;
-				}
-			}
-			return false;
+			return hexNames[rgbToHex(r, b, g)] || false;
 		}
 	};
 }
 
 function inputToRGB(color) {
 
-	var r = g = b = 255;
+	var rgb = { r: 255, g: 255, b: 255 };
 	var ok = false;
 	
 	if (typeof color == "string") {
@@ -79,53 +71,40 @@ function inputToRGB(color) {
 	}
 	
 	if (typeof color == "object") {
-		if (color.hasOwnProperty("r")) {
+		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
 	
 			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
-			r = bound01(color.r, 255) * 255;
-			g = bound01(color.g, 255) * 255;
-			b = bound01(color.b, 255) * 255;
+			// Other types handle this within the conversion function,
+			// but there is no need for a conversion function here (rgb to rgb)
+			rgb = { 
+				r: bound01(color.r, 255) * 255, 
+				g: bound01(color.g, 255) * 255,
+				b: bound01(color.b, 255) * 255
+			};
 			
 			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-		
-			var h = bound01(color.h, 360);
-			var s = bound01(color.s, 100);
-			var v = bound01(color.v, 100);
-			
-			var rgb = hsvToRgb(h, s, v);
-			
-			r = rgb.r;
-			g = rgb.g;
-			b = rgb.b;
-			
+			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
 		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-		
-			var h = bound01(color.h, 360);
-			var s = bound01(color.s, 100);
-			var l = bound01(color.l, 100);
-			
-			var rgb = hslToRgb(h, s, l);
-			r = rgb.r;
-			g = rgb.g;
-			b = rgb.b;
-			
+			var rgb = hslToRgb(color.h, color.s, color.l);
 			ok = true;
 		}
 	}
 	
 	return {
 		ok: ok,
-		r: Math.min(255, Math.max(Math.round(r), 0)),
-		g: Math.min(255, Math.max(Math.round(g), 0)),
-		b: Math.min(255, Math.max(Math.round(b), 0))
+		r: Math.min(255, Math.max(rgb.r, 0)),
+		g: Math.min(255, Math.max(rgb.g, 0)),
+		b: Math.min(255, Math.max(rgb.b, 0))
 	};
 }
 
-// hsv and hsl to and from rgb modified from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+// rgbToHsl, rgbToHsv, hslToRgb, hsvToRgb modified from: 
+// http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+
 /** 
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -282,11 +261,85 @@ function rgbToHex(r, g, b) {
 		return c.length == 1 ? '0' + c : c;
 	}	
 	return [ 
-		pad(r.toString(16)),
-		pad(g.toString(16)),
-		pad(b.toString(16))
+		pad(round(r).toString(16)),
+		pad(round(g).toString(16)),
+		pad(round(b).toString(16))
 	].join("");
 }
+
+
+tc.equals = function(color1, color2) {
+	return tc(color1).toHex() == tc(color2).toHex();
+};
+
+// Thanks to less.js for some functions: 
+// https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
+tc.desaturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.s -= ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+};
+tc.saturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.s += ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
+    return tinycolor(hsl);
+};
+tc.greyscale = function(color) {
+    return tc.desaturate(color, 100);
+};
+tc.lighten = function(color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.l += ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+};
+tc.darken = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.l -= ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
+    return tinycolor(hsl);
+};
+
+// Thanks to xColor for some of the combinations, and the great isReadable function
+// https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
+tc.triad = function(color) {
+    var rgb = tinycolor(color).toRgb();
+    return [
+        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r })
+    ];
+};
+tc.tetrad = function(color) {
+    var rgb = tinycolor(color).toRgb();
+    return [
+        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r }),
+        tinycolor({ r: rgb.r, g: rgb.b, b: rgb.r })
+    ];
+};
+tc.monochromatic = function(color, results) {
+    results = results || 6;
+    var hsv = tinycolor(color).toHsv();
+    var ret = [];
+    while (results--) {
+        ret.push(tinycolor(hsv));
+        hsv.v += .2;
+        hsv.v %= 1;
+    }
+    return ret;
+};
+tc.readable = function(color1, color2) {
+    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
+    return (
+        (b["r"] - a["r"]) * (b["r"] - a["r"]) +
+        (b["g"] - a["g"]) * (b["g"] - a["g"]) +
+        (b["b"] - a["b"]) * (b["b"] - a["b"])
+    ) > 0x28A4;
+};
 
 var names = tc.names = {
 	aliceblue: 'f0f8ff',
@@ -342,7 +395,7 @@ var names = tc.names = {
 	goldenrod: 'daa520',
 	gray: '808080',
 	grey: '808080',
-	green: '00ff00',
+	green: '008000',
 	greenyellow: 'adff2f',
 	honeydew: 'f0fff0',
 	hotpink: 'ff69b4',
@@ -435,62 +488,17 @@ var names = tc.names = {
 	yellowgreen: '9acd32'
 };
 
+var hexNames = flip(names);
 
-var colorparsers = [
-	{
-	    re: /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		r: bits[1],
-	    		g: bits[2],
-	    		b: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		h: bits[1],
-	    		s: bits[2],
-	    		l: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/,
-	    process: function (bits) {
-	    	
-	    	return {
-	    		h: bits[1],
-	    		s: bits[2],
-	    		v: bits[3]
-	    	};
-	    }
-	},
-	{
-	    re: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1], 16),
-	            g: parseInt(bits[2], 16),
-	            b: parseInt(bits[3], 16)
-	        };
-	    }
-	},
-	{
-	    re: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-	    process: function (bits) {
-	        return {
-	            r: parseInt(bits[1] + bits[1], 16),
-	            g: parseInt(bits[2] + bits[2], 16),
-	            b: parseInt(bits[3] + bits[3], 16)
-	        };
-	    }
+function flip(o) {
+	var flipped = { };
+	for (var i in o) {
+		if (o.hasOwnProperty(i)) {
+			flipped[o[i]] = i;
+		}
 	}
-];
+	return flipped;
+}
 
 function bound01(n, max) {
 	n = parseFloat(n);
@@ -503,24 +511,54 @@ function bound01(n, max) {
 	return n;
 }
 
+function clamp01(val) {
+    return Math.min(1, Math.max(0, val));
+}
+function parseHex(val) {
+    return parseInt(val, 16);
+}
+
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
     if (names[color]) {
         color = names[color];
     }
-    
-	var parsedInput = false;
-    for (var i = 0; i < colorparsers.length; i++) {
-    
-        var matched = colorparsers[i].re.exec(color);
-        if (matched) {
-        	parsedInput = colorparsers[i].process(matched);
-            break;
-        }
+    if (color == 'transparent') { 
+        return { r: 0, g: 0, b: 0, a: 0 }; 
     }
     
-    return parsedInput;
+    // Try to match string input using regular expressions.  Keep most of the number bounding
+    // out of this function - don't worry about [0,1] or [0,100] or [0,360] - just return 
+    // an object and let the conversion functions handle that.  This way the result will
+    // be the same whether the tinycolor is initialized with string or object.
+    
+    var match;
+    if ((match = /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/.exec(color))) {
+        return { r: match[1], g: match[2], b: match[3] };
+    }
+    if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+        return { h: match[1], s: match[2], l: match[3] };
+    }
+    if ((match = /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+        return { h: match[1], s: match[2], v: match[3] };
+    }
+    if ((match = /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(color))) {
+        return {
+            r: parseHex(match[1]),
+            g: parseHex(match[2]),
+            b: parseHex(match[3])
+        };
+    }
+    if ((match = /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/.exec(color))) {
+        return {
+            r: parseHex(match[1] + '' + match[1]),
+            g: parseHex(match[2] + '' + match[2]),
+            b: parseHex(match[3] + '' + match[3])
+        };
+    }
+    
+    return false;
 }
 
 return tc;

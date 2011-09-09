@@ -147,7 +147,7 @@ test("Named colors", function() {
 	equal (tinycolor("goldenrod").toHex(), "daa520");
 	equal (tinycolor("gray").toHex(), "808080");
 	equal (tinycolor("grey").toHex(), "808080");
-	equal (tinycolor("green").toHex(), "00ff00");
+	equal (tinycolor("green").toHex(), "008000");
 	equal (tinycolor("greenyellow").toHex(), "adff2f");
 	equal (tinycolor("honeydew").toHex(), "f0fff0");
 	equal (tinycolor("hotpink").toHex(), "ff69b4");
