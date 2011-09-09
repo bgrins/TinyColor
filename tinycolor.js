@@ -4,9 +4,6 @@ var tinycolor = (function() {
 
 var tc = _tinycolor;
 tc.version = "0.3.1";
-tc.equals = function(color1, color2) {
-	return tc(color1).toHex() == tc(color2).toHex();
-}
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
@@ -268,6 +265,10 @@ function rgbToHex(r, g, b) {
 }
 
 
+tc.equals = function(color1, color2) {
+	return tc(color1).toHex() == tc(color2).toHex();
+};
+
 // Thanks to less.js for some functions: 
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
 tc.desaturate = function (color, amount) {
@@ -296,6 +297,45 @@ tc.darken = function (color, amount) {
     hsl.l -= ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
+};
+
+// Thanks to xColor for some of the combinations, and the great isReadable function
+// https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
+tc.triad = function(color) {
+    var rgb = tinycolor(color).toRgb();
+    return [
+        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r })
+    ];
+};
+tc.tetrad = function(color) {
+    var rgb = tinycolor(color).toRgb();
+    return [
+        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r }),
+        tinycolor({ r: rgb.r, g: rgb.b, b: rgb.r })
+    ];
+};
+tc.monochromatic = function(color, results) {
+    results = results || 6;
+    var hsv = tinycolor(color).toHsv();
+    var ret = [];
+    while (results--) {
+        ret.push(tinycolor(hsv));
+        hsv.v += .2;
+        hsv.v %= 1;
+    }
+    return ret;
+};
+tc.readable = function(color1, color2) {
+    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
+    return (
+        (b["r"] - a["r"]) * (b["r"] - a["r"]) +
+        (b["g"] - a["g"]) * (b["g"] - a["g"]) +
+        (b["b"] - a["b"]) * (b["b"] - a["b"])
+    ) > 0x28A4;
 };
 
 var names = tc.names = {

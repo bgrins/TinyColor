@@ -10,7 +10,6 @@
 	<script type='text/javascript' src='tinycolor.js'></script>
 	<script type='text/javascript'>
 		
-		
 		function colorChange(color) {
 			var tiny = tinycolor(color);
 			
@@ -42,9 +41,28 @@
 			filters.find(".greyscale").css("background-color", 
 			     tinycolor.greyscale(tiny).toHexString()
 			 );
+			 
+			 var combines = $("#combine-output").toggleClass("invisible", !tiny.ok);
+			 
+			 var triad = tinycolor.triad(tiny);
+			 combines.find(".triad").html($.map(triad, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var tetrad = tinycolor.tetrad(tiny);
+			 combines.find(".tetrad").html($.map(tetrad, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var mono = tinycolor.monochromatic(tiny);
+			 combines.find(".mono").html($.map(mono, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
 		}
 		
 		$(function() {
+		
+			 
 			$("#color").bind("keyup change", function() {
 				colorChange($(this).val());
 			});
@@ -94,6 +112,20 @@
 	         <td><div class='saturate'></div></td>
 	         <td><div class='desaturate'></div></td>
 	         <td><div class='greyscale'></div></td>
+	       </tr>
+	   </table>
+    </div>
+    
+	<div id='combine-output'>
+	   <table align='center'>
+	       <tr>
+	           <td>Triad</td> <td><div class='triad'></div></td>
+	       </tr>
+	       <tr>
+	           <td>Tetrad</td> <td><div class='tetrad'></div></td>
+	       </tr>
+	       <tr>
+	           <td>Monochromatic</td> <td><div class='mono'></div></td>
 	       </tr>
 	   </table>
     </div>
