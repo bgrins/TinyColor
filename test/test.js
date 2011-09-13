@@ -33,11 +33,15 @@ module("Color translations");
 test("Color Equality", function() {
 	for (var i = 0; i < conversions.length; i++) {
 		var c =  conversions[i];
-		var rgb = c.rgb;
+		var tiny =  tinycolor(c.hex);
 		
+		ok (true, 
+			"Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
+			"Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) + " " + JSON.stringify(c.hsl)
+		);
 		ok (tinycolor.equals(c.rgb, c.hex), "RGB equals hex " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.hsl), "RGB equals HSL " + c.hex);
-		ok (tinycolor.equals(c.rgb, c.hsv), "RGB equals HSV " + c.hex)
+		ok (tinycolor.equals(c.rgb, c.hsv), "RGB equals HSV " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.rgb), "RGB equals RGB " + c.hex);
 		
 		ok (tinycolor.equals(c.hex, c.hex), "hex equals hex " + c.hex);
@@ -48,6 +52,8 @@ test("Color Equality", function() {
 		
 	}
 });
+
+module("String Parsing");
 
 test("RGB Text Parsing", function() {
 
@@ -90,6 +96,9 @@ test("Hex Parsing", function() {
 });
 
 test("HSV Parsing", function() {
+
+	equal( tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
+	equal( tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
 
 });
 
