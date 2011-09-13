@@ -541,7 +541,7 @@ function stringInputToObject(color) {
     // be the same whether the tinycolor is initialized with string or object.
     
     var match;
-    if ((match = /rgb[\s|\(]+(-?\d{1,3}%?)[,|\s]+(-?\d{1,3}%?)[,|\s]+(-?\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = /rgb[\s|\(]+([-\+]?\d{1,3}%?)[,|\s]+([-\+]?\d{1,3}%?)[,|\s]+([-\+]?\d{1,3}%?)\s*\)?/.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
     if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
