@@ -75,6 +75,8 @@ function inputToRGB(color) {
 			ok = true;
 		}
 		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+		
+	console.log("jhere", color.h, color.s, color.v);
 			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
@@ -534,7 +536,7 @@ var matchers = (function() {
 	var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
 	
 	// Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
-	var CSS_UNIT = "(?:" + CSS_INTEGER + ")|(?:" + CSS_NUMBER + ")"; 
+	var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")"; 
 	
 	// Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
 	var PERMISSIVE_MATCH = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
