@@ -75,8 +75,6 @@ function inputToRGB(color) {
 			ok = true;
 		}
 		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-		
-	console.log("jhere", color.h, color.s, color.v);
 			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
