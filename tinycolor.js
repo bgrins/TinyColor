@@ -69,26 +69,16 @@ function inputToRGB(color) {
 	if (typeof color == "string") {
 		color = stringInputToObject(color);
 	}
-	
 	if (typeof color == "object") {
 		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
-	
-			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
-			// Other types handle this within the conversion function,
-			// but there is no need for a conversion function here (rgb to rgb)
-			rgb = { 
-				r: bound01(color.r, 255) * 255, 
-				g: bound01(color.g, 255) * 255,
-				b: bound01(color.b, 255) * 255
-			};
-			
+			rgb = rgbToRgb(color.r, color.g, color.b);
 			ok = true;
 		}
-		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
-		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
+		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
 			var rgb = hslToRgb(color.h, color.s, color.l);
 			ok = true;
 		}
@@ -99,6 +89,20 @@ function inputToRGB(color) {
 		r: Math.min(255, Math.max(rgb.r, 0)),
 		g: Math.min(255, Math.max(rgb.g, 0)),
 		b: Math.min(255, Math.max(rgb.b, 0))
+	};
+}
+
+
+// Handle bounds / percentage checking to conform to CSS color spec http://www.w3.org/TR/css3-color/
+function rgbToRgb(r, g, b){
+	if (isPercentage(r)) { r = parseInt(r) * 2.55; }
+	if (isPercentage(g)) { g = parseInt(g) * 2.55; }
+	if (isPercentage(b)) { b = parseInt(b) * 2.55; }
+	
+	return { 
+		r: bound01(r, 255) * 255, 
+		g: bound01(g, 255) * 255,
+		b: bound01(b, 255) * 255
 	};
 }
 
@@ -517,6 +521,9 @@ function clamp01(val) {
 function parseHex(val) {
     return parseInt(val, 16);
 }
+function isPercentage(n) {
+	return typeof n === "string" && n.indexOf('%') != -1;
+}
 
 function stringInputToObject(color) {
 
@@ -534,7 +541,7 @@ function stringInputToObject(color) {
     // be the same whether the tinycolor is initialized with string or object.
     
     var match;
-    if ((match = /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/.exec(color))) {
+    if ((match = /rgb[\s|\(]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
     if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
