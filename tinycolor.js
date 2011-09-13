@@ -94,11 +94,7 @@ function inputToRGB(color) {
 
 
 // Handle bounds / percentage checking to conform to CSS color spec http://www.w3.org/TR/css3-color/
-function rgbToRgb(r, g, b){
-	if (isPercentage(r)) { r = parseInt(r) * 2.55; }
-	if (isPercentage(g)) { g = parseInt(g) * 2.55; }
-	if (isPercentage(b)) { b = parseInt(b) * 2.55; }
-	
+function rgbToRgb(r, g, b){	
 	return { 
 		r: bound01(r, 255) * 255, 
 		g: bound01(g, 255) * 255,
@@ -235,13 +231,13 @@ function rgbToHsv(r, g, b){
  * @param   Number  v       The value
  * @return  Array           The RGB representation
  */
-function hsvToRgb(h, s, v){
+ function hsvToRgb(h, s, v){
     var r, g, b;
     
 	h = bound01(h, 360);
 	s = bound01(s, 100);
 	v = bound01(v, 100);
-	
+
     var i = Math.floor(h * 6);
     var f = h * 6 - i;
     var p = v * (1 - s);
@@ -505,7 +501,14 @@ function flip(o) {
 }
 
 function bound01(n, max) {
+	var processPercent = isPercentage(n);
 	n = Math.min(max, Math.max(0, parseFloat(n)));
+	
+	// Automatically convert percentage into number
+	if (processPercent) {
+		n = n * (max / 100);
+	}
+	
 	if (n == max) {
 		return 1;
 	}
