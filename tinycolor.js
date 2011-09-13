@@ -525,6 +525,29 @@ function isPercentage(n) {
 	return typeof n === "string" && n.indexOf('%') != -1;
 }
 
+var matchers = (function() {
+
+	// http://www.w3.org/TR/css3-values/#integers
+	var CSS_INTEGER = "[-\\+]?\\d+%?"; 
+	
+	// http://www.w3.org/TR/css3-values/#number-value
+	var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
+	
+	// Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
+	var CSS_UNIT = "(?:" + CSS_INTEGER + ")|(?:" + CSS_NUMBER + ")"; 
+	
+	// Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
+	var PERMISSIVE_MATCH = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+	
+	return {
+		rgb: new RegExp("rgb" + PERMISSIVE_MATCH),
+		hsl: new RegExp("hsl" + PERMISSIVE_MATCH),
+		hsv: new RegExp("hsv" + PERMISSIVE_MATCH),
+		hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+		hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+	};
+})();
+
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
@@ -539,28 +562,24 @@ function stringInputToObject(color) {
     // out of this function - don't worry about [0,1] or [0,100] or [0,360] - just return 
     // an object and let the conversion functions handle that.  This way the result will
     // be the same whether the tinycolor is initialized with string or object.
-    
-	// CSS Integer: [-\+]?\d+[%]?     	http://www.w3.org/TR/css3-values/#integers
-	// CSS Number: 						http://www.w3.org/TR/css3-values/#number-value
-	
     var match;
-    if ((match = /rgb[\s|\(]+([-\+]?\d+[%]?)[,|\s]+([-\+]?\d+[%]?)[,|\s]+([-\+]?\d+[%]?)\s*\)?/.exec(color))) {
+    if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
-    if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = matchers.hsl.exec(color))) {
         return { h: match[1], s: match[2], l: match[3] };
     }
-    if ((match = /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = matchers.hsv.exec(color))) {
         return { h: match[1], s: match[2], v: match[3] };
     }
-    if ((match = /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(color))) {
+    if ((match = matchers.hex6.exec(color))) {
         return {
             r: parseHex(match[1]),
             g: parseHex(match[2]),
             b: parseHex(match[3])
         };
     }
-    if ((match = /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/.exec(color))) {
+    if ((match = matchers.hex3.exec(color))) {
         return {
             r: parseHex(match[1] + '' + match[1]),
             g: parseHex(match[2] + '' + match[2]),
