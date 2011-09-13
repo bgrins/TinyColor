@@ -540,8 +540,11 @@ function stringInputToObject(color) {
     // an object and let the conversion functions handle that.  This way the result will
     // be the same whether the tinycolor is initialized with string or object.
     
+	// CSS Integer: [-\+]?\d+[%]?     	http://www.w3.org/TR/css3-values/#integers
+	// CSS Number: 						http://www.w3.org/TR/css3-values/#number-value
+	
     var match;
-    if ((match = /rgb[\s|\(]+([-\+]?\d{1,3}%?)[,|\s]+([-\+]?\d{1,3}%?)[,|\s]+([-\+]?\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = /rgb[\s|\(]+([-\+]?\d+[%]?)[,|\s]+([-\+]?\d+[%]?)[,|\s]+([-\+]?\d+[%]?)\s*\)?/.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
     if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
