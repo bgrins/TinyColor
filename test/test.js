@@ -33,11 +33,15 @@ module("Color translations");
 test("Color Equality", function() {
 	for (var i = 0; i < conversions.length; i++) {
 		var c =  conversions[i];
-		var rgb = c.rgb;
+		var tiny =  tinycolor(c.hex);
 		
+		ok (true, 
+			"Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
+			"Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) + " " + JSON.stringify(c.hsl)
+		);
 		ok (tinycolor.equals(c.rgb, c.hex), "RGB equals hex " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.hsl), "RGB equals HSL " + c.hex);
-		ok (tinycolor.equals(c.rgb, c.hsv), "RGB equals HSV " + c.hex)
+		ok (tinycolor.equals(c.rgb, c.hsv), "RGB equals HSV " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.rgb), "RGB equals RGB " + c.hex);
 		
 		ok (tinycolor.equals(c.hex, c.hex), "hex equals hex " + c.hex);
@@ -48,6 +52,8 @@ test("Color Equality", function() {
 		
 	}
 });
+
+module("String Parsing");
 
 test("RGB Text Parsing", function() {
 
@@ -90,6 +96,9 @@ test("Hex Parsing", function() {
 });
 
 test("HSV Parsing", function() {
+
+	equal( tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
+	equal( tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
 
 });
 
@@ -136,7 +145,6 @@ test("Named colors", function() {
 	equal (tinycolor("deepskyblue").toHex(), "00bfff");
 	equal (tinycolor("dimgray").toHex(), "696969");
 	equal (tinycolor("dodgerblue").toHex(), "1e90ff");
-	equal (tinycolor("feldspar").toHex(), "d19275");
 	equal (tinycolor("firebrick").toHex(), "b22222");
 	equal (tinycolor("floralwhite").toHex(), "fffaf0");
 	equal (tinycolor("forestgreen").toHex(), "228b22");
@@ -169,7 +177,6 @@ test("Named colors", function() {
 	equal (tinycolor("lightsalmon").toHex(), "ffa07a");
 	equal (tinycolor("lightseagreen").toHex(), "20b2aa");
 	equal (tinycolor("lightskyblue").toHex(), "87cefa");
-	equal (tinycolor("lightslateblue").toHex(), "8470ff");
 	equal (tinycolor("lightslategray").toHex(), "778899");
 	equal (tinycolor("lightsteelblue").toHex(), "b0c4de");
 	equal (tinycolor("lightyellow").toHex(), "ffffe0");
@@ -181,7 +188,7 @@ test("Named colors", function() {
 	equal (tinycolor("mediumaquamarine").toHex(), "66cdaa");
 	equal (tinycolor("mediumblue").toHex(), "0000cd");
 	equal (tinycolor("mediumorchid").toHex(), "ba55d3");
-	equal (tinycolor("mediumpurple").toHex(), "9370d8");
+	equal (tinycolor("mediumpurple").toHex(), "9370db");
 	equal (tinycolor("mediumseagreen").toHex(), "3cb371");
 	equal (tinycolor("mediumslateblue").toHex(), "7b68ee");
 	equal (tinycolor("mediumspringgreen").toHex(), "00fa9a");
@@ -202,7 +209,7 @@ test("Named colors", function() {
 	equal (tinycolor("palegoldenrod").toHex(), "eee8aa");
 	equal (tinycolor("palegreen").toHex(), "98fb98");
 	equal (tinycolor("paleturquoise").toHex(), "afeeee");
-	equal (tinycolor("palevioletred").toHex(), "d87093");
+	equal (tinycolor("palevioletred").toHex(), "db7093");
 	equal (tinycolor("papayawhip").toHex(), "ffefd5");
 	equal (tinycolor("peachpuff").toHex(), "ffdab9");
 	equal (tinycolor("peru").toHex(), "cd853f");
@@ -232,7 +239,6 @@ test("Named colors", function() {
 	equal (tinycolor("tomato").toHex(), "ff6347");
 	equal (tinycolor("turquoise").toHex(), "40e0d0");
 	equal (tinycolor("violet").toHex(), "ee82ee");
-	equal (tinycolor("violetred").toHex(), "d02090");
 	equal (tinycolor("wheat").toHex(), "f5deb3");
 	equal (tinycolor("white").toHex(), "ffffff");
 	equal (tinycolor("whitesmoke").toHex(), "f5f5f5");
@@ -247,6 +253,7 @@ test("Color equality", function() {
 	ok (tinycolor.equals("ff0000", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("#f00", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("f00", "#ff0000"), "Same hex");
+	equal (tinycolor("010101").toHexString(), "#010101");
 	ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
 });
 

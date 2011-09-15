@@ -1,9 +1,9 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.1
 
 var tinycolor = (function() {
 
 var tc = _tinycolor;
-tc.version = "0.4";
+tc.version = "0.4.1";
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
@@ -69,26 +69,16 @@ function inputToRGB(color) {
 	if (typeof color == "string") {
 		color = stringInputToObject(color);
 	}
-	
 	if (typeof color == "object") {
 		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
-	
-			// Handle case where r, g, b is within [0, 1] instead of [0, 255].
-			// Other types handle this within the conversion function,
-			// but there is no need for a conversion function here (rgb to rgb)
-			rgb = { 
-				r: bound01(color.r, 255) * 255, 
-				g: bound01(color.g, 255) * 255,
-				b: bound01(color.b, 255) * 255
-			};
-			
+			rgb = rgbToRgb(color.r, color.g, color.b);
 			ok = true;
 		}
-		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
 			rgb = hsvToRgb(color.h, color.s, color.v);
 			ok = true;
 		}
-		if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
+		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
 			var rgb = hslToRgb(color.h, color.s, color.l);
 			ok = true;
 		}
@@ -99,6 +89,16 @@ function inputToRGB(color) {
 		r: Math.min(255, Math.max(rgb.r, 0)),
 		g: Math.min(255, Math.max(rgb.g, 0)),
 		b: Math.min(255, Math.max(rgb.b, 0))
+	};
+}
+
+
+// Handle bounds / percentage checking to conform to CSS color spec http://www.w3.org/TR/css3-color/
+function rgbToRgb(r, g, b){	
+	return { 
+		r: bound01(r, 255) * 255, 
+		g: bound01(g, 255) * 255,
+		b: bound01(b, 255) * 255
 	};
 }
 
@@ -231,13 +231,13 @@ function rgbToHsv(r, g, b){
  * @param   Number  v       The value
  * @return  Array           The RGB representation
  */
-function hsvToRgb(h, s, v){
+ function hsvToRgb(h, s, v){
     var r, g, b;
     
 	h = bound01(h, 360);
 	s = bound01(s, 100);
 	v = bound01(v, 100);
-	
+
     var i = Math.floor(h * 6);
     var f = h * 6 - i;
     var p = v * (1 - s);
@@ -275,65 +275,82 @@ tc.equals = function(color1, color2) {
 // Thanks to less.js for some functions: 
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
 tc.desaturate = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.s -= ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.saturate = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.s += ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.greyscale = function(color) {
     return tc.desaturate(color, 100);
 };
 tc.lighten = function(color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.l += ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.darken = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.l -= ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 
 // Thanks to xColor for some of the combinations, and the great isReadable function
 // https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tc.triad = function(color) {
-    var rgb = tinycolor(color).toRgb();
-    return [
-        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
-        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r })
-    ];
+    return tc.tetrad(color).slice(0, 3);
 };
 tc.tetrad = function(color) {
-    var rgb = tinycolor(color).toRgb();
+    var rgb = tc(color).toRgb();
     return [
-        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
-        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r }),
-        tinycolor({ r: rgb.r, g: rgb.b, b: rgb.r })
+        tc({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tc({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tc({ r: rgb.g, g: rgb.b, b: rgb.r }),
+        tc({ r: rgb.r, g: rgb.b, b: rgb.r })
     ];
+};
+tc.splitcomplement = function(color) {
+    var hsv = tc(color).toHsv();
+    return [
+        tc(color),
+        tc({ h: ((hsv.h + 72) % 360), s: hsv.s, v: hsv.v}),
+        tc({ h: ((hsv.h + 216) % 360), s: hsv.s, v: hsv.v})
+    ];
+};
+tc.analogous = function(color, results, slices) {
+    results = results || 6;
+    slices = slices || 30;
+    
+    var hsv = tc(color).toHsv();
+    var part = 360 / slices
+    var ret = [tc(color)];
+
+    for (hsv.h = ((hsv.h - (part * results >> 1)) + 720) % 360; --results; ) {
+        hsv.h = (hsv.h + part) % 360;
+        ret.push(tc(hsv));
+    }
+    return ret;
 };
 tc.monochromatic = function(color, results) {
     results = results || 6;
-    var hsv = tinycolor(color).toHsv();
+    var hsv = tc(color).toHsv();
     var ret = [];
     while (results--) {
-        ret.push(tinycolor(hsv));
+        ret.push(tc(hsv));
         hsv.v += .2;
         hsv.v %= 1;
     }
     return ret;
 };
 tc.readable = function(color1, color2) {
-    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
+    var a = tc(color1).toRgb(), b = tc(color2).toRgb();
     return (
         (b["r"] - a["r"]) * (b["r"] - a["r"]) +
         (b["g"] - a["g"]) * (b["g"] - a["g"]) +
@@ -342,150 +359,154 @@ tc.readable = function(color1, color2) {
 };
 
 var names = tc.names = {
-	aliceblue: 'f0f8ff',
-	antiquewhite: 'faebd7',
-	aqua: '00ffff',
-	aquamarine: '7fffd4',
-	azure: 'f0ffff',
-	beige: 'f5f5dc',
-	bisque: 'ffe4c4',
-	black: '000000',
-	blanchedalmond: 'ffebcd',
-	blue: '0000ff',
-	blueviolet: '8a2be2',
-	brown: 'a52a2a',
-	burlywood: 'deb887',
-	cadetblue: '5f9ea0',
-	chartreuse: '7fff00',
-	chocolate: 'd2691e',
-	coral: 'ff7f50',
-	cornflowerblue: '6495ed',
-	cornsilk: 'fff8dc',
-	crimson: 'dc143c',
-	cyan: '00ffff',
-	darkblue: '00008b',
-	darkcyan: '008b8b',
-	darkgoldenrod: 'b8860b',
-	darkgray: 'a9a9a9',
-	darkgreen: '006400',
-	darkkhaki: 'bdb76b',
-	darkmagenta: '8b008b',
-	darkolivegreen: '556b2f',
-	darkorange: 'ff8c00',
-	darkorchid: '9932cc',
-	darkred: '8b0000',
-	darksalmon: 'e9967a',
-	darkseagreen: '8fbc8f',
-	darkslateblue: '483d8b',
-	darkslategray: '2f4f4f',
-	darkturquoise: '00ced1',
-	darkviolet: '9400d3',
-	deeppink: 'ff1493',
-	deepskyblue: '00bfff',
-	dimgray: '696969',
-	dodgerblue: '1e90ff',
-	feldspar: 'd19275',
-	firebrick: 'b22222',
-	floralwhite: 'fffaf0',
-	forestgreen: '228b22',
-	fuchsia: 'ff00ff',
-	gainsboro: 'dcdcdc',
-	ghostwhite: 'f8f8ff',
-	gold: 'ffd700',
-	goldenrod: 'daa520',
-	gray: '808080',
-	grey: '808080',
-	green: '008000',
-	greenyellow: 'adff2f',
-	honeydew: 'f0fff0',
-	hotpink: 'ff69b4',
-	indianred : 'cd5c5c',
-	indigo : '4b0082',
-	ivory: 'fffff0',
-	khaki: 'f0e68c',
-	lavender: 'e6e6fa',
-	lavenderblush: 'fff0f5',
-	lawngreen: '7cfc00',
-	lemonchiffon: 'fffacd',
-	lightblue: 'add8e6',
-	lightcoral: 'f08080',
-	lightcyan: 'e0ffff',
-	lightgoldenrodyellow: 'fafad2',
-	lightgrey: 'd3d3d3',
-	lightgreen: '90ee90',
-	lightpink: 'ffb6c1',
-	lightsalmon: 'ffa07a',
-	lightseagreen: '20b2aa',
-	lightskyblue: '87cefa',
-	lightslateblue: '8470ff',
-	lightslategray: '778899',
-	lightsteelblue: 'b0c4de',
-	lightyellow: 'ffffe0',
-	lime: '00ff00',
-	limegreen: '32cd32',
-	linen: 'faf0e6',
-	magenta: 'ff00ff',
-	maroon: '800000',
-	mediumaquamarine: '66cdaa',
-	mediumblue: '0000cd',
-	mediumorchid: 'ba55d3',
-	mediumpurple: '9370d8',
-	mediumseagreen: '3cb371',
-	mediumslateblue: '7b68ee',
-	mediumspringgreen: '00fa9a',
-	mediumturquoise: '48d1cc',
-	mediumvioletred: 'c71585',
-	midnightblue: '191970',
-	mintcream: 'f5fffa',
-	mistyrose: 'ffe4e1',
-	moccasin: 'ffe4b5',
-	navajowhite: 'ffdead',
-	navy: '000080',
-	oldlace: 'fdf5e6',
-	olive: '808000',
-	olivedrab: '6b8e23',
-	orange: 'ffa500',
-	orangered: 'ff4500',
-	orchid: 'da70d6',
-	palegoldenrod: 'eee8aa',
-	palegreen: '98fb98',
-	paleturquoise: 'afeeee',
-	palevioletred: 'd87093',
-	papayawhip: 'ffefd5',
-	peachpuff: 'ffdab9',
-	peru: 'cd853f',
-	pink: 'ffc0cb',
-	plum: 'dda0dd',
-	powderblue: 'b0e0e6',
-	purple: '800080',
-	red: 'ff0000',
-	rosybrown: 'bc8f8f',
-	royalblue: '4169e1',
-	saddlebrown: '8b4513',
-	salmon: 'fa8072',
-	sandybrown: 'f4a460',
-	seagreen: '2e8b57',
-	seashell: 'fff5ee',
-	sienna: 'a0522d',
-	silver: 'c0c0c0',
-	skyblue: '87ceeb',
-	slateblue: '6a5acd',
-	slategray: '708090',
-	snow: 'fffafa',
-	springgreen: '00ff7f',
-	steelblue: '4682b4',
-	tan: 'd2b48c',
-	teal: '008080',
-	thistle: 'd8bfd8',
-	tomato: 'ff6347',
-	turquoise: '40e0d0',
-	violet: 'ee82ee',
-	violetred: 'd02090',
-	wheat: 'f5deb3',
-	white: 'ffffff',
-	whitesmoke: 'f5f5f5',
-	yellow: 'ffff00',
-	yellowgreen: '9acd32'
+    aliceblue: "f0f8ff",
+    antiquewhite: "faebd7",
+    aqua: "0ff",
+    aquamarine: "7fffd4",
+    azure: "f0ffff",
+    beige: "f5f5dc",
+    bisque: "ffe4c4",
+    black: "000",
+    blanchedalmond: "ffebcd",
+    blue: "00f",
+    blueviolet: "8a2be2",
+    brown: "a52a2a",
+    burlywood: "deb887",
+    burntsienna: "ea7e5d",
+    cadetblue: "5f9ea0",
+    chartreuse: "7fff00",
+    chocolate: "d2691e",
+    coral: "ff7f50",
+    cornflowerblue: "6495ed",
+    cornsilk: "fff8dc",
+    crimson: "dc143c",
+    cyan: "0ff",
+    darkblue: "00008b",
+    darkcyan: "008b8b",
+    darkgoldenrod: "b8860b",
+    darkgray: "a9a9a9",
+    darkgreen: "006400",
+    darkgrey: "a9a9a9",
+    darkkhaki: "bdb76b",
+    darkmagenta: "8b008b",
+    darkolivegreen: "556b2f",
+    darkorange: "ff8c00",
+    darkorchid: "9932cc",
+    darkred: "8b0000",
+    darksalmon: "e9967a",
+    darkseagreen: "8fbc8f",
+    darkslateblue: "483d8b",
+    darkslategray: "2f4f4f",
+    darkslategrey: "2f4f4f",
+    darkturquoise: "00ced1",
+    darkviolet: "9400d3",
+    deeppink: "ff1493",
+    deepskyblue: "00bfff",
+    dimgray: "696969",
+    dimgrey: "696969",
+    dodgerblue: "1e90ff",
+    firebrick: "b22222",
+    floralwhite: "fffaf0",
+    forestgreen: "228b22",
+    fuchsia: "f0f",
+    gainsboro: "dcdcdc",
+    ghostwhite: "f8f8ff",
+    gold: "ffd700",
+    goldenrod: "daa520",
+    gray: "808080",
+    green: "008000",
+    greenyellow: "adff2f",
+    grey: "808080",
+    honeydew: "f0fff0",
+    hotpink: "ff69b4",
+    indianred: "cd5c5c",
+    indigo: "4b0082",
+    ivory: "fffff0",
+    khaki: "f0e68c",
+    lavender: "e6e6fa",
+    lavenderblush: "fff0f5",
+    lawngreen: "7cfc00",
+    lemonchiffon: "fffacd",
+    lightblue: "add8e6",
+    lightcoral: "f08080",
+    lightcyan: "e0ffff",
+    lightgoldenrodyellow: "fafad2",
+    lightgray: "d3d3d3",
+    lightgreen: "90ee90",
+    lightgrey: "d3d3d3",
+    lightpink: "ffb6c1",
+    lightsalmon: "ffa07a",
+    lightseagreen: "20b2aa",
+    lightskyblue: "87cefa",
+    lightslategray: "789",
+    lightslategrey: "789",
+    lightsteelblue: "b0c4de",
+    lightyellow: "ffffe0",
+    lime: "0f0",
+    limegreen: "32cd32",
+    linen: "faf0e6",
+    magenta: "f0f",
+    maroon: "800000",
+    mediumaquamarine: "66cdaa",
+    mediumblue: "0000cd",
+    mediumorchid: "ba55d3",
+    mediumpurple: "9370db",
+    mediumseagreen: "3cb371",
+    mediumslateblue: "7b68ee",
+    mediumspringgreen: "00fa9a",
+    mediumturquoise: "48d1cc",
+    mediumvioletred: "c71585",
+    midnightblue: "191970",
+    mintcream: "f5fffa",
+    mistyrose: "ffe4e1",
+    moccasin: "ffe4b5",
+    navajowhite: "ffdead",
+    navy: "000080",
+    oldlace: "fdf5e6",
+    olive: "808000",
+    olivedrab: "6b8e23",
+    orange: "ffa500",
+    orangered: "ff4500",
+    orchid: "da70d6",
+    palegoldenrod: "eee8aa",
+    palegreen: "98fb98",
+    paleturquoise: "afeeee",
+    palevioletred: "db7093",
+    papayawhip: "ffefd5",
+    peachpuff: "ffdab9",
+    peru: "cd853f",
+    pink: "ffc0cb",
+    plum: "dda0dd",
+    powderblue: "b0e0e6",
+    purple: "800080",
+    red: "f00",
+    rosybrown: "bc8f8f",
+    royalblue: "4169e1",
+    saddlebrown: "8b4513",
+    salmon: "fa8072",
+    sandybrown: "f4a460",
+    seagreen: "2e8b57",
+    seashell: "fff5ee",
+    sienna: "a0522d",
+    silver: "c0c0c0",
+    skyblue: "87ceeb",
+    slateblue: "6a5acd",
+    slategray: "708090",
+    slategrey: "708090",
+    snow: "fffafa",
+    springgreen: "00ff7f",
+    steelblue: "4682b4",
+    tan: "d2b48c",
+    teal: "008080",
+    thistle: "d8bfd8",
+    tomato: "ff6347",
+    turquoise: "40e0d0",
+    violet: "ee82ee",
+    wheat: "f5deb3",
+    white: "fff",
+    whitesmoke: "f5f5f5",
+    yellow: "ff0",
+    yellowgreen: "9acd32"
 };
 
 var hexNames = flip(names);
@@ -501,11 +522,23 @@ function flip(o) {
 }
 
 function bound01(n, max) {
-	n = parseFloat(n);
-	if (n == max) {
+	// Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+	// http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
+	if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
+    
+	var processPercent = isPercentage(n);
+	n = Math.min(max, Math.max(0, parseFloat(n)));
+	
+	// Automatically convert percentage into number
+	if (processPercent) {
+		n = n * (max / 100);
+	}
+	
+	// Handle floating point rounding errors
+	if ((Math.abs(n - max) < 0.000001)) {
 		return 1;
 	}
-	else if (n > 1) {
+	else if (n >= 1) {
 		return (n % max) / parseFloat(max);
 	}
 	return n;
@@ -517,6 +550,32 @@ function clamp01(val) {
 function parseHex(val) {
     return parseInt(val, 16);
 }
+function isPercentage(n) {
+	return typeof n === "string" && n.indexOf('%') != -1;
+}
+
+var matchers = (function() {
+
+	// http://www.w3.org/TR/css3-values/#integers
+	var CSS_INTEGER = "[-\\+]?\\d+%?"; 
+	
+	// http://www.w3.org/TR/css3-values/#number-value
+	var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
+	
+	// Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
+	var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")"; 
+	
+	// Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
+	var PERMISSIVE_MATCH = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+	
+	return {
+		rgb: new RegExp("rgb" + PERMISSIVE_MATCH),
+		hsl: new RegExp("hsl" + PERMISSIVE_MATCH),
+		hsv: new RegExp("hsv" + PERMISSIVE_MATCH),
+		hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+		hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+	};
+})();
 
 function stringInputToObject(color) {
 
@@ -532,25 +591,24 @@ function stringInputToObject(color) {
     // out of this function - don't worry about [0,1] or [0,100] or [0,360] - just return 
     // an object and let the conversion functions handle that.  This way the result will
     // be the same whether the tinycolor is initialized with string or object.
-    
     var match;
-    if ((match = /rgb[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3})[,|\s]+(\d{1,3})\s*\)?/.exec(color))) {
+    if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
-    if ((match = /hsl[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = matchers.hsl.exec(color))) {
         return { h: match[1], s: match[2], l: match[3] };
     }
-    if ((match = /hsv[\s|\(]+(\d{1,3})[,|\s]+(\d{1,3}%?)[,|\s]+(\d{1,3}%?)\s*\)?/.exec(color))) {
+    if ((match = matchers.hsv.exec(color))) {
         return { h: match[1], s: match[2], v: match[3] };
     }
-    if ((match = /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/.exec(color))) {
+    if ((match = matchers.hex6.exec(color))) {
         return {
             r: parseHex(match[1]),
             g: parseHex(match[2]),
             b: parseHex(match[3])
         };
     }
-    if ((match = /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/.exec(color))) {
+    if ((match = matchers.hex3.exec(color))) {
         return {
             r: parseHex(match[1] + '' + match[1]),
             g: parseHex(match[2] + '' + match[2]),
