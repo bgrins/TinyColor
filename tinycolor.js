@@ -284,14 +284,14 @@ tc.equals = function(color1, color2) {
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
 tc.desaturate = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.s -= ((amount || 10) / 100);
-    hsl.s = clamp01(hsl.s);
+    hsl.s -= ((amount || 10));
+    hsl.s = clamp01(hsl.s/100);
     return tc(hsl);
 };
 tc.saturate = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.s += ((amount || 10) / 100);
-    hsl.s = clamp01(hsl.s);
+    hsl.s += ((amount || 10));
+    hsl.s = clamp01(hsl.s/100);
     return tc(hsl);
 };
 tc.greyscale = function(color) {
@@ -299,14 +299,14 @@ tc.greyscale = function(color) {
 };
 tc.lighten = function(color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.l += ((amount || 10) / 100);
-    hsl.l = clamp01(hsl.l);
+    hsl.l += ((amount || 10));
+    hsl.l = clamp01(hsl.l/100);
     return tc(hsl);
 };
 tc.darken = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.l -= ((amount || 10) / 100);
-    hsl.l = clamp01(hsl.l);
+    hsl.l -= ((amount || 10));
+    hsl.l = clamp01(hsl.l/100);
     return tc(hsl);
 };
 
