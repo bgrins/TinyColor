@@ -11,7 +11,8 @@ var trimLeft = /^[\s,#]+/,
 	math = Math,
 	math_round = math.round,
 	math_min = math.min,
-	math_max = math.max;
+	math_max = math.max,
+	parse_float = parseFloat;
 
 function _tinycolor (color, opts) {
 	
@@ -531,10 +532,10 @@ function flip(o) {
 function bound01(n, max) {
 	// Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 	// http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
-	if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
+	if (typeof n == "string" && n.indexOf('.') != -1 && parse_float(n) === 1) { n = "100%"; }
     
 	var processPercent = isPercentage(n);
-	n = math_min(max, math_max(0, parseFloat(n)));
+	n = math_min(max, math_max(0, parse_float(n)));
 	
 	// Automatically convert percentage into number
 	if (processPercent) {
@@ -546,7 +547,7 @@ function bound01(n, max) {
 		return 1;
 	}
 	else if (n >= 1) {
-		return (n % max) / parseFloat(max);
+		return (n % max) / parse_float(max);
 	}
 	return n;
 }
