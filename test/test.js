@@ -253,6 +253,7 @@ test("Color equality", function() {
 	ok (tinycolor.equals("ff0000", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("#f00", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("f00", "#ff0000"), "Same hex");
+	equal (tinycolor("010101").toHexString(), "#010101");
 	ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
 });
 
