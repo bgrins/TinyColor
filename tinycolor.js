@@ -522,6 +522,10 @@ function flip(o) {
 }
 
 function bound01(n, max) {
+	// Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+	// http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
+	if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
+    
 	var processPercent = isPercentage(n);
 	n = Math.min(max, Math.max(0, parseFloat(n)));
 	
@@ -534,7 +538,7 @@ function bound01(n, max) {
 	if ((Math.abs(n - max) < 0.000001)) {
 		return 1;
 	}
-	else if (n > 1) {
+	else if (n >= 1) {
 		return (n % max) / parseFloat(max);
 	}
 	return n;
