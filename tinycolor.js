@@ -305,12 +305,7 @@ tc.darken = function (color, amount) {
 // Thanks to xColor for some of the combinations, and the great isReadable function
 // https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tc.triad = function(color) {
-    var rgb = tinycolor(color).toRgb();
-    return [
-        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
-        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r })
-    ];
+    return tc.tetrad(color).slice(0, 3);
 };
 tc.tetrad = function(color) {
     var rgb = tinycolor(color).toRgb();
