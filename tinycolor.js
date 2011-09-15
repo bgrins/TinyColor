@@ -8,13 +8,16 @@ tc.version = "0.4.2";
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
 	tinyCounter = 0,
-	round = Math.round;
+	math = Math,
+	math_round = math.round,
+	math_min = math.min,
+	math_max = math.max;
 
 function _tinycolor (color, opts) {
 	
 	// If input is already a tinycolor, return itself
 	if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
-		return color;
+	   return color;
 	}
 	
 	// If input is an object, force 1 into "1.0" to handle ratios properly
@@ -38,14 +41,14 @@ function _tinycolor (color, opts) {
 		},
 		toHsvString: function() {
 			var hsv = rgbToHsv(r, g, b);
-			return "hsv(" + round(hsv.h) + ", " + round(hsv.s) + "%, " + round(hsv.v) + "%)";
+			return "hsv(" + math_round(hsv.h) + ", " + math_round(hsv.s) + "%, " + math_round(hsv.v) + "%)";
 		},
 		toHsl: function() {
 			return rgbToHsl(r, g, b);
 		},
 		toHslString: function() {
 			var hsl = rgbToHsl(r, g, b);
-			return "hsl(" + round(hsl.h) + ", " + round(hsl.s) + "%, " + round(hsl.l) + "%)";
+			return "hsl(" + math_round(hsl.h) + ", " + math_round(hsl.s) + "%, " + math_round(hsl.l) + "%)";
 		},
 		toHex: function() {
 			return rgbToHex(r, g, b);
@@ -54,10 +57,10 @@ function _tinycolor (color, opts) {
 			return '#' + rgbToHex(r, g, b);
 		},
 		toRgb: function() {
-			return { r: round(r), g: round(g), b: round(b) };
+			return { r: math_round(r), g: math_round(g), b: math_round(b) };
 		},
 		toRgbString: function() {
-			return "rgb(" + round(r) + ", " + round(g) + ", " + round(b) + ")";
+			return "rgb(" + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ")";
 		},
 		toName: function() {
 			return hexNames[rgbToHex(r, b, g)] || false;
@@ -90,9 +93,9 @@ function inputToRGB(color) {
 	
 	return {
 		ok: ok,
-		r: Math.min(255, Math.max(rgb.r, 0)),
-		g: Math.min(255, Math.max(rgb.g, 0)),
-		b: Math.min(255, Math.max(rgb.b, 0))
+		r: math_min(255, math_max(rgb.r, 0)),
+		g: math_min(255, math_max(rgb.g, 0)),
+		b: math_min(255, math_max(rgb.b, 0))
 	};
 }
 
@@ -126,7 +129,7 @@ function rgbToHsl(r, g, b){
 	g = bound01(g, 255);
 	b = bound01(b, 255);
 	
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var max = math_max(r, g, b), min = math_min(r, g, b);
     var h, s, l = (max + min) / 2;
 
     if(max == min){
@@ -203,7 +206,7 @@ function rgbToHsv(r, g, b){
 	g = bound01(g, 255);
 	b = bound01(b, 255);
 	
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var max = math_max(r, g, b), min = math_min(r, g, b);
     var h, s, v = max;
 
     var d = max - min;
@@ -242,7 +245,7 @@ function rgbToHsv(r, g, b){
 	s = bound01(s, 100);
 	v = bound01(v, 100);
 
-    var i = Math.floor(h * 6);
+    var i = math.floor(h * 6);
     var f = h * 6 - i;
     var p = v * (1 - s);
     var q = v * (1 - f * s);
@@ -265,9 +268,9 @@ function rgbToHex(r, g, b) {
 		return c.length == 1 ? '0' + c : c;
 	}	
 	return [ 
-		pad(round(r).toString(16)),
-		pad(round(g).toString(16)),
-		pad(round(b).toString(16))
+		pad(math_round(r).toString(16)),
+		pad(math_round(g).toString(16)),
+		pad(math_round(b).toString(16))
 	].join("");
 }
 
@@ -531,7 +534,7 @@ function bound01(n, max) {
 	if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
     
 	var processPercent = isPercentage(n);
-	n = Math.min(max, Math.max(0, parseFloat(n)));
+	n = math_min(max, math_max(0, parseFloat(n)));
 	
 	// Automatically convert percentage into number
 	if (processPercent) {
@@ -539,7 +542,7 @@ function bound01(n, max) {
 	}
 	
 	// Handle floating point rounding errors
-	if ((Math.abs(n - max) < 0.000001)) {
+	if ((math.abs(n - max) < 0.000001)) {
 		return 1;
 	}
 	else if (n >= 1) {
@@ -549,7 +552,7 @@ function bound01(n, max) {
 }
 
 function clamp01(val) {
-    return Math.min(1, Math.max(0, val));
+    return math_min(1, math_max(0, val));
 }
 function parseHex(val) {
     return parseInt(val, 16);
