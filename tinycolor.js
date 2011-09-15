@@ -1,9 +1,9 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.1
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.2
 
 var tinycolor = (function() {
 
 var tc = _tinycolor;
-tc.version = "0.4.1";
+tc.version = "0.4.2";
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
