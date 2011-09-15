@@ -53,6 +53,15 @@ test("Color Equality", function() {
 	}
 });
 
+module("Ratio Parsing");
+test("With Ratio", function() {
+	equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
+});
+
+test("Without Ratio", function() {
+	equal (tinycolor({r: 1, g: 1, b: 1}, {skipRatio: true}).toHexString(), "#010101", "010101");
+});
+
 module("String Parsing");
 
 test("RGB Text Parsing", function() {
