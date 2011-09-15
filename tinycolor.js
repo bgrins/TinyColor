@@ -324,6 +324,20 @@ tc.splitcomplement = function(color) {
         tc({ h: ((hsv.h + 216) % 360), s: hsv.s, v: hsv.v})
     ];
 };
+tc.analogous = function(color, results, slices) {
+    results = results || 6;
+    slices = slices || 30;
+    
+    var hsv = tc(color).toHsv();
+    var part = 360 / slices
+    var ret = [tc(color)];
+
+    for (hsv.h = ((hsv.h - (part * results >> 1)) + 720) % 360; --results; ) {
+        hsv.h = (hsv.h + part) % 360;
+        ret.push(tc(hsv));
+    }
+    return ret;
+};
 tc.monochromatic = function(color, results) {
     results = results || 6;
     var hsv = tc(color).toHsv();
