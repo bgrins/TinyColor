@@ -275,31 +275,31 @@ tc.equals = function(color1, color2) {
 // Thanks to less.js for some functions: 
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
 tc.desaturate = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.s -= ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.saturate = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.s += ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.greyscale = function(color) {
     return tc.desaturate(color, 100);
 };
 tc.lighten = function(color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.l += ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 tc.darken = function (color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var hsl = tc(color).toHsl();
     hsl.l -= ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return tc(hsl);
 };
 
 // Thanks to xColor for some of the combinations, and the great isReadable function
@@ -308,27 +308,35 @@ tc.triad = function(color) {
     return tc.tetrad(color).slice(0, 3);
 };
 tc.tetrad = function(color) {
-    var rgb = tinycolor(color).toRgb();
+    var rgb = tc(color).toRgb();
     return [
-        tinycolor({ r: rgb.r, g: rgb.g, b: rgb.b }),
-        tinycolor({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tinycolor({ r: rgb.g, g: rgb.b, b: rgb.r }),
-        tinycolor({ r: rgb.r, g: rgb.b, b: rgb.r })
+        tc({ r: rgb.r, g: rgb.g, b: rgb.b }),
+        tc({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tc({ r: rgb.g, g: rgb.b, b: rgb.r }),
+        tc({ r: rgb.r, g: rgb.b, b: rgb.r })
+    ];
+};
+tc.splitcomplement = function(color) {
+    var hsv = tc(color).toHsv();
+    return [
+        tc(color),
+        tc({ h: ((hsv.h + 72) % 360), s: hsv.s, v: hsv.v}),
+        tc({ h: ((hsv.h + 216) % 360), s: hsv.s, v: hsv.v})
     ];
 };
 tc.monochromatic = function(color, results) {
     results = results || 6;
-    var hsv = tinycolor(color).toHsv();
+    var hsv = tc(color).toHsv();
     var ret = [];
     while (results--) {
-        ret.push(tinycolor(hsv));
+        ret.push(tc(hsv));
         hsv.v += .2;
         hsv.v %= 1;
     }
     return ret;
 };
 tc.readable = function(color1, color2) {
-    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
+    var a = tc(color1).toRgb(), b = tc(color2).toRgb();
     return (
         (b["r"] - a["r"]) * (b["r"] - a["r"]) +
         (b["g"] - a["g"]) * (b["g"] - a["g"]) +
