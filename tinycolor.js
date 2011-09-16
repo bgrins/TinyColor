@@ -1,9 +1,9 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.2
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.3
 
 var tinycolor = (function() {
 
 var tc = _tinycolor;
-tc.version = "0.4.2";
+tc.version = "0.4.3";
 
 var trimLeft = /^[\s,#]+/, 
 	trimRight = /\s+$/,
@@ -297,14 +297,14 @@ tc.equals = function(color1, color2) {
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
 tc.desaturate = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.s -= ((amount || 10));
-    hsl.s = clamp01(hsl.s/100);
+    hsl.s -= ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
     return tc(hsl);
 };
 tc.saturate = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.s += ((amount || 10));
-    hsl.s = clamp01(hsl.s/100);
+    hsl.s += ((amount || 10) / 100);
+    hsl.s = clamp01(hsl.s);
     return tc(hsl);
 };
 tc.greyscale = function(color) {
@@ -312,14 +312,14 @@ tc.greyscale = function(color) {
 };
 tc.lighten = function(color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.l += ((amount || 10));
-    hsl.l = clamp01(hsl.l/100);
+    hsl.l += ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
     return tc(hsl);
 };
 tc.darken = function (color, amount) {
     var hsl = tc(color).toHsl();
-    hsl.l -= ((amount || 10));
-    hsl.l = clamp01(hsl.l/100);
+    hsl.l -= ((amount || 10) / 100);
+    hsl.l = clamp01(hsl.l);
     return tc(hsl);
 };
 
@@ -338,11 +338,12 @@ tc.tetrad = function(color) {
     ];
 };
 tc.splitcomplement = function(color) {
-    var hsv = tc(color).toHsv();
+    var hsv = tc(color).toHsv({expand: true});
+    var h = hsv.h * 360;
     return [
         tc(color),
-        tc({ h: ((hsv.h + 72) % 360), s: hsv.s, v: hsv.v}),
-        tc({ h: ((hsv.h + 216) % 360), s: hsv.s, v: hsv.v})
+        tc({ h: (h + 72) % 360, s: hsv.s, v: hsv.v}),
+        tc({ h: (h + 216) % 360, s: hsv.s, v: hsv.v})
     ];
 };
 tc.analogous = function(color, results, slices) {
@@ -352,6 +353,8 @@ tc.analogous = function(color, results, slices) {
     var hsv = tc(color).toHsv();
     var part = 360 / slices
     var ret = [tc(color)];
+    
+    hsv.h *= 360;
 
     for (hsv.h = ((hsv.h - (part * results >> 1)) + 720) % 360; --results; ) {
         hsv.h = (hsv.h + part) % 360;
