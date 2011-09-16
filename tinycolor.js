@@ -37,6 +37,7 @@ function _tinycolor (color, opts) {
 	return {
 		ok: rgb.ok,
 		_tc_id: tinyCounter++,
+		alpha: a,
 		toHsv: function() {
 			return rgbToHsv(r, g, b);
 		},
