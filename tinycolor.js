@@ -43,16 +43,18 @@ function _tinycolor (color, opts) {
 		},
 		toHsvString: function() {
 			var hsv = rgbToHsv(r, g, b);
-			return "hsv(" + math_round(hsv.h) + ", " + math_round(hsv.s) + "%, " + math_round(hsv.v) + "%)";
+			var h = math_round(hsv.h * 360), s = math_round(hsv.s * 100), v = math_round(hsv.v * 100);
+			return "hsv(" + h + ", " + s + "%, " + v + "%)";
 		},
 		toHsl: function() {
 			return rgbToHsl(r, g, b);
 		},
 		toHslString: function() {
 			var hsl = rgbToHsl(r, g, b);
+			var h = math_round(hsl.h * 360), s = math_round(hsl.s * 100), l = math_round(hsl.l * 100);
 		    return (a == 1) ? 
-		      "hsl("  + math_round(hsl.h) + ", " + math_round(hsl.s) + "%, " + math_round(hsl.l) + "%)" : 
-		      "hsla(" + math_round(hsl.h) + ", " + math_round(hsl.s) + "%, " + math_round(hsl.l) + "%, "+ a + ")";
+		      "hsl("  + h + ", " + s + "%, " + l + "%)" : 
+		      "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
 		},
 		toHex: function() {
 			return rgbToHex(r, g, b);
@@ -128,7 +130,7 @@ function rgbToRgb(r, g, b){
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
- * returns h [0, 360], and s, l [0, 100].
+ * returns h, s, l in [0,1]
  *
  * @param   Number  r       The red color value
  * @param   Number  g       The green color value
@@ -157,7 +159,7 @@ function rgbToHsl(r, g, b){
         h /= 6;
     }
 
-    return { h: h * 360, s: s * 100, l: l * 100 };
+    return { h: h, s: s, l: l };
 }
 
 /**
@@ -205,7 +207,7 @@ function hslToRgb(h, s, l){
  * Converts an RGB color value to HSV. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
  * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
- * returns h [0, 360], and s, v [0, 100].
+ * returns h, s, v in [0,1]
  *
  * @param   Number  r       The red color value
  * @param   Number  g       The green color value
@@ -235,7 +237,7 @@ function rgbToHsv(r, g, b){
         h /= 6;
     }
 
-    return { h: h * 360, s: s * 100, v: v * 100 };
+    return { h: h, s: s, v: v };
 }
 
 
