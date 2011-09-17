@@ -1,6 +1,6 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.3
 
-var tinycolor = (function() {
+// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.3
+(function(window) {
 
 var tc = _tinycolor;
 tc.version = "0.4.3";
@@ -236,7 +236,6 @@ function rgbToHsv(r, g, b){
         }
         h /= 6;
     }
-
     return { h: h, s: s, v: v };
 }
 
@@ -328,69 +327,72 @@ tc.complement = function(color) {
     return tc(hsl);
 };
 
-// Thanks to xColor for some of the combinations, and the great isReadable function
-// https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tc.triad = function(color) {
-    var rgb = tc(color).toRgb();
-    
+    var hsl = tc(color).toHsl();
+    var h = hsl.h * 360;
     return [
         tc(color),
-        tc({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tc({ r: rgb.g, g: rgb.b, b: rgb.r })
+        tc({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        tc({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
     ];
 };
 tc.tetrad = function(color) {
-    var rgb = tc(color).toRgb();
-    
+    var hsl = tc(color).toHsl();
+    var h = hsl.h * 360;
     return [
         tc(color),
-        tc({ r: rgb.b, g: rgb.r, b: rgb.b }),
-        tc({ r: rgb.b, g: rgb.g, b: rgb.r }),
-        tc({ r: rgb.r, g: rgb.b, b: rgb.r })
+        tc({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
+        tc({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
+        tc({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
     ];
 };
+
+// Thanks to xColor for some of the combinations, and the great isReadable function
+// https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tc.splitcomplement = function(color) {
-    var hsv = tc(color).toHsv();
-    var h = hsv.h * 360;
+    var hsl = tc(color).toHsl();
+    var h = hsl.h * 360;
     return [
         tc(color),
-        tc({ h: (h + 72) % 360, s: hsv.s, v: hsv.v}),
-        tc({ h: (h + 216) % 360, s: hsv.s, v: hsv.v})
+        tc({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
+        tc({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
     ];
 };
 tc.analogous = function(color, results, slices) {
     results = results || 6;
     slices = slices || 30;
     
-    var hsv = tc(color).toHsv();
+    var hsl = tc(color).toHsl();
     var part = 360 / slices
     var ret = [tc(color)];
     
-    hsv.h *= 360;
+    hsl.h *= 360;
 
-    for (hsv.h = ((hsv.h - (part * results >> 1)) + 720) % 360; --results; ) {
-        hsv.h = (hsv.h + part) % 360;
-        ret.push(tc(hsv));
+    for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
+        hsl.h = (hsl.h + part) % 360;
+        ret.push(tc(hsl));
     }
     return ret;
 };
 tc.monochromatic = function(color, results) {
     results = results || 6;
     var hsv = tc(color).toHsv();
+    var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
+        
     while (results--) {
-        ret.push(tc(hsv));
-        hsv.v += .2;
-        hsv.v %= 1;
+        ret.push(tc({ h: h, s: s, v: v}));
+        v = (v + .2) % 1;
     }
+    
     return ret;
 };
 tc.readable = function(color1, color2) {
     var a = tc(color1).toRgb(), b = tc(color2).toRgb();
     return (
-        (b["r"] - a["r"]) * (b["r"] - a["r"]) +
-        (b["g"] - a["g"]) * (b["g"] - a["g"]) +
-        (b["b"] - a["b"]) * (b["b"] - a["b"])
+        (b.r - a.r) * (b.r - a.r) +
+        (b.g - a.g) * (b.g - a.g) +
+        (b.b - a.b) * (b.b - a.b)
     ) > 0x28A4;
 };
 
@@ -664,6 +666,7 @@ function stringInputToObject(color) {
     return false;
 }
 
-return tc;
+window.tinycolor = tc;
 
-})();
+})(this);
+
