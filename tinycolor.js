@@ -322,23 +322,35 @@ tc.darken = function (color, amount) {
     hsl.l = clamp01(hsl.l);
     return tc(hsl);
 };
+tc.complement = function(color) {
+    var hsl = tc(color).toHsl();
+    hsl.h = (hsl.h + .5) % 1;
+    return tc(hsl);
+};
 
 // Thanks to xColor for some of the combinations, and the great isReadable function
 // https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tc.triad = function(color) {
-    return tc.tetrad(color).slice(0, 3);
+    var rgb = tc(color).toRgb();
+    
+    return [
+        tc(color),
+        tc({ r: rgb.b, g: rgb.r, b: rgb.g }),
+        tc({ r: rgb.g, g: rgb.b, b: rgb.r })
+    ];
 };
 tc.tetrad = function(color) {
     var rgb = tc(color).toRgb();
+    
     return [
-        tc({ r: rgb.r, g: rgb.g, b: rgb.b }),
-        tc({ r: rgb.b, g: rgb.r, b: rgb.g }),
-        tc({ r: rgb.g, g: rgb.b, b: rgb.r }),
+        tc(color),
+        tc({ r: rgb.b, g: rgb.r, b: rgb.b }),
+        tc({ r: rgb.b, g: rgb.g, b: rgb.r }),
         tc({ r: rgb.r, g: rgb.b, b: rgb.r })
     ];
 };
 tc.splitcomplement = function(color) {
-    var hsv = tc(color).toHsv({expand: true});
+    var hsv = tc(color).toHsv();
     var h = hsv.h * 360;
     return [
         tc(color),
