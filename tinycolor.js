@@ -34,6 +34,13 @@ function _tinycolor (color, opts) {
 	var rgb = inputToRGB(color);
 	var r = rgb.r, g = rgb.g, b = rgb.b, a = rgb.a;
 	
+	// Don't let the range of [0,255] come back in [0,1].
+	// Potentially lose a little bit of precision here, but will fix issues where
+	// .5 gets interpreted as half of the total, instead of half of 1
+	if (r < 1) { r = math_round(r); }
+	if (g < 1) { g = math_round(g); }
+	if (b < 1) { b = math_round(b); }
+	
 	return {
 		ok: rgb.ok,
 		_tc_id: tinyCounter++,
