@@ -21,22 +21,21 @@
 				"name:\t" + (tiny.toName() || "none")
 			].join("\n");
 			
-			$("#code-output").text(output);
-			$("#color-output").css("background-color", tiny.toHexString());
+			$("#code-output").text(output).css("border-color", tiny.toHexString());
 			
 			var filters = $("#filter-output").toggleClass("invisible", !tiny.ok);
 			
 			filters.find(".lighten").css("background-color", 
-			     tinycolor.lighten(tiny, 30).toHexString()
+			     tinycolor.lighten(tiny, 20).toHexString()
             );
 			filters.find(".darken").css("background-color", 
-			     tinycolor.darken(tiny, 30).toHexString()
+			     tinycolor.darken(tiny, 20).toHexString()
             );
 			filters.find(".saturate").css("background-color", 
-			     tinycolor.saturate(tiny, 30).toHexString()
+			     tinycolor.saturate(tiny, 20).toHexString()
 			 );
 			filters.find(".desaturate").css("background-color", 
-			     tinycolor.desaturate(tiny, 30).toHexString()
+			     tinycolor.desaturate(tiny, 20).toHexString()
 			 );
 			filters.find(".greyscale").css("background-color", 
 			     tinycolor.greyscale(tiny).toHexString()
@@ -56,6 +55,16 @@
 			 
 			 var mono = tinycolor.monochromatic(tiny);
 			 combines.find(".mono").html($.map(mono, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var analogous = tinycolor.analogous(tiny);
+			 combines.find(".analogous").html($.map(analogous, function(e) {
+			     return '<span style="background:'+e.toHexString()+'"></span>'
+			 }).join(''));
+			 
+			 var sc = tinycolor.splitcomplement(tiny);
+			 combines.find(".sc").html($.map(sc, function(e) {
 			     return '<span style="background:'+e.toHexString()+'"></span>'
 			 }).join(''));
 		}
@@ -80,16 +89,20 @@
 <body>
     <div id="container">
 	<h1>TinyColor</h1>
-	<h2>&#8594; A fast, small JavaScript color manipulation library</h2>
+	<h2>&#8594; A fast JavaScript color manipulation micro framework</h2>
 	
-	<p>TinyColor is meant for inputting colors and outputting them as, or comparing them with, different colors.  Input is meant to be as permissive as possible.  The following color types are supported:</p>
+	<p>
+	   TinyColor is a micro framework for inputting colors and outputting colors as different formats.
+	   Input is meant to be as permissive as possible.
+    </p>
 	
+	<p>The following color types are supported:</p>
 	<ul>
 		<li>RGB</li>
-		<li>Hex</li>
 		<li>HSL</li>
 		<li>HSV</li>
-		<li>Name (from HTML color codes)</li>
+		<li>Hex</li>
+		<li>Name (from <a href='http://www.w3.org/TR/css3-color/#svg-color'>SVG color codes</a>)</li>
 	</ul>
 	<h3>Code</h3>
 	<p><a href='docs/tinycolor.html'>View the annotated source code</a> or <a href='https://github.com/bgrins/TinyColor/blob/master/tinycolor.js'>see the full source on github</a>.</p>
@@ -111,86 +124,138 @@
 	   <p>And I'll tell you what I know about it:</p>
 	</div>
 	
-	<div id='color-output'></div>
 	<pre id='code-output'></pre>
-    <br style='clear:both;' />
 	
 	<div id='filter-output'>
-	   <table align='center'>
+	   <table>
 	       <tr>
 	           <th>Lighten</th>
-	           <th>Darken</th>
-	           <th>Saturate</th>
-	           <th>Desaturate</th>
-	           <th>Greyscale</th>
+	           <td><div class='lighten'></div></td>
 	       </tr>
-	       <tr>             
-	         <td><div class='lighten'></div></td>
-	         <td><div class='darken'></div></td>
-	         <td><div class='saturate'></div></td>
-	         <td><div class='desaturate'></div></td>
-	         <td><div class='greyscale'></div></td>
+	       <tr>
+	           <th>Darken</th>
+	           <td><div class='darken'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Saturate</th>
+	           <td><div class='saturate'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Desaturate</th>
+	           <td><div class='desaturate'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Greyscale</th>
+	           <td><div class='greyscale'></div></td>
 	       </tr>
 	   </table>
     </div>
     
 	<div id='combine-output'>
-	   <table align='center'>
+	   <table>
 	       <tr>
-	           <td>Triad</td> <td><div class='triad'></div></td>
+	           <th>Triad</th> <td><div class='triad'></div></td>
 	       </tr>
 	       <tr>
-	           <td>Tetrad</td> <td><div class='tetrad'></div></td>
+	           <th>Tetrad</th> <td><div class='tetrad'></div></td>
 	       </tr>
 	       <tr>
-	           <td>Monochromatic</td> <td><div class='mono'></div></td>
+	           <th>Monochromatic</th> <td><div class='mono'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Analogous</th> <td><div class='analogous'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Split Complements</th> <td><div class='sc'></div></td>
 	       </tr>
 	   </table>
     </div>
 	</div>
 	<h3>Usage</h3>
 	<p>
-		TinyColor is still in active development, but the basic syntax is:
 <pre>
 &lt;script type='text/javascript' src='tinycolor.js'&gt;&lt;/script&gt;
 </pre>
 <pre>
 &lt;script type='text/javascript'&gt;
 var t = tinycolor("red");
-t.toHex() // "ff0000"
-t.toHexString() // "#ff0000"
-t.toRgb() // {"r":255,"g":0,"b":0}
-t.toRgbString() // "rgb(255, 0, 0)"
-t.toHsv() // {"h":0,"s":1,"v":1}
-t.toHsvString() // "hsv(0, 100%, 100%)"
-t.toHsl() // {"h":0,"s":1,"l":0.5}
-t.toHslString() // "hsl(0, 100%, 50%)"
-t.toName() // "red"
+t.toHex()                   // "f00"
+t.toHexString()             // "#f00"
+t.toRgb()                   // { r: 255, g: 0, b:0 }
+t.toRgbString()             // "rgb(255, 0, 0)"
+t.toHsv()                   // { h: 0, s: 1, v: 1 }
+t.toHsvString()             // "hsv(0, 100%, 100%)"
+t.toHsl()                   // { h: 0, s:1, l: 0.5 }
+t.toHslString()             // "hsl(0, 100%, 50%)"
+t.toName()                  // "red"
 &lt;/script&gt;
 </pre>
 		
-		Supported functions are:
+		<h4>Instance Functions</h4>
 		<ul>
 			<li>toName()</li>
 			<li>toHex() / toHexString()</li>
 			<li>toHsl() / toHslString()</li>
 			<li>toRgb() / toRgbString()</li>
 			<li>toHsv() / toHsvString()</li>
+			<li>toFilter()</li>
 		</ul>
 		
-		Supported global functions are:
+		<h4>Color Utilities</h4>
 		<ul>
-			tinycolor.equals(color1, color2): returns true if both colors are equal.  Else returns false.
-			
+            <li>
+			tinycolor.equals(color1, color2)
+			</li>
 		</ul>
+		
+		<h4>Color Modification</h4>
+		<ul>
+            <li>
+			tinycolor.lighten(color)
+			</li>
+            <li>
+			tinycolor.darken(color)
+			</li>
+            <li>
+			tinycolor.desaturate(color)
+			</li>
+            <li>
+			tinycolor.saturate(color)
+			</li>
+            <li>
+			tinycolor.greyscale(color)
+			</li>
+		</ul>
+		<h4>Color Combinations</h4>
+		<ul>
+            <li>
+			tinycolor.analogous(color)
+			</li>
+            <li>
+			tinycolor.monochromatic(color)
+			</li>
+            <li>
+			tinycolor.splitcomplements(color)
+			</li>
+            <li>
+			tinycolor.triad(color)
+			</li>
+            <li>
+			tinycolor.tetrad(color)
+			</li>
+        </ul>
 	</p>
 	
 	<h3>Credit</h3>
 	<p>
-	Big thanks to the following place for some converter functions:
+	   Developed by <a href='http://briangrinstead.com'>Brian Grinstead</a>.  Big thanks to the following places:
 	</p>
 	<ul>
-		<li><a href='http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript'>RGB / HSL / HSV converters</a></li>
+	   <li><a href='https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js'>less.js</a> for some of the modification functions</li>
+	   <li><a href='https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js'>jQuery xColor</a> for some of the combination functions</li>
+	   <li><a href='http://www.w3.org/TR/css3-color/#svg-color'>w3.org</a> for the color list and parsing rules</li>
+	   <li><a href='http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript'>mjijackson.com</a> for the first stab at RGB / HSL / HSV converters</li>
+	
 	</ul>
 	
 	
