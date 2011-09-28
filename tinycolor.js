@@ -6,9 +6,9 @@ var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
     tinyCounter = 0,
     math = Math,
-    math_round = math.round,
-    math_min = math.min,
-    math_max = math.max,
+    mathRound = math.round,
+    mathMin = math.min,
+    mathMax = math.max,
     parseFloat = window.parseFloat;
 
 function tinycolor (color, opts) {
@@ -35,9 +35,9 @@ function tinycolor (color, opts) {
     // Potentially lose a little bit of precision here, but will fix issues where
     // .5 gets interpreted as half of the total, instead of half of 1  
     // If it was supposed to be 128, this was already taken care of by `inputToRgb`
-    if (r < 1) { r = math_round(r); }
-    if (g < 1) { g = math_round(g); }
-    if (b < 1) { b = math_round(b); }
+    if (r < 1) { r = mathRound(r); }
+    if (g < 1) { g = mathRound(g); }
+    if (b < 1) { b = mathRound(b); }
     
     return {
         ok: rgb.ok,
@@ -48,7 +48,7 @@ function tinycolor (color, opts) {
         },
         toHsvString: function() {
             var hsv = rgbToHsv(r, g, b);
-            var h = math_round(hsv.h * 360), s = math_round(hsv.s * 100), v = math_round(hsv.v * 100);
+            var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
             return "hsv(" + h + ", " + s + "%, " + v + "%)";
         },
         toHsl: function() {
@@ -56,7 +56,7 @@ function tinycolor (color, opts) {
         },
         toHslString: function() {
             var hsl = rgbToHsl(r, g, b);
-            var h = math_round(hsl.h * 360), s = math_round(hsl.s * 100), l = math_round(hsl.l * 100);
+            var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
             return (a == 1) ? 
               "hsl("  + h + ", " + s + "%, " + l + "%)" : 
               "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
@@ -68,15 +68,15 @@ function tinycolor (color, opts) {
             return '#' + rgbToHex(r, g, b);
         },
         toRgb: function() {
-            return { r: math_round(r), g: math_round(g), b: math_round(b) };
+            return { r: mathRound(r), g: mathRound(g), b: mathRound(b) };
         },
         toRgbString: function() {
             return (a == 1) ? 
-              "rgb("  + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ")" :
-              "rgba(" + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ", " + a + ")";
+              "rgb("  + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ")" :
+              "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + a + ")";
         },
         toName: function() {
-            return hexNames[rgbToHex(r, b, g)] || false;
+            return hexNames[rgbToHex(r, g, b)] || false;
         },
         toFilter: function() {
             var hex = rgbToHex(r, g, b);
@@ -131,9 +131,9 @@ function inputToRGB(color) {
     
     return {
         ok: ok,
-        r: math_min(255, math_max(rgb.r, 0)),
-        g: math_min(255, math_max(rgb.g, 0)),
-        b: math_min(255, math_max(rgb.b, 0)),
+        r: mathMin(255, mathMax(rgb.r, 0)),
+        g: mathMin(255, mathMax(rgb.g, 0)),
+        b: mathMin(255, mathMax(rgb.b, 0)),
         a: a
     };
 }
@@ -169,7 +169,7 @@ function rgbToHsl(r, g, b) {
     g = bound01(g, 255);
     b = bound01(b, 255);
     
-    var max = math_max(r, g, b), min = math_min(r, g, b);
+    var max = mathMax(r, g, b), min = mathMin(r, g, b);
     var h, s, l = (max + min) / 2;
 
     if(max == min) {
@@ -234,7 +234,7 @@ function rgbToHsv(r, g, b) {
     g = bound01(g, 255);
     b = bound01(b, 255);
     
-    var max = math_max(r, g, b), min = math_min(r, g, b);
+    var max = mathMax(r, g, b), min = mathMin(r, g, b);
     var h, s, v = max;
 
     var d = max - min;
@@ -286,16 +286,23 @@ function rgbToHsv(r, g, b) {
 // `rgbToHex`  
 // Converts an RGB color to hex  
 // Assumes r, g, and b are contained in the set [0, 255]  
-// Returns a 6 character hex  
+// Returns a 3 or 6 character hex  
 function rgbToHex(r, g, b) {
     function pad(c) {
-        return c.length == 1 ? '0' + c : c;
-    }   
-    return [ 
-        pad(math_round(r).toString(16)),
-        pad(math_round(g).toString(16)),
-        pad(math_round(b).toString(16))
-    ].join("");
+        return c.length == 1 ? '0' + c : '' + c;
+    }
+    var hex = [ 
+        pad(mathRound(r).toString(16)),
+        pad(mathRound(g).toString(16)),
+        pad(mathRound(b).toString(16))
+    ];
+    
+    // Return a 3 character hex if possible
+    if (hex[0][0] == hex[0][1] && hex[1][0] == hex[1][1] && hex[2][0] == hex[2][1]) {
+        return hex[0][0] + hex[1][0] + hex[2][0];
+    }
+    
+    return hex.join("");
 }
 
 // `equals`  
@@ -571,7 +578,7 @@ var names = tinycolor.names = {
 };
 
 // Make it easy to access colors via `hexNames[hex]`
-var hexNames = flip(names);
+var hexNames = tinycolor.hexNames = flip(names);
 
 
 // Utilities
@@ -593,7 +600,7 @@ function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
     
     var processPercent = isPercentage(n);
-    n = math_min(max, math_max(0, parseFloat(n)));
+    n = mathMin(max, mathMax(0, parseFloat(n)));
     
     // Automatically convert percentage into number
     if (processPercent) {
@@ -612,7 +619,7 @@ function bound01(n, max) {
 
 // Force a number between 0 and 1
 function clamp01(val) {
-    return math_min(1, math_max(0, val));
+    return mathMin(1, mathMax(0, val));
 }
 
 // Parse an integer into hex
