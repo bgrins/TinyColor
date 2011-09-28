@@ -6,134 +6,134 @@ var tc = _tinycolor;
 tc.version = "0.4.3";
 
 var trimLeft = /^[\s,#]+/, 
-	trimRight = /\s+$/,
-	tinyCounter = 0,
-	math = Math,
-	math_round = math.round,
-	math_min = math.min,
-	math_max = math.max,
-	parseFloat = window.parseFloat;
+    trimRight = /\s+$/,
+    tinyCounter = 0,
+    math = Math,
+    math_round = math.round,
+    math_min = math.min,
+    math_max = math.max,
+    parseFloat = window.parseFloat;
 
 function _tinycolor (color, opts) {
-	
-	// If input is already a tinycolor, return itself
-	if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
-	   return color;
-	}
-	
-	// If input is an object, force 1 into "1.0" to handle ratios properly
-	// String input requires "1.0" as input, so 1 will be treated as 1
-	if (typeof color == "object" && (!opts || !opts.skipRatio)) {
+    
+    // If input is already a tinycolor, return itself
+    if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
+       return color;
+    }
+    
+    // If input is an object, force 1 into "1.0" to handle ratios properly
+    // String input requires "1.0" as input, so 1 will be treated as 1
+    if (typeof color == "object" && (!opts || !opts.skipRatio)) {
         for (var i in color) {
             if (color[i] === 1) {
                 color[i] = "1.0";
             }
         }
-	}
-	
-	var rgb = inputToRGB(color);
-	var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
-	
-	// Don't let the range of [0,255] come back in [0,1].
-	// Potentially lose a little bit of precision here, but will fix issues where
-	// .5 gets interpreted as half of the total, instead of half of 1
-	if (r < 1) { r = math_round(r); }
-	if (g < 1) { g = math_round(g); }
-	if (b < 1) { b = math_round(b); }
-	
-	return {
-		ok: rgb.ok,
-		_tc_id: tinyCounter++,
-		alpha: a,
-		toHsv: function() {
-			return rgbToHsv(r, g, b);
-		},
-		toHsvString: function() {
-			var hsv = rgbToHsv(r, g, b);
-			var h = math_round(hsv.h * 360), s = math_round(hsv.s * 100), v = math_round(hsv.v * 100);
-			return "hsv(" + h + ", " + s + "%, " + v + "%)";
-		},
-		toHsl: function() {
-			return rgbToHsl(r, g, b);
-		},
-		toHslString: function() {
-			var hsl = rgbToHsl(r, g, b);
-			var h = math_round(hsl.h * 360), s = math_round(hsl.s * 100), l = math_round(hsl.l * 100);
-		    return (a == 1) ? 
-		      "hsl("  + h + ", " + s + "%, " + l + "%)" : 
-		      "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
-		},
-		toHex: function() {
-			return rgbToHex(r, g, b);
-		},
-		toHexString: function() {
-			return '#' + rgbToHex(r, g, b);
-		},
-		toRgb: function() {
-			return { r: math_round(r), g: math_round(g), b: math_round(b) };
-		},
-		toRgbString: function() {
-		    return (a == 1) ? 
-		      "rgb("  + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ")" :
-		      "rgba(" + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ", " + a + ")";
-		},
-		toName: function() {
-			return hexNames[rgbToHex(r, b, g)] || false;
-		},
-		toFilter: function() {
+    }
+    
+    var rgb = inputToRGB(color);
+    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
+    
+    // Don't let the range of [0,255] come back in [0,1].
+    // Potentially lose a little bit of precision here, but will fix issues where
+    // .5 gets interpreted as half of the total, instead of half of 1
+    if (r < 1) { r = math_round(r); }
+    if (g < 1) { g = math_round(g); }
+    if (b < 1) { b = math_round(b); }
+    
+    return {
+        ok: rgb.ok,
+        _tc_id: tinyCounter++,
+        alpha: a,
+        toHsv: function() {
+            return rgbToHsv(r, g, b);
+        },
+        toHsvString: function() {
+            var hsv = rgbToHsv(r, g, b);
+            var h = math_round(hsv.h * 360), s = math_round(hsv.s * 100), v = math_round(hsv.v * 100);
+            return "hsv(" + h + ", " + s + "%, " + v + "%)";
+        },
+        toHsl: function() {
+            return rgbToHsl(r, g, b);
+        },
+        toHslString: function() {
+            var hsl = rgbToHsl(r, g, b);
+            var h = math_round(hsl.h * 360), s = math_round(hsl.s * 100), l = math_round(hsl.l * 100);
+            return (a == 1) ? 
+              "hsl("  + h + ", " + s + "%, " + l + "%)" : 
+              "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
+        },
+        toHex: function() {
+            return rgbToHex(r, g, b);
+        },
+        toHexString: function() {
+            return '#' + rgbToHex(r, g, b);
+        },
+        toRgb: function() {
+            return { r: math_round(r), g: math_round(g), b: math_round(b) };
+        },
+        toRgbString: function() {
+            return (a == 1) ? 
+              "rgb("  + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ")" :
+              "rgba(" + math_round(r) + ", " + math_round(g) + ", " + math_round(b) + ", " + a + ")";
+        },
+        toName: function() {
+            return hexNames[rgbToHex(r, b, g)] || false;
+        },
+        toFilter: function() {
             var hex = rgbToHex(r, g, b);
             var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
             return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
                 alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";         
-		}
-	};
+        }
+    };
 }
 
 function inputToRGB(color) {
 
-	var rgb = { r: 255, g: 255, b: 255 };
-	var a = 1;
-	var ok = false;
-	
-	if (typeof color == "string") {
-		color = stringInputToObject(color);
-	}
-	if (typeof color == "object") {
-		if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
-			rgb = rgbToRgb(color.r, color.g, color.b);
-			ok = true;
-		}
-		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
-			rgb = hsvToRgb(color.h, color.s, color.v);
-			ok = true;
-		}
-		else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-			var rgb = hslToRgb(color.h, color.s, color.l);
-			ok = true;
-		}
-		
-		if (color.hasOwnProperty("a")) {
+    var rgb = { r: 255, g: 255, b: 255 };
+    var a = 1;
+    var ok = false;
+    
+    if (typeof color == "string") {
+        color = stringInputToObject(color);
+    }
+    if (typeof color == "object") {
+        if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
+            rgb = rgbToRgb(color.r, color.g, color.b);
+            ok = true;
+        }
+        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+            rgb = hsvToRgb(color.h, color.s, color.v);
+            ok = true;
+        }
+        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
+            var rgb = hslToRgb(color.h, color.s, color.l);
+            ok = true;
+        }
+        
+        if (color.hasOwnProperty("a")) {
             a = color.a;
-		}
-	}
-	
-	return {
-		ok: ok,
-		r: math_min(255, math_max(rgb.r, 0)),
-		g: math_min(255, math_max(rgb.g, 0)),
-		b: math_min(255, math_max(rgb.b, 0)),
-		a: a
-	};
+        }
+    }
+    
+    return {
+        ok: ok,
+        r: math_min(255, math_max(rgb.r, 0)),
+        g: math_min(255, math_max(rgb.g, 0)),
+        b: math_min(255, math_max(rgb.b, 0)),
+        a: a
+    };
 }
 
 
 // Handle bounds / percentage checking to conform to CSS color spec http://www.w3.org/TR/css3-color/
-function rgbToRgb(r, g, b){	
-	return { 
-		r: bound01(r, 255) * 255, 
-		g: bound01(g, 255) * 255,
-		b: bound01(b, 255) * 255
-	};
+function rgbToRgb(r, g, b){ 
+    return { 
+        r: bound01(r, 255) * 255, 
+        g: bound01(g, 255) * 255,
+        b: bound01(b, 255) * 255
+    };
 }
 
 // rgbToHsl, rgbToHsv, hslToRgb, hsvToRgb modified from: 
@@ -151,11 +151,11 @@ function rgbToRgb(r, g, b){
  * @return  Array           The HSL representation
  */
 function rgbToHsl(r, g, b){
-	
-	r = bound01(r, 255);
-	g = bound01(g, 255);
-	b = bound01(b, 255);
-	
+    
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
+    
     var max = math_max(r, g, b), min = math_min(r, g, b);
     var h, s, l = (max + min) / 2;
 
@@ -189,10 +189,10 @@ function rgbToHsl(r, g, b){
 function hslToRgb(h, s, l){
     var r, g, b;
 
-	h = bound01(h, 360);
-	s = bound01(s, 100);
-	l = bound01(l, 100);
-	
+    h = bound01(h, 360);
+    s = bound01(s, 100);
+    l = bound01(l, 100);
+    
     function hue2rgb(p, q, t){
         if(t < 0) t += 1;
         if(t > 1) t -= 1;
@@ -229,10 +229,10 @@ function hslToRgb(h, s, l){
  */
 function rgbToHsv(r, g, b){
 
-	r = bound01(r, 255);
-	g = bound01(g, 255);
-	b = bound01(b, 255);
-	
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
+    
     var max = math_max(r, g, b), min = math_min(r, g, b);
     var h, s, v = max;
 
@@ -267,9 +267,9 @@ function rgbToHsv(r, g, b){
  function hsvToRgb(h, s, v){
     var r, g, b;
     
-	h = bound01(h, 360);
-	s = bound01(s, 100);
-	v = bound01(v, 100);
+    h = bound01(h, 360);
+    s = bound01(s, 100);
+    v = bound01(v, 100);
 
     var i = math.floor(h * 6);
     var f = h * 6 - i;
@@ -290,19 +290,19 @@ function rgbToHsv(r, g, b){
 }
 
 function rgbToHex(r, g, b) {
-	function pad(c) {
-		return c.length == 1 ? '0' + c : c;
-	}	
-	return [ 
-		pad(math_round(r).toString(16)),
-		pad(math_round(g).toString(16)),
-		pad(math_round(b).toString(16))
-	].join("");
+    function pad(c) {
+        return c.length == 1 ? '0' + c : c;
+    }   
+    return [ 
+        pad(math_round(r).toString(16)),
+        pad(math_round(g).toString(16)),
+        pad(math_round(b).toString(16))
+    ].join("");
 }
 
 
 tc.equals = function(color1, color2) {
-	return tc(color1).toHex() == tc(color2).toHex();
+    return tc(color1).toHex() == tc(color2).toHex();
 };
 
 // Thanks to less.js for some functions: 
@@ -563,36 +563,36 @@ var names = tc.names = {
 var hexNames = flip(names);
 
 function flip(o) {
-	var flipped = { };
-	for (var i in o) {
-		if (o.hasOwnProperty(i)) {
-			flipped[o[i]] = i;
-		}
-	}
-	return flipped;
+    var flipped = { };
+    for (var i in o) {
+        if (o.hasOwnProperty(i)) {
+            flipped[o[i]] = i;
+        }
+    }
+    return flipped;
 }
 
 function bound01(n, max) {
-	// Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
-	// http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
-	if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
+    // Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+    // http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
+    if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
     
-	var processPercent = isPercentage(n);
-	n = math_min(max, math_max(0, parseFloat(n)));
-	
-	// Automatically convert percentage into number
-	if (processPercent) {
-		n = n * (max / 100);
-	}
-	
-	// Handle floating point rounding errors
-	if ((math.abs(n - max) < 0.000001)) {
-		return 1;
-	}
-	else if (n >= 1) {
-		return (n % max) / parseFloat(max);
-	}
-	return n;
+    var processPercent = isPercentage(n);
+    n = math_min(max, math_max(0, parseFloat(n)));
+    
+    // Automatically convert percentage into number
+    if (processPercent) {
+        n = n * (max / 100);
+    }
+    
+    // Handle floating point rounding errors
+    if ((math.abs(n - max) < 0.000001)) {
+        return 1;
+    }
+    else if (n >= 1) {
+        return (n % max) / parseFloat(max);
+    }
+    return n;
 }
 
 function clamp01(val) {
@@ -602,33 +602,33 @@ function parseHex(val) {
     return parseInt(val, 16);
 }
 function isPercentage(n) {
-	return typeof n === "string" && n.indexOf('%') != -1;
+    return typeof n === "string" && n.indexOf('%') != -1;
 }
 
 var matchers = (function() {
 
-	// http://www.w3.org/TR/css3-values/#integers
-	var CSS_INTEGER = "[-\\+]?\\d+%?"; 
-	
-	// http://www.w3.org/TR/css3-values/#number-value
-	var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
-	
-	// Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
-	var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")"; 
-	
-	// Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
-	var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-	var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-	
-	return {
-		rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
-		rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
-		hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
-		hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
-		hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
-		hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-		hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
-	};
+    // http://www.w3.org/TR/css3-values/#integers
+    var CSS_INTEGER = "[-\\+]?\\d+%?"; 
+    
+    // http://www.w3.org/TR/css3-values/#number-value
+    var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
+    
+    // Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
+    var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")"; 
+    
+    // Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
+    var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+    var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+    
+    return {
+        rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
+        rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
+        hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
+        hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
+        hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
+        hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+        hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+    };
 })();
 
 function stringInputToObject(color) {
