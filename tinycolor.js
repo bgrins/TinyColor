@@ -2,9 +2,6 @@
 
 (function(window) {
 
-window.tinycolor = tinycolor;
-tinycolor.version = "0.4.3";
-
 var trimLeft = /^[\s,#]+/, 
     trimRight = /\s+$/,
     tinyCounter = 0,
@@ -678,5 +675,8 @@ function stringInputToObject(color) {
     
     return false;
 }
+
+
+window.tinycolor = tinycolor;
 
 })(this);
