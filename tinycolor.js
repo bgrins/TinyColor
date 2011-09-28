@@ -1,4 +1,4 @@
-// TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.5
+// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2011 Brian Grinstead - v0.5
 
 (function(window) {
 
@@ -31,9 +31,10 @@ function tinycolor (color, opts) {
     var rgb = inputToRGB(color);
     var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
     
-    // Don't let the range of [0,255] come back in [0,1].
+    // Don't let the range of [0,255] come back in [0,1].  
     // Potentially lose a little bit of precision here, but will fix issues where
-    // .5 gets interpreted as half of the total, instead of half of 1
+    // .5 gets interpreted as half of the total, instead of half of 1  
+    // If it was supposed to be 128, this was already taken care of by `inputToRgb`
     if (r < 1) { r = math_round(r); }
     if (g < 1) { g = math_round(g); }
     if (b < 1) { b = math_round(b); }
@@ -86,6 +87,20 @@ function tinycolor (color, opts) {
     };
 }
 
+// Given a string or object, convert that input to RGB
+// Possible string inputs:
+//
+//     "red"
+//     "#f00" or "f00"
+//     "#ff0000" or "ff0000"
+//     "rgb 255 0 0" or "rgb (255, 0, 0)"
+//     "rgb 1.0 0 0" or "rgb (1, 0, 0)"
+//     "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
+//     "rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1" 
+//     "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
+//     "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
+//     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
+//
 function inputToRGB(color) {
 
     var rgb = { r: 255, g: 255, b: 255 };
@@ -124,7 +139,18 @@ function inputToRGB(color) {
 }
 
 
-// Handle bounds / percentage checking to conform to CSS color spec http://www.w3.org/TR/css3-color/
+
+// Conversion Functions
+// --------------------
+
+// `rgbToHsl`, `rgbToHsv`, `hslToRgb`, `hsvToRgb` modified from:   
+// <http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript>
+
+// `rgbToRgb`  
+// Handle bounds / percentage checking to conform to CSS color spec
+// <http://www.w3.org/TR/css3-color/>  
+// *Assumes:* r, g, b in [0, 255] or [0, 1]  
+// *Returns:* { r, g, b } in [0, 255]
 function rgbToRgb(r, g, b){ 
     return { 
         r: bound01(r, 255) * 255, 
@@ -133,21 +159,11 @@ function rgbToRgb(r, g, b){
     };
 }
 
-// rgbToHsl, rgbToHsv, hslToRgb, hsvToRgb modified from: 
-// http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
-
-/** 
- * Converts an RGB color value to HSL. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
- * returns h, s, l in [0,1]
- *
- * @param   Number  r       The red color value
- * @param   Number  g       The green color value
- * @param   Number  b       The blue color value
- * @return  Array           The HSL representation
- */
-function rgbToHsl(r, g, b){
+// `rgbToHsl`  
+// Converts an RGB color value to HSL.  
+// *Assumes:* r, g, and b are contained in [0, 255] or [0, 1]  
+// *Returns:* { h, s, l } in [0,1]  
+function rgbToHsl(r, g, b) {
     
     r = bound01(r, 255);
     g = bound01(g, 255);
@@ -156,41 +172,36 @@ function rgbToHsl(r, g, b){
     var max = math_max(r, g, b), min = math_min(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if(max == min){
+    if(max == min) {
         h = s = 0; // achromatic
-    }else{
+    }
+    else {
         var d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
+        switch(max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
             case g: h = (b - r) / d + 2; break;
             case b: h = (r - g) / d + 4; break;
         }
+        
         h /= 6;
     }
 
     return { h: h, s: s, l: l };
 }
 
-/**
- * Converts an HSL color value to RGB. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Assumes h, s, and l are contained in the set [0, 1] or [0, 360] and [0, 100] and
- * returns r, g, and b in the set [0, 255].
- *
- * @param   Number  h       The hue
- * @param   Number  s       The saturation
- * @param   Number  l       The lightness
- * @return  Array           The RGB representation
- */
-function hslToRgb(h, s, l){
+// `hslToRgb`  
+// Converts an HSL color value to RGB.  
+// *Assumes:* h is contained in [0, 1] or [0, 360] and s and l are contained [0, 1] or [0, 100]  
+// *Returns:* { r, g, b } in the set [0, 255]  
+function hslToRgb(h, s, l) {
     var r, g, b;
 
     h = bound01(h, 360);
     s = bound01(s, 100);
     l = bound01(l, 100);
     
-    function hue2rgb(p, q, t){
+    function hue2rgb(p, q, t) {
         if(t < 0) t += 1;
         if(t > 1) t -= 1;
         if(t < 1/6) return p + (q - p) * 6 * t;
@@ -199,10 +210,10 @@ function hslToRgb(h, s, l){
         return p;
     }
     
-    if(s == 0){
+    if(s == 0) {
         r = g = b = l; // achromatic
-    }else{
-
+    }
+    else {
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
         var p = 2 * l - q;
         r = hue2rgb(p, q, h + 1/3);
@@ -213,18 +224,11 @@ function hslToRgb(h, s, l){
     return { r: r * 255, g: g * 255, b: b * 255 };
 }
 
-/**
- * Converts an RGB color value to HSV. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
- * Assumes r, g, and b are contained in the set [0, 255] or [0, 1] and
- * returns h, s, v in [0,1]
- *
- * @param   Number  r       The red color value
- * @param   Number  g       The green color value
- * @param   Number  b       The blue color value
- * @return  Array           The HSV representation
- */
-function rgbToHsv(r, g, b){
+// `rgbToHsv`  
+// Converts an RGB color value to HSV  
+// *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]  
+// *Returns:* { h, s, v } in [0,1]  
+function rgbToHsv(r, g, b) {
 
     r = bound01(r, 255);
     g = bound01(g, 255);
@@ -236,10 +240,11 @@ function rgbToHsv(r, g, b){
     var d = max - min;
     s = max == 0 ? 0 : d / max;
 
-    if(max == min){
+    if(max == min) {
         h = 0; // achromatic
-    }else{
-        switch(max){
+    }
+    else {
+        switch(max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
             case g: h = (b - r) / d + 2; break;
             case b: h = (r - g) / d + 4; break;
@@ -249,19 +254,11 @@ function rgbToHsv(r, g, b){
     return { h: h, s: s, v: v };
 }
 
-
-/**
- * Converts an HSV color value to RGB. Conversion formula
- * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
- * Assumes h, s, and v are contained in the set [0, 1] or [0, 360] and [0, 100] and
- * returns r, g, and b in the set [0, 255].
- *
- * @param   Number  h       The hue
- * @param   Number  s       The saturation
- * @param   Number  v       The value
- * @return  Array           The RGB representation
- */
- function hsvToRgb(h, s, v){
+// `hsvToRgb`  
+// Converts an HSV color value to RGB. 
+// *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
+// *Returns:* { r, g, b } in the set [0, 255]
+ function hsvToRgb(h, s, v) {
     var r, g, b;
     
     h = bound01(h, 360);
@@ -274,7 +271,7 @@ function rgbToHsv(r, g, b){
     var q = v * (1 - f * s);
     var t = v * (1 - (1 - f) * s);
     
-    switch(i % 6){
+    switch(i % 6) {
         case 0: r = v, g = t, b = p; break;
         case 1: r = q, g = v, b = p; break;
         case 2: r = p, g = v, b = t; break;
@@ -283,9 +280,13 @@ function rgbToHsv(r, g, b){
         case 5: r = v, g = p, b = q; break;
     }
     
-    return {r: r * 255, g: g * 255, b: b * 255};
+    return { r: r * 255, g: g * 255, b: b * 255 };
 }
 
+// `rgbToHex`  
+// Converts an RGB color to hex  
+// Assumes r, g, and b are contained in the set [0, 255]  
+// Returns a 6 character hex  
 function rgbToHex(r, g, b) {
     function pad(c) {
         return c.length == 1 ? '0' + c : c;
@@ -297,13 +298,19 @@ function rgbToHex(r, g, b) {
     ].join("");
 }
 
-
+// `equals`  
+// Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
     return tinycolor(color1).toHex() == tinycolor(color2).toHex();
 };
 
-// Thanks to less.js for some functions: 
-// https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
+
+// Modification Functions
+// ----------------------
+// Thanks to less.js for some of the basics here  
+// <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
+
+
 tinycolor.desaturate = function (color, amount) {
     var hsl = tinycolor(color).toHsl();
     hsl.s -= ((amount || 10) / 100);
@@ -337,6 +344,12 @@ tinycolor.complement = function(color) {
     return tinycolor(hsl);
 };
 
+
+// Combination Functions
+// ---------------------
+// Thanks to jQuery xColor for some of the ideas behind these
+// <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
+
 tinycolor.triad = function(color) {
     var hsl = tinycolor(color).toHsl();
     var h = hsl.h * 360;
@@ -356,9 +369,6 @@ tinycolor.tetrad = function(color) {
         tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
     ];
 };
-
-// Thanks to xColor for some of the combinations, and the great isReadable function
-// https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
 tinycolor.splitcomplement = function(color) {
     var hsl = tinycolor(color).toHsl();
     var h = hsl.h * 360;
@@ -406,6 +416,9 @@ tinycolor.readable = function(color1, color2) {
     ) > 0x28A4;
 };
 
+// Big List of Colors
+// ---------
+// <http://www.w3.org/TR/css3-color/#svg-color>
 var names = tinycolor.names = {
     aliceblue: "f0f8ff",
     antiquewhite: "faebd7",
@@ -557,8 +570,14 @@ var names = tinycolor.names = {
     yellowgreen: "9acd32"
 };
 
+// Make it easy to access colors via `hexNames[hex]`
 var hexNames = flip(names);
 
+
+// Utilities
+// ---------
+
+// `{ 'name1': 'val1' }` becomes `{ 'name1': 'prop1' }`
 function flip(o) {
     var flipped = { };
     for (var i in o) {
@@ -569,10 +588,9 @@ function flip(o) {
     return flipped;
 }
 
+// Take input from [0, n] and return it as [0, 1]
 function bound01(n, max) {
-    // Handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
-    // http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0
-    if (typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1) { n = "100%"; }
+    if (isOnePointZero(n)) { n = "100%"; }
     
     var processPercent = isPercentage(n);
     n = math_min(max, math_max(0, parseFloat(n)));
@@ -592,28 +610,41 @@ function bound01(n, max) {
     return n;
 }
 
+// Force a number between 0 and 1
 function clamp01(val) {
     return math_min(1, math_max(0, val));
 }
+
+// Parse an integer into hex
 function parseHex(val) {
     return parseInt(val, 16);
 }
+
+// Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
+// <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
+function isOnePointZero(n) {
+    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
+}
+
+// Check to see if string passed in is a percentage
 function isPercentage(n) {
     return typeof n === "string" && n.indexOf('%') != -1;
 }
 
 var matchers = (function() {
 
-    // http://www.w3.org/TR/css3-values/#integers
+    // <http://www.w3.org/TR/css3-values/#integers>
     var CSS_INTEGER = "[-\\+]?\\d+%?"; 
     
-    // http://www.w3.org/TR/css3-values/#number-value
+    // <http://www.w3.org/TR/css3-values/#number-value>
     var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?"; 
     
     // Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
     var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")"; 
     
-    // Actual matching... parentheses and commas are optional, but not required.  Whitespace can take the place of commas or opening paren
+    // Actual matching.  
+    // Parentheses and commas are optional, but not required.  
+    // Whitespace can take the place of commas or opening paren
     var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
     var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
     
@@ -628,6 +659,9 @@ var matchers = (function() {
     };
 })();
 
+// `stringInputToObject`  
+// Permissive string parsing.  Take in a number of formats, and output an object
+// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
@@ -638,10 +672,10 @@ function stringInputToObject(color) {
         return { r: 0, g: 0, b: 0, a: 0 }; 
     }
     
-    // Try to match string input using regular expressions.  Keep most of the number bounding
-    // out of this function - don't worry about [0,1] or [0,100] or [0,360] - just return 
-    // an object and let the conversion functions handle that.  This way the result will
-    // be the same whether the tinycolor is initialized with string or object.
+    // Try to match string input using regular expressions.  
+    // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]  
+    // Just return an object and let the conversion functions handle that.  
+    // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
     if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
@@ -676,7 +710,7 @@ function stringInputToObject(color) {
     return false;
 }
 
-
+// Everything is ready, expose to window
 window.tinycolor = tinycolor;
 
 })(this);
