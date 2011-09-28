@@ -15,4 +15,8 @@ task :build do
   File.open('tinycolor-min.js', 'w+') do |file|
     file.write header[1].squeeze(' ') + Closure::Compiler.new.compress(source)
   end
+  
+  
+  system('docco tinycolor.js')
+  
 end
