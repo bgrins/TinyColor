@@ -32,7 +32,7 @@ function _tinycolor (color, opts) {
 	}
 	
 	var rgb = inputToRGB(color);
-	var r = rgb.r, g = rgb.g, b = rgb.b, a = rgb.a;
+	var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
 	
 	// Don't let the range of [0,255] come back in [0,1].
 	// Potentially lose a little bit of precision here, but will fix issues where
@@ -79,6 +79,12 @@ function _tinycolor (color, opts) {
 		},
 		toName: function() {
 			return hexNames[rgbToHex(r, b, g)] || false;
+		},
+		toFilter: function() {
+            var hex = rgbToHex(r, g, b);
+            var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
+            return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
+                alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";         
 		}
 	};
 }
@@ -107,7 +113,7 @@ function inputToRGB(color) {
 		}
 		
 		if (color.hasOwnProperty("a")) {
-            a = bound01(color.a, 1);
+            a = color.a;
 		}
 	}
 	
@@ -676,4 +682,3 @@ function stringInputToObject(color) {
 window.tinycolor = tc;
 
 })(this);
-
