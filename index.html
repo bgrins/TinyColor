@@ -67,18 +67,23 @@
 				colorChange($(this).val());
 			});
 			colorChange({r: 150, g: 0, b: 100});
+			
+			$("#inputter a").click(function() {
+			     $("#color").val($(this).text()).trigger("change");
+                return false;
+			});
 		});
 	
 	</script>
 </head>
 
 <body>
-
+    <div id="container">
 	<h1>TinyColor</h1>
 	<h2>&#8594; A fast, small JavaScript color manipulation library</h2>
 	
 	<p>TinyColor is meant for inputting colors and outputting them as, or comparing them with, different colors.  Input is meant to be as permissive as possible.  The following color types are supported:</p>
-		
+	
 	<ul>
 		<li>RGB</li>
 		<li>Hex</li>
@@ -86,11 +91,24 @@
 		<li>HSV</li>
 		<li>Name (from HTML color codes)</li>
 	</ul>
+	<h3>Code</h3>
+	<p><a href='docs/tinycolor.html'>View the annotated source code</a> or <a href='https://github.com/bgrins/TinyColor/blob/master/tinycolor.js'>see the full source on github</a>.</p>
 	
 	<h3>Demo</h3>
 	<div id='demo'>
-	<div>
-	<input type="text" placeholder="Enter a color, any color." id='color' /><br />
+	<div id='inputter'>
+        <p>
+            Enter a color: <input type="text" placeholder="any color." id='color' />
+        </p>
+	    <p>
+	       Or try these: 
+	           <a href="#">red</a> 
+	           <a href="#">0f0</a> 
+	           <a href="#">rgb 255 128 128</a> 
+	           <a href='#'>hsl(0, 100%, 50%)</a> 
+	           <a href='#'>hsv 0, 100%, 50%</a>
+	   </p>
+	   <p>And I'll tell you what I know about it:</p>
 	</div>
 	
 	<div id='color-output'></div>
@@ -178,5 +196,7 @@ t.toName() // "red"
 	
 	
   <a href="http://github.com/bgrins/TinyColor"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  
+  </div>
 </body>
 </html>

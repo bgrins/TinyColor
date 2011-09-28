@@ -1,13 +1,13 @@
 
 html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
-body { font-size: 13px; line-height: 1.231; font-family: Verdana, Arial, FreeSans, san-serif; margin: 4px; background-color: #d6c3ee; }
-body, button, input, select, textarea { font-family: sans-serif; color: #222; }
+body { font-size: 15px; line-height: 1.231; margin: 4px; background-color: #d6c3ee; }
+body, button, input, select, textarea { font-family: Droid Sans, Verdana, sans-serif; color: #222; }
 
-#demo { }
+#container { width: 90%; margin:0 auto; }
 #color-output { float:left; width: 40px; height: 40px; border: solid 2px #333; margin: 15px; margin-left:0; }
 #code-output { float: left; width: 500px; border: solid 2px #333; margin:15px;  } 
 #color { width: 200px; height: 2em;}
-
+#inputter a { padding:3px; color: #33f; }
 .invisible { visibility: hidden; } 
 #container { margin: 0 auto; width: 700px; }
 h1 { font-size: 3.8em; color: #293c11; font-family:Tahoma; margin: 3px 0; padding:0; }
