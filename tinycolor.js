@@ -1,9 +1,9 @@
-
 // TinyColor.js - https://github.com/bgrins/TinyColor - 2011 Brian Grinstead - v0.4.3
+
 (function(window) {
 
-var tc = _tinycolor;
-tc.version = "0.4.3";
+window.tinycolor = tinycolor;
+tinycolor.version = "0.4.3";
 
 var trimLeft = /^[\s,#]+/, 
     trimRight = /\s+$/,
@@ -14,7 +14,7 @@ var trimLeft = /^[\s,#]+/,
     math_max = math.max,
     parseFloat = window.parseFloat;
 
-function _tinycolor (color, opts) {
+function tinycolor (color, opts) {
     
     // If input is already a tinycolor, return itself
     if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
@@ -301,107 +301,107 @@ function rgbToHex(r, g, b) {
 }
 
 
-tc.equals = function(color1, color2) {
-    return tc(color1).toHex() == tc(color2).toHex();
+tinycolor.equals = function(color1, color2) {
+    return tinycolor(color1).toHex() == tinycolor(color2).toHex();
 };
 
 // Thanks to less.js for some functions: 
 // https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js
-tc.desaturate = function (color, amount) {
-    var hsl = tc(color).toHsl();
+tinycolor.desaturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
     hsl.s -= ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tc(hsl);
+    return tinycolor(hsl);
 };
-tc.saturate = function (color, amount) {
-    var hsl = tc(color).toHsl();
+tinycolor.saturate = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
     hsl.s += ((amount || 10) / 100);
     hsl.s = clamp01(hsl.s);
-    return tc(hsl);
+    return tinycolor(hsl);
 };
-tc.greyscale = function(color) {
-    return tc.desaturate(color, 100);
+tinycolor.greyscale = function(color) {
+    return tinycolor.desaturate(color, 100);
 };
-tc.lighten = function(color, amount) {
-    var hsl = tc(color).toHsl();
+tinycolor.lighten = function(color, amount) {
+    var hsl = tinycolor(color).toHsl();
     hsl.l += ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tc(hsl);
+    return tinycolor(hsl);
 };
-tc.darken = function (color, amount) {
-    var hsl = tc(color).toHsl();
+tinycolor.darken = function (color, amount) {
+    var hsl = tinycolor(color).toHsl();
     hsl.l -= ((amount || 10) / 100);
     hsl.l = clamp01(hsl.l);
-    return tc(hsl);
+    return tinycolor(hsl);
 };
-tc.complement = function(color) {
-    var hsl = tc(color).toHsl();
+tinycolor.complement = function(color) {
+    var hsl = tinycolor(color).toHsl();
     hsl.h = (hsl.h + .5) % 1;
-    return tc(hsl);
+    return tinycolor(hsl);
 };
 
-tc.triad = function(color) {
-    var hsl = tc(color).toHsl();
+tinycolor.triad = function(color) {
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h * 360;
     return [
-        tc(color),
-        tc({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        tc({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
+        tinycolor(color),
+        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
     ];
 };
-tc.tetrad = function(color) {
-    var hsl = tc(color).toHsl();
+tinycolor.tetrad = function(color) {
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h * 360;
     return [
-        tc(color),
-        tc({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-        tc({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-        tc({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
+        tinycolor(color),
+        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
     ];
 };
 
 // Thanks to xColor for some of the combinations, and the great isReadable function
 // https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js
-tc.splitcomplement = function(color) {
-    var hsl = tc(color).toHsl();
+tinycolor.splitcomplement = function(color) {
+    var hsl = tinycolor(color).toHsl();
     var h = hsl.h * 360;
     return [
-        tc(color),
-        tc({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
-        tc({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
+        tinycolor(color),
+        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
+        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
     ];
 };
-tc.analogous = function(color, results, slices) {
+tinycolor.analogous = function(color, results, slices) {
     results = results || 6;
     slices = slices || 30;
     
-    var hsl = tc(color).toHsl();
+    var hsl = tinycolor(color).toHsl();
     var part = 360 / slices
-    var ret = [tc(color)];
+    var ret = [tinycolor(color)];
     
     hsl.h *= 360;
 
     for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
         hsl.h = (hsl.h + part) % 360;
-        ret.push(tc(hsl));
+        ret.push(tinycolor(hsl));
     }
     return ret;
 };
-tc.monochromatic = function(color, results) {
+tinycolor.monochromatic = function(color, results) {
     results = results || 6;
-    var hsv = tc(color).toHsv();
+    var hsv = tinycolor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
         
     while (results--) {
-        ret.push(tc({ h: h, s: s, v: v}));
+        ret.push(tinycolor({ h: h, s: s, v: v}));
         v = (v + .2) % 1;
     }
     
     return ret;
 };
-tc.readable = function(color1, color2) {
-    var a = tc(color1).toRgb(), b = tc(color2).toRgb();
+tinycolor.readable = function(color1, color2) {
+    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
     return (
         (b.r - a.r) * (b.r - a.r) +
         (b.g - a.g) * (b.g - a.g) +
@@ -409,7 +409,7 @@ tc.readable = function(color1, color2) {
     ) > 0x28A4;
 };
 
-var names = tc.names = {
+var names = tinycolor.names = {
     aliceblue: "f0f8ff",
     antiquewhite: "faebd7",
     aqua: "0ff",
@@ -678,7 +678,5 @@ function stringInputToObject(color) {
     
     return false;
 }
-
-window.tinycolor = tc;
 
 })(this);
