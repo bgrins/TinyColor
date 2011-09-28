@@ -584,7 +584,7 @@ var hexNames = tinycolor.hexNames = flip(names);
 // Utilities
 // ---------
 
-// `{ 'name1': 'val1' }` becomes `{ 'name1': 'prop1' }`
+// `{ 'name1': 'val1' }` becomes `{ 'val1': 'name1' }`
 function flip(o) {
     var flipped = { };
     for (var i in o) {
