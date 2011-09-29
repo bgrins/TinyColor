@@ -39,4 +39,4 @@ Any of the following object inputs are recognized:
     { h: 0, s: 100, l: 50 }
     etc...
 
-See input.html in the project for a demo.
+See index.html in the project for a demo.
