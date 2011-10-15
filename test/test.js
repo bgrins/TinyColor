@@ -70,12 +70,14 @@ test("RGB Text Parsing", function() {
 	equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#ff0000", "parenthesized input");
 	equal (tinycolor("rgb (255, 0, 0)").toHexString(), "#ff0000", "parenthesized spaced input");
 	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexString(), "#ff0000", "object input");
-	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0 }, "object input and compare");
+	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0, a: 1 }, "object input and compare");
 
 
 	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb(200, 100, 0)"));
 	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb 200 100 0"));
 	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb 200 100 0"));
+	ok (tinycolor.equals({r:200, g: 100, b: 0, a: .4 }, "rgba 200 100 0 .4"));
+	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgba 200 100 0 1"));
 	
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb(200, 100, 0)"));
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb 200 100 0"));
