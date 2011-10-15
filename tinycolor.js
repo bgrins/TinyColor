@@ -44,15 +44,19 @@ function tinycolor (color, opts) {
         _tc_id: tinyCounter++,
         alpha: a,
         toHsv: function() {
-            return rgbToHsv(r, g, b);
+            var hsv = rgbToHsv(r, g, b);
+            return { h: hsv.h, s: hsv.s, v: hsv.v, a: a };
         },
         toHsvString: function() {
             var hsv = rgbToHsv(r, g, b);
             var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-            return "hsv(" + h + ", " + s + "%, " + v + "%)";
+            return (a == 1) ? 
+              "hsv("  + h + ", " + s + "%, " + v + "%)" : 
+              "hsva(" + h + ", " + s + "%, " + v + "%, "+ a + ")";
         },
         toHsl: function() {
-            return rgbToHsl(r, g, b);
+            var hsl = rgbToHsl(r, g, b);
+            return { h: hsl.h, s: hsl.s, l: hsl.l, a: a };
         },
         toHslString: function() {
             var hsl = rgbToHsl(r, g, b);
@@ -68,7 +72,7 @@ function tinycolor (color, opts) {
             return '#' + rgbToHex(r, g, b);
         },
         toRgb: function() {
-            return { r: mathRound(r), g: mathRound(g), b: mathRound(b) };
+            return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
         },
         toRgbString: function() {
             return (a == 1) ? 
