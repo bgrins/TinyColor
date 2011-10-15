@@ -1,4 +1,5 @@
 // TinyColor.js - <https://github.com/bgrins/TinyColor> - 2011 Brian Grinstead - v0.5
+// pgooch revision 1, added alpha for toRgb()
 
 (function(window) {
 
@@ -68,7 +69,10 @@ function tinycolor (color, opts) {
             return '#' + rgbToHex(r, g, b);
         },
         toRgb: function() {
-            return { r: mathRound(r), g: mathRound(g), b: mathRound(b) };
+            //return { r: mathRound(r), g: mathRound(g), b: mathRound(b) };
+            return (a == 1) ? 
+              { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: 1}:
+              { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a};
         },
         toRgbString: function() {
             return (a == 1) ? 
