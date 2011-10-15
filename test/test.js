@@ -55,7 +55,7 @@ test("Color Equality", function() {
 
 module("Ratio Parsing");
 test("With Ratio", function() {
-	equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
+	equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#fff", "white");
 });
 
 test("Without Ratio", function() {
@@ -66,10 +66,10 @@ module("String Parsing");
 
 test("RGB Text Parsing", function() {
 
-	equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000", "spaced input");
-	equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#ff0000", "parenthesized input");
-	equal (tinycolor("rgb (255, 0, 0)").toHexString(), "#ff0000", "parenthesized spaced input");
-	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexString(), "#ff0000", "object input");
+	equal (tinycolor("rgb 255 0 0").toHexString(), "#f00", "spaced input");
+	equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#f00", "parenthesized input");
+	equal (tinycolor("rgb (255, 0, 0)").toHexString(), "#f00", "parenthesized spaced input");
+	equal (tinycolor({ r: 255, g: 0, b: 0 }).toHexString(), "#f00", "object input");
 	deepEqual (tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), { r: 255, g: 0, b: 0, a: 1 }, "object input and compare");
 
 
@@ -116,14 +116,14 @@ test("HSV Parsing", function() {
 test("Named colors", function() {
 	equal (tinycolor("aliceblue").toHex(), "f0f8ff");
 	equal (tinycolor("antiquewhite").toHex(), "faebd7");
-	equal (tinycolor("aqua").toHex(), "00ffff");
+	equal (tinycolor("aqua").toHex(), "0ff");
 	equal (tinycolor("aquamarine").toHex(), "7fffd4");
 	equal (tinycolor("azure").toHex(), "f0ffff");
 	equal (tinycolor("beige").toHex(), "f5f5dc");
 	equal (tinycolor("bisque").toHex(), "ffe4c4");
-	equal (tinycolor("black").toHex(), "000000");
+	equal (tinycolor("black").toHex(), "000");
 	equal (tinycolor("blanchedalmond").toHex(), "ffebcd");
-	equal (tinycolor("blue").toHex(), "0000ff");
+	equal (tinycolor("blue").toHex(), "00f");
 	equal (tinycolor("blueviolet").toHex(), "8a2be2");
 	equal (tinycolor("brown").toHex(), "a52a2a");
 	equal (tinycolor("burlywood").toHex(), "deb887");
@@ -134,7 +134,7 @@ test("Named colors", function() {
 	equal (tinycolor("cornflowerblue").toHex(), "6495ed");
 	equal (tinycolor("cornsilk").toHex(), "fff8dc");
 	equal (tinycolor("crimson").toHex(), "dc143c");
-	equal (tinycolor("cyan").toHex(), "00ffff");
+	equal (tinycolor("cyan").toHex(), "0ff");
 	equal (tinycolor("darkblue").toHex(), "00008b");
 	equal (tinycolor("darkcyan").toHex(), "008b8b");
 	equal (tinycolor("darkgoldenrod").toHex(), "b8860b");
@@ -159,7 +159,7 @@ test("Named colors", function() {
 	equal (tinycolor("firebrick").toHex(), "b22222");
 	equal (tinycolor("floralwhite").toHex(), "fffaf0");
 	equal (tinycolor("forestgreen").toHex(), "228b22");
-	equal (tinycolor("fuchsia").toHex(), "ff00ff");
+	equal (tinycolor("fuchsia").toHex(), "f0f");
 	equal (tinycolor("gainsboro").toHex(), "dcdcdc");
 	equal (tinycolor("ghostwhite").toHex(), "f8f8ff");
 	equal (tinycolor("gold").toHex(), "ffd700");
@@ -188,13 +188,13 @@ test("Named colors", function() {
 	equal (tinycolor("lightsalmon").toHex(), "ffa07a");
 	equal (tinycolor("lightseagreen").toHex(), "20b2aa");
 	equal (tinycolor("lightskyblue").toHex(), "87cefa");
-	equal (tinycolor("lightslategray").toHex(), "778899");
+	equal (tinycolor("lightslategray").toHex(), "789");
 	equal (tinycolor("lightsteelblue").toHex(), "b0c4de");
 	equal (tinycolor("lightyellow").toHex(), "ffffe0");
-	equal (tinycolor("lime").toHex(), "00ff00");
+	equal (tinycolor("lime").toHex(), "0f0");
 	equal (tinycolor("limegreen").toHex(), "32cd32");
 	equal (tinycolor("linen").toHex(), "faf0e6");
-	equal (tinycolor("magenta").toHex(), "ff00ff");
+	equal (tinycolor("magenta").toHex(), "f0f");
 	equal (tinycolor("maroon").toHex(), "800000");
 	equal (tinycolor("mediumaquamarine").toHex(), "66cdaa");
 	equal (tinycolor("mediumblue").toHex(), "0000cd");
@@ -228,7 +228,7 @@ test("Named colors", function() {
 	equal (tinycolor("plum").toHex(), "dda0dd");
 	equal (tinycolor("powderblue").toHex(), "b0e0e6");
 	equal (tinycolor("purple").toHex(), "800080");
-	equal (tinycolor("red").toHex(), "ff0000");
+	equal (tinycolor("red").toHex(), "f00");
 	equal (tinycolor("rosybrown").toHex(), "bc8f8f");
 	equal (tinycolor("royalblue").toHex(), "4169e1");
 	equal (tinycolor("saddlebrown").toHex(), "8b4513");
@@ -251,9 +251,9 @@ test("Named colors", function() {
 	equal (tinycolor("turquoise").toHex(), "40e0d0");
 	equal (tinycolor("violet").toHex(), "ee82ee");
 	equal (tinycolor("wheat").toHex(), "f5deb3");
-	equal (tinycolor("white").toHex(), "ffffff");
+	equal (tinycolor("white").toHex(), "fff");
 	equal (tinycolor("whitesmoke").toHex(), "f5f5f5");
-	equal (tinycolor("yellow").toHex(), "ffff00");
+	equal (tinycolor("yellow").toHex(), "ff0");
 	equal (tinycolor("yellowgreen").toHex(), "9acd32");
 });
 
