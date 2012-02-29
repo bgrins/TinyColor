@@ -13,7 +13,8 @@ task :build do
   source = File.read 'tinycolor.js'
   header = source.match(HEADER)
   File.open('tinycolor-min.js', 'w+') do |file|
-    file.write header[1].squeeze(' ') + Closure::Compiler.new.compress(source)
+    compressed = Closure::Compiler.new.compress(source)
+    file.write header[1].squeeze(' ') + compressed
   end
   
   
