@@ -7,6 +7,7 @@
     <span class="nx">mathRound</span> <span class="o">=</span> <span class="nx">math</span><span class="p">.</span><span class="nx">round</span><span class="p">,</span>
     <span class="nx">mathMin</span> <span class="o">=</span> <span class="nx">math</span><span class="p">.</span><span class="nx">min</span><span class="p">,</span>
     <span class="nx">mathMax</span> <span class="o">=</span> <span class="nx">math</span><span class="p">.</span><span class="nx">max</span><span class="p">,</span>
+    <span class="nx">mathRandom</span> <span class="o">=</span> <span class="nx">math</span><span class="p">.</span><span class="nx">random</span><span class="p">,</span>
     <span class="nb">parseFloat</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nb">parseFloat</span><span class="p">;</span>
 
 <span class="kd">function</span> <span class="nx">tinycolor</span> <span class="p">(</span><span class="nx">color</span><span class="p">,</span> <span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
@@ -267,6 +268,13 @@ Returns a 3 or 6 character hex  </p>             </td>             <td class="co
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p><code>equals</code> <br />
 Can be called with any tinycolor input</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">tinycolor</span><span class="p">.</span><span class="nx">equals</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color1</span><span class="p">,</span> <span class="nx">color2</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">tinycolor</span><span class="p">(</span><span class="nx">color1</span><span class="p">).</span><span class="nx">toHex</span><span class="p">()</span> <span class="o">==</span> <span class="nx">tinycolor</span><span class="p">(</span><span class="nx">color2</span><span class="p">).</span><span class="nx">toHex</span><span class="p">();</span>
+<span class="p">};</span>
+<span class="nx">tinycolor</span><span class="p">.</span><span class="nx">random</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">tinycolor</span><span class="p">({</span>
+        <span class="nx">r</span><span class="o">:</span> <span class="nx">mathRandom</span><span class="p">(),</span>
+        <span class="nx">g</span><span class="o">:</span> <span class="nx">mathRandom</span><span class="p">(),</span>
+        <span class="nx">b</span><span class="o">:</span> <span class="nx">mathRandom</span><span class="p">()</span>
+    <span class="p">});</span>
 <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <h2>Modification Functions</h2>
 
 <p>Thanks to less.js for some of the basics here <br />
