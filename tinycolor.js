@@ -9,6 +9,7 @@ var trimLeft = /^[\s,#]+/,
     mathRound = math.round,
     mathMin = math.min,
     mathMax = math.max,
+    mathRandom = math.random,
     parseFloat = window.parseFloat;
 
 function tinycolor (color, opts) {
@@ -308,6 +309,13 @@ function rgbToHex(r, g, b) {
 // Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
     return tinycolor(color1).toHex() == tinycolor(color2).toHex();
+};
+tinycolor.random = function() {
+    return tinycolor({
+        r: mathRandom(),
+        g: mathRandom(),
+        b: mathRandom()
+    });
 };
 
 
