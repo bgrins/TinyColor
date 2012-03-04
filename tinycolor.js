@@ -14,19 +14,18 @@ var trimLeft = /^[\s,#]+/,
 
 function tinycolor (color, opts) {
     
-    // If input is already a tinycolor, return itself
-    if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
-       return color;
-    }
     
-    // If input is an object, force 1 into "1.0" to handle ratios properly
-    // String input requires "1.0" as input, so 1 will be treated as 1
-    if (typeof color == "object" && (!opts || !opts.skipRatio)) {
-        for (var i in color) {
-            if (color[i] === 1) {
-                color[i] = "1.0";
-            }
-        }
+    if (typeof color === "object") {
+        // If input is already a tinycolor, return itself
+        if (-1 < color._tc_id)  // avoids NaN, allows 0, smaller than hasOwnProperty
+            return color;
+            
+        // If input is an object, force 1 into "1.0" to handle ratios properly
+        // String input requires "1.0" as input, so 1 will be treated as 1    
+        if (!(opts && opts.skipRatio)) //!opts || !opts.skipRatio
+            for (var i in color)
+                if (color[i] === 1) 
+                    color[i] = "1.0";
     }
     
     var rgb = inputToRGB(color);
@@ -36,9 +35,9 @@ function tinycolor (color, opts) {
     // Potentially lose a little bit of precision here, but will fix issues where
     // .5 gets interpreted as half of the total, instead of half of 1  
     // If it was supposed to be 128, this was already taken care of by `inputToRgb`
-    if (r < 1) { r = mathRound(r); }
-    if (g < 1) { g = mathRound(g); }
-    if (b < 1) { b = mathRound(b); }
+    if (r < 1) r = mathRound(r);
+    if (g < 1) g = mathRound(g);
+    if (b < 1) b = mathRound(b);
     
     return {
         ok: rgb.ok,
@@ -51,7 +50,7 @@ function tinycolor (color, opts) {
         toHsvString: function() {
             var hsv = rgbToHsv(r, g, b);
             var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-            return (a == 1) ? 
+            return a === 1 ? 
               "hsv("  + h + ", " + s + "%, " + v + "%)" : 
               "hsva(" + h + ", " + s + "%, " + v + "%, "+ a + ")";
         },
@@ -62,7 +61,7 @@ function tinycolor (color, opts) {
         toHslString: function() {
             var hsl = rgbToHsl(r, g, b);
             var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
-            return (a == 1) ? 
+            return a === 1 ? 
               "hsl("  + h + ", " + s + "%, " + l + "%)" : 
               "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
         },
@@ -76,7 +75,7 @@ function tinycolor (color, opts) {
             return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
         },
         toRgbString: function() {
-            return (a == 1) ? 
+            return a === 1 ? 
               "rgb("  + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ")" :
               "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + a + ")";
         },
@@ -85,7 +84,7 @@ function tinycolor (color, opts) {
         },
         toFilter: function() {
             var hex = rgbToHex(r, g, b);
-            var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
+            var alphaHex = mathRound(parseFloat(a) * 255).toString(16);
             return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
                 alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";         
         }
@@ -112,26 +111,24 @@ function inputToRGB(color) {
     var a = 1;
     var ok = false;
     
-    if (typeof color == "string") {
+    if (typeof color === "string")
         color = stringInputToObject(color);
-    }
-    if (typeof color == "object") {
-        if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
+  
+    if (typeof color === "object") {
+        if (-1 < color.r && -1 < color.g && -1 < color.b) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
         }
-        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+        else if (-1 < color.h && -1 < color.s && -1 < color.v) {
             rgb = hsvToRgb(color.h, color.s, color.v);
             ok = true;
         }
-        else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
-            var rgb = hslToRgb(color.h, color.s, color.l);
+        else if (-1 < color.h && -1 < color.s && -1 <color.l) {
+            rgb = hslToRgb(color.h, color.s, color.l);
             ok = true;
         }
         
-        if (color.hasOwnProperty("a")) {
-            a = color.a;
-        }
+        if (-1 < color.a) a = color.a;
     }
     
     return {
@@ -177,9 +174,7 @@ function rgbToHsl(r, g, b) {
     var max = mathMax(r, g, b), min = mathMin(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if(max == min) {
-        h = s = 0; // achromatic
-    }
+    if(max === min) h = s = 0; // achromatic
     else {
         var d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -215,9 +210,7 @@ function hslToRgb(h, s, l) {
         return p;
     }
     
-    if(s == 0) {
-        r = g = b = l; // achromatic
-    }
+    if(s === 0) r = g = b = l; // achromatic
     else {
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
         var p = 2 * l - q;
@@ -243,11 +236,9 @@ function rgbToHsv(r, g, b) {
     var h, s, v = max;
 
     var d = max - min;
-    s = max == 0 ? 0 : d / max;
+    s = max === 0 ? 0 : d / max;
 
-    if(max == min) {
-        h = 0; // achromatic
-    }
+    if(max === min) h = 0; // achromatic
     else {
         switch(max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
@@ -264,8 +255,7 @@ function rgbToHsv(r, g, b) {
 // *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
 // *Returns:* { r, g, b } in the set [0, 255]
  function hsvToRgb(h, s, v) {
-    var r, g, b;
-    
+
     h = bound01(h, 360) * 6;
     s = bound01(s, 100);
     v = bound01(v, 100);
@@ -288,9 +278,8 @@ function rgbToHsv(r, g, b) {
 // Assumes r, g, and b are contained in the set [0, 255]  
 // Returns a 3 or 6 character hex  
 function rgbToHex(r, g, b) {
-    function pad(c) {
-        return c.length == 1 ? '0' + c : '' + c;
-    }
+    function pad(c) { return c.length === 1 ? '0' + c : '' + c; }
+    
     var hex = [ 
         pad(mathRound(r).toString(16)),
         pad(mathRound(g).toString(16)),
@@ -298,17 +287,16 @@ function rgbToHex(r, g, b) {
     ];
     
     // Return a 3 character hex if possible
-    if (hex[0][0] == hex[0][1] && hex[1][0] == hex[1][1] && hex[2][0] == hex[2][1]) {
+    if (hex[0][0] === hex[0][1] && hex[1][0] === hex[1][1] && hex[2][0] === hex[2][1])
         return hex[0][0] + hex[1][0] + hex[2][0];
-    }
     
-    return hex.join("");
+    return hex.join('');
 }
 
 // `equals`  
 // Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
-    return tinycolor(color1).toHex() == tinycolor(color2).toHex();
+    return tinycolor(color1).toHex() === tinycolor(color2).toHex();
 };
 tinycolor.random = function() {
     return tinycolor({
@@ -396,9 +384,9 @@ tinycolor.analogous = function(color, results, slices) {
     results = results || 6;
     slices = slices || 30;
     
-    var hsl = tinycolor(color).toHsl();
-    var part = 360 / slices
-    var ret = [tinycolor(color)];
+    var hsl = tinycolor(color).toHsl(),
+        part = 360 / slices,
+        ret = [tinycolor(color)];
     
     hsl.h *= 360;
 
@@ -594,11 +582,9 @@ var hexNames = tinycolor.hexNames = flip(names);
 // `{ 'name1': 'val1' }` becomes `{ 'val1': 'name1' }`
 function flip(o) {
     var flipped = { };
-    for (var i in o) {
-        if (o.hasOwnProperty(i)) {
+    for (var i in o) 
+        if (o.hasOwnProperty(i)) 
             flipped[o[i]] = i;
-        }
-    }
     return flipped;
 }
 
@@ -610,17 +596,13 @@ function bound01(n, max) {
     n = mathMin(max, mathMax(0, parseFloat(n)));
     
     // Automatically convert percentage into number
-    if (processPercent) {
+    if (processPercent)
         n = n * (max / 100);
-    }
     
     // Handle floating point rounding errors
-    if ((math.abs(n - max) < 0.000001)) {
-        return 1;
-    }
-    else if (n >= 1) {
+    if ((math.abs(n - max) < 0.000001)) return 1;
+    else if (n >= 1) 
         return (n % max) / parseFloat(max);
-    }
     return n;
 }
 
@@ -637,12 +619,12 @@ function parseHex(val) {
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 function isOnePointZero(n) {
-    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
+    return typeof n === "string" && n.indexOf('.') !== -1 && parseFloat(n) === 1;
 }
 
 // Check to see if string passed in is a percentage
 function isPercentage(n) {
-    return typeof n === "string" && n.indexOf('%') != -1;
+    return typeof n === "string" && n.indexOf('%') !== -1;
 }
 
 var matchers = (function() {
@@ -679,47 +661,43 @@ var matchers = (function() {
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
-    if (names[color]) {
-        color = names[color];
-    }
-    if (color == 'transparent') { 
+    if (names[color]) color = names[color];
+    if (color === 'transparent')
         return { r: 0, g: 0, b: 0, a: 0 }; 
-    }
     
     // Try to match string input using regular expressions.  
     // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]  
     // Just return an object and let the conversion functions handle that.  
     // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
-    if ((match = matchers.rgb.exec(color))) {
+    if ((match = matchers.rgb.exec(color))) 
         return { r: match[1], g: match[2], b: match[3] };
-    }
-    if ((match = matchers.rgba.exec(color))) {
+        
+    if ((match = matchers.rgba.exec(color)))
         return { r: match[1], g: match[2], b: match[3], a: match[4] };
-    }
-    if ((match = matchers.hsl.exec(color))) {
+        
+    if ((match = matchers.hsl.exec(color)))
         return { h: match[1], s: match[2], l: match[3] };
-    }
-    if ((match = matchers.hsla.exec(color))) {
+        
+    if ((match = matchers.hsla.exec(color)))
         return { h: match[1], s: match[2], l: match[3], a: match[4] };
-    }
-    if ((match = matchers.hsv.exec(color))) {
+        
+    if ((match = matchers.hsv.exec(color))) 
         return { h: match[1], s: match[2], v: match[3] };
-    }
-    if ((match = matchers.hex6.exec(color))) {
+        
+    if ((match = matchers.hex6.exec(color)))
         return {
             r: parseHex(match[1]),
             g: parseHex(match[2]),
             b: parseHex(match[3])
         };
-    }
-    if ((match = matchers.hex3.exec(color))) {
+        
+    if ((match = matchers.hex3.exec(color)))
         return {
             r: parseHex(match[1] + '' + match[1]),
             g: parseHex(match[2] + '' + match[2]),
             b: parseHex(match[3] + '' + match[3])
         };
-    }
     
     return false;
 }
