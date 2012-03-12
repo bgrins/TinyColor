@@ -30,7 +30,7 @@ function tinycolor (color, opts) {
     }
     
     var rgb = inputToRGB(color);
-    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
+    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a), format = rgb.format;
     
     // Don't let the range of [0,255] come back in [0,1].  
     // Potentially lose a little bit of precision here, but will fix issues where
@@ -42,7 +42,7 @@ function tinycolor (color, opts) {
     
     return {
         ok: rgb.ok,
-        format: rgb.format,
+        format: format,
         _tc_id: tinyCounter++,
         alpha: a,
         toHsv: function() {
@@ -89,6 +89,27 @@ function tinycolor (color, opts) {
             var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
             return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
                 alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";         
+        },
+        toString: function(format) {
+            format = format || this.format;
+            var formattedString = false;
+            if (format === "rgb") {
+                formattedString = this.toRgbString();
+            }
+            if (format === "hex") {
+                formattedString = this.toHexString();
+            }
+            if (format === "name") {
+                formattedString = this.toName();
+            }
+            if (format === "hsl") {
+                formattedString = this.toHslString();
+            }
+            if (format === "hsv") {
+                formattedString = this.toHsvString();
+            }
+            
+            return formattedString || this.toHexString();
         }
     };
 }
