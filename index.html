@@ -18,7 +18,8 @@
 				"rgb:\t" + tiny.toRgbString(),
 				"hsl:\t" + tiny.toHslString(),
 				"hsv:\t" + tiny.toHsvString(),
-				"name:\t" + (tiny.toName() || "none")
+				"name:\t" + (tiny.toName() || "none"),
+				"format:\t" + (tiny.format)
 			].join("\n");
 			
 			$("#code-output").text(output).css("border-color", tiny.toHexString());

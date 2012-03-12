@@ -42,6 +42,7 @@ function tinycolor (color, opts) {
     
     return {
         ok: rgb.ok,
+        format: rgb.format,
         _tc_id: tinyCounter++,
         alpha: a,
         toHsv: function() {
@@ -111,22 +112,27 @@ function inputToRGB(color) {
     var rgb = { r: 255, g: 255, b: 255 };
     var a = 1;
     var ok = false;
+    var format = false;
     
     if (typeof color == "string") {
         color = stringInputToObject(color);
     }
+    
     if (typeof color == "object") {
         if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
+            format = "rgb";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
             rgb = hsvToRgb(color.h, color.s, color.v);
             ok = true;
+            format = "hsv";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
             var rgb = hslToRgb(color.h, color.s, color.l);
             ok = true;
+            format = "hsl";
         }
         
         if (color.hasOwnProperty("a")) {
@@ -136,6 +142,7 @@ function inputToRGB(color) {
     
     return {
         ok: ok,
+        format: color.format || format,
         r: mathMin(255, mathMax(rgb.r, 0)),
         g: mathMin(255, mathMax(rgb.g, 0)),
         b: mathMin(255, mathMax(rgb.b, 0)),
@@ -679,10 +686,12 @@ var matchers = (function() {
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
+    var named = false;
     if (names[color]) {
         color = names[color];
+        named = true;
     }
-    if (color == 'transparent') { 
+    else if (color == 'transparent') { 
         return { r: 0, g: 0, b: 0, a: 0 }; 
     }
     
@@ -710,14 +719,16 @@ function stringInputToObject(color) {
         return {
             r: parseHex(match[1]),
             g: parseHex(match[2]),
-            b: parseHex(match[3])
+            b: parseHex(match[3]),
+            format: named ? "name" : "hex"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
         return {
             r: parseHex(match[1] + '' + match[1]),
             g: parseHex(match[2] + '' + match[2]),
-            b: parseHex(match[3] + '' + match[3])
+            b: parseHex(match[3] + '' + match[3]),
+            format: named ? "name" : "hex"
         };
     }
     
