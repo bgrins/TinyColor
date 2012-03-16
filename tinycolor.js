@@ -444,10 +444,11 @@ tinycolor.monochromatic = function(color, results) {
     var hsv = tinycolor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
+    var modification = 1 / results;
         
     while (results--) {
         ret.push(tinycolor({ h: h, s: s, v: v}));
-        v = (v + .2) % 1;
+        v = (v + modification) % 1;
     }
     
     return ret;
