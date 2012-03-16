@@ -336,6 +336,9 @@ function rgbToHex(r, g, b) {
 // `equals`  
 // Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
+    if (!color1 || !color2) {
+        return false; 
+    }
     return tinycolor(color1).toHex() == tinycolor(color2).toHex();
 };
 tinycolor.random = function() {
