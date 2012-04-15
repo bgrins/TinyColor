@@ -19,19 +19,6 @@ function tinycolor (color, opts) {
        return color;
     }
     
-    // If input is an object, force 1 into "1.0" to handle ratios properly
-    // String input requires "1.0" as input, so 1 will be treated as 1
-    if (typeof color == "object" && (!opts || !opts.skipRatio)) {
-    	var newColor = {};
-        for (var i in color) {
-        	newColor[i] = color[i];
-            if (color[i] === 1) {
-                newColor[i] = "1.0";
-            }
-        }
-        color = newColor;
-    }
-    
     var rgb = inputToRGB(color);
     var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a), format = rgb.format;
     
@@ -115,6 +102,23 @@ function tinycolor (color, opts) {
             return formattedString || this.toHexString();
         }
     };
+}
+
+// If input is an object, force 1 into "1.0" to handle ratios properly
+// String input requires "1.0" as input, so 1 will be treated as 1
+tinycolor.fromRatio = function(color) {
+    if (typeof color == "object") {
+    	var newColor = {};
+        for (var i in color) {
+        	newColor[i] = color[i];
+            if (color[i] <= 1) {
+                newColor[i] = (color[i] * 100) + "%";
+            }
+        }
+        color = newColor;
+    }
+
+    return tinycolor(color);
 }
 
 // Given a string or object, convert that input to RGB
@@ -653,7 +657,7 @@ function bound01(n, max) {
     if ((math.abs(n - max) < 0.000001)) {
         return 1;
     }
-    else if (n >= 1) {
+    else {
         return (n % max) / parseFloat(max);
     }
     return n;
