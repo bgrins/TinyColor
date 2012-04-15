@@ -22,11 +22,14 @@ function tinycolor (color, opts) {
     // If input is an object, force 1 into "1.0" to handle ratios properly
     // String input requires "1.0" as input, so 1 will be treated as 1
     if (typeof color == "object" && (!opts || !opts.skipRatio)) {
+    	var newColor = {};
         for (var i in color) {
+        	newColor[i] = color[i];
             if (color[i] === 1) {
-                color[i] = "1.0";
+                newColor[i] = "1.0";
             }
         }
+        color = newColor;
     }
     
     var rgb = inputToRGB(color);
