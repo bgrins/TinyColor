@@ -651,17 +651,16 @@ function bound01(n, max) {
     
     // Automatically convert percentage into number
     if (processPercent) {
-        n = n * (max / 100);
+        n = parseInt(n * max) / 100;
     }
     
     // Handle floating point rounding errors
     if ((math.abs(n - max) < 0.000001)) {
         return 1;
     }
-    else {
-        return (n % max) / parseFloat(max);
-    }
-    return n;
+    
+    // Convert into [0, 1] range if it isn't already
+    return (n % max) / parseFloat(max);
 }
 
 // Force a number between 0 and 1
