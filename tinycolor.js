@@ -110,10 +110,7 @@ tinycolor.fromRatio = function(color) {
     if (typeof color == "object") {
     	var newColor = {};
         for (var i in color) {
-        	newColor[i] = color[i];
-            if (color[i] <= 1) {
-                newColor[i] = (color[i] * 100) + "%";
-            }
+        	newColor[i] = convertToPercentage(color[i]);
         }
         color = newColor;
     }
@@ -153,11 +150,15 @@ function inputToRGB(color) {
             format = "rgb";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+            color.s = convertToPercentage(color.s);
+            color.v = convertToPercentage(color.v);
             rgb = hsvToRgb(color.h, color.s, color.v);
             ok = true;
             format = "hsv";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
+            color.s = convertToPercentage(color.s);
+            color.l = convertToPercentage(color.l);
             var rgb = hslToRgb(color.h, color.s, color.l);
             ok = true;
             format = "hsl";
@@ -682,6 +683,15 @@ function isOnePointZero(n) {
 // Check to see if string passed in is a percentage
 function isPercentage(n) {
     return typeof n === "string" && n.indexOf('%') != -1;
+}
+
+// Replace a decimal with it's percentage value
+function convertToPercentage(n) {
+    if (n <= 1) {
+        n = (n * 100) + "%";
+    }
+    
+    return n;
 }
 
 var matchers = (function() {
