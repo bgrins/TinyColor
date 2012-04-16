@@ -350,7 +350,7 @@ tinycolor.equals = function(color1, color2) {
     return tinycolor(color1).toHex() == tinycolor(color2).toHex();
 };
 tinycolor.random = function() {
-    return tinycolor({
+    return tinycolor.fromRatio({
         r: mathRandom(),
         g: mathRandom(),
         b: mathRandom()
