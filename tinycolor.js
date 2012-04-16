@@ -9,6 +9,7 @@ var trimLeft = /^[\s,#]+/,
     mathRound = math.round,
     mathMin = math.min,
     mathMax = math.max,
+    mathRandom = math.random,
     parseFloat = window.parseFloat;
 
 function tinycolor (color, opts) {
@@ -18,18 +19,8 @@ function tinycolor (color, opts) {
        return color;
     }
     
-    // If input is an object, force 1 into "1.0" to handle ratios properly
-    // String input requires "1.0" as input, so 1 will be treated as 1
-    if (typeof color == "object" && (!opts || !opts.skipRatio)) {
-        for (var i in color) {
-            if (color[i] === 1) {
-                color[i] = "1.0";
-            }
-        }
-    }
-    
     var rgb = inputToRGB(color);
-    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a);
+    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a), format = rgb.format;
     
     // Don't let the range of [0,255] come back in [0,1].  
     // Potentially lose a little bit of precision here, but will fix issues where
@@ -41,6 +32,7 @@ function tinycolor (color, opts) {
     
     return {
         ok: rgb.ok,
+        format: format,
         _tc_id: tinyCounter++,
         alpha: a,
         toHsv: function() {
@@ -87,8 +79,43 @@ function tinycolor (color, opts) {
             var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
             return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
                 alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";         
+        },
+        toString: function(format) {
+            format = format || this.format;
+            var formattedString = false;
+            if (format === "rgb") {
+                formattedString = this.toRgbString();
+            }
+            if (format === "hex") {
+                formattedString = this.toHexString();
+            }
+            if (format === "name") {
+                formattedString = this.toName();
+            }
+            if (format === "hsl") {
+                formattedString = this.toHslString();
+            }
+            if (format === "hsv") {
+                formattedString = this.toHsvString();
+            }
+            
+            return formattedString || this.toHexString();
         }
     };
+}
+
+// If input is an object, force 1 into "1.0" to handle ratios properly
+// String input requires "1.0" as input, so 1 will be treated as 1
+tinycolor.fromRatio = function(color) {
+    if (typeof color == "object") {
+    	var newColor = {};
+        for (var i in color) {
+        	newColor[i] = convertToPercentage(color[i]);
+        }
+        color = newColor;
+    }
+
+    return tinycolor(color);
 }
 
 // Given a string or object, convert that input to RGB
@@ -110,22 +137,31 @@ function inputToRGB(color) {
     var rgb = { r: 255, g: 255, b: 255 };
     var a = 1;
     var ok = false;
+    var format = false;
     
     if (typeof color == "string") {
         color = stringInputToObject(color);
     }
+    
     if (typeof color == "object") {
         if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
+            format = "rgb";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
+            color.s = convertToPercentage(color.s);
+            color.v = convertToPercentage(color.v);
             rgb = hsvToRgb(color.h, color.s, color.v);
             ok = true;
+            format = "hsv";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
+            color.s = convertToPercentage(color.s);
+            color.l = convertToPercentage(color.l);
             var rgb = hslToRgb(color.h, color.s, color.l);
             ok = true;
+            format = "hsl";
         }
         
         if (color.hasOwnProperty("a")) {
@@ -135,6 +171,7 @@ function inputToRGB(color) {
     
     return {
         ok: ok,
+        format: color.format || format,
         r: mathMin(255, mathMax(rgb.r, 0)),
         g: mathMin(255, mathMax(rgb.g, 0)),
         b: mathMin(255, mathMax(rgb.b, 0)),
@@ -265,25 +302,20 @@ function rgbToHsv(r, g, b) {
  function hsvToRgb(h, s, v) {
     var r, g, b;
     
-    h = bound01(h, 360);
+    h = bound01(h, 360) * 6;
     s = bound01(s, 100);
     v = bound01(v, 100);
 
-    var i = math.floor(h * 6);
-    var f = h * 6 - i;
-    var p = v * (1 - s);
-    var q = v * (1 - f * s);
-    var t = v * (1 - (1 - f) * s);
-    
-    switch(i % 6) {
-        case 0: r = v, g = t, b = p; break;
-        case 1: r = q, g = v, b = p; break;
-        case 2: r = p, g = v, b = t; break;
-        case 3: r = p, g = q, b = v; break;
-        case 4: r = t, g = p, b = v; break;
-        case 5: r = v, g = p, b = q; break;
-    }
-    
+    var i = math.floor(h),
+        f = h - i,
+        p = v * (1 - s),
+        q = v * (1 - f * s),
+        t = v * (1 - (1 - f) * s),
+        mod = i % 6,
+        r = [v, q, p, p, t, v][mod],
+        g = [t, v, v, q, p, p][mod],
+        b = [p, p, t, v, v, q][mod];
+        
     return { r: r * 255, g: g * 255, b: b * 255 };
 }
 
@@ -312,7 +344,17 @@ function rgbToHex(r, g, b) {
 // `equals`  
 // Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
+    if (!color1 || !color2) {
+        return false; 
+    }
     return tinycolor(color1).toHex() == tinycolor(color2).toHex();
+};
+tinycolor.random = function() {
+    return tinycolor.fromRatio({
+        r: mathRandom(),
+        g: mathRandom(),
+        b: mathRandom()
+    });
 };
 
 
@@ -410,10 +452,11 @@ tinycolor.monochromatic = function(color, results) {
     var hsv = tinycolor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
+    var modification = 1 / results;
         
     while (results--) {
         ret.push(tinycolor({ h: h, s: s, v: v}));
-        v = (v + .2) % 1;
+        v = (v + modification) % 1;
     }
     
     return ret;
@@ -608,17 +651,16 @@ function bound01(n, max) {
     
     // Automatically convert percentage into number
     if (processPercent) {
-        n = n * (max / 100);
+        n = parseInt(n * max) / 100;
     }
     
     // Handle floating point rounding errors
     if ((math.abs(n - max) < 0.000001)) {
         return 1;
     }
-    else if (n >= 1) {
-        return (n % max) / parseFloat(max);
-    }
-    return n;
+    
+    // Convert into [0, 1] range if it isn't already
+    return (n % max) / parseFloat(max);
 }
 
 // Force a number between 0 and 1
@@ -640,6 +682,15 @@ function isOnePointZero(n) {
 // Check to see if string passed in is a percentage
 function isPercentage(n) {
     return typeof n === "string" && n.indexOf('%') != -1;
+}
+
+// Replace a decimal with it's percentage value
+function convertToPercentage(n) {
+    if (n <= 1) {
+        n = (n * 100) + "%";
+    }
+    
+    return n;
 }
 
 var matchers = (function() {
@@ -676,10 +727,12 @@ var matchers = (function() {
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft,'').replace(trimRight, '').toLowerCase();
+    var named = false;
     if (names[color]) {
         color = names[color];
+        named = true;
     }
-    if (color == 'transparent') { 
+    else if (color == 'transparent') { 
         return { r: 0, g: 0, b: 0, a: 0 }; 
     }
     
@@ -707,14 +760,16 @@ function stringInputToObject(color) {
         return {
             r: parseHex(match[1]),
             g: parseHex(match[2]),
-            b: parseHex(match[3])
+            b: parseHex(match[3]),
+            format: named ? "name" : "hex"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
         return {
             r: parseHex(match[1] + '' + match[1]),
             g: parseHex(match[2] + '' + match[2]),
-            b: parseHex(match[3] + '' + match[3])
+            b: parseHex(match[3] + '' + match[3]),
+            format: named ? "name" : "hex"
         };
     }
     
