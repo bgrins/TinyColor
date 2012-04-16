@@ -14,16 +14,16 @@
     tinycolor("rgba (255, 0, 0, .5)");
     tinycolor({ r: 255, g: 0, b: 0 });
 ** HSL, HSLA
-    tinycolor("hsl(0, 100, 50)");
-    tinycolor("hsla(0, 100, 50, .5)");
     tinycolor("hsl(0, 100%, 50%)");
-    tinycolor("hsl 0 100 50");
-    tinycolor({ h: 0, s: 100, l: 50 }");
+    tinycolor("hsla(0, 100%, 50%, .5)");
+    tinycolor("hsl(0, 100%, 50%)");
+    tinycolor("hsl 0 1.0 0.5");
+    tinycolor({ h: 0, s: 1, l: .5 }");
 ** HSV, HSVA
-    tinycolor("hsv(0, 100, 100)");
-    tinycolor("hsva(0, 100, 100, .5)");
+    tinycolor("hsv(0, 100%, 100%)");
+    tinycolor("hsva(0, 100%, 100%, .5)");
     tinycolor("hsv (0 100% 100%)");
-    tinycolor("hsv 0 100 100");
+    tinycolor("hsv 0 1 1");
     tinycolor({ h: 0, s: 100, v: 100 }");
 ** Named
     tinycolor("RED");
@@ -48,7 +48,10 @@ The uncompressed size is:
 	t.toName() // "red"
 	
 ### Accepted String Input
-The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value). Here are some examples of string input:
+The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value). 
+
+HSL and HSV both require either 0%-100% or 0-1.  RGB requires either 0-255 or 0%-100%.  If you call tinycolor.fromRatio, any input can also accept 0-1
+Here are some examples of string input:
 
     red
     #fff
