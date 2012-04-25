@@ -20,7 +20,12 @@ function tinycolor (color, opts) {
     }
     
     var rgb = inputToRGB(color);
-    var r = rgb.r, g = rgb.g, b = rgb.b, a = parseFloat(rgb.a), format = rgb.format;
+    var r = rgb.r,
+        g = rgb.g,
+        b = rgb.b,
+        a = parseFloat(rgb.a),
+        roundA = mathRound(100*a) / 100,
+        format = rgb.format;
     
     // Don't let the range of [0,255] come back in [0,1].  
     // Potentially lose a little bit of precision here, but will fix issues where
@@ -44,7 +49,7 @@ function tinycolor (color, opts) {
             var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
             return (a == 1) ? 
               "hsv("  + h + ", " + s + "%, " + v + "%)" : 
-              "hsva(" + h + ", " + s + "%, " + v + "%, "+ a + ")";
+              "hsva(" + h + ", " + s + "%, " + v + "%, "+ roundA + ")";
         },
         toHsl: function() {
             var hsl = rgbToHsl(r, g, b);
@@ -55,7 +60,7 @@ function tinycolor (color, opts) {
             var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
             return (a == 1) ? 
               "hsl("  + h + ", " + s + "%, " + l + "%)" : 
-              "hsla(" + h + ", " + s + "%, " + l + "%, "+ a + ")";
+              "hsla(" + h + ", " + s + "%, " + l + "%, "+ roundA + ")";
         },
         toHex: function() {
             return rgbToHex(r, g, b);
@@ -69,7 +74,7 @@ function tinycolor (color, opts) {
         toRgbString: function() {
             return (a == 1) ? 
               "rgb("  + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ")" :
-              "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + a + ")";
+              "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + roundA + ")";
         },
         toName: function() {
             return hexNames[rgbToHex(r, g, b)] || false;
