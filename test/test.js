@@ -59,7 +59,7 @@ test("With Ratio", function() {
 });
 
 test("Without Ratio", function() {
-	equal (tinycolor({r: 1, g: 1, b: 1}, {skipRatio: true}).toHexString(), "#010101", "010101");
+	equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#010101", "010101");
 });
 
 module("String Parsing");
@@ -256,6 +256,40 @@ test("Named colors", function() {
 	equal (tinycolor("yellow").toHex(), "ff0");
 	equal (tinycolor("yellowgreen").toHex(), "9acd32");
 });
+
+
+module("Initialization from output");
+test("HSL Object", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toHsl()).toHexString(), "HSL Object");
+});
+/*
+test("HSL String", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toHslString()).toHexString(), random.toHexString());
+});
+test("HSV String", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toHsvString()).toHexString(), random.toHsvString());
+});
+*/
+test("HSV Object", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toHsv()).toHexString(), "HSV Object");
+});
+test("RGB Object", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toRgb()).toHexString(), "HSL");
+});
+test("RGB String", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random.toRgbString()).toHexString(), "HSL");
+});
+test("Object", function() {
+    var random = tinycolor.random();
+	equal (random.toHexString(), tinycolor(random).toHexString(), "Object");
+});
+
 
 module("Utilities");
 

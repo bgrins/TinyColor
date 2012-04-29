@@ -42,7 +42,7 @@ function tinycolor (color, opts) {
         alpha: a,
         toHsv: function() {
             var hsv = rgbToHsv(r, g, b);
-            return { h: hsv.h, s: hsv.s, v: hsv.v, a: a };
+            return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: a };
         },
         toHsvString: function() {
             var hsv = rgbToHsv(r, g, b);
@@ -53,7 +53,7 @@ function tinycolor (color, opts) {
         },
         toHsl: function() {
             var hsl = rgbToHsl(r, g, b);
-            return { h: hsl.h, s: hsl.s, l: hsl.l, a: a };
+            return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: a };
         },
         toHslString: function() {
             var hsl = rgbToHsl(r, g, b);
@@ -398,7 +398,7 @@ tinycolor.darken = function (color, amount) {
 };
 tinycolor.complement = function(color) {
     var hsl = tinycolor(color).toHsl();
-    hsl.h = (hsl.h + .5) % 1;
+    hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
 
@@ -410,7 +410,7 @@ tinycolor.complement = function(color) {
 
 tinycolor.triad = function(color) {
     var hsl = tinycolor(color).toHsl();
-    var h = hsl.h * 360;
+    var h = hsl.h;
     return [
         tinycolor(color),
         tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
@@ -419,7 +419,7 @@ tinycolor.triad = function(color) {
 };
 tinycolor.tetrad = function(color) {
     var hsl = tinycolor(color).toHsl();
-    var h = hsl.h * 360;
+    var h = hsl.h;
     return [
         tinycolor(color),
         tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
@@ -429,7 +429,7 @@ tinycolor.tetrad = function(color) {
 };
 tinycolor.splitcomplement = function(color) {
     var hsl = tinycolor(color).toHsl();
-    var h = hsl.h * 360;
+    var h = hsl.h;
     return [
         tinycolor(color),
         tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
@@ -443,8 +443,6 @@ tinycolor.analogous = function(color, results, slices) {
     var hsl = tinycolor(color).toHsl();
     var part = 360 / slices
     var ret = [tinycolor(color)];
-    
-    hsl.h *= 360;
 
     for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
         hsl.h = (hsl.h + part) % 360;
