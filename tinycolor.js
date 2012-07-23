@@ -780,7 +780,7 @@ function stringInputToObject(color) {
 }
 
 // Node: Export function
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
     module.exports = tinycolor;
 }
 // Browser: Expose to window
