@@ -3,10 +3,10 @@
   "description"   : "Fast Color Parsing and Manipulation",
   "url"           : "http://bgrins.github.com/TinyColor/",
   "keywords"      : ["color", "parser", "tinycolor"],
-  "author"        : "Brian Grinstead <briangrinstead@gmail.com>",
+  "author"        : "Brian Grinstead",
   "contributors"  : [],
   "version"       : "0.1",
   "main"          : "./tinycolor",
   "directories"   : { },
-  "engines"       : { "node": ">=0.4.0" }
+  "engines"       : { "node": "*" }
 }
