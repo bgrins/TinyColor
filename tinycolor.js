@@ -1,6 +1,6 @@
 // TinyColor.js - <https://github.com/bgrins/TinyColor> - 2011 Brian Grinstead - v0.5
 
-(function(window) {
+(function(root) {
 
 var trimLeft = /^[\s,#]+/, 
     trimRight = /\s+$/,
@@ -9,8 +9,8 @@ var trimLeft = /^[\s,#]+/,
     mathRound = math.round,
     mathMin = math.min,
     mathMax = math.max,
-    mathRandom = math.random,
-    parseFloat = window.parseFloat;
+    mathRandom = math.random;
+    // parseFloat redeclaration caused errors in Node
 
 function tinycolor (color, opts) {
     
@@ -779,7 +779,13 @@ function stringInputToObject(color) {
     return false;
 }
 
-// Everything is ready, expose to window
-window.tinycolor = tinycolor;
+// Node: Export function
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = tinycolor;
+}
+// Browser: Expose to window
+else {
+    root.tinycolor = tinycolor;
+}
 
 })(this);
