@@ -1,12 +1,16 @@
 {
+  "version":        "0.9.9",
   "name"          : "tinycolor",
   "description"   : "Fast Color Parsing and Manipulation",
-  "url"           : "http://bgrins.github.com/TinyColor/",
+  "url"           : "http://bgrins.github.com/TinyColor",
+  "repository": {
+    "type": "git",
+    "url": "https://bgrins.github.com/TinyColor"
+  },
   "keywords"      : ["color", "parser", "tinycolor"],
   "author"        : "Brian Grinstead",
   "contributors"  : [],
-  "version"       : "0.1",
-  "main"          : "./tinycolor",
+  "main"          : "./tinycolor.js",
   "directories"   : { },
   "engines"       : { "node": "*" }
 }
