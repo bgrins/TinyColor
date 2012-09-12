@@ -38,10 +38,10 @@
 
         The minified size is:
         The uncompressed size is:
- 
+
 ### Usage
     var t = tinycolor("red");
-    
+
 	t.toHex() // "ff0000"
 	t.toHexString() // "#ff0000"
 	t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
@@ -54,10 +54,14 @@
 
 `tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
 
+    npm install tinycolor2
+
+Then it can be used:
+
     var tinycolor = require("./tinycolor");
-	
+
 ### Accepted String Input
-The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value). 
+The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
 
 HSL and HSV both require either 0%-100% or 0-1.  RGB requires either 0-255 or 0%-100%.  If you call tinycolor.fromRatio, any input can also accept 0-1
 Here are some examples of string input:
@@ -77,7 +81,7 @@ Here are some examples of string input:
     hsv(0, 100, 100)
     hsv 0 100% 100%
     hsv 0 100 100
-    
+
 ### Accepted Object Input
 If you are calling this from code, you may want to use object input.  Here are examples of the different types of accepted object inputs:
 
