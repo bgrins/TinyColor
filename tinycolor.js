@@ -82,10 +82,17 @@ function tinycolor (color, opts) {
             return hexNames[rgbToHex(r, g, b)] || false;
         },
         toFilter: function() {
-            var hex = rgbToHex(r, g, b);
-            var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
-            return "progid:DXImageTransform.Microsoft.gradient(startColorstr=#" +
-                alphaHex + hex + ",endColorstr=#" + alphaHex + hex + ")";
+            var hex = secondHex = rgbToHex(r, g, b);
+            var alphaHex = secondAlphaHex = Math.round(parseFloat(a) * 255).toString(16);
+            var gradientType = opts && opts.gradientType ? "GradientType = 1, " : "";
+
+            if (secondColor) {
+                var s = tinycolor(secondColor);
+                secondHex = s.toHex();
+                secondAlphaHex = Math.round(parseFloat(s.alpha) * 255).toString(16);
+            }
+
+            return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr=#" + pad2(alphaHex) + hex + ",endColorstr=#" + pad2(secondAlphaHex) + secondHex + ")";
         },
         toString: function(format) {
             format = format || this.format;
@@ -331,13 +338,10 @@ function rgbToHsv(r, g, b) {
 // Assumes r, g, and b are contained in the set [0, 255]
 // Returns a 3 or 6 character hex
 function rgbToHex(r, g, b) {
-    function pad(c) {
-        return c.length == 1 ? '0' + c : '' + c;
-    }
     var hex = [
-        pad(mathRound(r).toString(16)),
-        pad(mathRound(g).toString(16)),
-        pad(mathRound(b).toString(16))
+        pad2(mathRound(r).toString(16)),
+        pad2(mathRound(g).toString(16)),
+        pad2(mathRound(b).toString(16))
     ];
 
     // Return a 3 character hex if possible
@@ -685,6 +689,11 @@ function isOnePointZero(n) {
 // Check to see if string passed in is a percentage
 function isPercentage(n) {
     return typeof n === "string" && n.indexOf('%') != -1;
+}
+
+// Force a hex value to have 2 characters
+function pad2(c) {
+    return c.length == 1 ? '0' + c : '' + c;
 }
 
 // Replace a decimal with it's percentage value
