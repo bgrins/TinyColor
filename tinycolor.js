@@ -115,9 +115,9 @@ function tinycolor (color, opts) {
 // String input requires "1.0" as input, so 1 will be treated as 1
 tinycolor.fromRatio = function(color) {
     if (typeof color == "object") {
-    	var newColor = {};
+        var newColor = {};
         for (var i in color) {
-        	newColor[i] = convertToPercentage(color[i]);
+            newColor[i] = convertToPercentage(color[i]);
         }
         color = newColor;
     }
