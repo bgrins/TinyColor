@@ -14,6 +14,8 @@ var trimLeft = /^[\s,#]+/,
 
 function tinycolor (color, opts) {
     
+    color = (color) ? color : '';
+
     // If input is already a tinycolor, return itself
     if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
        return color;
