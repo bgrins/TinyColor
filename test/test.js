@@ -34,8 +34,8 @@ test("Color Equality", function() {
 	for (var i = 0; i < conversions.length; i++) {
 		var c =  conversions[i];
 		var tiny =  tinycolor(c.hex);
-		
-		ok (true, 
+
+		ok (true,
 			"Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
 			"Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) + " " + JSON.stringify(c.hsl)
 		);
@@ -43,13 +43,13 @@ test("Color Equality", function() {
 		ok (tinycolor.equals(c.rgb, c.hsl), "RGB equals HSL " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.hsv), "RGB equals HSV " + c.hex);
 		ok (tinycolor.equals(c.rgb, c.rgb), "RGB equals RGB " + c.hex);
-		
+
 		ok (tinycolor.equals(c.hex, c.hex), "hex equals hex " + c.hex);
 		ok (tinycolor.equals(c.hex, c.hsl), "hex equals HSL " + c.hex);
 		ok (tinycolor.equals(c.hex, c.hsv), "hex equals HSV " + c.hex);
-		
+
 		ok (tinycolor.equals(c.hsl, c.hsv), "HSL equals HSV " + c.hex);
-		
+
 	}
 });
 
@@ -78,16 +78,16 @@ test("RGB Text Parsing", function() {
 	ok (tinycolor.equals({r:200, g: 100, b: 0 }, "rgb 200 100 0"));
 	ok (tinycolor.equals({r:200, g: 100, b: 0, a: .4 }, "rgba 200 100 0 .4"));
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgba 200 100 0 1"));
-	
+
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb(200, 100, 0)"));
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb 200 100 0"));
 	ok (!tinycolor.equals({r:199, g: 100, b: 0 }, "rgb 200 100 0"));
-	
-	
+
+
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb(200, 100, 0)"));
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
-	
+
 });
 
 test("HSL parsing", function() {
@@ -295,6 +295,8 @@ module("Utilities");
 
 test("Color equality", function() {
 	ok (tinycolor.equals("#ff0000", "#ff0000"), "Same hex");
+	ok (tinycolor.equals("#ff0000", "rgb(255, 0, 0)"), "Same alphas");
+	ok (!tinycolor.equals("#ff0000", "rgba(255, 0, 0, .1)"), "Different alphas");
 	ok (tinycolor.equals("ff0000", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("#f00", "#ff0000"), "Same hex");
 	ok (tinycolor.equals("f00", "#ff0000"), "Same hex");

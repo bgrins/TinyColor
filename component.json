@@ -1,0 +1,8 @@
+{
+  "name": "tinycolor",
+  "version": "0.9.9",
+  "main": ["./tinycolor.js"],
+  "dependencies": {
+
+  }
+}
