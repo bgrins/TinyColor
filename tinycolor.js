@@ -1,4 +1,4 @@
-// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2011 Brian Grinstead - v0.5
+// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2012 Brian Grinstead - v0.9.10
 
 (function(root) {
 
@@ -78,6 +78,14 @@ function tinycolor (color, opts) {
               "rgb("  + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ")" :
               "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + roundA + ")";
         },
+        toPercentageRgb: function() {
+            return { r: mathRound(bound01(r, 255) * 100), g: mathRound(bound01(g, 255) * 100), b: mathRound(bound01(b, 255) * 100), a: a };
+        },
+        toPercentageRgbString: function() {
+            return (a == 1) ?
+              "rgb("  + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%)" :
+              "rgba(" + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%, " + roundA + ")";
+        },
         toName: function() {
             return hexNames[rgbToHex(r, g, b)] || false;
         },
@@ -99,6 +107,9 @@ function tinycolor (color, opts) {
             var formattedString = false;
             if (format === "rgb") {
                 formattedString = this.toRgbString();
+            }
+            if (format === "prgb") {
+                formattedString = this.toPercentageRgbString();
             }
             if (format === "hex") {
                 formattedString = this.toHexString();
@@ -161,7 +172,7 @@ function inputToRGB(color) {
         if (color.hasOwnProperty("r") && color.hasOwnProperty("g") && color.hasOwnProperty("b")) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
-            format = "rgb";
+            format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
         }
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("v")) {
             color.s = convertToPercentage(color.s);
