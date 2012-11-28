@@ -283,8 +283,22 @@ test("Named colors", function() {
 	equal (tinycolor("yellowgreen").toHex(), "9acd32");
 });
 
+module("Alpha handling");
+test("Invalid alpha should normalize to 1", function() {
+	equal(tinycolor({r:255,g:20,b:10,a: -1}).toRgbString(), "rgb(255, 20, 10)", "Negative value");
+	equal(tinycolor({r:255,g:20,b:10,a: -0}).toRgbString(), "rgba(255, 20, 10, 0)", "Negative 0");
+	equal(tinycolor({r:255,g:20,b:10,a: 0}).toRgbString(), "rgba(255, 20, 10, 0)", "0");
+	equal(tinycolor({r:255,g:20,b:10,a: .5}).toRgbString(), "rgba(255, 20, 10, 0.5)", ".5");
+	equal(tinycolor({r:255,g:20,b:10,a: 1}).toRgbString(), "rgb(255, 20, 10)", "1");
+	equal(tinycolor({r:255,g:20,b:10,a: 100}).toRgbString(), "rgb(255, 20, 10)", "Greater than 1");
+	equal(tinycolor({r:255,g:20,b:10,a: "asdfasd"}).toRgbString(), "rgb(255, 20, 10)",  "Non Numeric");
 
-module("Initialization from output");
+	equal(tinycolor("#fff").toRgbString(), "rgb(255, 255, 255)",  "Hex should be 1");
+	equal(tinycolor("rgba 255 0 0 100").toRgbString(), "rgb(255, 0, 0)",  "Greater than 1 in string parsing");
+
+});
+
+module("Initialization from tinycolor output");
 test("HSL Object", function() {
     var random = tinycolor.random();
 	equal (random.toHexString(), tinycolor(random.toHsl()).toHexString(), "HSL Object");
@@ -316,7 +330,7 @@ test("PRGB Object", function() {
     var input = random.toRgb();
     var output = tinycolor(random.toPercentageRgb()).toRgb();
 	var maxDiff = 2;
-    
+
     equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
     equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
     equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
@@ -326,7 +340,7 @@ test("PRGB String", function() {
     var input = random.toRgb();
     var output = tinycolor(random.toPercentageRgbString()).toRgb();
 	var maxDiff = 2;
-    
+
     equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
     equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
     equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
