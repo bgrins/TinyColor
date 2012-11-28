@@ -1,4 +1,4 @@
-// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2012 Brian Grinstead - v0.9.10
+// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2012 Brian Grinstead - v0.9.11
 
 (function(root) {
 
@@ -25,7 +25,7 @@ function tinycolor (color, opts) {
     var r = rgb.r,
         g = rgb.g,
         b = rgb.b,
-        a = parseFloat(rgb.a),
+        a = rgb.a,
         roundA = mathRound(100*a) / 100,
         format = rgb.format;
 
@@ -192,6 +192,13 @@ function inputToRGB(color) {
         if (color.hasOwnProperty("a")) {
             a = color.a;
         }
+    }
+
+    a = parseFloat(a);
+
+    // Handle invalid alpha characters by setting to 1
+    if (isNaN(a) || a < 0 || a > 1) {
+        a = 1;
     }
 
     return {
