@@ -79,7 +79,7 @@ function tinycolor (color, opts) {
               "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + roundA + ")";
         },
         toPercentageRgb: function() {
-            return { r: mathRound(bound01(r, 255) * 100), g: mathRound(bound01(g, 255) * 100), b: mathRound(bound01(b, 255) * 100), a: a };
+            return { r: mathRound(bound01(r, 255) * 100) + "%", g: mathRound(bound01(g, 255) * 100) + "%", b: mathRound(bound01(b, 255) * 100) + "%", a: a };
         },
         toPercentageRgbString: function() {
             return (a == 1) ?

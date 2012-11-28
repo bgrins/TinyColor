@@ -36,7 +36,7 @@ test("Color Equality", function() {
 		var tiny =  tinycolor(c.hex);
 
 		ok (true,
-			"Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
+			"Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toPercentageRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
 			"Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) + " " + JSON.stringify(c.hsl)
 		);
 		ok (tinycolor.equals(c.rgb, c.hex), "RGB equals hex " + c.hex);
@@ -87,6 +87,32 @@ test("RGB Text Parsing", function() {
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb(200, 100, 0)"));
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
 	ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
+
+});
+
+test("Percentage RGB Text Parsing", function() {
+
+	equal (tinycolor("rgb 100% 0% 0%").toHexString(), "#f00", "spaced input");
+	equal (tinycolor("rgb(100%, 0%, 0%)").toHexString(), "#f00", "parenthesized input");
+	equal (tinycolor("rgb (100%, 0%, 0%)").toHexString(), "#f00", "parenthesized spaced input");
+	equal (tinycolor({ r: "100%", g: "0%", b: "0%" }).toHexString(), "#f00", "object input");
+	deepEqual (tinycolor({ r: "100%", g: "0%", b: "0%" }).toRgb(), { r: 255, g: 0, b: 0, a: 1 }, "object input and compare");
+
+
+	ok (tinycolor.equals({r:"90%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)"));
+	ok (tinycolor.equals({r:"90%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
+	ok (tinycolor.equals({r:"90%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
+	ok (tinycolor.equals({r:"90%", g: "45%", b: "0%", a: .4 }, "rgba 90% 45% 0% .4"));
+	ok (!tinycolor.equals({r:"89%", g: "45%", b: "0%" }, "rgba 90% 45% 0% 1"));
+
+	ok (!tinycolor.equals({r:"89%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)"));
+	ok (!tinycolor.equals({r:"89%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
+	ok (!tinycolor.equals({r:"89%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
+
+
+	ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb(90%, 45%, 0%)"));
+	ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb 90% 45% 0%"));
+	ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb 90% 45% 0%"));
 
 });
 
@@ -279,11 +305,31 @@ test("HSV Object", function() {
 });
 test("RGB Object", function() {
     var random = tinycolor.random();
-	equal (random.toHexString(), tinycolor(random.toRgb()).toHexString(), "HSL");
+	equal (random.toHexString(), tinycolor(random.toRgb()).toHexString(), "RGB Object");
 });
 test("RGB String", function() {
     var random = tinycolor.random();
-	equal (random.toHexString(), tinycolor(random.toRgbString()).toHexString(), "HSL");
+	equal (random.toHexString(), tinycolor(random.toRgbString()).toHexString(), "RGB String");
+});
+test("PRGB Object", function() {
+    var random = tinycolor.random();
+    var input = random.toRgb();
+    var output = tinycolor(random.toPercentageRgb()).toRgb();
+	var maxDiff = 2;
+    
+    equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+    equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+    equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+});
+test("PRGB String", function() {
+    var random = tinycolor.random();
+    var input = random.toRgb();
+    var output = tinycolor(random.toPercentageRgbString()).toRgb();
+	var maxDiff = 2;
+    
+    equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+    equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+    equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
 });
 test("Object", function() {
     var random = tinycolor.random();
@@ -302,6 +348,7 @@ test("Color equality", function() {
 	ok (tinycolor.equals("f00", "#ff0000"), "Same hex");
 	equal (tinycolor("010101").toHexString(), "#010101");
 	ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
+	ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
 
 
