@@ -1,4 +1,6 @@
-// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2012 Brian Grinstead - v0.9.12
+// TinyColor v0.9.12
+// https://github.com/bgrins/TinyColor
+// 2012-11-28, Brian Grinstead, MIT License
 
 (function(root) {
 
