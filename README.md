@@ -42,15 +42,17 @@
 ### Usage
     var t = tinycolor("red");
 
-	t.toHex() // "ff0000"
-	t.toHexString() // "#ff0000"
-	t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
-	t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
+    t.toHex() // "ff0000"
+    t.toHexString() // "#ff0000"
+    t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
+    t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
+    t.toPercentageRgb() // {"r":100,"g":0,"b":0} or {"r":100,"g":0,"b":0,"a":0.5}
+    t.toPercentageRgbString() // "rgb(100%, 0%, 0%)" or "rgba(100%, 0%, 0%, 0.5)"
     t.toHsv() // {"h":0,"s":1,"v":1}
-	t.toHsvString() // "hsv(0, 100%, 100%)"
-	t.toHsl() // {"h":0,"s":1,"l":0.5}
-	t.toHslString() // "hsl(0, 100%, 50%)"
-	t.toName() // "red"
+    t.toHsvString() // "hsv(0, 100%, 100%)"
+    t.toHsl() // {"h":0,"s":1,"l":0.5}
+    t.toHslString() // "hsl(0, 100%, 50%)"
+    t.toName() // "red"
 
 `tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
 
