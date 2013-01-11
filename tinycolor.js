@@ -1,4 +1,4 @@
-// TinyColor v0.9.12
+// TinyColor v0.9.13
 // https://github.com/bgrins/TinyColor
 // 2012-11-28, Brian Grinstead, MIT License
 
@@ -365,8 +365,8 @@ function rgbToHex(r, g, b) {
     ];
 
     // Return a 3 character hex if possible
-    if (hex[0][0] == hex[0][1] && hex[1][0] == hex[1][1] && hex[2][0] == hex[2][1]) {
-        return hex[0][0] + hex[1][0] + hex[2][0];
+    if (hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
     }
 
     return hex.join("");
