@@ -1,4 +1,6 @@
-// TinyColor.js - <https://github.com/bgrins/TinyColor> - 2012 Brian Grinstead - v0.9.11
+// TinyColor v0.9.13
+// https://github.com/bgrins/TinyColor
+// 2012-11-28, Brian Grinstead, MIT License
 
 (function(root) {
 
@@ -10,7 +12,6 @@ var trimLeft = /^[\s,#]+/,
     mathMin = math.min,
     mathMax = math.max,
     mathRandom = math.random;
-    // parseFloat redeclaration caused errors in Node
 
 function tinycolor (color, opts) {
 
@@ -90,8 +91,10 @@ function tinycolor (color, opts) {
             return hexNames[rgbToHex(r, g, b)] || false;
         },
         toFilter: function() {
-            var hex = secondHex = rgbToHex(r, g, b);
-            var alphaHex = secondAlphaHex = Math.round(parseFloat(a) * 255).toString(16);
+            var hex = rgbToHex(r, g, b);
+            var secondHex = hex;
+            var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
+            var secondAlphaHex = alphaHex;
             var gradientType = opts && opts.gradientType ? "GradientType = 1, " : "";
 
             if (secondColor) {
@@ -141,7 +144,7 @@ tinycolor.fromRatio = function(color) {
     }
 
     return tinycolor(color);
-}
+};
 
 // Given a string or object, convert that input to RGB
 // Possible string inputs:
@@ -184,7 +187,7 @@ function inputToRGB(color) {
         else if (color.hasOwnProperty("h") && color.hasOwnProperty("s") && color.hasOwnProperty("l")) {
             color.s = convertToPercentage(color.s);
             color.l = convertToPercentage(color.l);
-            var rgb = hslToRgb(color.h, color.s, color.l);
+            rgb = hslToRgb(color.h, color.s, color.l);
             ok = true;
             format = "hsl";
         }
@@ -283,7 +286,7 @@ function hslToRgb(h, s, l) {
         return p;
     }
 
-    if(s == 0) {
+    if(s === 0) {
         r = g = b = l; // achromatic
     }
     else {
@@ -311,7 +314,7 @@ function rgbToHsv(r, g, b) {
     var h, s, v = max;
 
     var d = max - min;
-    s = max == 0 ? 0 : d / max;
+    s = max === 0 ? 0 : d / max;
 
     if(max == min) {
         h = 0; // achromatic
@@ -332,7 +335,6 @@ function rgbToHsv(r, g, b) {
 // *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
 // *Returns:* { r, g, b } in the set [0, 255]
  function hsvToRgb(h, s, v) {
-    var r, g, b;
 
     h = bound01(h, 360) * 6;
     s = bound01(s, 100);
@@ -363,8 +365,8 @@ function rgbToHex(r, g, b) {
     ];
 
     // Return a 3 character hex if possible
-    if (hex[0][0] == hex[0][1] && hex[1][0] == hex[1][1] && hex[2][0] == hex[2][1]) {
-        return hex[0][0] + hex[1][0] + hex[2][0];
+    if (hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+        return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
     }
 
     return hex.join("");
@@ -463,7 +465,7 @@ tinycolor.analogous = function(color, results, slices) {
     slices = slices || 30;
 
     var hsl = tinycolor(color).toHsl();
-    var part = 360 / slices
+    var part = 360 / slices;
     var ret = [tinycolor(color)];
 
     for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
@@ -676,7 +678,7 @@ function bound01(n, max) {
 
     // Automatically convert percentage into number
     if (processPercent) {
-        n = parseInt(n * max) / 100;
+        n = parseInt(n * max, 10) / 100;
     }
 
     // Handle floating point rounding errors

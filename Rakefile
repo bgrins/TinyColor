@@ -12,12 +12,12 @@ task :build do
   end
   source = File.read 'tinycolor.js'
   header = source.match(HEADER)
-  File.open('tinycolor-min.js', 'w+') do |file|
+  File.open('dist/tinycolor-min.js', 'w+') do |file|
     compressed = Closure::Compiler.new.compress(source)
     file.write header[1].squeeze(' ') + compressed
   end
-  
-  
+
+
   system('docco tinycolor.js')
-  
+
 end
