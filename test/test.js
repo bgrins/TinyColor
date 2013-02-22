@@ -365,6 +365,12 @@ test("Color equality", function() {
 	ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
 
+test("Readability", function () {
+    ok (tinycolor.readable("#000000", "#ffffff"), "white/black is readable");
+    ok (!tinycolor.readable("#FF0088", "#8822AA"), "pink on pink is not readable");
+    equal (tinycolor.mostReadable("#000", ["#111", "#222"]), "#222", "pick most readable color");
+    equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]), "#0d0", "pick most readable color");
+});
 
 
 /* Too slow: 1677731 possibilities
