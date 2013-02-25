@@ -23,6 +23,11 @@ module.exports = function(grunt) {
       }
     },
 
+    qunit: {
+      all: ['test/index.html']
+    },
+
+
     lint: {
       all: ['tinycolor.js']
     },
@@ -38,7 +43,16 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', 'lint');
-  grunt.registerTask('build', 'min');
+
+  grunt.registerTask('docco', 'Annotate the source.', function(options) {
+    grunt.utils.spawn({
+      cmd: "docco",
+      args: ['-o', 'docs', 'tinycolor.js']
+    });
+  });
+
+
+  grunt.registerTask('default', 'lint qunit');
+  grunt.registerTask('build', 'lint qunit min docco');
 
 };

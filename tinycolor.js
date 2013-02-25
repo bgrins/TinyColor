@@ -1,6 +1,6 @@
-// TinyColor v0.9.13
+// TinyColor v0.9.14
 // https://github.com/bgrins/TinyColor
-// 2012-11-28, Brian Grinstead, MIT License
+// 2013-02-24, Brian Grinstead, MIT License
 
 (function(root) {
 
@@ -65,11 +65,11 @@ function tinycolor (color, opts) {
               "hsl("  + h + ", " + s + "%, " + l + "%)" :
               "hsla(" + h + ", " + s + "%, " + l + "%, "+ roundA + ")";
         },
-        toHex: function() {
-            return rgbToHex(r, g, b);
+        toHex: function(allow3Char) {
+            return rgbToHex(r, g, b, allow3Char);
         },
-        toHexString: function() {
-            return '#' + rgbToHex(r, g, b);
+        toHexString: function(allow3Char) {
+            return '#' + rgbToHex(r, g, b, allow3Char);
         },
         toRgb: function() {
             return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
@@ -90,7 +90,7 @@ function tinycolor (color, opts) {
         toName: function() {
             return hexNames[rgbToHex(r, g, b)] || false;
         },
-        toFilter: function() {
+        toFilter: function(secondColor) {
             var hex = rgbToHex(r, g, b);
             var secondHex = hex;
             var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
@@ -114,8 +114,11 @@ function tinycolor (color, opts) {
             if (format === "prgb") {
                 formattedString = this.toPercentageRgbString();
             }
-            if (format === "hex") {
+            if (format === "hex" || format === "hex6") {
                 formattedString = this.toHexString();
+            }
+            if (format === "hex3") {
+                formattedString = this.toHexString(true);
             }
             if (format === "name") {
                 formattedString = this.toName();
@@ -357,7 +360,8 @@ function rgbToHsv(r, g, b) {
 // Converts an RGB color to hex
 // Assumes r, g, and b are contained in the set [0, 255]
 // Returns a 3 or 6 character hex
-function rgbToHex(r, g, b) {
+function rgbToHex(r, g, b, allow3Char) {
+
     var hex = [
         pad2(mathRound(r).toString(16)),
         pad2(mathRound(g).toString(16)),
@@ -365,7 +369,7 @@ function rgbToHex(r, g, b) {
     ];
 
     // Return a 3 character hex if possible
-    if (hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+    if (allow3Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
         return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
     }
 
@@ -488,17 +492,74 @@ tinycolor.monochromatic = function(color, results) {
 
     return ret;
 };
-tinycolor.readable = function(color1, color2) {
-    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
-    return (
-        (b.r - a.r) * (b.r - a.r) +
-        (b.g - a.g) * (b.g - a.g) +
-        (b.b - a.b) * (b.b - a.b)
-    ) > 0x28A4;
+
+// Readability Functions
+// ---------------------
+// <http://www.w3.org/TR/AERT#color-contrast>
+
+// `readability`
+// Analyze the 2 colors and returns an object with the following properties:
+//    `brightness`: difference in brightness between the two colors
+//    `color`: difference in color/hue between the two colors
+tinycolor.readability = function(color1, color2) {
+    var a = tinycolor(color1).toRgb();
+    var b = tinycolor(color2).toRgb();
+    var brightnessA = (a.r * 299 + a.g * 587 + a.b * 114) / 1000;
+    var brightnessB = (b.r * 299 + b.g * 587 + b.b * 114) / 1000;
+    var colorDiff = (
+        Math.max(a.r, b.r) - Math.min(a.r, b.r) +
+        Math.max(a.g, b.g) - Math.min(a.g, b.g) +
+        Math.max(a.b, b.b) - Math.min(a.b, b.b)
+    );
+
+    return {
+        brightness: Math.abs(brightnessA - brightnessB),
+        color: colorDiff
+    };
 };
 
+// `readable`
+// http://www.w3.org/TR/AERT#color-contrast
+// Ensure that foreground and background color combinations provide sufficient contrast.
+// *Example*
+//    tinycolor.readable("#000", "#111") => false
+tinycolor.readable = function(color1, color2) {
+    var readability = tinycolor.readability(color1, color2);
+    return readability.brightness > 125 && readability.color > 500;
+};
+
+// `mostReadable`
+// Given a base color and a list of possible foreground or background
+// colors for that base, returns the most readable color.
+// *Example*
+//    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000"
+tinycolor.mostReadable = function(baseColor, colorList) {
+    var bestColor = null;
+    var bestScore = 0;
+    var bestIsReadable = false;
+    for (var i=0; i < colorList.length; i++) {
+
+        // We normalize both around the "acceptable" breaking point,
+        // but rank brightness constrast higher than hue.
+
+        var readability = tinycolor.readability(baseColor, colorList[i]);
+        var readable = readability.brightness > 125 && readability.color > 500;
+        var score = 3 * (readability.brightness / 125) + (readability.color / 500);
+
+        if ((readable && ! bestIsReadable) ||
+            (readable && bestIsReadable && score > bestScore) ||
+            ((! readable) && (! bestIsReadable) && score > bestScore)) {
+            bestIsReadable = readable;
+            bestScore = score;
+            bestColor = tinycolor(colorList[i]);
+        }
+    }
+    return bestColor;
+};
+
+
 // Big List of Colors
-// ---------
+// ------------------
 // <http://www.w3.org/TR/css3-color/#svg-color>
 var names = tinycolor.names = {
     aliceblue: "f0f8ff",
@@ -811,6 +872,10 @@ function stringInputToObject(color) {
 // Node: Export function
 if (typeof module !== "undefined" && module.exports) {
     module.exports = tinycolor;
+}
+// AMD/requirejs: Define the module
+else if (typeof define !== "undefined") {
+    define(function () {return tinycolor;});
 }
 // Browser: Expose to window
 else {
