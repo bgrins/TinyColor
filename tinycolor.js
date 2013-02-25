@@ -65,11 +65,11 @@ function tinycolor (color, opts) {
               "hsl("  + h + ", " + s + "%, " + l + "%)" :
               "hsla(" + h + ", " + s + "%, " + l + "%, "+ roundA + ")";
         },
-        toHex: function() {
-            return rgbToHex(r, g, b);
+        toHex: function(allow3Char) {
+            return rgbToHex(r, g, b, allow3Char);
         },
-        toHexString: function() {
-            return '#' + rgbToHex(r, g, b);
+        toHexString: function(allow3Char) {
+            return '#' + rgbToHex(r, g, b, allow3Char);
         },
         toRgb: function() {
             return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
@@ -114,8 +114,11 @@ function tinycolor (color, opts) {
             if (format === "prgb") {
                 formattedString = this.toPercentageRgbString();
             }
-            if (format === "hex") {
+            if (format === "hex" || format === "hex6") {
                 formattedString = this.toHexString();
+            }
+            if (format === "hex3") {
+                formattedString = this.toHexString(true);
             }
             if (format === "name") {
                 formattedString = this.toName();
@@ -357,7 +360,8 @@ function rgbToHsv(r, g, b) {
 // Converts an RGB color to hex
 // Assumes r, g, and b are contained in the set [0, 255]
 // Returns a 3 or 6 character hex
-function rgbToHex(r, g, b) {
+function rgbToHex(r, g, b, allow3Char) {
+
     var hex = [
         pad2(mathRound(r).toString(16)),
         pad2(mathRound(g).toString(16)),
@@ -365,7 +369,7 @@ function rgbToHex(r, g, b) {
     ];
 
     // Return a 3 character hex if possible
-    if (hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+    if (allow3Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
         return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
     }
 
