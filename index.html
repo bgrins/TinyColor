@@ -6,7 +6,7 @@
   <title>TinyColor - Fast, small color manipulation in JavaScript</title>
   
 	<link rel="stylesheet" href="demo/demo.css" type="text/css" media="screen" />
-	<script type='text/javascript' src='demo/jquery-1.6.1.js'></script>
+	<script type='text/javascript' src='demo/jquery-1.9.1.js'></script>
 	<script type='text/javascript' src='tinycolor.js'></script>
 	<script type='text/javascript'>
 		
@@ -42,7 +42,13 @@
 			filters.find(".greyscale").css("background-color", 
 			     tinycolor.greyscale(tiny).toHexString()
 			 );
-			 
+
+			var mostReadable = tinycolor.mostReadable(color);
+
+			$("#mostReadable").css("background-color", 
+			     tinycolor.greyscale(tiny).toHexString()
+			 );
+			
 			 var combines = $("#combine-output").toggleClass("invisible", !tiny.ok);
 			 
 			 var triad = tinycolor.triad(tiny);
@@ -152,6 +158,10 @@
 	       <tr>
 	           <th>Greyscale</th>
 	           <td><div class='greyscale'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Most Readable</th>
+	           <td><div id='mostReadable'></div></td>
 	       </tr>
 	   </table>
     </div>

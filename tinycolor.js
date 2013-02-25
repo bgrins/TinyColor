@@ -488,48 +488,60 @@ tinycolor.monochromatic = function(color, results) {
 
     return ret;
 };
-// Readability based on W3C recommendations: http://www.w3.org/TR/AERT#color-contrast
-// Returns object with two properties:
-//   .brightness: the difference in brightness between the two colors
-//   .color: the difference in color/hue between the two colors
-// An "acceptable" color is considered to have a brightness difference of 125 and a
-// color difference of 500
+
+// Readability Functions
+// ---------------------
+// <http://www.w3.org/TR/AERT#color-contrast>
+
+// `readability`
+// Analyze the 2 colors and returns an object with the following properties:
+//    `brightness`: difference in brightness between the two colors
+//    `color`: difference in color/hue between the two colors
 tinycolor.readability = function(color1, color2) {
-    var a = tinycolor(color1).toRgb(), b = tinycolor(color2).toRgb();
+    var a = tinycolor(color1).toRgb();
+    var b = tinycolor(color2).toRgb();
     var brightnessA = (a.r * 299 + a.g * 587 + a.b * 114) / 1000;
     var brightnessB = (b.r * 299 + b.g * 587 + b.b * 114) / 1000;
     var colorDiff = (
         Math.max(a.r, b.r) - Math.min(a.r, b.r) +
         Math.max(a.g, b.g) - Math.min(a.g, b.g) +
-        Math.max(a.b, b.b) - Math.min(a.b, b.b));
+        Math.max(a.b, b.b) - Math.min(a.b, b.b)
+    );
+
     return {
         brightness: Math.abs(brightnessA - brightnessB),
         color: colorDiff
     };
 };
-// True if using color1 over color2 (or vice versa) is "readable"
-// Based on: http://www.w3.org/TR/AERT#color-contrast
-// Example:
-//   tinycolor.readable("#000", "#111") => false
+
+// `readable`
+// http://www.w3.org/TR/AERT#color-contrast
+// Ensure that foreground and background color combinations provide sufficient contrast.
+// *Example*
+//    tinycolor.readable("#000", "#111") => false
 tinycolor.readable = function(color1, color2) {
     var readability = tinycolor.readability(color1, color2);
     return readability.brightness > 125 && readability.color > 500;
 };
+
+// `mostReadable`
 // Given a base color and a list of possible foreground or background
 // colors for that base, returns the most readable color.
-// Example:
-//   tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000"
+// *Example*
+//    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000"
 tinycolor.mostReadable = function(baseColor, colorList) {
     var bestColor;
     var bestScore = 0;
     var bestIsReadable = false;
     for (var i=0; i < colorList.length; i++) {
+
+        // We normalize both around the "acceptable" breaking point,
+        // but rank brightness constrast higher than hue.
+
         var readability = tinycolor.readability(baseColor, colorList[i]);
         var readable = readability.brightness > 125 && readability.color > 500;
-        // We normalize both around the "acceptable" breaking point,
-        // but rank brightness constrast higher than hue.  Why?  I'm
-        // not sure, seems reasonable.
         var score = 3 * (readability.brightness / 125) + (readability.color / 500);
+
         if ((readable && ! bestIsReadable) ||
             (readable && bestIsReadable && score > bestScore) ||
             ((! readable) && (! bestIsReadable) && score > bestScore)) {
@@ -543,7 +555,7 @@ tinycolor.mostReadable = function(baseColor, colorList) {
 
 
 // Big List of Colors
-// ---------
+// ------------------
 // <http://www.w3.org/TR/css3-color/#svg-color>
 var names = tinycolor.names = {
     aliceblue: "f0f8ff",

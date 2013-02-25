@@ -38,7 +38,16 @@ module.exports = function(grunt) {
     }
   });
 
+
+  grunt.registerTask('docco', 'Annotate the source.', function(options) {
+    grunt.utils.spawn({
+      cmd: "docco",
+      args: ['-o', 'docs', 'tinycolor.js']
+    });
+  });
+
+
   grunt.registerTask('default', 'lint');
-  grunt.registerTask('build', 'min');
+  grunt.registerTask('build', 'min docco');
 
 };
