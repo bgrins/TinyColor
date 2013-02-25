@@ -90,7 +90,7 @@ function tinycolor (color, opts) {
         toName: function() {
             return hexNames[rgbToHex(r, g, b)] || false;
         },
-        toFilter: function() {
+        toFilter: function(secondColor) {
             var hex = rgbToHex(r, g, b);
             var secondHex = hex;
             var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
