@@ -127,10 +127,10 @@ test("HSL parsing", function() {
 });
 
 
-test("Hex Parsing", function() {
+//test("Hex Parsing", function() {
 	//equal (tinycolor(rgb).toHexString().toLowerCase(), c.hex.toLowerCase());
 
-});
+//});
 
 test("HSV Parsing", function() {
 
