@@ -378,6 +378,15 @@ test("Readability", function () {
     equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
 });
 
+test("Filters", function () {
+
+	equal (tinycolor("red").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)");
+	equal (tinycolor("red").toFilter("blue"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)");
+
+	equal(tinycolor("transparent").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)");
+	equal(tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
+});
+
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {
