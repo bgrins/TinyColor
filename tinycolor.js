@@ -530,7 +530,7 @@ tinycolor.readable = function(color1, color2) {
 // *Example*
 //    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000"
 tinycolor.mostReadable = function(baseColor, colorList) {
-    var bestColor;
+    var bestColor = null;
     var bestScore = 0;
     var bestIsReadable = false;
     for (var i=0; i < colorList.length; i++) {
@@ -547,7 +547,7 @@ tinycolor.mostReadable = function(baseColor, colorList) {
             ((! readable) && (! bestIsReadable) && score > bestScore)) {
             bestIsReadable = readable;
             bestScore = score;
-            bestColor = colorList[i];
+            bestColor = tinycolor(colorList[i]);
         }
     }
     return bestColor;
