@@ -387,6 +387,10 @@ test("Filters", function () {
 	equal(tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
 });
 
+test("Color stops", function () {
+   equal (tinycolor.colorStop("000000", "aaaaaa", .5).toHex(), tinycolor("555555").toHex(), "50% color stop");
+});
+
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {

@@ -492,6 +492,20 @@ tinycolor.monochromatic = function(color, results) {
 
     return ret;
 };
+tinycolor.colorStop = function(color1, color2, stop) {
+    var a = tinycolor(color1);
+    var b = tinycolor(color2);
+
+    var redDiff = a.toRgb().r - b.toRgb().r;
+    var greenDiff = a.toRgb().g - b.toRgb().g;
+    var blueDiff = a.toRgb().b - b.toRgb().b;
+
+    var red = redDiff * stop + b.toRgb().r;
+    var green = greenDiff * stop + b.toRgb().g;
+    var blue = blueDiff * stop + b.toRgb().b;
+
+    return tinycolor({r: red, g: green, b: blue});
+}
 
 // Readability Functions
 // ---------------------
