@@ -393,6 +393,10 @@ test("Color stops", function () {
    equal (tinycolor.colorStop("000000", "aaaaaa", .5).toHex(), tinycolor("555555").toHex(), "50% color stop");
    equal (tinycolor.colorStop("000000", "ffffff",.75).toHex(), tinycolor("bfbfbf").toHex(), "75% color stop");
    equal (tinycolor.colorStop("red", "black", 100).toHex(), tinycolor("black").toHex(), "100% color stop");
+   equal (tinycolor.colorStop("black", "black",.25).toHex(), tinycolor("black").toHex(), "same start and stop colors");
+   equal (tinycolor.colorStop("rgba(0, 0, 0, 0)", "rgba(0,0,0,1)",.25).toRgbString(), tinycolor("rgba(0, 0, 0, .25)").toRgbString(), "alpha");
+   equal (tinycolor.colorStop("rgba(0, 0, 0, 1.0)", "rgba(0,0,0,.5)",.5).toRgbString(), tinycolor("rgba(0, 0, 0, .75)").toRgbString(), "alpha reversed")
+
 });
 
 
