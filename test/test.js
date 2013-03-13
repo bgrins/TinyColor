@@ -388,7 +388,11 @@ test("Filters", function () {
 });
 
 test("Color stops", function () {
+   equal (tinycolor.colorStop("red", "black", 0).toHex(), tinycolor("red").toHex(), "0% color stop");
+   equal (tinycolor.colorStop("000000", "ffffff",.25).toHex(), tinycolor("404040").toHex(), "25% color stop");
    equal (tinycolor.colorStop("000000", "aaaaaa", .5).toHex(), tinycolor("555555").toHex(), "50% color stop");
+   equal (tinycolor.colorStop("000000", "ffffff",.75).toHex(), tinycolor("bfbfbf").toHex(), "75% color stop");
+   equal (tinycolor.colorStop("red", "black", 100).toHex(), tinycolor("black").toHex(), "100% color stop");
 });
 
 
