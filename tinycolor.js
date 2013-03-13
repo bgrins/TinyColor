@@ -429,7 +429,7 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
-tinycolor.colorStop = function(color1, color2, stop) {
+tinycolor.colorstop = function(color1, color2, stop) {
     var a = tinycolor(color1);
     var b = tinycolor(color2);
 
