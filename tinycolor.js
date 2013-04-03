@@ -165,7 +165,7 @@ tinycolor.fromRatio = function(color) {
 //
 function inputToRGB(color) {
 
-    var rgb = { r: 255, g: 255, b: 255 };
+    var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
     var ok = false;
     var format = false;

@@ -145,6 +145,12 @@ test("HSV Parsing", function() {
 
 });
 
+test("Invalid Parsing", function() {
+
+	equal( tinycolor("this is not a color").toHexString(), "#000000");
+
+});
+
 test("Named colors", function() {
 	equal (tinycolor("aliceblue").toHex(), "f0f8ff");
 	equal (tinycolor("antiquewhite").toHex(), "faebd7");
