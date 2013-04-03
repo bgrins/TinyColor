@@ -16,6 +16,7 @@ var trimLeft = /^[\s,#]+/,
 function tinycolor (color, opts) {
 
     color = (color) ? color : '';
+    opts = opts || { };
 
     // If input is already a tinycolor, return itself
     if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
@@ -28,7 +29,7 @@ function tinycolor (color, opts) {
         b = rgb.b,
         a = rgb.a,
         roundA = mathRound(100*a) / 100,
-        format = rgb.format;
+        format = opts.format || rgb.format;
 
     // Don't let the range of [0,255] come back in [0,1].
     // Potentially lose a little bit of precision here, but will fix issues where
@@ -137,7 +138,7 @@ function tinycolor (color, opts) {
 
 // If input is an object, force 1 into "1.0" to handle ratios properly
 // String input requires "1.0" as input, so 1 will be treated as 1
-tinycolor.fromRatio = function(color) {
+tinycolor.fromRatio = function(color, opts) {
     if (typeof color == "object") {
         var newColor = {};
         for (var i in color) {
@@ -146,7 +147,7 @@ tinycolor.fromRatio = function(color) {
         color = newColor;
     }
 
-    return tinycolor(color);
+    return tinycolor(color, opts);
 };
 
 // Given a string or object, convert that input to RGB

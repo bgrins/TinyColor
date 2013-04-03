@@ -2,6 +2,9 @@
 test("TinyColor initialization", function() {
 	ok ( typeof tinycolor != "undefined", "tinycolor is initialized on the page" );
 	ok ( typeof tinycolor("red") == "object", "tinycolor is able to be instantiated." );
+
+	equal ( tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
+	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
 });
 
 // Taken from convertWikipediaColors.html
