@@ -287,6 +287,9 @@ test("Named colors", function() {
 	equal (tinycolor("whitesmoke").toHex(), "f5f5f5");
 	equal (tinycolor("yellow").toHex(), "ffff00");
 	equal (tinycolor("yellowgreen").toHex(), "9acd32");
+
+	equal (tinycolor("#f00").toName(), "red");
+	equal (tinycolor("#fa0a0a").toName(), false);
 });
 
 module("Alpha handling");
