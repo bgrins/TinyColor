@@ -88,7 +88,7 @@ function tinycolor (color, opts) {
               "rgba(" + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%, " + roundA + ")";
         },
         toName: function() {
-            return hexNames[rgbToHex(r, g, b)] || false;
+            return hexNames[rgbToHex(r, g, b, true)] || false;
         },
         toFilter: function(secondColor) {
             var hex = rgbToHex(r, g, b);
