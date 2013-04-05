@@ -89,6 +89,10 @@ function tinycolor (color, opts) {
               "rgba(" + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%, " + roundA + ")";
         },
         toName: function() {
+            if (a === 0) {
+                return "transparent";
+            }
+
             return hexNames[rgbToHex(r, g, b, true)] || false;
         },
         toFilter: function(secondColor) {
@@ -834,7 +838,7 @@ function stringInputToObject(color) {
         named = true;
     }
     else if (color == 'transparent') {
-        return { r: 0, g: 0, b: 0, a: 0 };
+        return { r: 0, g: 0, b: 0, a: 0, format: "name" };
     }
 
     // Try to match string input using regular expressions.

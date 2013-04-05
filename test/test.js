@@ -319,6 +319,11 @@ test("Invalid alpha should normalize to 1", function() {
 	equal(tinycolor("rgba 255 0 0 100").toRgbString(), "rgb(255, 0, 0)",  "Greater than 1 in string parsing");
 
 });
+test("Alpha = 0 should act differently on toName()", function() {
+	equal(tinycolor({r:255,g:20,b:10,a: 0}).toName(), "transparent", "0");
+	equal(tinycolor("transparent").toString(), "transparent", "toString when passed");
+	equal(tinycolor("transparent").toHex(), "000000", "toHex");
+});
 
 module("Initialization from tinycolor output");
 test("HSL Object", function() {
