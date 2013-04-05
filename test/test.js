@@ -59,6 +59,10 @@ test("Color Equality", function() {
 module("Ratio Parsing");
 test("With Ratio", function() {
 	equal (tinycolor.fromRatio({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
+	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: .5 }).toRgbString(), "rgba(255, 0, 0, 0.5)", "alpha works when ratio is parsed" );
+	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 1 }).toRgbString(), "rgb(255, 0, 0)", "alpha = 1 works when ratio is parsed" );
+	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 10 }).toRgbString(), "rgb(255, 0, 0)", "alpha > 1 works when ratio is parsed" );
+	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: -1 }).toRgbString(), "rgb(255, 0, 0)", "alpha < 1 works when ratio is parsed" );
 });
 
 test("Without Ratio", function() {

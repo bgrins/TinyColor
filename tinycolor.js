@@ -1,4 +1,4 @@
-// TinyColor v0.9.14
+// TinyColor v0.9.14+
 // https://github.com/bgrins/TinyColor
 // 2013-02-24, Brian Grinstead, MIT License
 
@@ -142,7 +142,14 @@ tinycolor.fromRatio = function(color, opts) {
     if (typeof color == "object") {
         var newColor = {};
         for (var i in color) {
-            newColor[i] = convertToPercentage(color[i]);
+            if (color.hasOwnProperty(i)) {
+                if (i === "a") {
+                    newColor[i] = color[i];
+                }
+                else {
+                    newColor[i] = convertToPercentage(color[i]);
+                }
+            }
         }
         color = newColor;
     }
