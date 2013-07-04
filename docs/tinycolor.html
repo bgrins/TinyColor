@@ -103,8 +103,13 @@ If it was supposed to be 128, this was already taken care of by <code>inputToRgb
             <span class="k">return</span> <span class="s2">&quot;progid:DXImageTransform.Microsoft.gradient(&quot;</span><span class="o">+</span><span class="nx">gradientType</span><span class="o">+</span><span class="s2">&quot;startColorstr=#&quot;</span> <span class="o">+</span> <span class="nx">pad2</span><span class="p">(</span><span class="nx">alphaHex</span><span class="p">)</span> <span class="o">+</span> <span class="nx">hex</span> <span class="o">+</span> <span class="s2">&quot;,endColorstr=#&quot;</span> <span class="o">+</span> <span class="nx">pad2</span><span class="p">(</span><span class="nx">secondAlphaHex</span><span class="p">)</span> <span class="o">+</span> <span class="nx">secondHex</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">;</span>
         <span class="p">},</span>
         <span class="nx">toString</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">format</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">formatSet</span> <span class="o">=</span> <span class="o">!!</span><span class="nx">format</span><span class="p">;</span>
             <span class="nx">format</span> <span class="o">=</span> <span class="nx">format</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">format</span><span class="p">;</span>
+
             <span class="kd">var</span> <span class="nx">formattedString</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">hasAlphaAndFormatNotSet</span> <span class="o">=</span> <span class="o">!</span><span class="nx">formatSet</span> <span class="o">&amp;&amp;</span> <span class="nx">a</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">a</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="kd">var</span> <span class="nx">formatWithAlpha</span> <span class="o">=</span> <span class="nx">hasAlphaAndFormatNotSet</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;hex&quot;</span> <span class="o">||</span> <span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;hex6&quot;</span> <span class="o">||</span> <span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;hex3&quot;</span> <span class="o">||</span> <span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;name&quot;</span><span class="p">);</span>
+
             <span class="k">if</span> <span class="p">(</span><span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;rgb&quot;</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">formattedString</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toRgbString</span><span class="p">();</span>
             <span class="p">}</span>
@@ -125,6 +130,10 @@ If it was supposed to be 128, this was already taken care of by <code>inputToRgb
             <span class="p">}</span>
             <span class="k">if</span> <span class="p">(</span><span class="nx">format</span> <span class="o">===</span> <span class="s2">&quot;hsv&quot;</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">formattedString</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">toHsvString</span><span class="p">();</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">formatWithAlpha</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">toRgbString</span><span class="p">();</span>
             <span class="p">}</span>
 
             <span class="k">return</span> <span class="nx">formattedString</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>

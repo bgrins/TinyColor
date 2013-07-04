@@ -53,7 +53,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-docco');
 
-  grunt.registerTask('default', ['jshint']);
-  grunt.registerTask('build', ['jshint', 'uglify', 'docco']);
+  grunt.registerTask('default', ['jshint', 'qunit']);
+  grunt.registerTask('build', ['jshint', 'qunit', 'uglify', 'docco']);
 
 };

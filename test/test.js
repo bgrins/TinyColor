@@ -322,8 +322,16 @@ test("Invalid alpha should normalize to 1", function() {
 	var transparentNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: 0 }, {format: "name"});
 	var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "hex"});
 
-	equal(redNamed.toString(), "rgba(255, 0, 0, .5)", "Names should default to rgba if alpha is < 1");
-	equal(redHex.toString(), "rgba(255, 0, 0, .5)", "Hex should default to rgba if alpha is < 1");
+	equal(redNamed.toString(), "rgba(255, 0, 0, 0.5)", "Names should default to rgba if alpha is < 1");
+	equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
+
+	equal(redNamed.toString("hex"), "#ff0000", "Names should not be returned as rgba if format is specified");
+	equal(redNamed.toString("hex6"), "#ff0000", "Names should not be returned as rgba if format is specified");
+	equal(redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
+	equal(redNamed.toString("name"), "red", "Names should not be returned as rgba if format is specified");
+
+
+	equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
 	equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
 });
 test("Alpha = 0 should act differently on toName()", function() {
