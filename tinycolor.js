@@ -408,16 +408,17 @@ tinycolor.random = function() {
 // Thanks to less.js for some of the basics here
 // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
 
-
 tinycolor.desaturate = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.s -= ((amount || 10) / 100);
+    hsl.s -= amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
 };
 tinycolor.saturate = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.s += ((amount || 10) / 100);
+    hsl.s += amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
 };
@@ -425,14 +426,16 @@ tinycolor.greyscale = function(color) {
     return tinycolor.desaturate(color, 100);
 };
 tinycolor.lighten = function(color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.l += ((amount || 10) / 100);
+    hsl.l += amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
 };
 tinycolor.darken = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.l -= ((amount || 10) / 100);
+    hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
 };
@@ -441,7 +444,6 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
-
 
 // Combination Functions
 // ---------------------

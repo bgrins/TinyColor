@@ -415,6 +415,35 @@ test("Filters", function () {
 	equal(tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
 });
 
+/* Originally generated with:
+var results = [];
+for (var i = 0; i <= 100; i++) results.push( tinycolor.saturate("red", i).toHex() )
+console.log(JSON.stringify(results))
+*/
+var DESATURATIONS = ["ff0000","fe0101","fc0303","fb0404","fa0505","f90606","f70808","f60909","f50a0a","f40b0b","f20d0d","f10e0e","f00f0f","ee1111","ed1212","ec1313","eb1414","e91616","e81717","e71818","e61919","e41b1b","e31c1c","e21d1d","e01f1f","df2020","de2121","dd2222","db2424","da2525","d92626","d72828","d62929","d52a2a","d42b2b","d22d2d","d12e2e","d02f2f","cf3030","cd3232","cc3333","cb3434","c93636","c83737","c73838","c63939","c43b3b","c33c3c","c23d3d","c13e3e","bf4040","be4141","bd4242","bb4444","ba4545","b94646","b84747","b64949","b54a4a","b44b4b","b34d4d","b14e4e","b04f4f","af5050","ad5252","ac5353","ab5454","aa5555","a85757","a75858","a65959","a45b5b","a35c5c","a25d5d","a15e5e","9f6060","9e6161","9d6262","9c6363","9a6565","996666","986767","966969","956a6a","946b6b","936c6c","916e6e","906f6f","8f7070","8e7171","8c7373","8b7474","8a7575","887777","877878","867979","857a7a","837c7c","827d7d","817e7e","808080"];
+var SATURATIONS = ["ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000","ff0000"];
+var LIGHTENS = ["ff0000","ff0505","ff0a0a","ff0f0f","ff1414","ff1a1a","ff1f1f","ff2424","ff2929","ff2e2e","ff3333","ff3838","ff3d3d","ff4242","ff4747","ff4d4d","ff5252","ff5757","ff5c5c","ff6161","ff6666","ff6b6b","ff7070","ff7575","ff7a7a","ff8080","ff8585","ff8a8a","ff8f8f","ff9494","ff9999","ff9e9e","ffa3a3","ffa8a8","ffadad","ffb3b3","ffb8b8","ffbdbd","ffc2c2","ffc7c7","ffcccc","ffd1d1","ffd6d6","ffdbdb","ffe0e0","ffe5e5","ffebeb","fff0f0","fff5f5","fffafa","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff","ffffff"];
+var DARKENS = ["ff0000","fa0000","f50000","f00000","eb0000","e60000","e00000","db0000","d60000","d10000","cc0000","c70000","c20000","bd0000","b80000","b30000","ad0000","a80000","a30000","9e0000","990000","940000","8f0000","8a0000","850000","800000","7a0000","750000","700000","6b0000","660000","610000","5c0000","570000","520000","4d0000","470000","420000","3d0000","380000","330000","2e0000","290000","240000","1f0000","190000","140000","0f0000","0a0000","050000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000"];
+
+test("Combinations", function () {
+	for (var i = 0; i <= 100; i++) {
+		equal(tinycolor.desaturate("red", i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
+	}
+	for (var i = 0; i <= 100; i++) {
+		equal(tinycolor.saturate("red", i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
+	}
+	for (var i = 0; i <= 100; i++) {
+		equal(tinycolor.lighten("red", i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
+	}
+	for (var i = 0; i <= 100; i++) {
+		equal(tinycolor.darken("red", i).toHex(), DARKENS[i], "Darken " + i + " works");
+	}
+
+
+	equal(tinycolor.greyscale("red").toHex(), "808080", "Greyscale works")
+	equal(tinycolor.complement("red").toHex(), "00ffff", "Complement works");
+});
+
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {
