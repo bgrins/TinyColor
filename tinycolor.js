@@ -1,4 +1,4 @@
-// TinyColor v0.9.14
+// TinyColor v0.9.14+
 // https://github.com/bgrins/TinyColor
 // 2013-02-24, Brian Grinstead, MIT License
 
@@ -16,6 +16,7 @@ var trimLeft = /^[\s,#]+/,
 function tinycolor (color, opts) {
 
     color = (color) ? color : '';
+    opts = opts || { };
 
     // If input is already a tinycolor, return itself
     if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
@@ -28,7 +29,7 @@ function tinycolor (color, opts) {
         b = rgb.b,
         a = rgb.a,
         roundA = mathRound(100*a) / 100,
-        format = rgb.format;
+        format = opts.format || rgb.format;
 
     // Don't let the range of [0,255] come back in [0,1].
     // Potentially lose a little bit of precision here, but will fix issues where
@@ -88,6 +89,10 @@ function tinycolor (color, opts) {
               "rgba(" + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%, " + roundA + ")";
         },
         toName: function() {
+            if (a === 0) {
+                return "transparent";
+            }
+
             return hexNames[rgbToHex(r, g, b, true)] || false;
         },
         toFilter: function(secondColor) {
@@ -137,16 +142,23 @@ function tinycolor (color, opts) {
 
 // If input is an object, force 1 into "1.0" to handle ratios properly
 // String input requires "1.0" as input, so 1 will be treated as 1
-tinycolor.fromRatio = function(color) {
+tinycolor.fromRatio = function(color, opts) {
     if (typeof color == "object") {
         var newColor = {};
         for (var i in color) {
-            newColor[i] = convertToPercentage(color[i]);
+            if (color.hasOwnProperty(i)) {
+                if (i === "a") {
+                    newColor[i] = color[i];
+                }
+                else {
+                    newColor[i] = convertToPercentage(color[i]);
+                }
+            }
         }
         color = newColor;
     }
 
-    return tinycolor(color);
+    return tinycolor(color, opts);
 };
 
 // Given a string or object, convert that input to RGB
@@ -165,7 +177,7 @@ tinycolor.fromRatio = function(color) {
 //
 function inputToRGB(color) {
 
-    var rgb = { r: 255, g: 255, b: 255 };
+    var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
     var ok = false;
     var format = false;
@@ -396,16 +408,17 @@ tinycolor.random = function() {
 // Thanks to less.js for some of the basics here
 // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
 
-
 tinycolor.desaturate = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.s -= ((amount || 10) / 100);
+    hsl.s -= amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
 };
 tinycolor.saturate = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.s += ((amount || 10) / 100);
+    hsl.s += amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
 };
@@ -413,14 +426,16 @@ tinycolor.greyscale = function(color) {
     return tinycolor.desaturate(color, 100);
 };
 tinycolor.lighten = function(color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.l += ((amount || 10) / 100);
+    hsl.l += amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
 };
 tinycolor.darken = function (color, amount) {
+    amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
-    hsl.l -= ((amount || 10) / 100);
+    hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
 };
@@ -429,7 +444,6 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
-
 
 // Combination Functions
 // ---------------------
@@ -826,7 +840,7 @@ function stringInputToObject(color) {
         named = true;
     }
     else if (color == 'transparent') {
-        return { r: 0, g: 0, b: 0, a: 0 };
+        return { r: 0, g: 0, b: 0, a: 0, format: "name" };
     }
 
     // Try to match string input using regular expressions.
