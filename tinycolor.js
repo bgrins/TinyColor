@@ -111,8 +111,13 @@ function tinycolor (color, opts) {
             return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr=#" + pad2(alphaHex) + hex + ",endColorstr=#" + pad2(secondAlphaHex) + secondHex + ")";
         },
         toString: function(format) {
+            var formatSet = !!format;
             format = format || this.format;
+
             var formattedString = false;
+            var hasAlphaAndFormatNotSet = !formatSet && a < 1 && a > 0;
+            var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
+
             if (format === "rgb") {
                 formattedString = this.toRgbString();
             }
@@ -133,6 +138,10 @@ function tinycolor (color, opts) {
             }
             if (format === "hsv") {
                 formattedString = this.toHsvString();
+            }
+
+            if (formatWithAlpha) {
+                return this.toRgbString();
             }
 
             return formattedString || this.toHexString();
@@ -228,7 +237,6 @@ function inputToRGB(color) {
         a: a
     };
 }
-
 
 
 // Conversion Functions
@@ -445,6 +453,7 @@ tinycolor.complement = function(color) {
     return tinycolor(hsl);
 };
 
+
 // Combination Functions
 // ---------------------
 // Thanks to jQuery xColor for some of the ideas behind these
@@ -506,6 +515,7 @@ tinycolor.monochromatic = function(color, results) {
 
     return ret;
 };
+
 
 // Readability Functions
 // ---------------------
