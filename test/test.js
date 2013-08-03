@@ -330,9 +330,27 @@ test("Invalid alpha should normalize to 1", function() {
 	equal(redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
 	equal(redNamed.toString("name"), "red", "Names should not be returned as rgba if format is specified");
 
-
 	equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
 	equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
+
+	var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
+	equal(hexSetter.alpha, 1, "Alpha should start as 1");
+	hexSetter.setAlpha(.9);
+	equal(hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
+	hexSetter.setAlpha(.5);
+	equal(hexSetter.getAlpha(), .5, "setAlpha should change alpha value");
+	hexSetter.setAlpha(0);
+	equal(hexSetter.getAlpha(), 0, "setAlpha should change alpha value");
+	hexSetter.setAlpha(-1);
+	equal(hexSetter.getAlpha(), 1, "setAlpha with value < 0 should be bound to 1");
+	hexSetter.setAlpha(2);
+	equal(hexSetter.getAlpha(), 1, "setAlpha with value > 1 should be bound to 1");
+	hexSetter.setAlpha();
+	equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+	hexSetter.setAlpha(null);
+	equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+	hexSetter.setAlpha("test");
+	equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
 });
 test("Alpha = 0 should act differently on toName()", function() {
 	equal(tinycolor({r:255,g:20,b:10,a: 0}).toName(), "transparent", "0");
