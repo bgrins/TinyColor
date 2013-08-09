@@ -2,7 +2,7 @@
 // https://github.com/bgrins/TinyColor
 // 2013-02-24, Brian Grinstead, MIT License
 
-(function(root) {
+(function() {
 
 var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
@@ -916,7 +916,7 @@ else if (typeof define !== "undefined") {
 }
 // Browser: Expose to window
 else {
-    root.tinycolor = tinycolor;
+    window.tinycolor = tinycolor;
 }
 
-})(this);
+})();
