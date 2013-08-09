@@ -49,7 +49,7 @@ function tinycolor (color, opts) {
         },
         setAlpha: function(value) {
             a = boundAlpha(value);
-            roundA = mathRound(100*a) / 100
+            roundA = mathRound(100*a) / 100;
         },
         toHsv: function() {
             var hsv = rgbToHsv(r, g, b);
