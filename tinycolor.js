@@ -109,19 +109,16 @@ function tinycolor (color, opts) {
             return hexNames[rgbToHex(r, g, b, true)] || false;
         },
         toFilter: function(secondColor) {
-            var hex = rgbToHex(r, g, b);
-            var secondHex = hex;
-            var alphaHex = Math.round(parseFloat(a) * 255).toString(16);
-            var secondAlphaHex = alphaHex;
+            var hex8String = '#' + rgbaToHex(r, g, b, a);
+            var secondHex8String = hex8String;
             var gradientType = opts && opts.gradientType ? "GradientType = 1, " : "";
 
             if (secondColor) {
                 var s = tinycolor(secondColor);
-                secondHex = s.toHex();
-                secondAlphaHex = Math.round(parseFloat(s.alpha) * 255).toString(16);
+                secondHex8String = s.toHex8String();
             }
 
-            return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr=#" + pad2(alphaHex) + hex + ",endColorstr=#" + pad2(secondAlphaHex) + secondHex + ")";
+            return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
         },
         toString: function(format) {
             var formatSet = !!format;
