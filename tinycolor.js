@@ -851,7 +851,7 @@ function convertDecimalToHex(d) {
 }
 // Converts a hex value to a decimal
 function convertHexToDecimal(h) {
-    return (parseInt(h, 16) / 255);
+    return (parseIntFromHex(h) / 255);
 }
 
 var matchers = (function() {
@@ -920,7 +920,7 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hex8.exec(color))) {
         return {
-            a: parseIntFromHex(match[1]) / 255,
+            a: convertHexToDecimal(match[1]),
             r: parseIntFromHex(match[2]),
             g: parseIntFromHex(match[3]),
             b: parseIntFromHex(match[4]),
