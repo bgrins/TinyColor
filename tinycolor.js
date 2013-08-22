@@ -79,6 +79,12 @@ function tinycolor (color, opts) {
         toHexString: function(allow3Char) {
             return '#' + rgbToHex(r, g, b, allow3Char);
         },
+        toHex8: function() {
+            return rgbaToHex(r, g, b, a);
+        },
+        toHex8String: function() {
+            return '#' + this.toHex8();
+        },
         toRgb: function() {
             return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
         },
@@ -137,6 +143,9 @@ function tinycolor (color, opts) {
             if (format === "hex3") {
                 formattedString = this.toHexString(true);
             }
+            if (format === "hex8") {
+                formattedString = this.toHex8String();
+            }
             if (format === "name") {
                 formattedString = this.toName();
             }
@@ -183,6 +192,7 @@ tinycolor.fromRatio = function(color, opts) {
 //     "red"
 //     "#f00" or "f00"
 //     "#ff0000" or "ff0000"
+//     "#ff000000" or "ff000000"
 //     "rgb 255 0 0" or "rgb (255, 0, 0)"
 //     "rgb 1.0 0 0" or "rgb (1, 0, 0)"
 //     "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
@@ -397,6 +407,21 @@ function rgbToHex(r, g, b, allow3Char) {
 
     return hex.join("");
 }
+    // `rgbaToHex`
+    // Converts an RGBA color plus alpha transparency to hex
+    // Assumes r, g, b and a are contained in the set [0, 255]
+    // Returns an 8 character hex
+    function rgbaToHex(r, g, b, a) {
+
+        var hex = [
+            pad2(convertDecimalToHex(a)),
+            pad2(mathRound(r).toString(16)),
+            pad2(mathRound(g).toString(16)),
+            pad2(mathRound(b).toString(16))
+        ];
+
+        return hex.join("");
+    }
 
 // `equals`
 // Can be called with any tinycolor input
@@ -823,6 +848,15 @@ function convertToPercentage(n) {
     return n;
 }
 
+// Converts a decimal to a hex value
+function convertDecimalToHex(d) {
+    return Math.round(parseFloat(d) * 255).toString(16);
+}
+// Converts a hex value to a decimal
+function convertHexToDecimal(h) {
+    return (parseInt(h, 16) / 255);
+}
+
 var matchers = (function() {
 
     // <http://www.w3.org/TR/css3-values/#integers>
@@ -847,7 +881,8 @@ var matchers = (function() {
         hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
         hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
         hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-        hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+        hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+        hex8: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
     };
 })();
 
@@ -885,6 +920,15 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hsv.exec(color))) {
         return { h: match[1], s: match[2], v: match[3] };
+    }
+    if ((match = matchers.hex8.exec(color))) {
+        return {
+            a: parseIntFromHex(match[1]) / 255,
+            r: parseIntFromHex(match[2]),
+            g: parseIntFromHex(match[3]),
+            b: parseIntFromHex(match[4]),
+            format: named ? "name" : "hex8"
+        };
     }
     if ((match = matchers.hex6.exec(color))) {
         return {
