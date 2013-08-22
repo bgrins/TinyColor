@@ -77,7 +77,7 @@ function tinycolor (color, opts) {
             return rgbToHex(r, g, b, allow3Char);
         },
         toHexString: function(allow3Char) {
-            return '#' + rgbToHex(r, g, b, allow3Char);
+            return '#' + this.toHex(allow3Char);
         },
         toHex8: function() {
             return rgbaToHex(r, g, b, a);
