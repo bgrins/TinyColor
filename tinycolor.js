@@ -793,8 +793,8 @@ function clamp01(val) {
     return mathMin(1, mathMax(0, val));
 }
 
-// Parse an integer into hex
-function parseHex(val) {
+// Parse a base-16 hex value into a base-10 integer
+function parseIntFromHex(val) {
     return parseInt(val, 16);
 }
 
@@ -888,17 +888,17 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hex6.exec(color))) {
         return {
-            r: parseHex(match[1]),
-            g: parseHex(match[2]),
-            b: parseHex(match[3]),
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
             format: named ? "name" : "hex"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
         return {
-            r: parseHex(match[1] + '' + match[1]),
-            g: parseHex(match[2] + '' + match[2]),
-            b: parseHex(match[3] + '' + match[3]),
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
             format: named ? "name" : "hex"
         };
     }
