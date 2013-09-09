@@ -454,7 +454,18 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
-
+tinycolor.mix = function(color1,color2,amount) {
+    amount = (amount === 0) ? 0 : (amount || 0.5);
+    amount = clamp01(amount);
+    var hsl1 = tinycolor(color1).toHsl();
+    var hsl2 = tinycolor(color2).toHsl();
+    var hsl_out = {
+        h: (hsl1.h * amount) + (hsl2.h * (1-amount)),
+        s: (hsl1.s * amount) + (hsl2.s * (1-amount)),
+        l: (hsl1.l * amount) + (hsl2.l * (1-amount))
+    };
+    return tinycolor(hsl_out);
+};
 
 // Combination Functions
 // ---------------------
