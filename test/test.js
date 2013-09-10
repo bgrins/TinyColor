@@ -138,10 +138,12 @@ test("Hex Parsing", function() {
 
 	equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000");
 	equal (tinycolor("rgb 255 0 0").toHexString(true), "#f00");
+	equal (tinycolor("rgba 255 0 0 0.5").toHex8String(), "#80ff0000");
 
 
 	equal (tinycolor("rgb 255 0 0").toHex(), "ff0000");
 	equal (tinycolor("rgb 255 0 0").toHex(true), "f00");
+	equal (tinycolor("rgba 255 0 0 0.5").toHex8(), "80ff0000");
 
 });
 
