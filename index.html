@@ -15,6 +15,7 @@
 
 			var output = [
 				"hex:\t" + tiny.toHexString(),
+				"hex8:\t" + tiny.toHex8String(),
 				"rgb:\t" + tiny.toRgbString(),
 				"hsl:\t" + tiny.toHslString(),
 				"hsv:\t" + tiny.toHsvString(),
@@ -200,6 +201,8 @@
 var t = tinycolor("red");
 t.toHex()                   // "f00"
 t.toHexString()             // "#f00"
+t.toHex8()                  // "ffff0000"
+t.toHex8String()            // "#ffff0000"
 t.toRgb()                   // { r: 255, g: 0, b:0 }
 t.toRgbString()             // "rgb(255, 0, 0)"
 t.toHsv()                   // { h: 0, s: 1, v: 1 }
@@ -214,6 +217,7 @@ t.toName()                  // "red"
 		<ul>
 			<li>toName()</li>
 			<li>toHex() / toHexString()</li>
+			<li>toHex8() / toHex8String()</li>
 			<li>toHsl() / toHslString()</li>
 			<li>toRgb() / toRgbString()</li>
 			<li>toHsv() / toHsvString()</li>
