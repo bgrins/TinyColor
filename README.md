@@ -3,12 +3,14 @@
 
 ### Features
 * Color Types Supported
-    * Hex
+    * Hex, 8-digit (ARGB) Hex
 
             tinycolor("#000");
             tinycolor("000");
             tinycolor("#f0f0f6");
             tinycolor("f0f0f6");
+            tinycolor("#88f0f0f6");
+            tinycolor("88f0f0f6");
     * RGB, RGBA
 
             tinycolor("rgb (255, 0, 0)");
@@ -44,6 +46,8 @@
 
     t.toHex() // "ff0000"
     t.toHexString() // "#ff0000"
+    t.toHex8() // "ffff0000"
+    t.toHex8String() // "#ffff0000"
     t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
     t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
     t.toPercentageRgb() // {"r":100,"g":0,"b":0} or {"r":100,"g":0,"b":0,"a":0.5}
@@ -73,6 +77,8 @@ Here are some examples of string input:
     fff
     #ffffff
     ffffff
+    #ffffffff
+    ffffffff
     rgb(255, 0, 0)
     rgb 255 0 0
     hsl(0, 100, 50)
