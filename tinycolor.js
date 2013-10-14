@@ -106,7 +106,7 @@ function tinycolor (color, opts) {
                 return "transparent";
             }
 
-            return hexNames[rgbToHex(r, g, b, true)] || false;
+            return (a === 1) ? hexNames[rgbToHex(r, g, b, true)] || false : false;
         },
         toFilter: function(secondColor) {
             var hex8String = '#' + rgbaToHex(r, g, b, a);
