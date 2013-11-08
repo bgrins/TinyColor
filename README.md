@@ -23,14 +23,14 @@
             tinycolor("hsla(0, 100%, 50%, .5)");
             tinycolor("hsl(0, 100%, 50%)");
             tinycolor("hsl 0 1.0 0.5");
-            tinycolor({ h: 0, s: 1, l: .5 }");
+            tinycolor({ h: 0, s: 1, l: .5 });
     * HSV, HSVA
 
             tinycolor("hsv(0, 100%, 100%)");
             tinycolor("hsva(0, 100%, 100%, .5)");
             tinycolor("hsv (0 100% 100%)");
             tinycolor("hsv 0 1 1");
-            tinycolor({ h: 0, s: 100, v: 100 }");
+            tinycolor({ h: 0, s: 100, v: 100 });
     * Named
 
             tinycolor("RED");
