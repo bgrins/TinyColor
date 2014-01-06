@@ -606,6 +606,26 @@ tinycolor.mostReadable = function(baseColor, colorList) {
 };
 
 
+// `hasColor`
+// Given a string, determines if it has a valid color.
+// Returns the matched object if it does, false otherwise.
+tinycolor.hasColor = function(line) {
+    var joinedMatcherRegExp = [], match = null;
+
+    for (var match in matchers) {
+      if (matchers.hasOwnProperty(match)) {
+        joinedMatcherRegExp.push(String(matchers[match]).replace(/\^|\$|\//g, ''));
+      }
+    }
+
+    joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "i");
+    if (match = joinedMatcherRegExp.test(line)) {
+        return tinycolor(match);
+    }
+
+    return false;
+};
+
 // Big List of Colors
 // ------------------
 // <http://www.w3.org/TR/css3-color/#svg-color>

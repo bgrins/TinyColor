@@ -433,6 +433,13 @@ test("Readability", function () {
     equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
 });
 
+test("HasColor", function () {
+    var blackHex = tinycolor.fromRatio({ r: 0, g: 0, b: 0 }, {format: "hex"});
+
+    equal (tinycolor.hasColor("background-color: #000000;"), blackHex.toString());
+    equal (tinycolor.hasColor("body {"), false);
+});
+
 test("Filters", function () {
 
 	equal (tinycolor("red").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)");
