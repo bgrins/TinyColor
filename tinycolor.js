@@ -605,25 +605,43 @@ tinycolor.mostReadable = function(baseColor, colorList) {
     return bestColor;
 };
 
-
-// `hasColor`
+// `scanForColors`
 // Given a string, determines if it has a valid color.
-// Returns the matched object if it does, false otherwise.
-tinycolor.hasColor = function(line) {
-    var joinedMatcherRegExp = [], match = null;
+// Returns an array of matched objects if it does, or an empty array otherwise.
+tinycolor.scanForColors = function(text) {
+    var joinedMatcherRegExp = [], results = [], match = null, lines = text.split("\n");
 
-    for (var match in matchers) {
-      if (matchers.hasOwnProperty(match)) {
-        joinedMatcherRegExp.push(String(matchers[match]).replace(/\^|\$|\//g, ''));
+    for (name in names) {
+      if (names.hasOwnProperty(name)) {
+        joinedMatcherRegExp.push(name);
       }
     }
 
-    joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "i");
-    if (match = joinedMatcherRegExp.test(line)) {
-        return tinycolor(match);
+    // construct a giant regexp of the color matchers
+    for (match in matchers) {
+      if (matchers.hasOwnProperty(match)) {
+        var matchAsString = String(matchers[match]);
+        if (/^hex/.test(match))
+            matchAsString = matchAsString + "\\b";
+
+        joinedMatcherRegExp.push(matchAsString.replace(/\^|\$|\//g, ''));
+      }
     }
 
-    return false;
+    joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "gi");
+
+    // for each line, try to find a match. if it's found, turn it into a tinycolor
+    // and append it to the results
+    for (var l = 0, size = lines.length; l < size; l++) {
+      match = lines[l].match(joinedMatcherRegExp);
+      if (match == null)
+        continue;
+      while (match.length > 0) {
+        results.push(tinycolor(match.shift()));
+      }
+    }
+
+    return results;
 };
 
 // Big List of Colors

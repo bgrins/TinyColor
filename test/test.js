@@ -433,11 +433,21 @@ test("Readability", function () {
     equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
 });
 
-test("HasColor", function () {
-    var blackHex = tinycolor.fromRatio({ r: 0, g: 0, b: 0 }, {format: "hex"});
+test("ScanForColors", function () {
+    var blackHex = tinycolor.fromRatio({ r: 0, g: 0, b: 0 }, {format: "hex"}),
+        single_line_single_result = "background-color: #000000;",
+        results = tinycolor.scanForColors(single_line_single_result);
+    equal (results.length, 1);
+    equal (results[0], blackHex.toString());
 
-    equal (tinycolor.hasColor("background-color: #000000;"), blackHex.toString());
-    equal (tinycolor.hasColor("body {"), false);
+    var single_line_multiple_results = "{ content: '#000'; background: orange; }";
+        results = tinycolor.scanForColors(single_line_multiple_results);
+    equal (results.length, 2);
+
+		equal (results[0], blackHex.toString());
+		equal (results[1], "orange");
+
+    equal (tinycolor.scanForColors("body {").length, 0);
 });
 
 test("Filters", function () {
