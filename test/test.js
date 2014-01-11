@@ -447,6 +447,17 @@ test("ScanForColors", function () {
 		equal (results[0], blackHex.toString());
 		equal (results[1], "orange");
 
+		var multiple_lines_single_results = "body { \n  font-size: 12px;\n\n  text-color: rgba (255, 0, 0, .5) }";
+				results = tinycolor.scanForColors(multiple_lines_single_results);
+		equal (results.length, 1);
+		equal (results[0].toRgbString(), "rgba(255, 0, 0, 0.5)");
+
+		var multiple_lines_multiple_results = "body { \n  background-color: hsl 0 1.0 0.5;\n\n  text-color: rgba (255, 0, 0, .5) }";
+				results = tinycolor.scanForColors(multiple_lines_multiple_results);
+		equal (results.length, 2);
+		equal (results[0].toHslString(), "hsl(0, 100%, 50%)");
+		equal (results[1].toRgbString(), "rgba(255, 0, 0, 0.5)");
+
     equal (tinycolor.scanForColors("body {").length, 0);
 });
 
