@@ -605,36 +605,44 @@ tinycolor.mostReadable = function(baseColor, colorList) {
     return bestColor;
 };
 
+tinycolor.constructMatcherRegExp = function() {
+  if (tinycolor.joinedMatcherRegExp !== undefined)
+    return tinycolor.joinedMatcherRegExp;
+
+  var joinedMatcherRegExp = [], name = null, match = null;
+
+  for (name in names) {
+    if (names.hasOwnProperty(name)) {
+      joinedMatcherRegExp.push(name);
+    }
+  }
+
+  // construct a giant regexp of the color matchers
+  for (match in matchers) {
+    if (matchers.hasOwnProperty(match)) {
+      var matchAsString = String(matchers[match]);
+      if (/^hex/.test(match))
+          matchAsString = matchAsString + "\\b";
+
+      joinedMatcherRegExp.push(matchAsString.replace(/\^|\$|\//g, ''));
+    }
+  }
+
+  this.joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "gi");
+  return this.joinedMatcherRegExp;
+};
+
 // `scanForColors`
 // Given a string, determines if it has a valid color.
 // Returns an array of matched objects if it does, or an empty array otherwise.
 tinycolor.scanForColors = function(text) {
-    var joinedMatcherRegExp = [], results = [], match = null, lines = text.split("\n");
-
-    for (name in names) {
-      if (names.hasOwnProperty(name)) {
-        joinedMatcherRegExp.push(name);
-      }
-    }
-
-    // construct a giant regexp of the color matchers
-    for (match in matchers) {
-      if (matchers.hasOwnProperty(match)) {
-        var matchAsString = String(matchers[match]);
-        if (/^hex/.test(match))
-            matchAsString = matchAsString + "\\b";
-
-        joinedMatcherRegExp.push(matchAsString.replace(/\^|\$|\//g, ''));
-      }
-    }
-
-    joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "gi");
+    var joinedMatcherRegExp = this.constructMatcherRegExp(), results = [], match = null, lines = text.split("\n");
 
     // for each line, try to find a match. if it's found, turn it into a tinycolor
     // and append it to the results
     for (var l = 0, size = lines.length; l < size; l++) {
       match = lines[l].match(joinedMatcherRegExp);
-      if (match == null)
+      if (match === null)
         continue;
       while (match.length > 0) {
         results.push(tinycolor(match.shift()));
