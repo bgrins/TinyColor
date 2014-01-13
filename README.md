@@ -152,10 +152,7 @@ Combination functions return an Array of TinyColor objects.
 
 ### Readability
 
-Analyze 2 colors and returns an object with the following properties:
-
-  * `brightness`: difference in brightness between the two colors
-  * `color`: difference in color/hue between the two colors.
+Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
 
     tinycolor.readability(color1, color2);
 
