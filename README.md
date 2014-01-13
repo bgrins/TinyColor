@@ -53,11 +53,6 @@
       tinycolor("darkblue");
       ```
 
-* File Size:
-
-        The minified size is:
-        The uncompressed size is:
-
 ### Usage
 
 ```js
@@ -129,5 +124,47 @@ If you are calling this from code, you may want to use object input.  Here are e
 { h: 0, s: 100, v: 100 }
 // etc...
 ```
+
+## Color Utilities
+
+    tinycolor.equals(color1, color2)
+
+### Color Modification
+
+Modification functions may take an `amount` variable from 0 - 100, indicating how much the effect should be applied.
+
+    tinycolor.lighten(color, amount = 10)
+    tinycolor.darken(color, amount = 10)
+    tinycolor.desaturate(color, amount = 10)
+    tinycolor.saturate(color, amount = 10)
+    tinycolor.greyscale(color)
+
+### Color Combinations
+
+Combination functions return an Array of TinyColor objects.
+
+    tinycolor.analogous(color, results = 6, slices = 30)
+    tinycolor.complement(color)
+    tinycolor.monochromatic(color, results = 6)
+    tinycolor.splitcomplements(color)
+    tinycolor.triad(color)
+    tinycolor.tetrad(color)
+
+### Readability
+
+Analyze 2 colors and returns an object with the following properties:
+
+  * `brightness`: difference in brightness between the two colors
+  * `color`: difference in color/hue between the two colors.
+
+    tinycolor.readability(color1, color2);
+
+Ensure that foreground and background color combinations provide sufficient contrast.
+
+    tinycolor.readable(color1, color2);
+
+Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
+
+    tinycolor.mostReadable(baseColor, colorList);
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
