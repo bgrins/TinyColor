@@ -952,7 +952,7 @@ if (typeof module !== "undefined" && module.exports) {
     module.exports = tinycolor;
 }
 // AMD/requirejs: Define the module
-else if (typeof define !== "undefined") {
+else if (typeof define === "function" && define.amd) {
     define(function () {return tinycolor;});
 }
 // Browser: Expose to window
