@@ -476,7 +476,22 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
+tinycolor.colorstop = function(color1, color2, stop) {
+    var a = tinycolor(color1);
+    var b = tinycolor(color2);
 
+    var redDiff = a.toRgb().r - b.toRgb().r;
+    var greenDiff = a.toRgb().g - b.toRgb().g;
+    var blueDiff = a.toRgb().b - b.toRgb().b;
+    var alphaDiff = a.toRgb().a - b.toRgb().a;
+
+    var red = a.toRgb().r - redDiff * stop;
+    var green = a.toRgb().g - greenDiff * stop;
+    var blue = a.toRgb().b - blueDiff * stop;
+    var alpha = a.toRgb().a - alphaDiff * stop;
+
+    return tinycolor({r: red, g: green, b: blue, a: alpha});
+}
 
 // Combination Functions
 // ---------------------

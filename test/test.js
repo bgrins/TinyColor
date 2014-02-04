@@ -474,6 +474,18 @@ test("Combinations", function () {
 	equal(tinycolor.complement("red").toHex(), "00ffff", "Complement works");
 });
 
+test("Color stops", function () {
+   equal (tinycolor.colorstop("red", "black", 0).toHex(), tinycolor("red").toHex(), "0% color stop");
+   equal (tinycolor.colorstop("000000", "ffffff",.25).toHex(), tinycolor("404040").toHex(), "25% color stop");
+   equal (tinycolor.colorstop("000000", "aaaaaa", .5).toHex(), tinycolor("555555").toHex(), "50% color stop");
+   equal (tinycolor.colorstop("000000", "ffffff",.75).toHex(), tinycolor("bfbfbf").toHex(), "75% color stop");
+   equal (tinycolor.colorstop("red", "black", 100).toHex(), tinycolor("black").toHex(), "100% color stop");
+   equal (tinycolor.colorstop("black", "black",.25).toHex(), tinycolor("black").toHex(), "same start and stop colors");
+   equal (tinycolor.colorstop("rgba(0, 0, 0, 0)", "rgba(0,0,0,1)",.25).toRgbString(), tinycolor("rgba(0, 0, 0, .25)").toRgbString(), "alpha");
+   equal (tinycolor.colorstop("rgba(0, 0, 0, 1.0)", "rgba(0,0,0,.5)",.5).toRgbString(), tinycolor("rgba(0, 0, 0, .75)").toRgbString(), "alpha reversed")
+
+});
+
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {
