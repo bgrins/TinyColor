@@ -13,105 +13,110 @@ var trimLeft = /^[\s,#]+/,
     mathMax = math.max,
     mathRandom = math.random;
 
-function tinycolor (color, opts) {
+var tinycolor = function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
 
     // If input is already a tinycolor, return itself
-    if (typeof color == "object" && color.hasOwnProperty("_tc_id")) {
+    if (color instanceof tinycolor) {
        return color;
+    }
+    // If we are called as a function, call using new instead
+    if (!(this instanceof tinycolor)) {
+        return new tinycolor(color, opts);
     }
 
     var rgb = inputToRGB(color);
-    var r = rgb.r,
-        g = rgb.g,
-        b = rgb.b,
-        a = rgb.a,
-        roundA = mathRound(100*a) / 100,
-        format = opts.format || rgb.format;
+    this._r = rgb.r,
+    this._g = rgb.g,
+    this._b = rgb.b,
+    this._a = rgb.a,
+    this._roundA = mathRound(100*this._a) / 100,
+    this._format = opts.format || rgb.format;
+    this._gradientType = opts.gradientType;
 
     // Don't let the range of [0,255] come back in [0,1].
     // Potentially lose a little bit of precision here, but will fix issues where
     // .5 gets interpreted as half of the total, instead of half of 1
     // If it was supposed to be 128, this was already taken care of by `inputToRgb`
-    if (r < 1) { r = mathRound(r); }
-    if (g < 1) { g = mathRound(g); }
-    if (b < 1) { b = mathRound(b); }
+    if (this._r < 1) { this._r = mathRound(this._r); }
+    if (this._g < 1) { this._g = mathRound(this._g); }
+    if (this._b < 1) { this._b = mathRound(this._b); }
 
-    return {
-        ok: rgb.ok,
-        format: format,
-        _tc_id: tinyCounter++,
-        alpha: a,
+    this._ok = rgb.ok;
+    this._tc_id = tinyCounter++;
+};
+
+tinycolor.prototype = {
         getAlpha: function() {
-            return a;
+            return this._a;
         },
         setAlpha: function(value) {
-            a = boundAlpha(value);
-            roundA = mathRound(100*a) / 100;
+            this._a = boundAlpha(value);
+            this._roundA = mathRound(100*this._a) / 100;
         },
         toHsv: function() {
-            var hsv = rgbToHsv(r, g, b);
-            return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: a };
+            var hsv = rgbToHsv(this._r, this._g, this._b);
+            return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
         },
         toHsvString: function() {
-            var hsv = rgbToHsv(r, g, b);
+            var hsv = rgbToHsv(this._r, this._g, this._b);
             var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-            return (a == 1) ?
+            return (this._a == 1) ?
               "hsv("  + h + ", " + s + "%, " + v + "%)" :
-              "hsva(" + h + ", " + s + "%, " + v + "%, "+ roundA + ")";
+              "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
         },
         toHsl: function() {
-            var hsl = rgbToHsl(r, g, b);
-            return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: a };
+            var hsl = rgbToHsl(this._r, this._g, this._b);
+            return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: this._a };
         },
         toHslString: function() {
-            var hsl = rgbToHsl(r, g, b);
+            var hsl = rgbToHsl(this._r, this._g, this._b);
             var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
-            return (a == 1) ?
+            return (this._a == 1) ?
               "hsl("  + h + ", " + s + "%, " + l + "%)" :
-              "hsla(" + h + ", " + s + "%, " + l + "%, "+ roundA + ")";
+              "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
         },
         toHex: function(allow3Char) {
-            return rgbToHex(r, g, b, allow3Char);
+            return rgbToHex(this._r, this._g, this._b, allow3Char);
         },
         toHexString: function(allow3Char) {
             return '#' + this.toHex(allow3Char);
         },
         toHex8: function() {
-            return rgbaToHex(r, g, b, a);
+            return rgbaToHex(this._r, this._g, this._b, this._a);
         },
         toHex8String: function() {
             return '#' + this.toHex8();
         },
         toRgb: function() {
-            return { r: mathRound(r), g: mathRound(g), b: mathRound(b), a: a };
+            return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
         },
         toRgbString: function() {
-            return (a == 1) ?
-              "rgb("  + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ")" :
-              "rgba(" + mathRound(r) + ", " + mathRound(g) + ", " + mathRound(b) + ", " + roundA + ")";
+            return (this._a == 1) ?
+              "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+              "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
         },
         toPercentageRgb: function() {
-            return { r: mathRound(bound01(r, 255) * 100) + "%", g: mathRound(bound01(g, 255) * 100) + "%", b: mathRound(bound01(b, 255) * 100) + "%", a: a };
+            return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
         },
         toPercentageRgbString: function() {
-            return (a == 1) ?
-              "rgb("  + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%)" :
-              "rgba(" + mathRound(bound01(r, 255) * 100) + "%, " + mathRound(bound01(g, 255) * 100) + "%, " + mathRound(bound01(b, 255) * 100) + "%, " + roundA + ")";
+            return (this._a == 1) ?
+              "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
+              "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
         },
         toName: function() {
-            if (a === 0) {
+            if (this._a === 0) {
                 return "transparent";
             }
 
-            return hexNames[rgbToHex(r, g, b, true)] || false;
+            return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
         },
         toFilter: function(secondColor) {
-            var hex8String = '#' + rgbaToHex(r, g, b, a);
+            var hex8String = '#' + rgbaToHex(this._r, this._g, this._b, this._a);
             var secondHex8String = hex8String;
-            var gradientType = opts && opts.gradientType ? "GradientType = 1, " : "";
+            var gradientType = this._gradientType ? "GradientType = 1, " : "";
 
             if (secondColor) {
                 var s = tinycolor(secondColor);
@@ -122,10 +127,10 @@ function tinycolor (color, opts) {
         },
         toString: function(format) {
             var formatSet = !!format;
-            format = format || this.format;
+            format = format || this._format;
 
             var formattedString = false;
-            var hasAlphaAndFormatNotSet = !formatSet && a < 1 && a > 0;
+            var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
             var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
 
             if (format === "rgb") {
@@ -159,8 +164,7 @@ function tinycolor (color, opts) {
 
             return formattedString || this.toHexString();
         }
-    };
-}
+};
 
 // If input is an object, force 1 into "1.0" to handle ratios properly
 // String input requires "1.0" as input, so 1 will be treated as 1
