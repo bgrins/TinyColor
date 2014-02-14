@@ -49,121 +49,121 @@ var tinycolor = function tinycolor (color, opts) {
 };
 
 tinycolor.prototype = {
-        getAlpha: function() {
-            return this._a;
-        },
-        setAlpha: function(value) {
-            this._a = boundAlpha(value);
-            this._roundA = mathRound(100*this._a) / 100;
-        },
-        toHsv: function() {
-            var hsv = rgbToHsv(this._r, this._g, this._b);
-            return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
-        },
-        toHsvString: function() {
-            var hsv = rgbToHsv(this._r, this._g, this._b);
-            var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-            return (this._a == 1) ?
-              "hsv("  + h + ", " + s + "%, " + v + "%)" :
-              "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
-        },
-        toHsl: function() {
-            var hsl = rgbToHsl(this._r, this._g, this._b);
-            return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: this._a };
-        },
-        toHslString: function() {
-            var hsl = rgbToHsl(this._r, this._g, this._b);
-            var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
-            return (this._a == 1) ?
-              "hsl("  + h + ", " + s + "%, " + l + "%)" :
-              "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
-        },
-        toHex: function(allow3Char) {
-            return rgbToHex(this._r, this._g, this._b, allow3Char);
-        },
-        toHexString: function(allow3Char) {
-            return '#' + this.toHex(allow3Char);
-        },
-        toHex8: function() {
-            return rgbaToHex(this._r, this._g, this._b, this._a);
-        },
-        toHex8String: function() {
-            return '#' + this.toHex8();
-        },
-        toRgb: function() {
-            return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
-        },
-        toRgbString: function() {
-            return (this._a == 1) ?
-              "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
-              "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
-        },
-        toPercentageRgb: function() {
-            return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
-        },
-        toPercentageRgbString: function() {
-            return (this._a == 1) ?
-              "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
-              "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
-        },
-        toName: function() {
-            if (this._a === 0) {
-                return "transparent";
-            }
-
-            return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
-        },
-        toFilter: function(secondColor) {
-            var hex8String = '#' + rgbaToHex(this._r, this._g, this._b, this._a);
-            var secondHex8String = hex8String;
-            var gradientType = this._gradientType ? "GradientType = 1, " : "";
-
-            if (secondColor) {
-                var s = tinycolor(secondColor);
-                secondHex8String = s.toHex8String();
-            }
-
-            return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
-        },
-        toString: function(format) {
-            var formatSet = !!format;
-            format = format || this._format;
-
-            var formattedString = false;
-            var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
-            var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
-
-            if (format === "rgb") {
-                formattedString = this.toRgbString();
-            }
-            if (format === "prgb") {
-                formattedString = this.toPercentageRgbString();
-            }
-            if (format === "hex" || format === "hex6") {
-                formattedString = this.toHexString();
-            }
-            if (format === "hex3") {
-                formattedString = this.toHexString(true);
-            }
-            if (format === "hex8") {
-                formattedString = this.toHex8String();
-            }
-            if (format === "name") {
-                formattedString = this.toName();
-            }
-            if (format === "hsl") {
-                formattedString = this.toHslString();
-            }
-            if (format === "hsv") {
-                formattedString = this.toHsvString();
-            }
-
-            if (formatWithAlpha) {
-                return this.toRgbString();
-            }
-
-            return formattedString || this.toHexString();
+    getAlpha: function() {
+        return this._a;
+    },
+    setAlpha: function(value) {
+        this._a = boundAlpha(value);
+        this._roundA = mathRound(100*this._a) / 100;
+    },
+    toHsv: function() {
+        var hsv = rgbToHsv(this._r, this._g, this._b);
+        return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
+    },
+    toHsvString: function() {
+        var hsv = rgbToHsv(this._r, this._g, this._b);
+        var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
+        return (this._a == 1) ?
+          "hsv("  + h + ", " + s + "%, " + v + "%)" :
+          "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
+    },
+    toHsl: function() {
+        var hsl = rgbToHsl(this._r, this._g, this._b);
+        return { h: hsl.h * 360, s: hsl.s, l: hsl.l, a: this._a };
+    },
+    toHslString: function() {
+        var hsl = rgbToHsl(this._r, this._g, this._b);
+        var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
+        return (this._a == 1) ?
+          "hsl("  + h + ", " + s + "%, " + l + "%)" :
+          "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
+    },
+    toHex: function(allow3Char) {
+        return rgbToHex(this._r, this._g, this._b, allow3Char);
+    },
+    toHexString: function(allow3Char) {
+        return '#' + this.toHex(allow3Char);
+    },
+    toHex8: function() {
+        return rgbaToHex(this._r, this._g, this._b, this._a);
+    },
+    toHex8String: function() {
+        return '#' + this.toHex8();
+    },
+    toRgb: function() {
+        return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
+    },
+    toRgbString: function() {
+        return (this._a == 1) ?
+          "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+          "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
+    },
+    toPercentageRgb: function() {
+        return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
+    },
+    toPercentageRgbString: function() {
+        return (this._a == 1) ?
+          "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
+          "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
+    },
+    toName: function() {
+        if (this._a === 0) {
+            return "transparent";
         }
+
+        return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
+    },
+    toFilter: function(secondColor) {
+        var hex8String = '#' + rgbaToHex(this._r, this._g, this._b, this._a);
+        var secondHex8String = hex8String;
+        var gradientType = this._gradientType ? "GradientType = 1, " : "";
+
+        if (secondColor) {
+            var s = tinycolor(secondColor);
+            secondHex8String = s.toHex8String();
+        }
+
+        return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
+    },
+    toString: function(format) {
+        var formatSet = !!format;
+        format = format || this._format;
+
+        var formattedString = false;
+        var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
+        var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
+
+        if (format === "rgb") {
+            formattedString = this.toRgbString();
+        }
+        if (format === "prgb") {
+            formattedString = this.toPercentageRgbString();
+        }
+        if (format === "hex" || format === "hex6") {
+            formattedString = this.toHexString();
+        }
+        if (format === "hex3") {
+            formattedString = this.toHexString(true);
+        }
+        if (format === "hex8") {
+            formattedString = this.toHex8String();
+        }
+        if (format === "name") {
+            formattedString = this.toName();
+        }
+        if (format === "hsl") {
+            formattedString = this.toHslString();
+        }
+        if (format === "hsv") {
+            formattedString = this.toHsvString();
+        }
+
+        if (formatWithAlpha) {
+            return this.toRgbString();
+        }
+
+        return formattedString || this.toHexString();
+    }
 };
 
 // If input is an object, force 1 into "1.0" to handle ratios properly
