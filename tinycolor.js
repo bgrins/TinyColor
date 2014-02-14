@@ -133,6 +133,9 @@ tinycolor.prototype = {
         var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
         var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
 
+        if (formatWithAlpha) {
+            return this.toRgbString();
+        }
         if (format === "rgb") {
             formattedString = this.toRgbString();
         }
@@ -156,10 +159,6 @@ tinycolor.prototype = {
         }
         if (format === "hsv") {
             formattedString = this.toHsvString();
-        }
-
-        if (formatWithAlpha) {
-            return this.toRgbString();
         }
 
         return formattedString || this.toHexString();
