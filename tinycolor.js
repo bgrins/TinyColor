@@ -260,10 +260,12 @@ function inputToRGB(color) {
 // *Assumes:* r, g, b in [0, 255] or [0, 1]
 // *Returns:* { r, g, b } in [0, 255]
 function rgbToRgb(r, g, b){
+    var range01 = isBound01(r, g, b);
+    var max = range01 ? 1 : 255;
     return {
-        r: bound01(r, 255) * 255,
-        g: bound01(g, 255) * 255,
-        b: bound01(b, 255) * 255
+        r: bound01(r, max) * 255,
+        g: bound01(g, max) * 255,
+        b: bound01(b, max) * 255
     };
 }
 
@@ -823,7 +825,15 @@ function parseIntFromHex(val) {
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 function isOnePointZero(n) {
-    return typeof n == "string" && n.indexOf('.') != -1 && parseFloat(n) === 1;
+    return hasDecimalPoint(n) && parseFloat(n) === 1;
+}
+
+function hasDecimalPoint(n) {
+    return typeof n == "string" && n.indexOf('.') != -1;
+}
+
+function isBound01(r, g, b) {
+    return [r, g, b].reduce(function(p, n){ return p && hasDecimalPoint(n) && parseFloat(n) <= 1; }, true);
 }
 
 // Check to see if string passed in is a percentage
