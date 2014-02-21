@@ -613,7 +613,8 @@ tinycolor.constructMatcherRegExp = function() {
 
   for (name in names) {
     if (names.hasOwnProperty(name)) {
-      joinedMatcherRegExp.push(name);
+      // "\\b" prevents words like imporTANt
+      joinedMatcherRegExp.push("\\b" + name + "\\b");
     }
   }
 
