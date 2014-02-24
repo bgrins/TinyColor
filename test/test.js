@@ -471,6 +471,10 @@ test("ScanForColors", function () {
     var negativeMatchString = "margin: 0 !important;",
     		results = tinycolor.scanForColors(negativeMatchString);
 		equal (results.length, 0);
+
+    var negativeMatchFourHex = "color: #fade;",
+    		results = tinycolor.scanForColors(negativeMatchFourHex);
+		equal (results.length, 0);
 });
 
 test("Filters", function () {
