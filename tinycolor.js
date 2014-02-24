@@ -623,9 +623,9 @@ tinycolor.constructMatcherRegExp = function() {
     if (matchers.hasOwnProperty(match)) {
       var matchAsString = String(matchers[match]);
       if (/^hex/.test(match))
-          matchAsString = matchAsString + "\\b";
+          matchAsString = "#" + matchAsString;
 
-      joinedMatcherRegExp.push(matchAsString.replace(/\^|\$|\//g, ''));
+      joinedMatcherRegExp.push("(?:\\s*|\\b)" + matchAsString.replace(/\^|\$|\//g, '') + "\\b");
     }
   }
 
