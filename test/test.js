@@ -459,6 +459,18 @@ test("ScanForColors", function () {
 		equal (results[1].toRgbString(), "rgba(255, 0, 0, 0.5)");
 
     equal (tinycolor.scanForColors("body {").length, 0);
+
+    var negativeMatchThreeHex = "background-position: 100% 50%;",
+    		results = tinycolor.scanForColors(negativeMatchThreeHex);
+		equal (results.length, 0);
+
+    var positiveMatchThreeHex = "background-position: #100% 50%;",
+    		results = tinycolor.scanForColors(positiveMatchThreeHex);
+		equal (results.length, 1);
+
+    var negativeMatchString = "margin: 0 !important;",
+    		results = tinycolor.scanForColors(negativeMatchString);
+		equal (results.length, 0);
 });
 
 test("Filters", function () {
