@@ -363,54 +363,93 @@ test("Alpha = 0 should act differently on toName()", function() {
 
 module("Initialization from tinycolor output");
 test("HSL Object", function() {
-  var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toHsl()).toHexString(), "HSL Object");
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      equal (tiny.toHexString(), tinycolor(tiny.toHsl()).toHexString(), "HSL Object");
+    }
 });
-/*
+
 test("HSL String", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toHslString()).toHexString(), random.toHexString());
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toHslString()).toRgb();
+      var maxDiff = 2;
+
+      equal(Math.abs(input.r - output.r) <= maxDiff, true, "toHslString red value difference <= " + maxDiff);
+      equal(Math.abs(input.g - output.g) <= maxDiff, true, "toHslString green value difference <= " + maxDiff);
+      equal(Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
+    }
 });
 test("HSV String", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toHsvString()).toHexString(), random.toHsvString());
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toHsvString()).toRgb();
+      var maxDiff = 2;
+
+      equal(Math.abs(input.r - output.r) <= maxDiff, true, "toHsvString red value difference <= " + maxDiff);
+      equal(Math.abs(input.g - output.g) <= maxDiff, true, "toHsvString green value difference <= " + maxDiff);
+      equal(Math.abs(input.b - output.b) <= maxDiff, true, "toHsvString blue value difference <= " + maxDiff);
+    }
 });
-*/
+
 test("HSV Object", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toHsv()).toHexString(), "HSV Object");
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      equal (tiny.toHexString(), tinycolor(tiny.toHsv()).toHexString(), "HSV Object");
+    }
 });
 test("RGB Object", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toRgb()).toHexString(), "RGB Object");
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      equal (tiny.toHexString(), tinycolor(tiny.toRgb()).toHexString(), "RGB Object");
+    }
 });
 test("RGB String", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random.toRgbString()).toHexString(), "RGB String");
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      equal (tiny.toHexString(), tinycolor(tiny.toRgbString()).toHexString(), "RGB String");
+    }
 });
 test("PRGB Object", function() {
-    var random = tinycolor.random();
-    var input = random.toRgb();
-    var output = tinycolor(random.toPercentageRgb()).toRgb();
-  var maxDiff = 2;
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toPercentageRgb()).toRgb();
+      var maxDiff = 2;
 
-    equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-    equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-    equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+      equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+      equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+      equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+    }
 });
 test("PRGB String", function() {
-    var random = tinycolor.random();
-    var input = random.toRgb();
-    var output = tinycolor(random.toPercentageRgbString()).toRgb();
-  var maxDiff = 2;
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      var input = tiny.toRgb();
+      var output = tinycolor(tiny.toPercentageRgbString()).toRgb();
+      var maxDiff = 2;
 
-    equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-    equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-    equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+      equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+      equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+      equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+    }
 });
 test("Object", function() {
-    var random = tinycolor.random();
-  equal (random.toHexString(), tinycolor(random).toHexString(), "Object");
+    for (var i = 0; i < conversions.length; i++) {
+      var c =  conversions[i];
+      var tiny =  tinycolor(c.hex);
+      equal (tiny.toHexString(), tinycolor(tiny).toHexString(), "Object");
+    }
 });
 
 
