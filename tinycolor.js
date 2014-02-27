@@ -111,6 +111,10 @@ tinycolor.prototype = {
             return "transparent";
         }
 
+        if (this._a < 1) {
+            return false;
+        }
+
         return hexNames[rgbToHex(this._r, this._g, this._b, true)] || false;
     },
     toFilter: function(secondColor) {

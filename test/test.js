@@ -320,7 +320,9 @@ test("Invalid alpha should normalize to 1", function() {
 
   equal(tinycolor("#fff").toRgbString(), "rgb(255, 255, 255)",  "Hex should be 1");
   equal(tinycolor("rgba 255 0 0 100").toRgbString(), "rgb(255, 0, 0)",  "Greater than 1 in string parsing");
+});
 
+test("toString() with alpha set", function() {
   var redNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "name"});
   var transparentNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: 0 }, {format: "name"});
   var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "hex"});
@@ -331,10 +333,15 @@ test("Invalid alpha should normalize to 1", function() {
   equal(redNamed.toString("hex"), "#ff0000", "Names should not be returned as rgba if format is specified");
   equal(redNamed.toString("hex6"), "#ff0000", "Names should not be returned as rgba if format is specified");
   equal(redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
-  equal(redNamed.toString("name"), "red", "Names should not be returned as rgba if format is specified");
+  equal(redNamed.toString("name"), "#ff0000", "Semi transparent names should return hex in toString() if name format is specified");
+
+  equal(redNamed.toName(), false, "Semi transparent names should be false in toName()");
 
   equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
   equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
+});
+
+test("setting alpha", function() {
 
   var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
   equal(hexSetter.getAlpha(), 1, "Alpha should start as 1");
@@ -354,7 +361,9 @@ test("Invalid alpha should normalize to 1", function() {
   equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
   hexSetter.setAlpha("test");
   equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+
 });
+
 test("Alpha = 0 should act differently on toName()", function() {
   equal(tinycolor({r:255,g:20,b:10,a: 0}).toName(), "transparent", "0");
   equal(tinycolor("transparent").toString(), "transparent", "toString when passed");
