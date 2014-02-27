@@ -2,7 +2,9 @@
 test("TinyColor initialization", function() {
 	ok ( typeof tinycolor != "undefined", "tinycolor is initialized on the page" );
 	ok ( typeof tinycolor("red") == "object", "tinycolor is able to be instantiated." );
-
+	var r = tinycolor("red");
+	ok ( tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it.");
+	ok ( new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it.");
 	equal ( tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
 	equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
 });
@@ -335,7 +337,7 @@ test("Invalid alpha should normalize to 1", function() {
 	equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
 
 	var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
-	equal(hexSetter.alpha, 1, "Alpha should start as 1");
+	equal(hexSetter.getAlpha(), 1, "Alpha should start as 1");
 	hexSetter.setAlpha(.9);
 	equal(hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
 	hexSetter.setAlpha(.5);
