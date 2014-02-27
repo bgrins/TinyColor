@@ -2,6 +2,10 @@
 
 ## JavaScript color parsing
 
+Fast, small color manipulation and conversion for JavaScript.  TinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependancies.
+
+[![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
+
 ### Features
 
 * Color Types Supported
