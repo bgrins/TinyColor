@@ -2,76 +2,76 @@
 
 ## JavaScript color parsing
 
-### Features
+Fast, small color manipulation and conversion for JavaScript.  TinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependancies.
 
-* Color Types Supported
-    * Hex, 8-digit (ARGB) Hex
+[![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
-      ```js
-      tinycolor("#000");
-      tinycolor("000");
-      tinycolor("#f0f0f6");
-      tinycolor("f0f0f6");
-      tinycolor("#88f0f0f6");
-      tinycolor("88f0f0f6");
-      ```
+## Supported Color Types
 
-    * RGB, RGBA
+### Hex, 8-digit (ARGB) Hex
 
-      ```js
-      tinycolor("rgb (255, 0, 0)");
-      tinycolor("rgb 255 0 0");
-      tinycolor("rgba (255, 0, 0, .5)");
-      tinycolor({ r: 255, g: 0, b: 0 });
-      ```
+    tinycolor("#000");
+    tinycolor("000");
+    tinycolor("#f0f0f6");
+    tinycolor("f0f0f6");
+    tinycolor("#88f0f0f6");
+    tinycolor("88f0f0f6");
 
-    * HSL, HSLA
+### RGB, RGBA
 
-      ```js
-      tinycolor("hsl(0, 100%, 50%)");
-      tinycolor("hsla(0, 100%, 50%, .5)");
-      tinycolor("hsl(0, 100%, 50%)");
-      tinycolor("hsl 0 1.0 0.5");
-      tinycolor({ h: 0, s: 1, l: .5 });
-      ```
+    tinycolor("rgb (255, 0, 0)");
+    tinycolor("rgb 255 0 0");
+    tinycolor("rgba (255, 0, 0, .5)");
+    tinycolor({ r: 255, g: 0, b: 0 });
+    tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
+    tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
 
-    * HSV, HSVA
+### HSL, HSLA
 
-      ```js
-      tinycolor("hsv(0, 100%, 100%)");
-      tinycolor("hsva(0, 100%, 100%, .5)");
-      tinycolor("hsv (0 100% 100%)");
-      tinycolor("hsv 0 1 1");
-      tinycolor({ h: 0, s: 100, v: 100 });
-      ```
+    tinycolor("hsl(0, 100%, 50%)");
+    tinycolor("hsla(0, 100%, 50%, .5)");
+    tinycolor("hsl(0, 100%, 50%)");
+    tinycolor("hsl 0 1.0 0.5");
+    tinycolor({ h: 0, s: 1, l: .5 });
 
-    * Named
+### HSV, HSVA
 
-      ```js
-      tinycolor("RED");
-      tinycolor("blanchedalmond");
-      tinycolor("darkblue");
-      ```
+    tinycolor("hsv(0, 100%, 100%)");
+    tinycolor("hsva(0, 100%, 100%, .5)");
+    tinycolor("hsv (0 100% 100%)");
+    tinycolor("hsv 0 1 1");
+    tinycolor({ h: 0, s: 100, v: 100 });
 
-### Usage
+### Named
 
-```js
-var t = tinycolor("red");
+    tinycolor("RED");
+    tinycolor("blanchedalmond");
+    tinycolor("darkblue");
 
-t.toHex() // "ff0000"
-t.toHexString() // "#ff0000"
-t.toHex8() // "ffff0000"
-t.toHex8String() // "#ffff0000"
-t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
-t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
-t.toPercentageRgb() // {"r":100,"g":0,"b":0} or {"r":100,"g":0,"b":0,"a":0.5}
-t.toPercentageRgbString() // "rgb(100%, 0%, 0%)" or "rgba(100%, 0%, 0%, 0.5)"
-t.toHsv() // {"h":0,"s":1,"v":1}
-t.toHsvString() // "hsv(0, 100%, 100%)"
-t.toHsl() // {"h":0,"s":1,"l":0.5}
-t.toHslString() // "hsl(0, 100%, 50%)"
-t.toName() // "red"
-```
+## Using in a browser
+
+    <script type='text/javascript' src='tinycolor.js'></script>
+    <script type='text/javascript'>
+    var t = tinycolor("red");
+
+    t.toHex() // "ff0000"
+    t.toHexString() // "#ff0000"
+    t.toHex8() // "ffff0000"
+    t.toHex8String() // "#ffff0000"
+    t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
+    t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
+    t.toPercentageRgb() // {"r":100,"g":0,"b":0} or {"r":100,"g":0,"b":0,"a":0.5}
+    t.toPercentageRgbString() // "rgb(100%, 0%, 0%)" or "rgba(100%, 0%, 0%, 0.5)"
+    t.toHsv() // {"h":0,"s":1,"v":1}
+    t.toHsvString() // "hsv(0, 100%, 100%)"
+    t.toHsl() // {"h":0,"s":1,"l":0.5}
+    t.toHslString() // "hsl(0, 100%, 50%)"
+    t.toName() // "red"
+    t.toString(/* format */) // "red"
+    t.toFilter()
+    </script>
+
+## Using in node
 
 `tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
 
@@ -89,7 +89,11 @@ var tinycolor = require("./tinycolor");
 
 The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
 
-HSL and HSV both require either 0%-100% or 0-1.  RGB requires either 0-255 or 0%-100%.  If you call tinycolor.fromRatio, any input can also accept 0-1
+HSL and HSV both require either 0%-100% or 0-1.
+
+RGB input requires either 0-255 or 0%-100%.
+
+If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
 Here are some examples of string input:
 
 ```
@@ -119,7 +123,6 @@ If you are calling this from code, you may want to use object input.  Here are e
 ```js
 { r: 255, g: 0, b: 0 }
 { r: 255, g: 0, b: 0, a: .5 }
-{ r: 1, g: 0, b: 0 }
 { h: 0, s: 100, l: 50 }
 { h: 0, s: 100, v: 100 }
 // etc...
