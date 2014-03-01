@@ -27,6 +27,8 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
       tinycolor("rgb 255 0 0");
       tinycolor("rgba (255, 0, 0, .5)");
       tinycolor({ r: 255, g: 0, b: 0 });
+      tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
+      tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
       ```
 
     * HSL, HSLA
@@ -93,7 +95,11 @@ var tinycolor = require("./tinycolor");
 
 The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
 
-HSL and HSV both require either 0%-100% or 0-1.  RGB requires either 0-255 or 0%-100%.  If you call tinycolor.fromRatio, any input can also accept 0-1
+HSL and HSV both require either 0%-100% or 0-1.
+
+RGB input requires either 0-255 or 0%-100%.
+
+If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
 Here are some examples of string input:
 
 ```
