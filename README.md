@@ -129,7 +129,6 @@ If you are calling this from code, you may want to use object input.  Here are e
 ```js
 { r: 255, g: 0, b: 0 }
 { r: 255, g: 0, b: 0, a: .5 }
-{ r: 1, g: 0, b: 0 }
 { h: 0, s: 100, l: 50 }
 { h: 0, s: 100, v: 100 }
 // etc...
