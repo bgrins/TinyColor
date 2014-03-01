@@ -68,6 +68,9 @@ test("With Ratio", function() {
 
 test("Without Ratio", function() {
   equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#010101", "010101");
+  equal (tinycolor({r: .1, g: .1, b: .1}).toHexString(), "#000000", "000000");
+  equal (tinycolor("rgb .1 .1 .1").toHexString(), "#000000", "000000");
+
 });
 
 module("String Parsing");
