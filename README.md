@@ -6,58 +6,47 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
 
 [![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
-### Features
+## Supported Color Types
 
-* Color Types Supported
-    * Hex, 8-digit (ARGB) Hex
+* Hex, 8-digit (ARGB) Hex
 
-      ```js
-      tinycolor("#000");
-      tinycolor("000");
-      tinycolor("#f0f0f6");
-      tinycolor("f0f0f6");
-      tinycolor("#88f0f0f6");
-      tinycolor("88f0f0f6");
-      ```
+    tinycolor("#000");
+    tinycolor("000");
+    tinycolor("#f0f0f6");
+    tinycolor("f0f0f6");
+    tinycolor("#88f0f0f6");
+    tinycolor("88f0f0f6");
 
-    * RGB, RGBA
+* RGB, RGBA
 
-      ```js
-      tinycolor("rgb (255, 0, 0)");
-      tinycolor("rgb 255 0 0");
-      tinycolor("rgba (255, 0, 0, .5)");
-      tinycolor({ r: 255, g: 0, b: 0 });
-      tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
-      tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
-      ```
+    tinycolor("rgb (255, 0, 0)");
+    tinycolor("rgb 255 0 0");
+    tinycolor("rgba (255, 0, 0, .5)");
+    tinycolor({ r: 255, g: 0, b: 0 });
+    tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
+    tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
 
-    * HSL, HSLA
+* HSL, HSLA
 
-      ```js
-      tinycolor("hsl(0, 100%, 50%)");
-      tinycolor("hsla(0, 100%, 50%, .5)");
-      tinycolor("hsl(0, 100%, 50%)");
-      tinycolor("hsl 0 1.0 0.5");
-      tinycolor({ h: 0, s: 1, l: .5 });
-      ```
+    tinycolor("hsl(0, 100%, 50%)");
+    tinycolor("hsla(0, 100%, 50%, .5)");
+    tinycolor("hsl(0, 100%, 50%)");
+    tinycolor("hsl 0 1.0 0.5");
+    tinycolor({ h: 0, s: 1, l: .5 });
 
-    * HSV, HSVA
+* HSV, HSVA
 
-      ```js
-      tinycolor("hsv(0, 100%, 100%)");
-      tinycolor("hsva(0, 100%, 100%, .5)");
-      tinycolor("hsv (0 100% 100%)");
-      tinycolor("hsv 0 1 1");
-      tinycolor({ h: 0, s: 100, v: 100 });
-      ```
+    tinycolor("hsv(0, 100%, 100%)");
+    tinycolor("hsva(0, 100%, 100%, .5)");
+    tinycolor("hsv (0 100% 100%)");
+    tinycolor("hsv 0 1 1");
+    tinycolor({ h: 0, s: 100, v: 100 });
 
-    * Named
+* Named
 
-      ```js
-      tinycolor("RED");
-      tinycolor("blanchedalmond");
-      tinycolor("darkblue");
-      ```
+    tinycolor("RED");
+    tinycolor("blanchedalmond");
+    tinycolor("darkblue");
 
 ## Using in a browser
 
