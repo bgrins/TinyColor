@@ -1,32 +1,32 @@
 
 test("TinyColor initialization", function() {
-  ok ( typeof tinycolor != "undefined", "tinycolor is initialized on the page" );
-  ok ( typeof tinycolor("red") == "object", "tinycolor is able to be instantiated." );
+  ok (typeof tinycolor != "undefined", "tinycolor is initialized on the page");
+  ok (typeof tinycolor("red") == "object", "tinycolor is able to be instantiated.");
   var r = tinycolor("red");
-  ok ( tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it.");
-  ok ( new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it.");
-  equal ( tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
-  equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed" );
+  ok (tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it.");
+  ok (new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it.");
+  equal (tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
+  equal (tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
 });
 
 // Taken from convertWikipediaColors.html
 var conversions = [
-{"hex":"#FFFFFF","hex8":"#FFFFFFFF","rgb":{"r":"100.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"0","s":"0.000","v":"1.000"},"hsl":{"h":"0","s":"0.000","l":"1.000"}},
-{"hex":"#808080","hex8":"#FF808080","rgb":{"r":"050.0%","g":"050.0%","b":"050.0%"},"hsv":{"h":"0","s":"0.000","v":"0.500"},"hsl":{"h":"0","s":"0.000","l":"0.500"}},
-{"hex":"#000000","hex8":"#FF000000","rgb":{"r":"000.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0","s":"0.000","v":"0.000"},"hsl":{"h":"0","s":"0.000","l":"0.000"}},
-{"hex":"#FF0000","hex8":"#FFFF0000","rgb":{"r":"100.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0.0","s":"1.000","v":"1.000"},"hsl":{"h":"0.0","s":"1.000","l":"0.500"}},
-{"hex":"#BFBF00","hex8":"#FFBFBF00","rgb":{"r":"075.0%","g":"075.0%","b":"000.0%"},"hsv":{"h":"60.0","s":"1.000","v":"0.750"},"hsl":{"h":"60.0","s":"1.000","l":"0.375"}},
-{"hex":"#008000","hex8":"#FF008000","rgb":{"r":"000.0%","g":"050.0%","b":"000.0%"},"hsv":{"h":"120.0","s":"1.000","v":"0.500"},"hsl":{"h":"120.0","s":"1.000","l":"0.250"}},
-{"hex":"#80FFFF","hex8":"#FF80FFFF","rgb":{"r":"050.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"180.0","s":"0.500","v":"1.000"},"hsl":{"h":"180.0","s":"1.000","l":"0.750"}},
-{"hex":"#8080FF","hex8":"#FF8080FF","rgb":{"r":"050.0%","g":"050.0%","b":"100.0%"},"hsv":{"h":"240.0","s":"0.500","v":"1.000"},"hsl":{"h":"240.0","s":"1.000","l":"0.750"}},
-{"hex":"#BF40BF","hex8":"#FFBF40BF","rgb":{"r":"075.0%","g":"025.0%","b":"075.0%"},"hsv":{"h":"300.0","s":"0.667","v":"0.750"},"hsl":{"h":"300.0","s":"0.500","l":"0.500"}},
-{"hex":"#A0A424","hex8":"#FFA0A424","rgb":{"r":"062.8%","g":"064.3%","b":"014.2%"},"hsv":{"h":"61.8","s":"0.779","v":"0.643"},"hsl":{"h":"61.8","s":"0.638","l":"0.393"}},
-{"hex":"#1EAC41","hex8":"#FF1EAC41","rgb":{"r":"011.6%","g":"067.5%","b":"025.5%"},"hsv":{"h":"134.9","s":"0.828","v":"0.675"},"hsl":{"h":"134.9","s":"0.707","l":"0.396"}},
-{"hex":"#B430E5","hex8":"#FFB430E5","rgb":{"r":"070.4%","g":"018.7%","b":"089.7%"},"hsv":{"h":"283.7","s":"0.792","v":"0.897"},"hsl":{"h":"283.7","s":"0.775","l":"0.542"}},
-{"hex":"#FEF888","hex8":"#FFFEF888","rgb":{"r":"099.8%","g":"097.4%","b":"053.2%"},"hsv":{"h":"56.9","s":"0.467","v":"0.998"},"hsl":{"h":"56.9","s":"0.991","l":"0.765"}},
-{"hex":"#19CB97","hex8":"#FF19CB97","rgb":{"r":"009.9%","g":"079.5%","b":"059.1%"},"hsv":{"h":"162.4","s":"0.875","v":"0.795"},"hsl":{"h":"162.4","s":"0.779","l":"0.447"}},
-{"hex":"#362698","hex8":"#FF362698","rgb":{"r":"021.1%","g":"014.9%","b":"059.7%"},"hsv":{"h":"248.3","s":"0.750","v":"0.597"},"hsl":{"h":"248.3","s":"0.601","l":"0.373"}},
-{"hex":"#7E7EB8","hex8":"#FF7E7EB8","rgb":{"r":"049.5%","g":"049.3%","b":"072.1%"},"hsv":{"h":"240.5","s":"0.316","v":"0.721"},"hsl":{"h":"240.5","s":"0.290","l":"0.607"}}
+  {"hex":"#FFFFFF","hex8":"#FFFFFFFF","rgb":{"r":"100.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"0","s":"0.000","v":"1.000"},"hsl":{"h":"0","s":"0.000","l":"1.000"}},
+  {"hex":"#808080","hex8":"#FF808080","rgb":{"r":"050.0%","g":"050.0%","b":"050.0%"},"hsv":{"h":"0","s":"0.000","v":"0.500"},"hsl":{"h":"0","s":"0.000","l":"0.500"}},
+  {"hex":"#000000","hex8":"#FF000000","rgb":{"r":"000.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0","s":"0.000","v":"0.000"},"hsl":{"h":"0","s":"0.000","l":"0.000"}},
+  {"hex":"#FF0000","hex8":"#FFFF0000","rgb":{"r":"100.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0.0","s":"1.000","v":"1.000"},"hsl":{"h":"0.0","s":"1.000","l":"0.500"}},
+  {"hex":"#BFBF00","hex8":"#FFBFBF00","rgb":{"r":"075.0%","g":"075.0%","b":"000.0%"},"hsv":{"h":"60.0","s":"1.000","v":"0.750"},"hsl":{"h":"60.0","s":"1.000","l":"0.375"}},
+  {"hex":"#008000","hex8":"#FF008000","rgb":{"r":"000.0%","g":"050.0%","b":"000.0%"},"hsv":{"h":"120.0","s":"1.000","v":"0.500"},"hsl":{"h":"120.0","s":"1.000","l":"0.250"}},
+  {"hex":"#80FFFF","hex8":"#FF80FFFF","rgb":{"r":"050.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"180.0","s":"0.500","v":"1.000"},"hsl":{"h":"180.0","s":"1.000","l":"0.750"}},
+  {"hex":"#8080FF","hex8":"#FF8080FF","rgb":{"r":"050.0%","g":"050.0%","b":"100.0%"},"hsv":{"h":"240.0","s":"0.500","v":"1.000"},"hsl":{"h":"240.0","s":"1.000","l":"0.750"}},
+  {"hex":"#BF40BF","hex8":"#FFBF40BF","rgb":{"r":"075.0%","g":"025.0%","b":"075.0%"},"hsv":{"h":"300.0","s":"0.667","v":"0.750"},"hsl":{"h":"300.0","s":"0.500","l":"0.500"}},
+  {"hex":"#A0A424","hex8":"#FFA0A424","rgb":{"r":"062.8%","g":"064.3%","b":"014.2%"},"hsv":{"h":"61.8","s":"0.779","v":"0.643"},"hsl":{"h":"61.8","s":"0.638","l":"0.393"}},
+  {"hex":"#1EAC41","hex8":"#FF1EAC41","rgb":{"r":"011.6%","g":"067.5%","b":"025.5%"},"hsv":{"h":"134.9","s":"0.828","v":"0.675"},"hsl":{"h":"134.9","s":"0.707","l":"0.396"}},
+  {"hex":"#B430E5","hex8":"#FFB430E5","rgb":{"r":"070.4%","g":"018.7%","b":"089.7%"},"hsv":{"h":"283.7","s":"0.792","v":"0.897"},"hsl":{"h":"283.7","s":"0.775","l":"0.542"}},
+  {"hex":"#FEF888","hex8":"#FFFEF888","rgb":{"r":"099.8%","g":"097.4%","b":"053.2%"},"hsv":{"h":"56.9","s":"0.467","v":"0.998"},"hsl":{"h":"56.9","s":"0.991","l":"0.765"}},
+  {"hex":"#19CB97","hex8":"#FF19CB97","rgb":{"r":"009.9%","g":"079.5%","b":"059.1%"},"hsv":{"h":"162.4","s":"0.875","v":"0.795"},"hsl":{"h":"162.4","s":"0.779","l":"0.447"}},
+  {"hex":"#362698","hex8":"#FF362698","rgb":{"r":"021.1%","g":"014.9%","b":"059.7%"},"hsv":{"h":"248.3","s":"0.750","v":"0.597"},"hsl":{"h":"248.3","s":"0.601","l":"0.373"}},
+  {"hex":"#7E7EB8","hex8":"#FF7E7EB8","rgb":{"r":"049.5%","g":"049.3%","b":"072.1%"},"hsv":{"h":"240.5","s":"0.316","v":"0.721"},"hsl":{"h":"240.5","s":"0.290","l":"0.607"}}
 ];
 
 
@@ -60,10 +60,10 @@ test("Color Equality", function() {
 module("Ratio Parsing");
 test("With Ratio", function() {
   equal (tinycolor.fromRatio({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
-  equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: .5 }).toRgbString(), "rgba(255, 0, 0, 0.5)", "alpha works when ratio is parsed" );
-  equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 1 }).toRgbString(), "rgb(255, 0, 0)", "alpha = 1 works when ratio is parsed" );
-  equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 10 }).toRgbString(), "rgb(255, 0, 0)", "alpha > 1 works when ratio is parsed" );
-  equal ( tinycolor.fromRatio({r: 1, g: 0, b: 0, a: -1 }).toRgbString(), "rgb(255, 0, 0)", "alpha < 1 works when ratio is parsed" );
+  equal (tinycolor.fromRatio({r: 1, g: 0, b: 0, a: .5 }).toRgbString(), "rgba(255, 0, 0, 0.5)", "alpha works when ratio is parsed");
+  equal (tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 1 }).toRgbString(), "rgb(255, 0, 0)", "alpha = 1 works when ratio is parsed");
+  equal (tinycolor.fromRatio({r: 1, g: 0, b: 0, a: 10 }).toRgbString(), "rgb(255, 0, 0)", "alpha > 1 works when ratio is parsed");
+  equal (tinycolor.fromRatio({r: 1, g: 0, b: 0, a: -1 }).toRgbString(), "rgb(255, 0, 0)", "alpha < 1 works when ratio is parsed");
 });
 
 test("Without Ratio", function() {
@@ -128,13 +128,13 @@ test("Percentage RGB Text Parsing", function() {
 });
 
 test("HSL parsing", function() {
-  equal( tinycolor({ h: 251, s: 100, l: .38 }).toHexString(), "#2400c2", "to hex" );
-  equal( tinycolor({ h: 251, s: 100, l: .38 }).toRgbString(), "rgb(36, 0, 194)", "to rgb" );
-  equal( tinycolor({ h: 251, s: 100, l: .38 }).toHslString(), "hsl(251, 100%, 38%)", "to hsl" );
-  equal( tinycolor("hsl(251, 100, 38)").toHexString(), "#2400c2", "to hex" );
-  equal( tinycolor("hsl(251, 100%, 38%)").toRgbString(), "rgb(36, 0, 194)", "to rgb" );
-  equal( tinycolor("hsl(251, 100%, 38%)").toHslString(), "hsl(251, 100%, 38%)", "to hsl" );
-  equal( tinycolor("hsl 100 20 10").toHslString(), "hsl(100, 20%, 10%)", "problematic hsl");
+  equal (tinycolor({ h: 251, s: 100, l: .38 }).toHexString(), "#2400c2", "to hex");
+  equal (tinycolor({ h: 251, s: 100, l: .38 }).toRgbString(), "rgb(36, 0, 194)", "to rgb");
+  equal (tinycolor({ h: 251, s: 100, l: .38 }).toHslString(), "hsl(251, 100%, 38%)", "to hsl");
+  equal (tinycolor("hsl(251, 100, 38)").toHexString(), "#2400c2", "to hex");
+  equal (tinycolor("hsl(251, 100%, 38%)").toRgbString(), "rgb(36, 0, 194)", "to rgb");
+  equal (tinycolor("hsl(251, 100%, 38%)").toHslString(), "hsl(251, 100%, 38%)", "to hsl");
+  equal (tinycolor("hsl 100 20 10").toHslString(), "hsl(100, 20%, 10%)", "problematic hsl");
 });
 
 
@@ -153,14 +153,14 @@ test("Hex Parsing", function() {
 
 test("HSV Parsing", function() {
 
-  equal( tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
-  equal( tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
+  equal (tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
+  equal (tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
 
 });
 
 test("Invalid Parsing", function() {
 
-  equal( tinycolor("this is not a color").toHexString(), "#000000");
+  equal (tinycolor("this is not a color").toHexString(), "#000000");
 
 });
 
@@ -313,16 +313,16 @@ test("Named colors", function() {
 
 module("Alpha handling");
 test("Invalid alpha should normalize to 1", function() {
-  equal(tinycolor({r:255,g:20,b:10,a: -1}).toRgbString(), "rgb(255, 20, 10)", "Negative value");
-  equal(tinycolor({r:255,g:20,b:10,a: -0}).toRgbString(), "rgba(255, 20, 10, 0)", "Negative 0");
-  equal(tinycolor({r:255,g:20,b:10,a: 0}).toRgbString(), "rgba(255, 20, 10, 0)", "0");
-  equal(tinycolor({r:255,g:20,b:10,a: .5}).toRgbString(), "rgba(255, 20, 10, 0.5)", ".5");
-  equal(tinycolor({r:255,g:20,b:10,a: 1}).toRgbString(), "rgb(255, 20, 10)", "1");
-  equal(tinycolor({r:255,g:20,b:10,a: 100}).toRgbString(), "rgb(255, 20, 10)", "Greater than 1");
-  equal(tinycolor({r:255,g:20,b:10,a: "asdfasd"}).toRgbString(), "rgb(255, 20, 10)",  "Non Numeric");
+  equal (tinycolor({r:255,g:20,b:10,a: -1}).toRgbString(), "rgb(255, 20, 10)", "Negative value");
+  equal (tinycolor({r:255,g:20,b:10,a: -0}).toRgbString(), "rgba(255, 20, 10, 0)", "Negative 0");
+  equal (tinycolor({r:255,g:20,b:10,a: 0}).toRgbString(), "rgba(255, 20, 10, 0)", "0");
+  equal (tinycolor({r:255,g:20,b:10,a: .5}).toRgbString(), "rgba(255, 20, 10, 0.5)", ".5");
+  equal (tinycolor({r:255,g:20,b:10,a: 1}).toRgbString(), "rgb(255, 20, 10)", "1");
+  equal (tinycolor({r:255,g:20,b:10,a: 100}).toRgbString(), "rgb(255, 20, 10)", "Greater than 1");
+  equal (tinycolor({r:255,g:20,b:10,a: "asdfasd"}).toRgbString(), "rgb(255, 20, 10)",  "Non Numeric");
 
-  equal(tinycolor("#fff").toRgbString(), "rgb(255, 255, 255)",  "Hex should be 1");
-  equal(tinycolor("rgba 255 0 0 100").toRgbString(), "rgb(255, 0, 0)",  "Greater than 1 in string parsing");
+  equal (tinycolor("#fff").toRgbString(), "rgb(255, 255, 255)",  "Hex should be 1");
+  equal (tinycolor("rgba 255 0 0 100").toRgbString(), "rgb(255, 0, 0)",  "Greater than 1 in string parsing");
 });
 
 test("toString() with alpha set", function() {
@@ -330,47 +330,47 @@ test("toString() with alpha set", function() {
   var transparentNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: 0 }, {format: "name"});
   var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "hex"});
 
-  equal(redNamed.toString(), "rgba(255, 0, 0, 0.5)", "Names should default to rgba if alpha is < 1");
-  equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
+  equal (redNamed.toString(), "rgba(255, 0, 0, 0.5)", "Names should default to rgba if alpha is < 1");
+  equal (redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
 
-  equal(redNamed.toString("hex"), "#ff0000", "Names should not be returned as rgba if format is specified");
-  equal(redNamed.toString("hex6"), "#ff0000", "Names should not be returned as rgba if format is specified");
-  equal(redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
-  equal(redNamed.toString("name"), "#ff0000", "Semi transparent names should return hex in toString() if name format is specified");
+  equal (redNamed.toString("hex"), "#ff0000", "Names should not be returned as rgba if format is specified");
+  equal (redNamed.toString("hex6"), "#ff0000", "Names should not be returned as rgba if format is specified");
+  equal (redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
+  equal (redNamed.toString("name"), "#ff0000", "Semi transparent names should return hex in toString() if name format is specified");
 
-  equal(redNamed.toName(), false, "Semi transparent names should be false in toName()");
+  equal (redNamed.toName(), false, "Semi transparent names should be false in toName()");
 
-  equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
-  equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
+  equal (redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
+  equal (transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
 });
 
 test("setting alpha", function() {
 
   var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
-  equal(hexSetter.getAlpha(), 1, "Alpha should start as 1");
+  equal (hexSetter.getAlpha(), 1, "Alpha should start as 1");
   hexSetter.setAlpha(.9);
-  equal(hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
+  equal (hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
   hexSetter.setAlpha(.5);
-  equal(hexSetter.getAlpha(), .5, "setAlpha should change alpha value");
+  equal (hexSetter.getAlpha(), .5, "setAlpha should change alpha value");
   hexSetter.setAlpha(0);
-  equal(hexSetter.getAlpha(), 0, "setAlpha should change alpha value");
+  equal (hexSetter.getAlpha(), 0, "setAlpha should change alpha value");
   hexSetter.setAlpha(-1);
-  equal(hexSetter.getAlpha(), 1, "setAlpha with value < 0 should be bound to 1");
+  equal (hexSetter.getAlpha(), 1, "setAlpha with value < 0 should be bound to 1");
   hexSetter.setAlpha(2);
-  equal(hexSetter.getAlpha(), 1, "setAlpha with value > 1 should be bound to 1");
+  equal (hexSetter.getAlpha(), 1, "setAlpha with value > 1 should be bound to 1");
   hexSetter.setAlpha();
-  equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+  equal (hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
   hexSetter.setAlpha(null);
-  equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+  equal (hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
   hexSetter.setAlpha("test");
-  equal(hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
+  equal (hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
 
 });
 
 test("Alpha = 0 should act differently on toName()", function() {
-  equal(tinycolor({r:255,g:20,b:10,a: 0}).toName(), "transparent", "0");
-  equal(tinycolor("transparent").toString(), "transparent", "toString when passed");
-  equal(tinycolor("transparent").toHex(), "000000", "toHex");
+  equal (tinycolor({r:255,g:20,b:10,a: 0}).toName(), "transparent", "0");
+  equal (tinycolor("transparent").toString(), "transparent", "toString when passed");
+  equal (tinycolor("transparent").toHex(), "000000", "toHex");
 });
 
 module("Initialization from tinycolor output");
@@ -390,9 +390,9 @@ test("HSL String", function() {
       var output = tinycolor(tiny.toHslString()).toRgb();
       var maxDiff = 2;
 
-      equal(Math.abs(input.r - output.r) <= maxDiff, true, "toHslString red value difference <= " + maxDiff);
-      equal(Math.abs(input.g - output.g) <= maxDiff, true, "toHslString green value difference <= " + maxDiff);
-      equal(Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHslString red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHslString green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
     }
 });
 test("HSV String", function() {
@@ -403,9 +403,9 @@ test("HSV String", function() {
       var output = tinycolor(tiny.toHsvString()).toRgb();
       var maxDiff = 2;
 
-      equal(Math.abs(input.r - output.r) <= maxDiff, true, "toHsvString red value difference <= " + maxDiff);
-      equal(Math.abs(input.g - output.g) <= maxDiff, true, "toHsvString green value difference <= " + maxDiff);
-      equal(Math.abs(input.b - output.b) <= maxDiff, true, "toHsvString blue value difference <= " + maxDiff);
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHsvString red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHsvString green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHsvString blue value difference <= " + maxDiff);
     }
 });
 
@@ -438,9 +438,9 @@ test("PRGB Object", function() {
       var output = tinycolor(tiny.toPercentageRgb()).toRgb();
       var maxDiff = 2;
 
-      equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-      equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-      equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
     }
 });
 test("PRGB String", function() {
@@ -451,9 +451,9 @@ test("PRGB String", function() {
       var output = tinycolor(tiny.toPercentageRgbString()).toRgb();
       var maxDiff = 2;
 
-      equal(Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-      equal(Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-      equal(Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+      equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+      equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+      equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
     }
 });
 test("Object", function() {
@@ -491,8 +491,8 @@ test("Filters", function () {
   equal (tinycolor("red").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)");
   equal (tinycolor("red").toFilter("blue"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)");
 
-  equal(tinycolor("transparent").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)");
-  equal(tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
+  equal (tinycolor("transparent").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)");
+  equal (tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
 
   equal (tinycolor("#ddf0f0f0").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ddf0f0f0,endColorstr=#ddf0f0f0)");
   equal (tinycolor("rgba(0, 0, 255, .5").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#800000ff,endColorstr=#800000ff)");
@@ -510,21 +510,21 @@ var DARKENS = ["ff0000","fa0000","f50000","f00000","eb0000","e60000","e00000","d
 
 test("Combinations", function () {
   for (var i = 0; i <= 100; i++) {
-    equal(tinycolor.desaturate("red", i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
+    equal (tinycolor.desaturate("red", i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal(tinycolor.saturate("red", i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
+    equal (tinycolor.saturate("red", i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal(tinycolor.lighten("red", i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
+    equal (tinycolor.lighten("red", i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal(tinycolor.darken("red", i).toHex(), DARKENS[i], "Darken " + i + " works");
+    equal (tinycolor.darken("red", i).toHex(), DARKENS[i], "Darken " + i + " works");
   }
 
 
-  equal(tinycolor.greyscale("red").toHex(), "808080", "Greyscale works")
-  equal(tinycolor.complement("red").toHex(), "00ffff", "Complement works");
+  equal (tinycolor.greyscale("red").toHex(), "808080", "Greyscale works")
+  equal (tinycolor.complement("red").toHex(), "00ffff", "Complement works");
 });
 
 
@@ -534,7 +534,7 @@ asyncTest("Ajax load", function() {
   $.get("allhex.txt", function(d) {
     var hex = d.split('\n');
     for (var i = 0, l = hex.length; i < l; i++) {
-      ok(tinycolor(hex[i]).toHex(), hex[i]);
+      ok (tinycolor(hex[i]).toHex(), hex[i]);
     }
     console.log(hex.length);
       start();
