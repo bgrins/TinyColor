@@ -8,7 +8,7 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
 
 ## Supported Color Types
 
-* Hex, 8-digit (ARGB) Hex
+### Hex, 8-digit (ARGB) Hex
 
     tinycolor("#000");
     tinycolor("000");
@@ -17,7 +17,7 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
     tinycolor("#88f0f0f6");
     tinycolor("88f0f0f6");
 
-* RGB, RGBA
+### RGB, RGBA
 
     tinycolor("rgb (255, 0, 0)");
     tinycolor("rgb 255 0 0");
@@ -26,7 +26,7 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
     tinycolor.fromRatio({ r: 1, g: 0, b: 0 });
     tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
 
-* HSL, HSLA
+### HSL, HSLA
 
     tinycolor("hsl(0, 100%, 50%)");
     tinycolor("hsla(0, 100%, 50%, .5)");
@@ -34,7 +34,7 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
     tinycolor("hsl 0 1.0 0.5");
     tinycolor({ h: 0, s: 1, l: .5 });
 
-* HSV, HSVA
+### HSV, HSVA
 
     tinycolor("hsv(0, 100%, 100%)");
     tinycolor("hsva(0, 100%, 100%, .5)");
@@ -42,7 +42,7 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
     tinycolor("hsv 0 1 1");
     tinycolor({ h: 0, s: 100, v: 100 });
 
-* Named
+### Named
 
     tinycolor("RED");
     tinycolor("blanchedalmond");
