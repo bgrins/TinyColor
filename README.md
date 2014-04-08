@@ -137,6 +137,7 @@ If you are calling this from code, you may want to use object input.  Here are e
 Modification functions may take an `amount` variable from 0 - 100, indicating how much the effect should be applied.
 
     tinycolor.lighten(color, amount = 10)
+    tinycolor.brighten(color, amount = 10)
     tinycolor.darken(color, amount = 10)
     tinycolor.desaturate(color, amount = 10)
     tinycolor.saturate(color, amount = 10)
