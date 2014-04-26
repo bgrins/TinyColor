@@ -1,1 +1,4 @@
 test/allhex.txt
+test/allhex_shorthand.txt
+test/convertWikipediaColors.html
+test/hexgen.js
