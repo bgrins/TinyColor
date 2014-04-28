@@ -49,6 +49,9 @@ var tinycolor = function tinycolor (color, opts) {
 };
 
 tinycolor.prototype = {
+    isValid: function() {
+        return this._ok;
+    },
     getAlpha: function() {
         return this._a;
     },
