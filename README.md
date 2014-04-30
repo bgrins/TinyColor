@@ -92,7 +92,7 @@ If you are calling this from code, you may want to use object input.  Here are s
 
 ### isValid
 
-Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will be act like `black` when being used with other methods.
+Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will act like `black` when being used with other methods.
 
     var color1 = tinycolor("red");
     color1.isValid(); // true
