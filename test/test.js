@@ -37,6 +37,7 @@ test("Color Equality", function() {
     var c =  conversions[i];
     var tiny =  tinycolor(c.hex);
 
+    ok (true, tiny.isValid());
     ok (true,
       "Testing " + c.hex + ": " + tiny.toRgbString() + " " + tiny.toPercentageRgbString() + " " + tiny.toHsvString() + " " + tiny.toHslString() + " " + tiny.toHexString() +
       "Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) + " " + JSON.stringify(c.hsl)
@@ -159,9 +160,9 @@ test("HSV Parsing", function() {
 });
 
 test("Invalid Parsing", function() {
-
-  equal (tinycolor("this is not a color").toHexString(), "#000000");
-
+  var invalidColor = tinycolor("this is not a color");
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
 });
 
 test("Named colors", function() {

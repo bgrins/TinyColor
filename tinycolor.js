@@ -1,4 +1,4 @@
-// TinyColor v0.9.18
+// TinyColor v0.10.0
 // https://github.com/bgrins/TinyColor
 // 2013-08-10, Brian Grinstead, MIT License
 
@@ -49,6 +49,9 @@ var tinycolor = function tinycolor (color, opts) {
 };
 
 tinycolor.prototype = {
+    isValid: function() {
+        return this._ok;
+    },
     getAlpha: function() {
         return this._a;
     },
