@@ -6,7 +6,38 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
 
 [![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
-## Supported Color Types
+## Including in a browser
+
+    <script type='text/javascript' src='tinycolor.js'></script>
+    <script type='text/javascript'>
+    var color = tinycolor("red");
+    </script>
+
+## Including in node
+
+`tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
+
+    npm install tinycolor2
+
+Then it can be used in your script like so:
+
+    var tinycolor = require("./tinycolor");
+    var color = tinycolor("red");
+
+## Usage
+
+Call `tinycolor(input)` or `new tinycolor(input)`, and you will have an object with the following properties.  See Accepted String Input and Accepted Object Input below for more information about what is accepted.
+
+## Accepted String Input
+
+The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
+
+HSL and HSV both require either 0%-100% or 0-1.
+
+RGB input requires either 0-255 or 0%-100%.
+
+If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
+Here are some examples of string input:
 
 ### Hex, 8-digit (ARGB) Hex
 
@@ -48,85 +79,134 @@ Fast, small color manipulation and conversion for JavaScript.  TinyColor is allo
     tinycolor("blanchedalmond");
     tinycolor("darkblue");
 
-## Using in a browser
-
-    <script type='text/javascript' src='tinycolor.js'></script>
-    <script type='text/javascript'>
-    var t = tinycolor("red");
-
-    t.toHex() // "ff0000"
-    t.toHexString() // "#ff0000"
-    t.toHex8() // "ffff0000"
-    t.toHex8String() // "#ffff0000"
-    t.toRgb() // {"r":255,"g":0,"b":0} or {"r":255,"g":0,"b":0,"a":0.5}
-    t.toRgbString() // "rgb(255, 0, 0)" or "rgba(255, 0, 0, 0.5)"
-    t.toPercentageRgb() // {"r":100,"g":0,"b":0} or {"r":100,"g":0,"b":0,"a":0.5}
-    t.toPercentageRgbString() // "rgb(100%, 0%, 0%)" or "rgba(100%, 0%, 0%, 0.5)"
-    t.toHsv() // {"h":0,"s":1,"v":1}
-    t.toHsvString() // "hsv(0, 100%, 100%)"
-    t.toHsl() // {"h":0,"s":1,"l":0.5}
-    t.toHslString() // "hsl(0, 100%, 50%)"
-    t.toName() // "red"
-    t.toString(/* format */) // "red"
-    t.toFilter()
-    </script>
-
-## Using in node
-
-`tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
-
-```
-npm install tinycolor2
-```
-
-Then it can be used:
-
-```js
-var tinycolor = require("./tinycolor");
-```
-
-### Accepted String Input
-
-The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
-
-HSL and HSV both require either 0%-100% or 0-1.
-
-RGB input requires either 0-255 or 0%-100%.
-
-If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
-Here are some examples of string input:
-
-```
-red
-#fff
-fff
-#ffffff
-ffffff
-#ffffffff
-ffffffff
-rgb(255, 0, 0)
-rgb 255 0 0
-hsl(0, 100, 50)
-hsl(0, 100%, 50%)
-hsl 0 100 50
-hsl 0 100% 50%
-hsv(0, 100%, 100%)
-hsv(0, 100, 100)
-hsv 0 100% 100%
-hsv 0 100 100
-```
-
 ### Accepted Object Input
 
-If you are calling this from code, you may want to use object input.  Here are examples of the different types of accepted object inputs:
+If you are calling this from code, you may want to use object input.  Here are some examples of the different types of accepted object inputs:
 
-```js
-{ r: 255, g: 0, b: 0 }
-{ r: 255, g: 0, b: 0, a: .5 }
-{ h: 0, s: 100, l: 50 }
-{ h: 0, s: 100, v: 100 }
-// etc...
-```
+    { r: 255, g: 0, b: 0 }
+    { r: 255, g: 0, b: 0, a: .5 }
+    { h: 0, s: 100, l: 50 }
+    { h: 0, s: 100, v: 100 }
+
+## Methods
+
+### isValid
+
+Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will act like `black` when being used with other methods.
+
+    var color1 = tinycolor("red");
+    color1.isValid(); // true
+    color1.toHexString(); // "#ff0000"
+
+    var color2 = tinycolor("not a color");
+    color2.isValid(); // false
+    color2.toString(); // "#000000"
+
+### getAlpha
+
+Returns the alpha value of a color, from `0-1`.
+
+    var color1 = tinycolor("rgba(255, 0, 0, .5)");
+    color1.getAlpha(); // 0.5
+
+    var color2 = tinycolor("rgb(255, 0, 0)");
+    color2.getAlpha(); // 1
+
+    var color3 = tinycolor("transparent");
+    color3.getAlpha(); // 0
+
+### setAlpha
+
+Sets the alpha value on a current color.  Accepted range is in between `0-1`.
+
+    var color = tinycolor("red");
+    color.getAlpha(); // 1
+    color.setAlpha(.5);
+    color.getAlpha(); // .5
+    color.toRgbString(); // "rgba(255, 0, 0, .5)"
+
+### toHsv
+
+    var color = tinycolor("red");
+    color.toHsv(); // { h: 0, s: 1, v: 1, a: 1 }
+
+### toHsvString
+
+    var color = tinycolor("red");
+    color.toHsvString(); // "hsv(0, 100%, 100%)"
+
+### toHsl
+
+    var color = tinycolor("red");
+    color.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
+
+### toHslString
+
+    var color = tinycolor("red");
+    color.toHslString(); // "hsl(0, 100%, 50%)"
+
+### toHex
+
+    var color = tinycolor("red");
+    color.toHex(); // "ff0000"
+
+### toHexString
+
+    var color = tinycolor("red");
+    color.toHexString(); // "#ff0000"
+
+### toHex8
+
+    var color = tinycolor("red");
+    color.toHex8(); // "ffff0000"
+
+### toHex8String
+
+    var color = tinycolor("red");
+    color.toHex8String(); // "#ffff0000"
+
+### toRgb
+
+    var color = tinycolor("red");
+    color.toRgb(); // { r: 255, g: 0, b: 0, a: 1 }
+
+### toRgbString
+
+    var color = tinycolor("red");
+    color.toRgbString(); // "rgb(255, 0, 0)"
+
+### toPercentageRgb
+
+    var color = tinycolor("red");
+    color.toPercentageRgb() // { r: "100%", g: "0%", b: "0%", a: 1 }
+
+### toPercentageRgbString
+
+    var color = tinycolor("red");
+    color.toPercentageRgbString(); // "rgb(100%, 0%, 0%)"
+
+### toName
+
+    var color = tinycolor("red");
+    color.toName(); // "red"
+
+### toFilter
+
+    var color = tinycolor("red");
+    color.toFilter(); // "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)"
+
+### toString
+
+Print to a string, depending on the input format.  You can also override this by passing one of `"rgb", "prgb", "hex6", "hex3", "hex8", "name", "hsl", "hsv"` into the function.
+
+    var color1 = tinycolor("red");
+    color1.toString(); // "red"
+    color1.toString("hsv"); // ""hsv(0, 100%, 100%)"
+
+    var color2 = tinycolor("rgb(255, 0, 0)");
+    color2.toString(); // "rgb(255, 0, 0)"
+    color2.setAlpha(.5);
+    color2.toString(); // "rgba(255, 0, 0, 0.5)"
 
 ## Color Utilities
 
