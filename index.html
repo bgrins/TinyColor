@@ -26,7 +26,7 @@
 
 			$("#code-output").text(output).css("border-color", tiny.toHexString());
 
-			var filters = $("#filter-output").toggleClass("invisible", !tiny.ok);
+			var filters = $("#filter-output").toggleClass("invisible", !tiny.isValid());
 
 			filters.find(".lighten").css("background-color",
 			     tinycolor.lighten(tiny, 20).toHexString()
@@ -43,6 +43,9 @@
 			filters.find(".greyscale").css("background-color",
 			     tinycolor.greyscale(tiny).toHexString()
 			 );
+			filters.find(".brighten").css("background-color",
+			     tinycolor.brighten(tiny, 20).toHexString()
+            );
 
 			var allColors = [];
 			for (var i in tinycolor.names) {
@@ -54,7 +57,7 @@
 			     mostReadable.toHexString()
 			 );
 
-			 var combines = $("#combine-output").toggleClass("invisible", !tiny.ok);
+			 var combines = $("#combine-output").toggleClass("invisible", !tiny.isValid());
 
 			 var triad = tinycolor.triad(tiny);
 			 combines.find(".triad").html($.map(triad, function(e) {
@@ -158,6 +161,10 @@
 	       <tr>
 	           <th>Greyscale</th>
 	           <td><div class='greyscale'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Brighten</th>
+	           <td><div class='brighten'></div></td>
 	       </tr>
 	       <tr>
 	           <th>Most Readable</th>
