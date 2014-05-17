@@ -52,6 +52,9 @@ tinycolor.prototype = {
     isValid: function() {
         return this._ok;
     },
+    getFormat: function() {
+        return this._format;
+    },
     getAlpha: function() {
         return this._a;
     },
