@@ -343,6 +343,9 @@ test("toString() with alpha set", function() {
 
   equal (redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
   equal (transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
+
+  redHex.setAlpha(0);
+  equal (redHex.toString(), "rgba(255, 0, 0, 0)", "Hex should default to rgba if alpha is = 0");
 });
 
 test("setting alpha", function() {

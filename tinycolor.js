@@ -137,10 +137,15 @@ tinycolor.prototype = {
         format = format || this._format;
 
         var formattedString = false;
-        var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
-        var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
+        var hasAlpha = this._a < 1 && this._a >= 0;
+        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
 
-        if (formatWithAlpha) {
+        if (needsAlphaFormat) {
+            // Special case for "transparent", all other non-alpha formats
+            // will return rgba when there is transparency.
+            if (format === "name" && this._a === 0) {
+                return this.toName();
+            }
             return this.toRgbString();
         }
         if (format === "rgb") {
