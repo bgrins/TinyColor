@@ -102,6 +102,26 @@ Return a boolean indicating whether the color was successfully parsed.  Note: if
     color2.isValid(); // false
     color2.toString(); // "#000000"
 
+### isLight
+
+Return a boolean indicating whether the color's perceived brightness is light.
+
+    var color1 = tinycolor("#fff");
+    color1.isLight(); // true
+
+    var color2 = tinycolor("#000");
+    color2.isLight(); // false
+
+### isDark
+
+Return a boolean indicating whether the color's perceived brightness is dark.
+
+    var color1 = tinycolor("#fff");
+    color1.isDark(); // false
+
+    var color2 = tinycolor("#000");
+    color2.isDark(); // true
+
 ### getAlpha
 
 Returns the alpha value of a color, from `0-1`.
@@ -114,6 +134,16 @@ Returns the alpha value of a color, from `0-1`.
 
     var color3 = tinycolor("transparent");
     color3.getAlpha(); // 0
+
+### getBrightness
+
+Returns the perceived brightness of a color, from `0-255`.
+
+    var color1 = tinycolor("#fff");
+    color1.getBrightness(); // 255
+
+    var color2 = tinycolor("#000");
+    color2.getBrightness(); // 0
 
 ### setAlpha
 
