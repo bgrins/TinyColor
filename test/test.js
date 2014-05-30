@@ -31,7 +31,6 @@ var conversions = [
 
 
 module("Color translations");
-
 test("Color Equality", function() {
   for (var i = 0; i < conversions.length; i++) {
     var c =  conversions[i];
@@ -58,6 +57,7 @@ test("Color Equality", function() {
   }
 });
 
+
 module("Ratio Parsing");
 test("With Ratio", function() {
   equal (tinycolor.fromRatio({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
@@ -71,13 +71,11 @@ test("Without Ratio", function() {
   equal (tinycolor({r: 1, g: 1, b: 1}).toHexString(), "#010101", "010101");
   equal (tinycolor({r: .1, g: .1, b: .1}).toHexString(), "#000000", "000000");
   equal (tinycolor("rgb .1 .1 .1").toHexString(), "#000000", "000000");
-
 });
 
+
 module("String Parsing");
-
 test("RGB Text Parsing", function() {
-
   equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000", "spaced input");
   equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#ff0000", "parenthesized input");
   equal (tinycolor("rgb (255, 0, 0)").toHexString(), "#ff0000", "parenthesized spaced input");
@@ -99,11 +97,9 @@ test("RGB Text Parsing", function() {
   ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb(200, 100, 0)"));
   ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
   ok (tinycolor.equals(tinycolor({r:200, g: 100, b: 0 }), "rgb 200 100 0"));
-
 });
 
 test("Percentage RGB Text Parsing", function() {
-
   equal (tinycolor("rgb 100% 0% 0%").toHexString(), "#ff0000", "spaced input");
   equal (tinycolor("rgb(100%, 0%, 0%)").toHexString(), "#ff0000", "parenthesized input");
   equal (tinycolor("rgb (100%, 0%, 0%)").toHexString(), "#ff0000", "parenthesized spaced input");
@@ -125,7 +121,6 @@ test("Percentage RGB Text Parsing", function() {
   ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb(90%, 45%, 0%)"));
   ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb 90% 45% 0%"));
   ok (tinycolor.equals(tinycolor({r:"90%", g: "45%", b: "0%" }), "rgb 90% 45% 0%"));
-
 });
 
 test("HSL parsing", function() {
@@ -138,9 +133,7 @@ test("HSL parsing", function() {
   equal (tinycolor("hsl 100 20 10").toHslString(), "hsl(100, 20%, 10%)", "problematic hsl");
 });
 
-
 test("Hex Parsing", function() {
-
   equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000");
   equal (tinycolor("rgb 255 0 0").toHexString(true), "#f00");
   equal (tinycolor("rgba 255 0 0 0.5").toHex8String(), "#80ff0000");
@@ -149,14 +142,11 @@ test("Hex Parsing", function() {
   equal (tinycolor("rgb 255 0 0").toHex(), "ff0000");
   equal (tinycolor("rgb 255 0 0").toHex(true), "f00");
   equal (tinycolor("rgba 255 0 0 0.5").toHex8(), "80ff0000");
-
 });
 
 test("HSV Parsing", function() {
-
   equal (tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
   equal (tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
-
 });
 
 test("Invalid Parsing", function() {
@@ -312,6 +302,7 @@ test("Named colors", function() {
   equal (tinycolor("#fa0a0a").toName(), false);
 });
 
+
 module("Alpha handling");
 test("Invalid alpha should normalize to 1", function() {
   equal (tinycolor({r:255,g:20,b:10,a: -1}).toRgbString(), "rgb(255, 20, 10)", "Negative value");
@@ -352,7 +343,6 @@ test("toString() with alpha set", function() {
 });
 
 test("setting alpha", function() {
-
   var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
   equal (hexSetter.getAlpha(), 1, "Alpha should start as 1");
   hexSetter.setAlpha(.9);
@@ -371,7 +361,6 @@ test("setting alpha", function() {
   equal (hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
   hexSetter.setAlpha("test");
   equal (hexSetter.getAlpha(), 1, "setAlpha with invalid value should be bound to 1");
-
 });
 
 test("Alpha = 0 should act differently on toName()", function() {
@@ -448,6 +437,7 @@ test("HSL String", function() {
       equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
     }
 });
+
 test("HSV String", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -469,6 +459,7 @@ test("HSV Object", function() {
       equal (tiny.toHexString(), tinycolor(tiny.toHsv()).toHexString(), "HSV Object");
     }
 });
+
 test("RGB Object", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -476,6 +467,7 @@ test("RGB Object", function() {
       equal (tiny.toHexString(), tinycolor(tiny.toRgb()).toHexString(), "RGB Object");
     }
 });
+
 test("RGB String", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -483,6 +475,7 @@ test("RGB String", function() {
       equal (tiny.toHexString(), tinycolor(tiny.toRgbString()).toHexString(), "RGB String");
     }
 });
+
 test("PRGB Object", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -496,6 +489,7 @@ test("PRGB Object", function() {
       equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
     }
 });
+
 test("PRGB String", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -509,6 +503,7 @@ test("PRGB String", function() {
       equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
     }
 });
+
 test("Object", function() {
     for (var i = 0; i < conversions.length; i++) {
       var c =  conversions[i];
@@ -519,7 +514,6 @@ test("Object", function() {
 
 
 module("Utilities");
-
 test("Color equality", function() {
   ok (tinycolor.equals("#ff0000", "#ff0000"), "Same hex");
   ok (tinycolor.equals("#ff0000", "rgb(255, 0, 0)"), "Same alphas");
@@ -580,14 +574,13 @@ test("Combinations", function () {
   }
 
 
-  equal (tinycolor.greyscale("red").toHex(), "808080", "Greyscale works")
+  equal (tinycolor.greyscale("red").toHex(), "808080", "Greyscale works");
   equal (tinycolor.complement("red").toHex(), "00ffff", "Complement works");
 });
 
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {
-
   $.get("allhex.txt", function(d) {
     var hex = d.split('\n');
     for (var i = 0, l = hex.length; i < l; i++) {
