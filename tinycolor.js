@@ -49,6 +49,12 @@ var tinycolor = function tinycolor (color, opts) {
 };
 
 tinycolor.prototype = {
+    isDark: function() {
+        return this.getBrightness() < 128;
+    },
+    isLight: function() {
+        return !this.isDark();
+    },
     isValid: function() {
         return this._ok;
     },
@@ -57,6 +63,10 @@ tinycolor.prototype = {
     },
     getAlpha: function() {
         return this._a;
+    },
+    getBrightness: function() {
+        var rgb = this.toRgb();
+        return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
     },
     setAlpha: function(value) {
         this._a = boundAlpha(value);
@@ -576,14 +586,16 @@ tinycolor.monochromatic = function(color, results) {
 //    `brightness`: difference in brightness between the two colors
 //    `color`: difference in color/hue between the two colors
 tinycolor.readability = function(color1, color2) {
-    var a = tinycolor(color1).toRgb();
-    var b = tinycolor(color2).toRgb();
-    var brightnessA = (a.r * 299 + a.g * 587 + a.b * 114) / 1000;
-    var brightnessB = (b.r * 299 + b.g * 587 + b.b * 114) / 1000;
+    var c1 = tinycolor(color1);
+    var c2 = tinycolor(color2);
+    var rgb1 = c1.toRgb();
+    var rgb2 = c2.toRgb();
+    var brightnessA = c1.getBrightness();
+    var brightnessB = c2.getBrightness();
     var colorDiff = (
-        Math.max(a.r, b.r) - Math.min(a.r, b.r) +
-        Math.max(a.g, b.g) - Math.min(a.g, b.g) +
-        Math.max(a.b, b.b) - Math.min(a.b, b.b)
+        Math.max(rgb1.r, rgb2.r) - Math.min(rgb1.r, rgb2.r) +
+        Math.max(rgb1.g, rgb2.g) - Math.min(rgb1.g, rgb2.g) +
+        Math.max(rgb1.b, rgb2.b) - Math.min(rgb1.b, rgb2.b)
     );
 
     return {

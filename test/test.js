@@ -380,6 +380,52 @@ test("Alpha = 0 should act differently on toName()", function() {
   equal (tinycolor("transparent").toHex(), "000000", "toHex");
 });
 
+
+module("Brightness handling");
+test("getBrightness", function() {
+    equal(tinycolor('#000').getBrightness(), 0, 'returns 0 for #000');
+    equal(tinycolor('#fff').getBrightness(), 255, 'returns 255 for #fff');
+});
+
+test("isDark returns true/false for dark/light colors", function() {
+    equal(tinycolor('#000').isDark(), true, '#000 is dark');
+    equal(tinycolor('#111').isDark(), true, '#111 is dark');
+    equal(tinycolor('#222').isDark(), true, '#222 is dark');
+    equal(tinycolor('#333').isDark(), true, '#333 is dark');
+    equal(tinycolor('#444').isDark(), true, '#444 is dark');
+    equal(tinycolor('#555').isDark(), true, '#555 is dark');
+    equal(tinycolor('#666').isDark(), true, '#666 is dark');
+    equal(tinycolor('#777').isDark(), true, '#777 is dark');
+    equal(tinycolor('#888').isDark(), false, '#888 is not dark');
+    equal(tinycolor('#999').isDark(), false, '#999 is not dark');
+    equal(tinycolor('#aaa').isDark(), false, '#aaa is not dark');
+    equal(tinycolor('#bbb').isDark(), false, '#bbb is not dark');
+    equal(tinycolor('#ccc').isDark(), false, '#ccc is not dark');
+    equal(tinycolor('#ddd').isDark(), false, '#ddd is not dark');
+    equal(tinycolor('#eee').isDark(), false, '#eee is not dark');
+    equal(tinycolor('#fff').isDark(), false, '#fff is not dark');
+});
+
+test("isLight returns true/false for light/dark colors", function() {
+    equal(tinycolor('#000').isLight(), false, '#000 is not light');
+    equal(tinycolor('#111').isLight(), false, '#111 is not light');
+    equal(tinycolor('#222').isLight(), false, '#222 is not light');
+    equal(tinycolor('#333').isLight(), false, '#333 is not light');
+    equal(tinycolor('#444').isLight(), false, '#444 is not light');
+    equal(tinycolor('#555').isLight(), false, '#555 is not light');
+    equal(tinycolor('#666').isLight(), false, '#666 is not light');
+    equal(tinycolor('#777').isLight(), false, '#777 is not light');
+    equal(tinycolor('#888').isLight(), true, '#888 is light');
+    equal(tinycolor('#999').isLight(), true, '#999 is light');
+    equal(tinycolor('#aaa').isLight(), true, '#aaa is light');
+    equal(tinycolor('#bbb').isLight(), true, '#bbb is light');
+    equal(tinycolor('#ccc').isLight(), true, '#ccc is light');
+    equal(tinycolor('#ddd').isLight(), true, '#ddd is light');
+    equal(tinycolor('#eee').isLight(), true, '#eee is light');
+    equal(tinycolor('#fff').isLight(), true, '#fff is light');
+});
+
+
 module("Initialization from tinycolor output");
 test("HSL Object", function() {
     for (var i = 0; i < conversions.length; i++) {
