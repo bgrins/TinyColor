@@ -61,6 +61,7 @@ tinycolor.prototype = {
     setAlpha: function(value) {
         this._a = boundAlpha(value);
         this._roundA = mathRound(100*this._a) / 100;
+        return this;
     },
     toHsv: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
