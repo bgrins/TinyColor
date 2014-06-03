@@ -355,7 +355,8 @@ test("setting alpha", function() {
 
   var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
   equal (hexSetter.getAlpha(), 1, "Alpha should start as 1");
-  hexSetter.setAlpha(.9);
+  var returnedFromSetAlpha = hexSetter.setAlpha(.9);
+  equal (returnedFromSetAlpha, hexSetter, "setAlpha return value should be the color.");
   equal (hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
   hexSetter.setAlpha(.5);
   equal (hexSetter.getAlpha(), .5, "setAlpha should change alpha value");
