@@ -252,6 +252,7 @@ Modification functions may take an `amount` variable from 0 - 100, indicating ho
     tinycolor.desaturate(color, amount = 10)
     tinycolor.saturate(color, amount = 10)
     tinycolor.greyscale(color)
+    tinycolor.spin(color, amount)
 
 ### Color Combinations
 

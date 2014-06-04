@@ -579,6 +579,17 @@ test("Combinations", function () {
   equal (tinycolor.complement("red").toHex(), "00ffff", "Complement works");
 });
 
+test("Spin", function() {
+    var red = tinycolor("#f00");
+
+    equal(Math.round(tinycolor.spin(red, -1234).toHsl().h), 206, "Spinning -1234 works");
+    equal(Math.round(tinycolor.spin(red, -360).toHsl().h), 0, "Spinning -360 works");
+    equal(Math.round(tinycolor.spin(red, -120).toHsl().h), 240, "Spinning -120 works");
+    equal(Math.round(tinycolor.spin(red, 0).toHsl().h), 0, "Spinning 0 works");
+    equal(Math.round(tinycolor.spin(red, 10).toHsl().h), 10, "Spinning 10 works");
+    equal(Math.round(tinycolor.spin(red, 360).toHsl().h), 0, "Spinning 360 works");
+    equal(Math.round(tinycolor.spin(red, 2345).toHsl().h), 185, "Spinning 2345 works");
+});
 
 /* Too slow: 1677731 possibilities
 asyncTest("Ajax load", function() {
