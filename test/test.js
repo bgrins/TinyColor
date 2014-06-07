@@ -574,21 +574,45 @@ test("Combinations", function () {
     equal (tinycolor.darken("red", i).toHex(), DARKENS[i], "Darken " + i + " works");
   }
 
-
   equal (tinycolor.greyscale("red").toHex(), "808080", "Greyscale works");
   equal (tinycolor.complement("red").toHex(), "00ffff", "Complement works");
 });
 
-test("Spin", function() {
+test("Spin", function () {
     var red = tinycolor("#f00");
 
-    equal(Math.round(tinycolor.spin(red, -1234).toHsl().h), 206, "Spinning -1234 works");
-    equal(Math.round(tinycolor.spin(red, -360).toHsl().h), 0, "Spinning -360 works");
-    equal(Math.round(tinycolor.spin(red, -120).toHsl().h), 240, "Spinning -120 works");
-    equal(Math.round(tinycolor.spin(red, 0).toHsl().h), 0, "Spinning 0 works");
-    equal(Math.round(tinycolor.spin(red, 10).toHsl().h), 10, "Spinning 10 works");
-    equal(Math.round(tinycolor.spin(red, 360).toHsl().h), 0, "Spinning 360 works");
-    equal(Math.round(tinycolor.spin(red, 2345).toHsl().h), 185, "Spinning 2345 works");
+    equal (Math.round(tinycolor.spin(red, -1234).toHsl().h), 206, "Spinning -1234 works");
+    equal (Math.round(tinycolor.spin(red, -360).toHsl().h), 0, "Spinning -360 works");
+    equal (Math.round(tinycolor.spin(red, -120).toHsl().h), 240, "Spinning -120 works");
+    equal (Math.round(tinycolor.spin(red, 0).toHsl().h), 0, "Spinning 0 works");
+    equal (Math.round(tinycolor.spin(red, 10).toHsl().h), 10, "Spinning 10 works");
+    equal (Math.round(tinycolor.spin(red, 360).toHsl().h), 0, "Spinning 360 works");
+    equal (Math.round(tinycolor.spin(red, 2345).toHsl().h), 185, "Spinning 2345 works");
+});
+
+test("Mix", function () {
+    // amount 0 or none
+    equal(tinycolor.mix('#000', '#fff').toHsl().l, 0.5, "Mixing without amount works");
+    equal(tinycolor.mix('#f00', '#000', 0).toHex(), 'ff0000', "Mixing with 0 amount works");
+
+    // black and white
+    for (var i = 0; i < 100; i++) {
+        equal(Math.round(tinycolor.mix('#000', '#fff', i).toHsl().l * 100) / 100, i / 100, "Mixing black and white with " + i + " amount works");
+    }
+
+    // with colors
+    for (var i = 0; i < 100; i++) {
+        var new_hex = Math.round(255 * (1 - (i / 100))).toString(16);
+
+        if (new_hex.length === 1) {
+            new_hex = '0' + new_hex;
+        }
+
+        equal(tinycolor.mix('#f00', '#000', i).toHex(),  new_hex + '0000', "Mixing " + i + " (red channel)");
+        equal(tinycolor.mix('#0f0', '#000', i).toHex(),  '00' + new_hex + '00', "Mixing " + i + " (green channel)");
+        equal(tinycolor.mix('#00f', '#000', i).toHex(),  '0000' + new_hex, "Mixing " + i + " (blue channel)");
+        equal(tinycolor.mix(tinycolor('transparent'), '#000', i).toRgb().a, i / 100, "Mixing " + i + " (alpha channel)");
+    }
 });
 
 /* Too slow: 1677731 possibilities
