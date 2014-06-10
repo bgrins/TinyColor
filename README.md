@@ -253,7 +253,7 @@ Modification functions may take an `amount` variable from 0 - 100, indicating ho
     tinycolor.saturate(color, amount = 10)
     tinycolor.greyscale(color)
     tinycolor.spin(color, amount)
-    tinycolor.mix(color1, color2, amount)
+    tinycolor.mix(color1, color2, amount = 50)
 
 ### Color Combinations
 
