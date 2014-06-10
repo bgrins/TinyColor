@@ -522,11 +522,7 @@ tinycolor.spin = function(color, amount) {
     return tinycolor(hsl);
 };
 tinycolor.mix = function(color1, color2, amount) {
-    if (amount === 0) {
-        return tinycolor(color1);
-    }
-
-    amount = amount || 50;
+    amount = (amount === 0) ? 0 : (amount || 50);
 
     var rgb1 = tinycolor(color1).toRgb();
     var rgb2 = tinycolor(color2).toRgb();
@@ -535,7 +531,16 @@ tinycolor.mix = function(color1, color2, amount) {
     var w = p * 2 - 1;
     var a = rgb2.a - rgb1.a;
 
-    var w1 = (((w * a == -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
+    var w1;
+
+    if (w * a == -1) {
+        w1 = w;
+    } else {
+        w1 = (w + a) / (1 + w * a);
+    }
+
+    w1 = (w1 + 1 ) / 2;
+
     var w2 = 1 - w1;
 
     var rgba = {
