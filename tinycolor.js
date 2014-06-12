@@ -539,7 +539,7 @@ tinycolor.mix = function(color1, color2, amount) {
         w1 = (w + a) / (1 + w * a);
     }
 
-    w1 = (w1 + 1 ) / 2;
+    w1 = (w1 + 1) / 2;
 
     var w2 = 1 - w1;
 
