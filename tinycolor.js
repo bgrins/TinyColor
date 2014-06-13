@@ -1,6 +1,6 @@
-// TinyColor v0.10.0
+// TinyColor v0.11.0
 // https://github.com/bgrins/TinyColor
-// 2013-08-10, Brian Grinstead, MIT License
+// 2014-06-13, Brian Grinstead, MIT License
 
 (function() {
 
@@ -49,15 +49,29 @@ var tinycolor = function tinycolor (color, opts) {
 };
 
 tinycolor.prototype = {
+    isDark: function() {
+        return this.getBrightness() < 128;
+    },
+    isLight: function() {
+        return !this.isDark();
+    },
     isValid: function() {
         return this._ok;
+    },
+    getFormat: function() {
+        return this._format;
     },
     getAlpha: function() {
         return this._a;
     },
+    getBrightness: function() {
+        var rgb = this.toRgb();
+        return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+    },
     setAlpha: function(value) {
         this._a = boundAlpha(value);
         this._roundA = mathRound(100*this._a) / 100;
+        return this;
     },
     toHsv: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
@@ -137,10 +151,15 @@ tinycolor.prototype = {
         format = format || this._format;
 
         var formattedString = false;
-        var hasAlphaAndFormatNotSet = !formatSet && this._a < 1 && this._a > 0;
-        var formatWithAlpha = hasAlphaAndFormatNotSet && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
+        var hasAlpha = this._a < 1 && this._a >= 0;
+        var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "name");
 
-        if (formatWithAlpha) {
+        if (needsAlphaFormat) {
+            // Special case for "transparent", all other non-alpha formats
+            // will return rgba when there is transparency.
+            if (format === "name" && this._a === 0) {
+                return this.toName();
+            }
             return this.toRgbString();
         }
         if (format === "rgb") {
@@ -494,7 +513,45 @@ tinycolor.complement = function(color) {
     hsl.h = (hsl.h + 180) % 360;
     return tinycolor(hsl);
 };
+// Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
+// Values outside of this range will be wrapped into this range.
+tinycolor.spin = function(color, amount) {
+    var hsl = tinycolor(color).toHsl();
+    var hue = (mathRound(hsl.h) + amount) % 360;
+    hsl.h = hue < 0 ? 360 + hue : hue;
+    return tinycolor(hsl);
+};
+tinycolor.mix = function(color1, color2, amount) {
+    amount = (amount === 0) ? 0 : (amount || 50);
 
+    var rgb1 = tinycolor(color1).toRgb();
+    var rgb2 = tinycolor(color2).toRgb();
+
+    var p = amount / 100;
+    var w = p * 2 - 1;
+    var a = rgb2.a - rgb1.a;
+
+    var w1;
+
+    if (w * a == -1) {
+        w1 = w;
+    } else {
+        w1 = (w + a) / (1 + w * a);
+    }
+
+    w1 = (w1 + 1) / 2;
+
+    var w2 = 1 - w1;
+
+    var rgba = {
+        r: rgb2.r * w1 + rgb1.r * w2,
+        g: rgb2.g * w1 + rgb1.g * w2,
+        b: rgb2.b * w1 + rgb1.b * w2,
+        a: rgb2.a * p  + rgb1.a * (1 - p)
+    };
+
+    return tinycolor(rgba);
+};
 
 // Combination Functions
 // ---------------------
@@ -568,14 +625,16 @@ tinycolor.monochromatic = function(color, results) {
 //    `brightness`: difference in brightness between the two colors
 //    `color`: difference in color/hue between the two colors
 tinycolor.readability = function(color1, color2) {
-    var a = tinycolor(color1).toRgb();
-    var b = tinycolor(color2).toRgb();
-    var brightnessA = (a.r * 299 + a.g * 587 + a.b * 114) / 1000;
-    var brightnessB = (b.r * 299 + b.g * 587 + b.b * 114) / 1000;
+    var c1 = tinycolor(color1);
+    var c2 = tinycolor(color2);
+    var rgb1 = c1.toRgb();
+    var rgb2 = c2.toRgb();
+    var brightnessA = c1.getBrightness();
+    var brightnessB = c2.getBrightness();
     var colorDiff = (
-        Math.max(a.r, b.r) - Math.min(a.r, b.r) +
-        Math.max(a.g, b.g) - Math.min(a.g, b.g) +
-        Math.max(a.b, b.b) - Math.min(a.b, b.b)
+        Math.max(rgb1.r, rgb2.r) - Math.min(rgb1.r, rgb2.r) +
+        Math.max(rgb1.g, rgb2.g) - Math.min(rgb1.g, rgb2.g) +
+        Math.max(rgb1.b, rgb2.b) - Math.min(rgb1.b, rgb2.b)
     );
 
     return {
