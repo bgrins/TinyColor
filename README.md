@@ -262,7 +262,7 @@ Combination functions return an Array of TinyColor objects.
     tinycolor.analogous(color, results = 6, slices = 30)
     tinycolor.complement(color)
     tinycolor.monochromatic(color, results = 6)
-    tinycolor.splitcomplements(color)
+    tinycolor.splitcomplement(color)
     tinycolor.triad(color)
     tinycolor.tetrad(color)
 
