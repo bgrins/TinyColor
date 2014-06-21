@@ -577,7 +577,6 @@ test("Modifications", function () {
   }
 
   equal (tinycolor("red").greyscale().toHex(), "808080", "Greyscale works");
-  equal (tinycolor("red").complement().toHex(), "00ffff", "Complement works");
 });
 
 test("Spin", function () {
@@ -624,6 +623,12 @@ function colorsToHexString(colors) {
     return c.toHex();
   }).join(",");
 }
+
+test("complement", function() {
+  var complementDoesntModifyInstance = tinycolor("red");
+  equal (complementDoesntModifyInstance.complement().toHex(), "00ffff", "Complement works");
+  equal (complementDoesntModifyInstance.toHex(), "ff0000", "Complement did not modify this color");
+});
 
 test("analogous", function() {
   var combination = tinycolor("red").analogous();

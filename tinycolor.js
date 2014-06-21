@@ -219,15 +219,15 @@ tinycolor.prototype = {
     spin: function() {
         return this._applyModification(spin, arguments);
     },
-    complement: function() {
-        return this._applyModification(complement, arguments);
-    },
 
     _applyCombination: function(fn, args) {
         return fn.apply(null, [this].concat([].slice.call(args)));
     },
     analogous: function() {
         return this._applyCombination(analogous, arguments);
+    },
+    complement: function() {
+        return this._applyCombination(complement, arguments);
     },
     monochromatic: function() {
         return this._applyCombination(monochromatic, arguments);
@@ -566,12 +566,6 @@ function darken (color, amount) {
     return tinycolor(hsl);
 }
 
-function complement(color) {
-    var hsl = tinycolor(color).toHsl();
-    hsl.h = (hsl.h + 180) % 360;
-    return tinycolor(hsl);
-}
-
 // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
 // Values outside of this range will be wrapped into this range.
 function spin(color, amount) {
@@ -585,6 +579,12 @@ function spin(color, amount) {
 // ---------------------
 // Thanks to jQuery xColor for some of the ideas behind these
 // <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
+
+function complement(color) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.h = (hsl.h + 180) % 360;
+    return tinycolor(hsl);
+}
 
 function triad(color) {
     var hsl = tinycolor(color).toHsl();
