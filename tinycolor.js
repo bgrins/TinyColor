@@ -714,8 +714,8 @@ tinycolor.readability = function(color1, color2) {
 // http://www.w3.org/TR/AERT#color-contrast
 // Ensure that foreground and background color combinations provide sufficient contrast.
 // *Example*
-//    tinycolor.readable("#000", "#111") => false
-tinycolor.readable = function(color1, color2) {
+//    tinycolor.isReadable("#000", "#111") => false
+tinycolor.isReadable = function(color1, color2) {
     var readability = tinycolor.readability(color1, color2);
     return readability.brightness > 125 && readability.color > 500;
 };

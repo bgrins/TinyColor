@@ -526,12 +526,18 @@ test("Color equality", function() {
   ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
-
-test("Readability", function () {
-    ok (tinycolor.readable("#000000", "#ffffff"), "white/black is readable");
-    ok (!tinycolor.readable("#FF0088", "#8822AA"), "pink on pink is not readable");
-    equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
-    equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
+test("isReadable", function() {
+  ok (tinycolor.isReadable("#000000", "#ffffff"), "white/black is readable");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA"), "pink on pink is not readable");
+});
+test("readability", function() {
+  // XXX: Need tests for readability
+  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51}, "Readability 1");
+  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765}, "Readability 2");
+});
+test("mostReadable", function () {
+  equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
+  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
 });
 
 test("Filters", function () {

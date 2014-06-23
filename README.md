@@ -357,18 +357,23 @@ Combination functions return an array of TinyColor objects unless otherwise note
     tinycolor.equals(color1, color2)
     tinycolor.mix(color1, color2, amount = 50)
 
-### Readability
+### readability
 
-Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
+`readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
 
-    tinycolor.readability(color1, color2);
+    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51}
+    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765}
 
-Ensure that foreground and background color combinations provide sufficient contrast.
+### isReadable
 
-    tinycolor.readable(color1, color2);
+`isReadable: function(TinyColor, TinyColor) -> Boolean`.  Ensure that foreground and background color combinations provide sufficient contrast.
+
+    tinycolor.isReadable("#000", "#111"); // false
+
+### mostReadable
 
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
 
-    tinycolor.mostReadable(baseColor, colorList);
+    tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
