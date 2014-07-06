@@ -526,12 +526,18 @@ test("Color equality", function() {
   ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
-
-test("Readability", function () {
-    ok (tinycolor.readable("#000000", "#ffffff"), "white/black is readable");
-    ok (!tinycolor.readable("#FF0088", "#8822AA"), "pink on pink is not readable");
-    equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
-    equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
+test("isReadable", function() {
+  ok (tinycolor.isReadable("#000000", "#ffffff"), "white/black is readable");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA"), "pink on pink is not readable");
+});
+test("readability", function() {
+  // XXX: Need tests for readability
+  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51}, "Readability 1");
+  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765}, "Readability 2");
+});
+test("mostReadable", function () {
+  equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
+  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
 });
 
 test("Filters", function () {
@@ -546,6 +552,8 @@ test("Filters", function () {
   equal (tinycolor("rgba(0, 0, 255, .5").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#800000ff,endColorstr=#800000ff)");
 });
 
+module("Modifications");
+
 /* Originally generated with:
 var results = [];
 for (var i = 0; i <= 100; i++) results.push( tinycolor.saturate("red", i).toHex() )
@@ -557,37 +565,34 @@ var LIGHTENS = ["ff0000","ff0505","ff0a0a","ff0f0f","ff1414","ff1a1a","ff1f1f","
 var BRIGHTENS = ["ff0000","ff0303","ff0505","ff0808","ff0a0a","ff0d0d","ff0f0f","ff1212","ff1414","ff1717","ff1919","ff1c1c","ff1f1f","ff2121","ff2424","ff2626","ff2929","ff2b2b","ff2e2e","ff3030","ff3333","ff3636","ff3838","ff3b3b","ff3d3d","ff4040","ff4242","ff4545","ff4747","ff4a4a","ff4c4c","ff4f4f","ff5252","ff5454","ff5757","ff5959","ff5c5c","ff5e5e","ff6161","ff6363","ff6666","ff6969","ff6b6b","ff6e6e","ff7070","ff7373","ff7575","ff7878","ff7a7a","ff7d7d","ff7f7f","ff8282","ff8585","ff8787","ff8a8a","ff8c8c","ff8f8f","ff9191","ff9494","ff9696","ff9999","ff9c9c","ff9e9e","ffa1a1","ffa3a3","ffa6a6","ffa8a8","ffabab","ffadad","ffb0b0","ffb2b2","ffb5b5","ffb8b8","ffbaba","ffbdbd","ffbfbf","ffc2c2","ffc4c4","ffc7c7","ffc9c9","ffcccc","ffcfcf","ffd1d1","ffd4d4","ffd6d6","ffd9d9","ffdbdb","ffdede","ffe0e0","ffe3e3","ffe5e5","ffe8e8","ffebeb","ffeded","fff0f0","fff2f2","fff5f5","fff7f7","fffafa","fffcfc","ffffff"];
 var DARKENS = ["ff0000","fa0000","f50000","f00000","eb0000","e60000","e00000","db0000","d60000","d10000","cc0000","c70000","c20000","bd0000","b80000","b30000","ad0000","a80000","a30000","9e0000","990000","940000","8f0000","8a0000","850000","800000","7a0000","750000","700000","6b0000","660000","610000","5c0000","570000","520000","4d0000","470000","420000","3d0000","380000","330000","2e0000","290000","240000","1f0000","190000","140000","0f0000","0a0000","050000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000"];
 
-test("Combinations", function () {
+test("Modifications", function () {
   for (var i = 0; i <= 100; i++) {
-    equal (tinycolor.desaturate("red", i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
+    equal (tinycolor("red").desaturate(i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal (tinycolor.saturate("red", i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
+    equal (tinycolor("red").saturate(i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal (tinycolor.lighten("red", i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
+    equal (tinycolor("red").lighten(i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal (tinycolor.brighten("red", i).toHex(), BRIGHTENS[i], "Brighter " + i + " works");
+    equal (tinycolor("red").brighten(i).toHex(), BRIGHTENS[i], "Brighter " + i + " works");
   }
   for (var i = 0; i <= 100; i++) {
-    equal (tinycolor.darken("red", i).toHex(), DARKENS[i], "Darken " + i + " works");
+    equal (tinycolor("red").darken(i).toHex(), DARKENS[i], "Darken " + i + " works");
   }
 
-  equal (tinycolor.greyscale("red").toHex(), "808080", "Greyscale works");
-  equal (tinycolor.complement("red").toHex(), "00ffff", "Complement works");
+  equal (tinycolor("red").greyscale().toHex(), "808080", "Greyscale works");
 });
 
 test("Spin", function () {
-    var red = tinycolor("#f00");
-
-    equal (Math.round(tinycolor.spin(red, -1234).toHsl().h), 206, "Spinning -1234 works");
-    equal (Math.round(tinycolor.spin(red, -360).toHsl().h), 0, "Spinning -360 works");
-    equal (Math.round(tinycolor.spin(red, -120).toHsl().h), 240, "Spinning -120 works");
-    equal (Math.round(tinycolor.spin(red, 0).toHsl().h), 0, "Spinning 0 works");
-    equal (Math.round(tinycolor.spin(red, 10).toHsl().h), 10, "Spinning 10 works");
-    equal (Math.round(tinycolor.spin(red, 360).toHsl().h), 0, "Spinning 360 works");
-    equal (Math.round(tinycolor.spin(red, 2345).toHsl().h), 185, "Spinning 2345 works");
+    equal (Math.round(tinycolor("#f00").spin(-1234).toHsl().h), 206, "Spinning -1234 works");
+    equal (Math.round(tinycolor("#f00").spin(-360).toHsl().h), 0, "Spinning -360 works");
+    equal (Math.round(tinycolor("#f00").spin(-120).toHsl().h), 240, "Spinning -120 works");
+    equal (Math.round(tinycolor("#f00").spin(0).toHsl().h), 0, "Spinning 0 works");
+    equal (Math.round(tinycolor("#f00").spin(10).toHsl().h), 10, "Spinning 10 works");
+    equal (Math.round(tinycolor("#f00").spin(360).toHsl().h), 0, "Spinning 360 works");
+    equal (Math.round(tinycolor("#f00").spin(2345).toHsl().h), 185, "Spinning 2345 works");
 });
 
 test("Mix", function () {
@@ -615,15 +620,43 @@ test("Mix", function () {
     }
 });
 
-/* Too slow: 1677731 possibilities
-asyncTest("Ajax load", function() {
-  $.get("allhex.txt", function(d) {
-    var hex = d.split('\n');
-    for (var i = 0, l = hex.length; i < l; i++) {
-      ok (tinycolor(hex[i]).toHex(), hex[i]);
-    }
-    console.log(hex.length);
-      start();
-  });
+
+// The combination tests need to be expanded further
+module("Combinations");
+
+function colorsToHexString(colors) {
+  return colors.map(function(c) {
+    return c.toHex();
+  }).join(",");
+}
+
+test("complement", function() {
+  var complementDoesntModifyInstance = tinycolor("red");
+  equal (complementDoesntModifyInstance.complement().toHex(), "00ffff", "Complement works");
+  equal (complementDoesntModifyInstance.toHex(), "ff0000", "Complement did not modify this color");
 });
-*/
+
+test("analogous", function() {
+  var combination = tinycolor("red").analogous();
+  equal(colorsToHexString(combination), "ff0000,ff0066,ff0033,ff0000,ff3300,ff6600", "Correct Combination");
+});
+
+test("monochromatic", function() {
+  var combination = tinycolor("red").monochromatic();
+  equal(colorsToHexString(combination), "ff0000,2a0000,550000,800000,aa0000,d40000", "Correct Combination");
+});
+
+test("splitcomplement", function() {
+  var combination = tinycolor("red").splitcomplement();
+  equal(colorsToHexString(combination), "ff0000,ccff00,0066ff", "Correct Combination");
+});
+
+test("triad", function() {
+  var combination = tinycolor("red").triad();
+  equal(colorsToHexString(combination), "ff0000,00ff00,0000ff", "Correct Combination");
+});
+
+test("tetrad", function() {
+  var combination = tinycolor("red").tetrad();
+  equal(colorsToHexString(combination), "ff0000,80ff00,00ffff,7f00ff", "Correct Combination");
+});

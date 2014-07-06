@@ -1,12 +1,18 @@
 # TinyColor
 
-## JavaScript color parsing
+## JavaScript color tooling
 
-Fast, small color manipulation and conversion for JavaScript.  TinyColor is allows many forms of input, while providing color conversions and other color utility functions.  It has no dependencies.
+TinyColor is a small, fast library for color manipulation and conversion in JavaScript.  It allows many forms of input, while providing color conversions and other color utility functions.  It has no dependencies.
 
 [![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
 ## Including in a browser
+
+Download [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js) or install it with bower:
+
+    bower install tinycolor
+
+Then just include it in the page in a `script` tag:
 
     <script type='text/javascript' src='tinycolor.js'></script>
     <script type='text/javascript'>
@@ -238,46 +244,136 @@ Print to a string, depending on the input format.  You can also override this by
     color2.setAlpha(.5);
     color2.toString(); // "rgba(255, 0, 0, 0.5)"
 
-## Color Utilities
-
-    tinycolor.equals(color1, color2)
-
 ### Color Modification
 
-Modification functions may take an `amount` variable from 0 - 100, indicating how much the effect should be applied.
+These methods manipulate the current color, and return it for chaining.  For instance:
 
-    tinycolor.lighten(color, amount = 10)
-    tinycolor.brighten(color, amount = 10)
-    tinycolor.darken(color, amount = 10)
-    tinycolor.desaturate(color, amount = 10)
-    tinycolor.saturate(color, amount = 10)
-    tinycolor.greyscale(color)
-    tinycolor.spin(color, amount)
-    tinycolor.mix(color1, color2, amount = 50)
+    tinycolor("red").lighten().desaturate().toHexString() // "#f53d3d"
+
+### lighten
+
+`lighten: function(amount = 10) -> TinyColor`.  Lighten the color a given amount, from 0 to 100.  Providing 100 will always return white.
+
+    tinycolor("#f00").lighten().toString(); // "#ff3333"
+    tinycolor("#f00").lighten(100).toString(); // "#ffffff"
+
+### brighten
+
+`brighten: function(amount = 10) -> TinyColor`.  Brighten the color a given amount, from 0 to 100.
+
+    tinycolor("#f00").brighten().toString(); // "#ff1919"
+
+### darken
+
+`darken: function(amount = 10) -> TinyColor`.  Darken the color a given amount, from 0 to 100.  Providing 100 will always return black.
+
+    tinycolor("#f00").darken().toString(); // "#cc0000"
+    tinycolor("#f00").darken(100).toString(); // "#000000"
+
+### desaturate
+
+`desaturate: function(amount = 10) -> TinyColor`.  Desaturate the color a given amount, from 0 to 100.  Providing 100 will is the same as calling `greyscale`.
+
+    tinycolor("#f00").desaturate().toString(); // "#f20d0d"
+    tinycolor("#f00").desaturate(100).toString(); // "#808080"
+
+### saturate
+
+`saturate: function(amount = 10) -> TinyColor`.  Saturate the color a given amount, from 0 to 100.
+
+    tinycolor("hsl(0, 10%, 50%)").saturate().toString(); // "hsl(0, 20%, 50%)"
+
+### greyscale
+
+`greyscale: function() -> TinyColor`.  Completely desaturates a color into greyscale.  Same as calling `desaturate(100)`.
+
+    tinycolor("#f00").greyscale().toString(); // "#808080"
+
+### spin
+
+`spin: function(amount = 0) -> TinyColor`.  Spin the hue a given amount, from -360 to 360.  Calling with 0, 360, or -360 will do nothing (since it sets the hue back to what it was before).
+
+    tinycolor("#f00").spin(180).toString(); // "#00ffff"
+    tinycolor("#f00").spin(-90).toString(); // "#7f00ff"
+    tinycolor("#f00").spin(90).toString(); // "#80ff00"
+
+    // spin(0) and spin(360) do nothing
+    tinycolor("#f00").spin(0).toString(); // "#ff0000"
+    tinycolor("#f00").spin(360).toString(); // "#ff0000"
 
 ### Color Combinations
 
-Combination functions return an Array of TinyColor objects.
+Combination functions return an array of TinyColor objects unless otherwise noted.
 
-    tinycolor.analogous(color, results = 6, slices = 30)
-    tinycolor.complement(color)
-    tinycolor.monochromatic(color, results = 6)
-    tinycolor.splitcomplement(color)
-    tinycolor.triad(color)
-    tinycolor.tetrad(color)
+### analogous
 
-### Readability
+`analogous: function(, results = 6, slices = 30) -> array<TinyColor>`.
 
-Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
+    var colors = tinycolor("#f00").analogous();
 
-    tinycolor.readability(color1, color2);
+    colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#ff0066", "#ff0033", "#ff0000", "#ff3300", "#ff6600" ]
 
-Ensure that foreground and background color combinations provide sufficient contrast.
+### monochromatic
 
-    tinycolor.readable(color1, color2);
+`monochromatic: function(, results = 6) -> array<TinyColor>`.
+
+    var colors = tinycolor("#f00").monochromatic();
+
+    colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#2a0000", "#550000", "#800000", "#aa0000", "#d40000" ]
+
+### splitcomplement
+
+`splitcomplement: function() -> array<TinyColor>`.
+
+    var colors = tinycolor("#f00").splitcomplement();
+
+    colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#ccff00", "#0066ff" ]
+
+### triad
+
+`triad: function() -> array<TinyColor>`.
+
+    var colors = tinycolor("#f00").triad();
+
+    colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#00ff00", "#0000ff" ]
+
+### tetrad
+
+`tetrad: function() -> array<TinyColor>`.
+
+    var colors = tinycolor("#f00").tetrad();
+
+    colors.map(function(t) { return t.toHexString(); }); // [ "#ff0000", "#80ff00", "#00ffff", "#7f00ff" ]
+
+
+### complement
+
+`complement: function() -> TinyColor`.
+
+    tinycolor("#f00").complement().toHexString(); // "#00ffff"
+
+## Color Utilities
+
+    tinycolor.equals(color1, color2)
+    tinycolor.mix(color1, color2, amount = 50)
+
+### readability
+
+`readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
+
+    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51}
+    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765}
+
+### isReadable
+
+`isReadable: function(TinyColor, TinyColor) -> Boolean`.  Ensure that foreground and background color combinations provide sufficient contrast.
+
+    tinycolor.isReadable("#000", "#111"); // false
+
+### mostReadable
 
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
 
-    tinycolor.mostReadable(baseColor, colorList);
+    tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.

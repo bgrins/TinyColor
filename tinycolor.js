@@ -1,4 +1,4 @@
-// TinyColor v0.11.2
+// TinyColor v1.0.0
 // https://github.com/bgrins/TinyColor
 // 2014-06-13, Brian Grinstead, MIT License
 
@@ -188,6 +188,58 @@ tinycolor.prototype = {
         }
 
         return formattedString || this.toHexString();
+    },
+
+    _applyModification: function(fn, args) {
+        var color = fn.apply(null, [this].concat([].slice.call(args)));
+        this._r = color._r;
+        this._g = color._g;
+        this._b = color._b;
+        this.setAlpha(color._a);
+        return this;
+    },
+    lighten: function() {
+        return this._applyModification(lighten, arguments);
+    },
+    brighten: function() {
+        return this._applyModification(brighten, arguments);
+    },
+    darken: function() {
+        return this._applyModification(darken, arguments);
+    },
+    desaturate: function() {
+        return this._applyModification(desaturate, arguments);
+    },
+    saturate: function() {
+        return this._applyModification(saturate, arguments);
+    },
+    greyscale: function() {
+        return this._applyModification(greyscale, arguments);
+    },
+    spin: function() {
+        return this._applyModification(spin, arguments);
+    },
+
+    _applyCombination: function(fn, args) {
+        return fn.apply(null, [this].concat([].slice.call(args)));
+    },
+    analogous: function() {
+        return this._applyCombination(analogous, arguments);
+    },
+    complement: function() {
+        return this._applyCombination(complement, arguments);
+    },
+    monochromatic: function() {
+        return this._applyCombination(monochromatic, arguments);
+    },
+    splitcomplement: function() {
+        return this._applyCombination(splitcomplement, arguments);
+    },
+    triad: function() {
+        return this._applyCombination(triad, arguments);
+    },
+    tetrad: function() {
+        return this._applyCombination(tetrad, arguments);
     }
 };
 
@@ -469,58 +521,135 @@ tinycolor.random = function() {
 // Thanks to less.js for some of the basics here
 // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
 
-tinycolor.desaturate = function (color, amount) {
+function desaturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
     hsl.s -= amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
-};
-tinycolor.saturate = function (color, amount) {
+}
+
+function saturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
     hsl.s += amount / 100;
     hsl.s = clamp01(hsl.s);
     return tinycolor(hsl);
-};
-tinycolor.greyscale = function(color) {
-    return tinycolor.desaturate(color, 100);
-};
-tinycolor.lighten = function(color, amount) {
+}
+
+function greyscale(color) {
+    return tinycolor(color).desaturate(100);
+}
+
+function lighten (color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
     hsl.l += amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
-};
-tinycolor.brighten = function(color, amount) {
+}
+
+function brighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var rgb = tinycolor(color).toRgb();
     rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
     rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
     rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
     return tinycolor(rgb);
-};
-tinycolor.darken = function (color, amount) {
+}
+
+function darken (color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var hsl = tinycolor(color).toHsl();
     hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
-};
-tinycolor.complement = function(color) {
-    var hsl = tinycolor(color).toHsl();
-    hsl.h = (hsl.h + 180) % 360;
-    return tinycolor(hsl);
-};
+}
+
 // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
 // Values outside of this range will be wrapped into this range.
-tinycolor.spin = function(color, amount) {
+function spin(color, amount) {
     var hsl = tinycolor(color).toHsl();
     var hue = (mathRound(hsl.h) + amount) % 360;
     hsl.h = hue < 0 ? 360 + hue : hue;
     return tinycolor(hsl);
-};
+}
+
+// Combination Functions
+// ---------------------
+// Thanks to jQuery xColor for some of the ideas behind these
+// <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
+
+function complement(color) {
+    var hsl = tinycolor(color).toHsl();
+    hsl.h = (hsl.h + 180) % 360;
+    return tinycolor(hsl);
+}
+
+function triad(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
+    ];
+}
+
+function tetrad(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
+        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
+    ];
+}
+
+function splitcomplement(color) {
+    var hsl = tinycolor(color).toHsl();
+    var h = hsl.h;
+    return [
+        tinycolor(color),
+        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
+        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
+    ];
+}
+
+function analogous(color, results, slices) {
+    results = results || 6;
+    slices = slices || 30;
+
+    var hsl = tinycolor(color).toHsl();
+    var part = 360 / slices;
+    var ret = [tinycolor(color)];
+
+    for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
+        hsl.h = (hsl.h + part) % 360;
+        ret.push(tinycolor(hsl));
+    }
+    return ret;
+}
+
+function monochromatic(color, results) {
+    results = results || 6;
+    var hsv = tinycolor(color).toHsv();
+    var h = hsv.h, s = hsv.s, v = hsv.v;
+    var ret = [];
+    var modification = 1 / results;
+
+    while (results--) {
+        ret.push(tinycolor({ h: h, s: s, v: v}));
+        v = (v + modification) % 1;
+    }
+
+    return ret;
+}
+
+// Utility Functions
+// ---------------------
+
 tinycolor.mix = function(color1, color2, amount) {
     amount = (amount === 0) ? 0 : (amount || 50);
 
@@ -551,68 +680,6 @@ tinycolor.mix = function(color1, color2, amount) {
     };
 
     return tinycolor(rgba);
-};
-
-// Combination Functions
-// ---------------------
-// Thanks to jQuery xColor for some of the ideas behind these
-// <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
-
-tinycolor.triad = function(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
-    ];
-};
-tinycolor.tetrad = function(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
-    ];
-};
-tinycolor.splitcomplement = function(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l}),
-        tinycolor({ h: (h + 216) % 360, s: hsl.s, l: hsl.l})
-    ];
-};
-tinycolor.analogous = function(color, results, slices) {
-    results = results || 6;
-    slices = slices || 30;
-
-    var hsl = tinycolor(color).toHsl();
-    var part = 360 / slices;
-    var ret = [tinycolor(color)];
-
-    for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results; ) {
-        hsl.h = (hsl.h + part) % 360;
-        ret.push(tinycolor(hsl));
-    }
-    return ret;
-};
-tinycolor.monochromatic = function(color, results) {
-    results = results || 6;
-    var hsv = tinycolor(color).toHsv();
-    var h = hsv.h, s = hsv.s, v = hsv.v;
-    var ret = [];
-    var modification = 1 / results;
-
-    while (results--) {
-        ret.push(tinycolor({ h: h, s: s, v: v}));
-        v = (v + modification) % 1;
-    }
-
-    return ret;
 };
 
 
@@ -647,8 +714,8 @@ tinycolor.readability = function(color1, color2) {
 // http://www.w3.org/TR/AERT#color-contrast
 // Ensure that foreground and background color combinations provide sufficient contrast.
 // *Example*
-//    tinycolor.readable("#000", "#111") => false
-tinycolor.readable = function(color1, color2) {
+//    tinycolor.isReadable("#000", "#111") => false
+tinycolor.isReadable = function(color1, color2) {
     var readability = tinycolor.readability(color1, color2);
     return readability.brightness > 125 && readability.color > 500;
 };

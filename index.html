@@ -20,7 +20,7 @@
 				"hsl:\t" + tiny.toHslString(),
 				"hsv:\t" + tiny.toHsvString(),
 				"name:\t" + (tiny.toName() || "none"),
-				"format:\t" + (tiny.format),
+				"format:\t" + (tiny.getFormat()),
 				"format string:\t" + tiny.toString(),
 			].join("\n");
 
@@ -29,22 +29,22 @@
 			var filters = $("#filter-output").toggleClass("invisible", !tiny.isValid());
 
 			filters.find(".lighten").css("background-color",
-			     tinycolor.lighten(tiny, 20).toHexString()
+			     tinycolor(color).lighten(20).toHexString()
             );
 			filters.find(".darken").css("background-color",
-			     tinycolor.darken(tiny, 20).toHexString()
+			     tinycolor(color).darken(20).toHexString()
             );
 			filters.find(".saturate").css("background-color",
-			     tinycolor.saturate(tiny, 20).toHexString()
+			     tinycolor(color).saturate(20).toHexString()
 			 );
 			filters.find(".desaturate").css("background-color",
-			     tinycolor.desaturate(tiny, 20).toHexString()
+			     tinycolor(color).desaturate(20).toHexString()
 			 );
 			filters.find(".greyscale").css("background-color",
-			     tinycolor.greyscale(tiny).toHexString()
+			     tinycolor(color).greyscale().toHexString()
 			 );
 			filters.find(".brighten").css("background-color",
-			     tinycolor.brighten(tiny, 20).toHexString()
+			     tinycolor(color).brighten(20).toHexString()
             );
 
 			var allColors = [];
@@ -59,35 +59,30 @@
 
 			 var combines = $("#combine-output").toggleClass("invisible", !tiny.isValid());
 
-			 var triad = tinycolor.triad(tiny);
-			 combines.find(".triad").html($.map(triad, function(e) {
+			 function colorArrayToHTML(arr) {
+			 	return $.map(arr, function(e) {
 			     return '<span style="background:'+e.toHexString()+'"></span>'
-			 }).join(''));
+			 	 }).join('');
+			 }
 
-			 var tetrad = tinycolor.tetrad(tiny);
-			 combines.find(".tetrad").html($.map(tetrad, function(e) {
-			     return '<span style="background:'+e.toHexString()+'"></span>'
-			 }).join(''));
+			 var triad = tiny.triad();
+			 combines.find(".triad").html(colorArrayToHTML(triad));
+			 console.log(triad.map(function(f) {return f.toHexString();}));
 
-			 var mono = tinycolor.monochromatic(tiny);
-			 combines.find(".mono").html($.map(mono, function(e) {
-			     return '<span style="background:'+e.toHexString()+'"></span>'
-			 }).join(''));
+			 var tetrad = tiny.tetrad();
+			 combines.find(".tetrad").html(colorArrayToHTML(tetrad));
 
-			 var analogous = tinycolor.analogous(tiny);
-			 combines.find(".analogous").html($.map(analogous, function(e) {
-			     return '<span style="background:'+e.toHexString()+'"></span>'
-			 }).join(''));
+			 var mono = tiny.monochromatic();
+			 combines.find(".mono").html(colorArrayToHTML(mono));
 
-			 var sc = tinycolor.splitcomplement(tiny);
-			 combines.find(".sc").html($.map(sc, function(e) {
-			     return '<span style="background:'+e.toHexString()+'"></span>'
-			 }).join(''));
+			 var analogous = tiny.analogous();
+			 combines.find(".analogous").html(colorArrayToHTML(analogous));
+
+			 var splitcomplement = tiny.splitcomplement();
+			 combines.find(".sc").html(colorArrayToHTML(splitcomplement));
 		}
 
 		$(function() {
-
-
 			$("#color").bind("keyup change", function() {
 				colorChange($(this).val());
 			});
