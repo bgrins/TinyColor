@@ -11,12 +11,14 @@ var trimLeft = /^[\s,#]+/,
     mathRound = math.round,
     mathMin = math.min,
     mathMax = math.max,
-    mathRandom = math.random;
+    mathRandom = math.random,
+    isUpperCase = false;
 
 var tinycolor = function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
+    isUpperCase = typeof color !== "object" ? color === color.toUpperCase() : false;
 
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
@@ -187,6 +189,9 @@ tinycolor.prototype = {
             formattedString = this.toHsvString();
         }
 
+        if (formattedString && isUpperCase) {
+            formattedString = formattedString.toUpperCase();
+        }
         return formattedString || this.toHexString();
     },
 
