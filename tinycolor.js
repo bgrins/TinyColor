@@ -28,6 +28,7 @@ var tinycolor = function tinycolor (color, opts) {
     }
 
     var rgb = inputToRGB(color);
+    this._originalInput = color,
     this._r = rgb.r,
     this._g = rgb.g,
     this._b = rgb.b,
@@ -57,6 +58,9 @@ tinycolor.prototype = {
     },
     isValid: function() {
         return this._ok;
+    },
+    getInput: function() {
+      return this._originalInput;  
     },
     getFormat: function() {
         return this._format;
