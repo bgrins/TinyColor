@@ -13,13 +13,15 @@ test("Original input", function() {
   var colorRgbUp   = "RGB(39, 39, 39)",
       colorRgbLow  = "rgb(39, 39, 39)",
       colorRgbMix  = "RgB(39, 39, 39)",
-      tinycolorObj = tinycolor(colorRgbMix);
+      tinycolorObj = tinycolor(colorRgbMix),
+      inputObj = {r:100,g:100,b:100};
   var r = tinycolor("red");
 
   ok (tinycolor(colorRgbLow).getOriginalInput() === colorRgbLow, "original lowercase input is returned");
   ok (tinycolor(colorRgbUp).getOriginalInput() === colorRgbUp, "original uppercase input is returned");
   ok (tinycolor(colorRgbMix).getOriginalInput() === colorRgbMix, "original mixed input is returned");
   ok (tinycolor(tinycolorObj).getOriginalInput() === colorRgbMix, "when given a tinycolor instance, the color string is returned");
+  ok (tinycolor(inputObj).getOriginalInput() === inputObj, "when given an object, the object is returned");
   ok (new tinycolor("").getOriginalInput() === "", "when given an empty string, an empty string is returned");
   ok (new tinycolor(null).getOriginalInput() === "", "when given a null value, an empty string is returned");
 });
