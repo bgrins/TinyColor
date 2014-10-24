@@ -878,6 +878,7 @@ var names = tinycolor.names = {
     plum: "dda0dd",
     powderblue: "b0e0e6",
     purple: "800080",
+    rebeccapurple: "663399",
     red: "f00",
     rosybrown: "bc8f8f",
     royalblue: "4169e1",
