@@ -1,4 +1,4 @@
-// TinyColor v1.0.0
+// TinyColor v1.1.0
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
