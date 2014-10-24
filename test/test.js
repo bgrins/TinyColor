@@ -1,12 +1,29 @@
 
 test("TinyColor initialization", function() {
   ok (typeof tinycolor != "undefined", "tinycolor is initialized on the page");
-  ok (typeof tinycolor("red") == "object", "tinycolor is able to be instantiated.");
+  ok (typeof tinycolor("red") == "object", "tinycolor is able to be instantiated");
   var r = tinycolor("red");
-  ok (tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it.");
-  ok (new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it.");
+  ok (tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it");
+  ok (new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it");
   equal (tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
   equal (tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
+});
+
+test("Original input", function() {
+  var colorRgbUp   = "RGB(39, 39, 39)",
+      colorRgbLow  = "rgb(39, 39, 39)",
+      colorRgbMix  = "RgB(39, 39, 39)",
+      tinycolorObj = tinycolor(colorRgbMix),
+      inputObj = {r:100,g:100,b:100};
+  var r = tinycolor("red");
+
+  ok (tinycolor(colorRgbLow).getOriginalInput() === colorRgbLow, "original lowercase input is returned");
+  ok (tinycolor(colorRgbUp).getOriginalInput() === colorRgbUp, "original uppercase input is returned");
+  ok (tinycolor(colorRgbMix).getOriginalInput() === colorRgbMix, "original mixed input is returned");
+  ok (tinycolor(tinycolorObj).getOriginalInput() === colorRgbMix, "when given a tinycolor instance, the color string is returned");
+  ok (tinycolor(inputObj).getOriginalInput() === inputObj, "when given an object, the object is returned");
+  ok (new tinycolor("").getOriginalInput() === "", "when given an empty string, an empty string is returned");
+  ok (new tinycolor(null).getOriginalInput() === "", "when given a null value, an empty string is returned");
 });
 
 // Taken from convertWikipediaColors.html
