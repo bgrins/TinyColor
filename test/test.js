@@ -287,6 +287,7 @@ test("Named colors", function() {
   equal (tinycolor("plum").toHex(), "dda0dd");
   equal (tinycolor("powderblue").toHex(), "b0e0e6");
   equal (tinycolor("purple").toHex(), "800080");
+  equal (tinycolor("rebeccapurple").toHex(), "663399");
   equal (tinycolor("red").toHex(), "ff0000");
   equal (tinycolor("rosybrown").toHex(), "bc8f8f");
   equal (tinycolor("royalblue").toHex(), "4169e1");
