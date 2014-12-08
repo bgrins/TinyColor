@@ -38,11 +38,12 @@ Call `tinycolor(input)` or `new tinycolor(input)`, and you will have an object w
 
 The string parsing is very permissive.  It is meant to make typing a color as input as easy as possible.  All commas, percentages, parenthesis are optional, and most input allow either 0-1, 0%-100%, or 0-n (where n is either 100, 255, or 360 depending on the value).
 
-HSL and HSV both require either 0%-100% or 0-1.
+HSL and HSV both require either 0%-100% or 0-1 for the `S`/`L`/`V` properties.  The `H` (hue) can have values between 0%-100% or 0-360.
 
 RGB input requires either 0-255 or 0%-100%.
 
-If you call `tinycolor.fromRatio`, RGB input can also accept 0-1
+If you call `tinycolor.fromRatio`, RGB and Hue input can also accept 0-1.
+
 Here are some examples of string input:
 
 ### Hex, 8-digit (ARGB) Hex
