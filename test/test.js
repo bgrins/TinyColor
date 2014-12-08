@@ -164,6 +164,7 @@ test("Hex Parsing", function() {
 test("HSV Parsing", function() {
   equal (tinycolor("hsv 251.1 0.887 .918").toHsvString(), "hsv(251, 89%, 92%)");
   equal (tinycolor("hsv 251.1 0.887 0.918").toHsvString(), "hsv(251, 89%, 92%)");
+  equal (tinycolor("hsva 251.1 0.887 0.918 0.5").toHsvString(), "hsva(251, 89%, 92%, 0.5)");
 });
 
 test("Invalid Parsing", function() {
