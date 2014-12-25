@@ -107,6 +107,16 @@ Returns the format used to create the tinycolor instance
     color.getFormat; // "rgb"
 ```
 
+### getOriginalInput
+
+Returns the input passed into the constructer used to create the tinycolor instance
+```js
+    var color = tinycolor("red");
+    color.getOriginalInput(); // "red"
+    color = tinycolor({r:255, g:255, b:255});
+    color.getOriginalInput; // "{r: 255, g: 255, b: 255}"
+```
+
 ### isValid
 
 Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will act like `black` when being used with other methods.
