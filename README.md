@@ -378,6 +378,14 @@ Combination functions return an array of TinyColor objects unless otherwise note
     tinycolor.equals(color1, color2)
     tinycolor.mix(color1, color2, amount = 50)
 
+### random
+
+Returns a random color
+```js
+var color = tinycolor.random();
+color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
+```
+
 ### readability
 
 `readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
