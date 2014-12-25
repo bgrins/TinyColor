@@ -97,6 +97,16 @@ If you are calling this from code, you may want to use object input.  Here are s
 
 ## Methods
 
+### getFormat
+
+Returns the format used to create the tinycolor instance
+```js
+    var color = tinycolor("red");
+    color.getFormat(); // "name"
+    color = tinycolor({r:255, g:255, b:255});
+    color.getFormat; // "rgb"
+```
+
 ### isValid
 
 Return a boolean indicating whether the color was successfully parsed.  Note: if the color is not valid then it will act like `black` when being used with other methods.
