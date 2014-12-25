@@ -200,7 +200,7 @@ The following methods will return a property for the `alpha` value, which can be
     var color = tinycolor("red");
     color.toHsvString(); // "hsv(0, 100%, 100%)"
     color.setAlpha(0.5);
-    color.toHsvString(); // "hsla(0, 100%, 100%, 0.5)"
+    color.toHsvString(); // "hsva(0, 100%, 100%, 0.5)"
 
 ### toHsl
 
