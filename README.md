@@ -71,6 +71,8 @@ Here are some examples of string input:
     tinycolor("hsl(0, 100%, 50%)");
     tinycolor("hsl 0 1.0 0.5");
     tinycolor({ h: 0, s: 1, l: .5 });
+    tinycolor.fromRatio({ h: 1, s: 0, l: 0 });
+    tinycolor.fromRatio({ h: .5, s: .5, l: .5 });
 
 ### HSV, HSVA
 
@@ -79,6 +81,8 @@ Here are some examples of string input:
     tinycolor("hsv (0 100% 100%)");
     tinycolor("hsv 0 1 1");
     tinycolor({ h: 0, s: 100, v: 100 });
+    tinycolor.fromRatio({ h: 1, s: 0, v: 0 });
+    tinycolor.fromRatio({ h: .5, s: .5, v: .5 });
 
 ### Named
 
@@ -182,6 +186,10 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
     color.getAlpha(); // .5
     color.toRgbString(); // "rgba(255, 0, 0, .5)"
 
+### String Representations
+
+The following methods will return a property for the `alpha` value, which can be ignored: `toHsv`, `toHsl`, `toRgb`
+
 ### toHsv
 
     var color = tinycolor("red");
@@ -191,6 +199,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toHsvString(); // "hsv(0, 100%, 100%)"
+    color.setAlpha(0.5);
+    color.toHsvString(); // "hsla(0, 100%, 100%, 0.5)"
 
 ### toHsl
 
@@ -201,6 +211,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toHslString(); // "hsl(0, 100%, 50%)"
+    color.setAlpha(0.5);
+    color.toHslString(); // "hsla(0, 100%, 50%, 0.5)"
 
 ### toHex
 
@@ -231,6 +243,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toRgbString(); // "rgb(255, 0, 0)"
+    color.setAlpha(0.5);
+    color.toRgbString(); // "rgba(255, 0, 0, 0.5)"
 
 ### toPercentageRgb
 
@@ -241,6 +255,8 @@ Sets the alpha value on a current color.  Accepted range is in between `0-1`.
 
     var color = tinycolor("red");
     color.toPercentageRgbString(); // "rgb(100%, 0%, 0%)"
+    color.setAlpha(0.5);
+    color.toPercentageRgbString(); // "rgba(100%, 0%, 0%, 0.5)"
 
 ### toName
 
