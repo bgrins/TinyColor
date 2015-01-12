@@ -72,6 +72,19 @@ tinycolor.prototype = {
         var rgb = this.toRgb();
         return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
     },
+    getLuminance: function() {
+        //http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+        var rgb = this.toRgb();
+        var RsRGB, GsRGB, BsRGB, R, G, B;
+        RsRGB = rgb.r/255;
+        GsRGB = rgb.g/255;
+        BsRGB = rgb.b/255;
+        RsRGB <= 0.03928 ? R = RsRGB / 12.92 : R = Math.pow(((RsRGB + 0.055) / 1.055), 2.4);
+        GsRGB <= 0.03928 ? G = GsRGB / 12.92 : G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);
+        BsRGB <= 0.03928 ? B = BsRGB / 12.92 : B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);
+        return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
+    },
+
     setAlpha: function(value) {
         this._a = boundAlpha(value);
         this._roundA = mathRound(100*this._a) / 100;
@@ -689,12 +702,14 @@ tinycolor.mix = function(color1, color2, amount) {
 
 // Readability Functions
 // ---------------------
-// <http://www.w3.org/TR/AERT#color-contrast>
+// <http://www.w3.org/TR/AERT#color-contrast> (WCAG Version 1)
+// <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
 
 // `readability`
 // Analyze the 2 colors and returns an object with the following properties:
-//    `brightness`: difference in brightness between the two colors
-//    `color`: difference in color/hue between the two colors
+//    `brightness`: difference in brightness between the two colors (WCAG Version 1)
+//    `color`: difference in color/hue between the two colors (WCAG Version 1)
+//    `contrast`: color contrast (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
     var c1 = tinycolor(color1);
     var c2 = tinycolor(color2);
@@ -702,6 +717,8 @@ tinycolor.readability = function(color1, color2) {
     var rgb2 = c2.toRgb();
     var brightnessA = c1.getBrightness();
     var brightnessB = c2.getBrightness();
+    var luminance1 = c1.getLuminance();
+    var luminance2 = c2.getLuminance();
     var colorDiff = (
         Math.max(rgb1.r, rgb2.r) - Math.min(rgb1.r, rgb2.r) +
         Math.max(rgb1.g, rgb2.g) - Math.min(rgb1.g, rgb2.g) +
@@ -710,7 +727,8 @@ tinycolor.readability = function(color1, color2) {
 
     return {
         brightness: Math.abs(brightnessA - brightnessB),
-        color: colorDiff
+        color: colorDiff,
+        contrast:(Math.max(luminance1,luminance2)+0.05) / (Math.min(luminance1,luminance2)+0.05)
     };
 };
 
@@ -752,7 +770,6 @@ tinycolor.mostReadable = function(baseColor, colorList) {
     }
     return bestColor;
 };
-
 
 // Big List of Colors
 // ------------------

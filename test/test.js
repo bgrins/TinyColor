@@ -392,8 +392,13 @@ test("Alpha = 0 should act differently on toName()", function() {
 
 module("Brightness handling");
 test("getBrightness", function() {
-    equal(tinycolor('#000').getBrightness(), 0, 'returns 0 for #000');
-    equal(tinycolor('#fff').getBrightness(), 255, 'returns 255 for #fff');
+  equal(tinycolor('#000').getBrightness(), 0, 'returns 0 for #000');
+  equal(tinycolor('#fff').getBrightness(), 255, 'returns 255 for #fff');
+});
+
+test("getLuminance", function() {
+  equal(tinycolor('#000').getLuminance(), 0, 'returns 0 for #000');
+  equal(tinycolor('#fff').getLuminance(), 1, 'returns 1 for #fff');
 });
 
 test("isDark returns true/false for dark/light colors", function() {
@@ -551,8 +556,9 @@ test("isReadable", function() {
 });
 test("readability", function() {
   // XXX: Need tests for readability
-  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51}, "Readability 1");
-  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765}, "Readability 2");
+  deepEqual(tinycolor.readability("#000", "#000"), {brightness: 0, color: 0, contrast:1}, "Readability 0");
+  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51, contrast:1.1121078324840545}, "Readability 1");
+  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765, contrast:21}, "Readability 2");
 });
 test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
