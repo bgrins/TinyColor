@@ -748,6 +748,9 @@ tinycolor.readability = function(color1, color2) {
     var wcag2Parms, wcag2ParmsConcat,  out;
     if (wcag2) {
         out = false;
+
+        // Herewith the algortihm in easy-to-understand format.
+
         wcag2Parms = validateWCAG2Parms(wcag2);
         switch (wcag2Parms.level + wcag2Parms.size) {
             case "AAsmall":
@@ -763,6 +766,30 @@ tinycolor.readability = function(color1, color2) {
                 out = readability.contrast >= 4.5;
                 break;
         }
+
+        // The optimisation below should run faster (and a quick few iterations of the test suite suggest it does),
+        // but it is far less easy to understand.
+
+        //if (readability.contrast >= 7) {
+        //    out = true;
+        //}
+        //else {
+        //    wcag2Parms = validateWCAG2Parms(wcag2);
+        //    wcag2ParmsConcat = wcag2Parms.level + wcag2Parms.size;
+        //    if (readability.contrast >= 4.5) {
+        //        if (wcag2ParmsConcat === "AAsmall" || wcag2ParmsConcat === "AAlarge"|| wcag2ParmsConcat === "AAAlarge") {
+        //            out = true;
+        //        }
+        //    }
+        //    else {
+        //        if (readability.contrast >= 3) {
+        //            if (wcag2ParmsConcat === "AAlarge") {
+        //                out = true;
+        //            }
+        //        }
+        //    }
+        //}
+
         return out;
     }
     else {

@@ -411,20 +411,36 @@ var color = tinycolor.random();
 color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
 ```
 
-### readability
-//todo - JL check this
-`readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
+### Readability
+TinyColor assesses readability based on the Web Content Accessibility Guidelines at http://www.w3.org/.
+There are two versions, referred to below as *WCAG1* (www.w3.org/TR/AERT#color-contrast) and
+*WCAG2* (www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef.
 
-    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51}
-    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765}
+####readability
 
-### isReadable
+`readability: function(TinyColor, TinyColor) -> Object`.
+Analyze 2 colors and return an object with the following properties:
+`brightness` is difference in brightness between the two colors (WCAG1).
+`color`: difference in color/hue between the two colors (WCAG1).
+`contrast`: contrast ratio between the two colors (WCAG2).
 
-`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color combinations meet WCAG guidelines.
-    Object is optional. If specified, it
-    tinycolor.isReadable("#000", "#111"); // false
+    tinycolor.readability("#000", "#000"); // {brightness: 0, color: 0, contrast: 1}
+    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51, contrast: 1.1121078324840545}
+    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765, contrast: 21}
 
-### mostReadable
+Use the values in your own calculations, or use one o the convenience functions below.
+
+#### isReadable
+
+`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color
+combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is used to determine readability.
+ If present, WCAG2 is used.
+    tinycolor.isReadable("#000", "#111"); // false (WCAG1)
+    tinycolor.isReadable("#000", "#111", {}); // false (WCAG2) (`Object` defaults to {level:"AA",size:"small"})
+    tinycolor.isReadable("#FF0088", "#8822AA",{level:"AA",size:"small"}; //false
+    tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AAA",size:"large"}, //true
+
+#### mostReadable
 
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
 
