@@ -443,7 +443,7 @@ combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is use
 #### mostReadable
 
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
-
+//todo update for wcag andbw
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.

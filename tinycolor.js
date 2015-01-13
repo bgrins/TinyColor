@@ -743,7 +743,7 @@ tinycolor.readability = function(color1, color2) {
 //    tinycolor.isReadable("#000", "#111") => false
 //    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
 
-    tinycolor.isReadable = function(color1, color2, wcag2) {
+tinycolor.isReadable = function(color1, color2, wcag2) {
     var readability = tinycolor.readability(color1, color2);
     var wcag2Parms, wcag2ParmsConcat,  out;
     if (wcag2) {
@@ -800,30 +800,65 @@ tinycolor.readability = function(color1, color2) {
 // `mostReadable`
 // Given a base color and a list of possible foreground or background
 // colors for that base, returns the most readable color.
+// Optionally returns Black or White if the most readable color is unreadable.
 // *Example*
-//    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000"
-tinycolor.mostReadable = function(baseColor, colorList) {
+//    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000" (uses WCAG1)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false}) => "#125" (uses WCAG1)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true}) => "#000" (uses WCAG1)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
+
+tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
     var bestScore = 0;
     var bestIsReadable = false;
-    for (var i=0; i < colorList.length; i++) {
-
-        // We normalize both around the "acceptable" breaking point,
-        // but rank brightness constrast higher than hue.
-
-        var readability = tinycolor.readability(baseColor, colorList[i]);
-        var readable = readability.brightness > 125 && readability.color > 500;
-        var score = 3 * (readability.brightness / 125) + (readability.color / 500);
-
-        if ((readable && ! bestIsReadable) ||
-            (readable && bestIsReadable && score > bestScore) ||
-            ((! readable) && (! bestIsReadable) && score > bestScore)) {
-            bestIsReadable = readable;
-            bestScore = score;
-            bestColor = tinycolor(colorList[i]);
+    var i, readability,readable, score;
+    var wcagArgs, wcag2,  contrast, bw;
+    if (args) {
+        bw = args.bw ;
+        wcagArgs = args.wcag2;
+        if (wcagArgs) {
+            wcag2 = validateWCAG2Parms(wcagArgs);
         }
     }
-    return bestColor;
+    if (wcag2) {
+        for ( i=0; i < colorList.length; i++) {
+            readability = tinycolor.readability(baseColor, colorList[i]);
+            contrast = readability.contrast;
+            if (contrast > bestScore) {
+                bestScore = contrast;
+                bestColor = tinycolor(colorList[i]);
+            }
+        }
+    }
+    else {
+        // @bgrins Brian, I don't quite understand this bit so have left it alone. You might be
+        // able to optimise its co-existence with my stuff - jladbury (julian)
+        for ( i=0; i < colorList.length; i++) {
+
+            // We normalize both around the "acceptable" breaking point,
+            // but rank brightness constrast higher than hue.
+
+             readability = tinycolor.readability(baseColor, colorList[i]);
+             readable = readability.brightness > 125 && readability.color > 500;
+             score = 3 * (readability.brightness / 125) + (readability.color / 500);
+
+            if ((readable && ! bestIsReadable) ||
+                (readable && bestIsReadable && score > bestScore) ||
+                ((! readable) && (! bestIsReadable) && score > bestScore)) {
+                bestIsReadable = readable;
+                bestScore = score;
+                bestColor = tinycolor(colorList[i]);
+            }
+        }
+    }
+    bestColor =  bestColor || tinycolor(baseColor);
+    if (tinycolor.isReadable(baseColor, bestColor, wcag2) || !bw){
+        return bestColor;
+    }
+    else {
+        return tinycolor.mostReadable(baseColor,["#fff", "#000"],wcag2);
+    }
 };
 
 // Big List of Colors

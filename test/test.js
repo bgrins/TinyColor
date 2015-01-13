@@ -595,6 +595,18 @@ test("readability", function() {
 test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
   equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "pick most readable color");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"]).toHexString(), "#ffffff", "pick most readable color - no different color in list");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{bw:true}).toHexString(), "#000000", "pick most readable color - no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false}).toHexString(), "#112255", "pick most readable color - no readable color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true}).toHexString(), "#ffffff", "pick most readable color - no readable color in list");
+  //
+  ////WCAG2 tests
+  equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "pick most readable color");
+  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "pick most readable color");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{wcag2:{}}).toHexString(), "#ffffff", "pick most readable color - no different color in list");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{bw:true,wcag2:{}}).toHexString(), "#000000", "pick most readable color - no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false,wcag2:{}}).toHexString(), "#112255", "pick most readable color - no readable color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true,wcag2:{}}).toHexString(), "#ffffff", "pick most readable color - no readable color in list");
 });
 
 test("Filters", function () {
