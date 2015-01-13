@@ -69,6 +69,7 @@ tinycolor.prototype = {
         return this._a;
     },
     getBrightness: function() {
+        //http://www.w3.org/TR/AERT#color-contrast
         var rgb = this.toRgb();
         return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
     },
@@ -732,14 +733,41 @@ tinycolor.readability = function(color1, color2) {
     };
 };
 
-// `readable`
-// http://www.w3.org/TR/AERT#color-contrast
-// Ensure that foreground and background color combinations provide sufficient contrast.
+// `isReadable`
+// Ensure that foreground and background color combinations meet WCAG guidelines.
+// The third argument is optional. If present, it provides an object containing additional information for WCAG 2.0:
+//      The 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
+//      The 'size' property states 'large' or 'small - if missing or invalid, it defaults to 'small'.
+//
 // *Example*
 //    tinycolor.isReadable("#000", "#111") => false
-tinycolor.isReadable = function(color1, color2) {
+//    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
+
+    tinycolor.isReadable = function(color1, color2, wcag2) {
     var readability = tinycolor.readability(color1, color2);
-    return readability.brightness > 125 && readability.color > 500;
+    var wcag2Parms, wcag2ParmsConcat,  out;
+    if (wcag2) {
+        out = false;
+        wcag2Parms = validateWCAG2Parms(wcag2);
+        switch (wcag2Parms.level + wcag2Parms.size) {
+            case "AAsmall":
+                out = readability.contrast >= 4.5;
+                break;
+            case "AAlarge":
+                out = readability.contrast >= 3;
+                break;
+            case "AAAsmall":
+                out = readability.contrast >= 7;
+                break;
+            case "AAAlarge":
+                out = readability.contrast >= 4.5;
+                break;
+        }
+        return out;
+    }
+    else {
+        return readability.brightness > 125 && readability.color > 500;
+    }
 };
 
 // `mostReadable`
@@ -1116,7 +1144,19 @@ function stringInputToObject(color) {
 
     return false;
 }
-
+function validateWCAG2Parms(parms) {
+    // return valid WCAG2 parms for isReadable. If input parms are invalid, return valid defaults.
+    var level, size;
+    level = (parms.level || "AA").toUpperCase();
+    size = (parms.size || "small").toLowerCase();
+    if (level !== "AA" && level !== "AAA") {
+        level ="AA"
+    }
+    if (size !== "small" && size !== "large") {
+        size ="small"
+    }
+    return {"level":level, "size":size};
+}
 // Node: Export function
 if (typeof module !== "undefined" && module.exports) {
     module.exports = tinycolor;

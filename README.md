@@ -168,13 +168,22 @@ Returns the alpha value of a color, from `0-1`.
 
 ### getBrightness
 
-Returns the perceived brightness of a color, from `0-255`.
+Returns the perceived brightness of a color, from `0-255`, as defined at http://www.w3.org/TR/AERT#color-contrast.
 
     var color1 = tinycolor("#fff");
     color1.getBrightness(); // 255
 
     var color2 = tinycolor("#000");
     color2.getBrightness(); // 0
+
+### getLuminance
+
+Returns the perceived luminance of a color, from `0-1` as defined at http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+    var color1 = tinycolor("#fff");
+    color1.getLuminance(); // 1
+
+    var color2 = tinycolor("#000");
+    color2.getLuminance(); // 0
 
 ### setAlpha
 
@@ -403,7 +412,7 @@ color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
 ```
 
 ### readability
-
+//todo - JL check this
 `readable: function(TinyColor, TinyColor) -> Object`.  Analyze 2 colors and returns an object with the following properties.  `brightness` is difference in brightness between the two colors.  `color`: difference in color/hue between the two colors.
 
     tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51}
@@ -411,8 +420,8 @@ color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
 
 ### isReadable
 
-`isReadable: function(TinyColor, TinyColor) -> Boolean`.  Ensure that foreground and background color combinations provide sufficient contrast.
-
+`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color combinations meet WCAG guidelines.
+    Object is optional. If specified, it
     tinycolor.isReadable("#000", "#111"); // false
 
 ### mostReadable

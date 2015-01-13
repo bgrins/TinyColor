@@ -550,15 +550,47 @@ test("Color equality", function() {
   ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
-test("isReadable", function() {
+test("isReadable - WCAG1", function() {
   ok (tinycolor.isReadable("#000000", "#ffffff"), "white/black is readable");
   ok (!tinycolor.isReadable("#FF0088", "#8822AA"), "pink on pink is not readable");
 });
+test("isReadable - WCAG2", function() {
+
+  // "#FF0088", "#8822AA" (values used in WCAG1 tests)
+  ok (tinycolor.isReadable("#000000", "#ffffff",{level:"AA",size:"small"}), "white/black is readable");
+  ok (!tinycolor.isReadable("#FF0088", "#5c1a72",{}), "not readable - empty wcag2 object");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA",{level:"AA",size:"small"}), "not readable - AA small");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA",{level:"AA",size:"large"}), "not  readable - AA large");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA",{level:"AAA",size:"small"}), "not readable - AAA small");
+  ok (!tinycolor.isReadable("#FF0088", "#8822AA",{level:"AAA",size:"large"}), "not readable - AAA large");
+
+  // values derived from and validated using the calculator at http://www.dasplankton.de/ContrastA/
+
+  // "#FF0088", "#5c1a72"
+  ok (!tinycolor.isReadable("#FF0088", "#5c1a72",{level:"AA",size:"small"}), "not readable - AA small");
+  ok (tinycolor.isReadable("#FF0088", "#5c1a72",{level:"AA",size:"large"}), "readable - AA large");
+  ok (!tinycolor.isReadable("#FF0088", "#5c1a72",{level:"AAA",size:"small"}), "not readable - AAA small");
+  ok (!tinycolor.isReadable("#FF0088", "#5c1a72",{level:"AAA",size:"large"}), "not readable - AAA large");
+
+  // "#FF0088", "#2E0C3A"
+  ok (tinycolor.isReadable("#FF0088", "#2E0C3A",{level:"AA",size:"small"}), "readable - AA small");
+  ok (tinycolor.isReadable("#FF0088", "#2E0C3A",{level:"AA",size:"large"}), "readable - AA large");
+  ok (!tinycolor.isReadable("#FF0088", "#2E0C3A",{level:"AAA",size:"small"}), "not readable - AAA small");
+  ok (tinycolor.isReadable("#FF0088", "#2E0C3A",{level:"AAA",size:"large"}), "readable - AAA large");
+
+  // "#DB91B8", "#2E0C3A"
+  ok (tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AA",size:"small"}), "readable - AA small");
+  ok (tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AA",size:"large"}), "readable - AA large");
+  ok (tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AAA",size:"small"}), "readable - AAA small");
+  ok (tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AAA",size:"large"}), "readable - AAA large");
+
+
+});
 test("readability", function() {
-  // XXX: Need tests for readability
-  deepEqual(tinycolor.readability("#000", "#000"), {brightness: 0, color: 0, contrast:1}, "Readability 0");
-  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51, contrast:1.1121078324840545}, "Readability 1");
-  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765, contrast:21}, "Readability 2");
+  // check return values from readability function. See isReadable above for standards tests
+  deepEqual(tinycolor.readability("#000", "#000"), {brightness: 0, color: 0, contrast:1}, "Readability function test 0");
+  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51, contrast:1.1121078324840545}, "Readability function test 1");
+  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765, contrast:21}, "Readability function test 2");
 });
 test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "pick most readable color");
