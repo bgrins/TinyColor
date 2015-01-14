@@ -805,8 +805,7 @@ tinycolor.isReadable = function(color1, color2, wcag2) {
 //    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000" (uses WCAG1)
 //    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}) => "#125" (uses WCAG1)
 //    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}) => "#000" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true,wcag2:{}}).toHexString() "#000" (uses WCAG2)
 
 tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
