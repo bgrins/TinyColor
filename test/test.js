@@ -594,29 +594,33 @@ test("readability", function() {
   deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765, contrast:21}, "Readability function test 2");
 });
 test("mostReadable", function () {
+  // an interesting case that cropped up by accident, that shows a difference between WCAG1 and2
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{}).toHexString(), "#ffffff", "WCAG1 prefers white");
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{wcag2:{level:"AAA",size:"small"}}).toHexString(), "#000000", "WCAG2 prefers black");
   //WCAG1
-  //equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "readable color present");
-  //equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "readable color present");
-  //equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"]).toHexString(), "#ffffff", "no different color in list");
-  //// bw + WCAG1
-  //equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{bw:true}).toHexString(), "#000000", "no different color in list");
-  //equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false}).toHexString(), "#112255", "no readable color in list, bw false");
-  //equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{bw:false}).toHexString(), "#ffffff", "verify assumption");
-  //equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true}).toHexString(), "#ffffff", "no readable color in list, bw true");
-  ////WCAG2
-  //equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
-  //equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "readable color present");
-  //equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{wcag2:{}}).toHexString(), "#ffffff", "no different color in list");
-  ////bw + WCAG2
-  //equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{bw:true,wcag2:{}}).toHexString(), "#000000", "no different color in list");
-  //equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false,wcag2:{}}).toHexString(), "#112255", "no readable color in list");
-  //equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{bw:false}).toHexString(), "#ffffff", "verify assumption");
-  //equal (tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true,wcag2:{}}).toHexString(), "#ffffff", "no readable color in list");
-  ////readability assessment
-  //equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{wcag2:{}}).toHexString(), "#000000", "verify assumption");
-  //equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{bw:true,wcag2:{level:"AA",size:"small"}}).toHexString(), "#2e0c3a", "readable color present");
-  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{bw:false,wcag2:{level:"AAA",size:"small"}}).toHexString(), "#000000", "verify assumption");
-  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{bw:true,wcag2:{level:"AAA",size:"small"}}).toHexString(), "#000000", "no readable color in list");
+  equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "readable color present");
+  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "readable color present");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"]).toHexString(), "#ffffff", "no different color in list");
+  // checkReadability + WCAG1
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true}).toHexString(), "#000000", "no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(), "#112255", "no readable color in list, checkReadability false");
+  equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString(), "#ffffff", "no readable color in list, checkReadability true");
+  //WCAG2
+  equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
+  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "readable color present");
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{wcag2:{}}).toHexString(), "#ffffff", "no different color in list");
+  //checkReadability + WCAG2
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true,wcag2:{}}).toHexString(), "#000000", "no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false,wcag2:{}}).toHexString(), "#112255", "no readable color in list");
+  equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true,wcag2:{}}).toHexString(), "#ffffff", "no readable color in list");
+  //readability assessment
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{wcag2:{}}).toHexString(), "#000000", "verify assumption");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,wcag2:{level:"AA",size:"small"}}).toHexString(), "#2e0c3a", "readable color present");
+  ok (!tinycolor.isReadable("#ff0088", "#000",{level:"AAA",size:"small"}) , "verify assumption");
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{checkReadability:false,wcag2:{level:"AAA",size:"small"}}).toHexString(), "#000000", "verify assumption");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,wcag2:{level:"AAA",size:"small"}}).toHexString(), "#000000", "no readable color in list");
 });
 
 test("Filters", function () {

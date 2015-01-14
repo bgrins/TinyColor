@@ -803,8 +803,8 @@ tinycolor.isReadable = function(color1, color2, wcag2) {
 // Optionally returns Black or White if the most readable color is unreadable.
 // *Example*
 //    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{bw:false}) => "#125" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{bw:true}) => "#000" (uses WCAG1)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}) => "#125" (uses WCAG1)
+//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}) => "#000" (uses WCAG1)
 //    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
 //    tinycolor.mostReadable("#123", ["#124", "#125"],{wcag2:{level:"AAA", size"large"}) => "#000" (uses WCAG2)
 
@@ -813,13 +813,17 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestScore = 0;
     var bestIsReadable = false;
     var i, readability,readable, score;
-    var wcagArgs, wcag2,  contrast, bw;
+    var wcagArgs, wcag2, contrast, checkReadability;
     if (args) {
-        bw = args.bw ;
+        checkReadability = args.checkReadability ;
         wcagArgs = args.wcag2;
         if (wcagArgs) {
             wcag2 = validateWCAG2Parms(wcagArgs);
         }
+        checkReadability = args.checkReadability; // used internally to prevent loop
+    }
+    else {
+        wcagArgs = null;
     }
     if (wcag2) {
         for ( i=0; i < colorList.length; i++) {
@@ -853,10 +857,11 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
         }
     }
     bestColor =  bestColor || tinycolor(baseColor);
-    if (tinycolor.isReadable(baseColor, bestColor, args) || !bw){
+    if (tinycolor.isReadable(baseColor, bestColor, wcagArgs) || !checkReadability) {
         return bestColor;
     }
     else {
+        args.checkReadability=false;
         return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
     }
 };

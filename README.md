@@ -444,7 +444,7 @@ combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is use
 
 `mostReadable: function(TinyColor, [TinyColor, Tinycolor ...], Object) -> Boolean`
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
-If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `bw:true`.
+If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `checkReadability:true`.
 Readability is determined by WCAG1 or WCAG2 depending on the presence of a `wcag` object.
 
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
