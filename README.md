@@ -420,36 +420,37 @@ There are two versions, referred to below as *WCAG1* (www.w3.org/TR/AERT#color-c
 
 `readability: function(TinyColor, TinyColor) -> Object`.
 Analyze 2 colors and return an object with the following properties:
-`brightness` is difference in brightness between the two colors (WCAG1).
-`color`: difference in color/hue between the two colors (WCAG1).
-`contrast`: contrast ratio between the two colors (WCAG2).
+`brightness` is the difference in brightness between the two colors (WCAG1).
+`color` is the difference in color/hue between the two colors (WCAG1).
+`contrast` is the contrast ratio between the two colors (WCAG2).
 
     tinycolor.readability("#000", "#000"); // {brightness: 0, color: 0, contrast: 1}
     tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51, contrast: 1.1121078324840545}
     tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765, contrast: 21}
 
-Use the values in your own calculations, or use one o the convenience functions below.
+Use the values in your own calculations, or use one of the convenience functions below.
 
 #### isReadable
 
 `isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color
-combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is used to determine readability.
- If present, WCAG2 is used.
+combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is used to determine readability: if present, WCAG2.
+
     tinycolor.isReadable("#000", "#111"); // false (WCAG1)
     tinycolor.isReadable("#000", "#111", {}); // false (WCAG2) (`Object` defaults to {level:"AA",size:"small"})
-    tinycolor.isReadable("#FF0088", "#8822AA",{level:"AA",size:"small"}; //false
-    tinycolor.isReadable("#DB91B8", "#2E0C3A",{level:"AAA",size:"large"}, //true
+    tinycolor.isReadable("#ff0088", "#5c1a72",{level:"AA",size:"small"}); //false
+    tinycolor.isReadable("#ff0088", "#5c1a72",{level:"AA",size:"large"}), //true
 
 #### mostReadable
 
 `mostReadable: function(TinyColor, [TinyColor, Tinycolor ...], Object) -> Boolean`
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
 If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `checkReadability:true`.
-Readability is determined by WCAG1 or WCAG2 depending on the presence of a `wcag` object.
+Readability is determined by WCAG1 or WCAG2 depending on the presence of a `wcag2` object.
 
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
-    tinycolor.mostReadable("#FF0088", ["FF0088", "#5c1a72"],{bw:false,wcag2:{level:"AA",size:"small"}}); //  "#5c1a72"
-    tinycolor.mostReadable("#FF0088", ["FF0088", "#5c1a72"],{bw:true,wcag2:{level:"AA",size:"small"}}); //  "#000000"
-
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(); // "#112255"
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString();  // "#ffffff"
+    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,wcag2:{level:"AAA",size:"large"}}).toHexString(); // "#faf3f3"
+    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,wcag2:{level:"AAA",size:"small"}}).toHexString(); // "#ffffff"
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
