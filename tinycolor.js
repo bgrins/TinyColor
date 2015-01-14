@@ -736,8 +736,8 @@ tinycolor.readability = function(color1, color2) {
 // `isReadable`
 // Ensure that foreground and background color combinations meet WCAG guidelines.
 // The third argument is optional. If present, it provides an object containing additional information for WCAG 2.0:
-//      The 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
-//      The 'size' property states 'large' or 'small - if missing or invalid, it defaults to 'small'.
+//      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
+//      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
 //
 // *Example*
 //    tinycolor.isReadable("#000", "#111") => false
