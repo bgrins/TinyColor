@@ -442,8 +442,14 @@ combinations meet WCAG guidelines. `Object` is optional. If absent, WCAG1 is use
 
 #### mostReadable
 
+`mostReadable: function(TinyColor, [TinyColor, Tinycolor ...], Object) -> Boolean`
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
-//todo update for wcag andbw
+If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `bw:true`.
+Readability is determined by WCAG1 or WCAG2 depending on the presence of a `wcag` object.
+
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
+    tinycolor.mostReadable("#FF0088", ["FF0088", "#5c1a72"],{bw:false,wcag2:{level:"AA",size:"small"}}); //  "#5c1a72"
+    tinycolor.mostReadable("#FF0088", ["FF0088", "#5c1a72"],{bw:true,wcag2:{level:"AA",size:"small"}}); //  "#000000"
+
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.

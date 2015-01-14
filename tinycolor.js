@@ -853,11 +853,11 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
         }
     }
     bestColor =  bestColor || tinycolor(baseColor);
-    if (tinycolor.isReadable(baseColor, bestColor, wcag2) || !bw){
+    if (tinycolor.isReadable(baseColor, bestColor, args) || !bw){
         return bestColor;
     }
     else {
-        return tinycolor.mostReadable(baseColor,["#fff", "#000"],wcag2);
+        return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
     }
 };
 
