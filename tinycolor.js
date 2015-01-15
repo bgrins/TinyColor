@@ -1190,10 +1190,10 @@ function validateWCAG2Parms(parms) {
     level = (parms.level || "AA").toUpperCase();
     size = (parms.size || "small").toLowerCase();
     if (level !== "AA" && level !== "AAA") {
-        level ="AA"
+        level ="AA";
     }
     if (size !== "small" && size !== "large") {
-        size ="small"
+        size ="small";
     }
     return {"level":level, "size":size};
 }
