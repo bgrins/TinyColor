@@ -416,7 +416,7 @@ TinyColor assesses readability based on the Web Content Accessibility Guidelines
 There are two versions, referred to below as *WCAG1* (www.w3.org/TR/AERT#color-contrast) and
 *WCAG2* (www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef.
 
-####readability
+#### readability
 
 `readability: function(TinyColor, TinyColor) -> Object`.
 Analyze 2 colors and return an object with the following properties:
