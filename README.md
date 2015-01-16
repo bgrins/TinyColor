@@ -135,7 +135,7 @@ Return a boolean indicating whether the color was successfully parsed.  Note: if
 
 ### getBrightness
 
-Returns the perceived brightness of a color, from `0-255`, as defined by [Web Content Accessibility Guidelines (Version 1.0)]((http://www.w3.org/TR/AERT#color-contrast).
+Returns the perceived brightness of a color, from `0-255`, as defined by [Web Content Accessibility Guidelines (Version 1.0)](http://www.w3.org/TR/AERT#color-contrast).
 
     var color1 = tinycolor("#fff");
     color1.getBrightness(); // 255
@@ -165,7 +165,7 @@ Return a boolean indicating whether the color's perceived brightness is dark.
 
 ### getLuminance
 
-Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).]((http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
+Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
 
     var color1 = tinycolor("#fff");
     color1.getLuminance(); // 1
@@ -325,7 +325,7 @@ Return a boolean indicating whether the color was successfully parsed.  Note: if
 
 ### getBrightness
 
-Returns the perceived brightness of a color, from `0-255`, as defined by [Web Content Accessibility Guidelines (Version 1.0)]((http://www.w3.org/TR/AERT#color-contrast).
+Returns the perceived brightness of a color, from `0-255`, as defined by [Web Content Accessibility Guidelines (Version 1.0)](http://www.w3.org/TR/AERT#color-contrast).
 
     var color1 = tinycolor("#fff");
     color1.getBrightness(); // 255
@@ -355,7 +355,7 @@ Return a boolean indicating whether the color's perceived brightness is dark.
 
 ### getLuminance
 
-Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).]((http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
+Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
 
     var color1 = tinycolor("#fff");
     color1.getLuminance(); // 1
@@ -603,7 +603,7 @@ color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
 ```
 
 ### Readability
-TinyColor assesses readability based on the [Web Content Accessibility Guidelines (Version 2.0)]((http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef).
+TinyColor assesses readability based on the [Web Content Accessibility Guidelines (Version 2.0)](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef).
 
 #### readability
 
