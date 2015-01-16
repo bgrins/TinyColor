@@ -420,9 +420,9 @@ TinyColor assesses readability based on the [Web Content Accessibility Guideline
 `readability: function(TinyColor, TinyColor) -> Object`.
 Returns the contrast ratio between two colors.
 
-    tinycolor.readability("#000", "#000"); // {brightness: 0, color: 0, contrast: 1}
-    tinycolor.readability("#000", "#111"); // {brightness: 17, color: 51, contrast: 1.1121078324840545}
-    tinycolor.readability("#000", "#fff"); // {brightness: 255, color: 765, contrast: 21}
+    tinycolor.readability("#000", "#000"); // 1
+    tinycolor.readability("#000", "#111"); // 1.1121078324840545
+    tinycolor.readability("#000", "#fff"); // 21
 
 Use the values in your own calculations, or use one of the convenience functions below.
 
