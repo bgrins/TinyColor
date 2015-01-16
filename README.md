@@ -165,7 +165,7 @@ Return a boolean indicating whether the color's perceived brightness is dark.
 
 ### getLuminance
 
-Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef)
+Returns the perceived luminance of a color, from `0-1` as defined by [Web Content Accessibility Guidelines (Version 2.0).](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef)
 
     var color1 = tinycolor("#fff");
     color1.getLuminance(); // 1
