@@ -15,7 +15,7 @@ test("Original input", function() {
       colorRgbMix  = "RgB(39, 39, 39)",
       tinycolorObj = tinycolor(colorRgbMix),
       inputObj = {r:100,g:100,b:100};
-  var r = tinycolor("red");
+  //var r = tinycolor("red");
 
   ok (tinycolor(colorRgbLow).getOriginalInput() === colorRgbLow, "original lowercase input is returned");
   ok (tinycolor(colorRgbUp).getOriginalInput() === colorRgbUp, "original uppercase input is returned");
@@ -550,13 +550,9 @@ test("Color equality", function() {
   ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
-test("isReadable - WCAG1", function() {
-  ok (tinycolor.isReadable("#000000", "#ffffff"), "white/black is readable");
-  ok (!tinycolor.isReadable("#ff0088", "#8822aa"), "pink on pink is not readable");
-});
-test("isReadable - WCAG2", function() {
+test("isReadable", function() {
 
-  // "#ff0088", "#8822aa" (values used in WCAG1 tests)
+  // "#ff0088", "#8822aa" (values used in old WCAG1 tests)
   ok (tinycolor.isReadable("#000000", "#ffffff",{level:"AA",size:"small"}), "white/black is readable");
   ok (!tinycolor.isReadable("#ff0088", "#5c1a72",{}), "not readable - empty wcag2 object");
   ok (!tinycolor.isReadable("#ff0088", "#8822aa",{level:"AA",size:"small"}), "not readable - AA small");
@@ -584,47 +580,31 @@ test("isReadable - WCAG2", function() {
   ok (tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AA",size:"large"}), "readable - AA large");
   ok (tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"small"}), "readable - AAA small");
   ok (tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"large"}), "readable - AAA large");
-
-
 });
-test("isReadable - WCAG1 and WCAG2 difference", function() {
-  ok (!tinycolor.isReadable("#a8015a", "#faf3f3"), "WCAG1 - is not readable");
 
-  ok (tinycolor.isReadable("#a8015a", "#faf3f3",{level:"AA",size:"small"}), "readable - AA small");
-  ok (tinycolor.isReadable("#a8015a", "#faf3f3",{level:"AA",size:"large"}), "readable - AA large");
-  ok (!tinycolor.isReadable("#a8015a", "#faf3f3",{level:"AAA",size:"small"}), "not readable - AAA small");
-  ok (tinycolor.isReadable("#a8015a", "#faf3f3",{level:"AAA",size:"large"}), "readable - AAA large");
-
-  // "#ff0088", "#8822aa" (values used in WCAG1 tests)
-});
 test("readability", function() {
   // check return values from readability function. See isReadable above for standards tests.
-  deepEqual(tinycolor.readability("#000", "#000"), {brightness: 0, color: 0, contrast:1}, "Readability function test 0");
-  deepEqual(tinycolor.readability("#000", "#111"), {brightness: 17, color: 51, contrast:1.1121078324840545}, "Readability function test 1");
-  deepEqual(tinycolor.readability("#000", "#fff"), {brightness: 255, color: 765, contrast:21}, "Readability function test 2");
+  equal(tinycolor.readability("#000", "#000"), 1, "Readability function test 0");
+  deepEqual(tinycolor.readability("#000", "#111"), 1.1121078324840545, "Readability function test 1");
+  deepEqual(tinycolor.readability("#000", "#fff"), 21, "Readability function test 2");
 });
 test("mostReadable", function () {
-  //WCAG1
-  equal (tinycolor.mostReadable("#000", ["#111", "#222"]).toHexString(), "#222222", "readable color present");
-  equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"]).toHexString(), "#00dd00", "readable color present");
-  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"]).toHexString(), "#ffffff", "no different color in list");
-  // checkReadability + WCAG1
-  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "no different color in list");
-  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true}).toHexString(), "#000000", "no different color in list");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(), "#112255", "no readable color in list, checkReadability false");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString(), "#ffffff", "no readable color in list, checkReadability true");
-  //WCAG2
   equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
   equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "readable color present");
   equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{wcag2:{}}).toHexString(), "#ffffff", "no different color in list");
-  //checkReadability + WCAG2
-  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true,wcag2:{}}).toHexString(), "#000000", "no different color in list");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false,wcag2:{}}).toHexString(), "#112255", "no readable color in list");
+  //checkReadability
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true}).toHexString(), "#000000", "no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(), "#112255", "no readable color in list");
   equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true,wcag2:{}}).toHexString(), "#ffffff", "no readable color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString(), "#ffffff", "no readable color in list");
 
-  equal (tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,wcag2:{level:"AAA",size:"large"}}).toHexString(), "#faf3f3", "readable color present");
-  equal (tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,wcag2:{level:"AAA",size:"small"}}).toHexString(), "#ffffff", "no readable color in list");
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#000000", "verify assumption");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(), "#2e0c3a", "readable color present");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(), "#000000", "no readable color in list");
+
+  equal (tinycolor.mostReadable("#371b2c", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
+  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(), "#a9acb6", "readable color present");
+  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(), "#ffffff", "no readable color in list");
 
 });
 
@@ -654,19 +634,20 @@ var BRIGHTENS = ["ff0000","ff0303","ff0505","ff0808","ff0a0a","ff0d0d","ff0f0f",
 var DARKENS = ["ff0000","fa0000","f50000","f00000","eb0000","e60000","e00000","db0000","d60000","d10000","cc0000","c70000","c20000","bd0000","b80000","b30000","ad0000","a80000","a30000","9e0000","990000","940000","8f0000","8a0000","850000","800000","7a0000","750000","700000","6b0000","660000","610000","5c0000","570000","520000","4d0000","470000","420000","3d0000","380000","330000","2e0000","290000","240000","1f0000","190000","140000","0f0000","0a0000","050000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000","000000"];
 
 test("Modifications", function () {
-  for (var i = 0; i <= 100; i++) {
+  var i;
+  for (i = 0; i <= 100; i++) {
     equal (tinycolor("red").desaturate(i).toHex(), DESATURATIONS[i], "Desaturation " + i + " works");
   }
-  for (var i = 0; i <= 100; i++) {
+  for (i = 0; i <= 100; i++) {
     equal (tinycolor("red").saturate(i).toHex(), SATURATIONS[i], "Saturation " + i + " works");
   }
-  for (var i = 0; i <= 100; i++) {
+  for (i = 0; i <= 100; i++) {
     equal (tinycolor("red").lighten(i).toHex(), LIGHTENS[i], "Lighten " + i + " works");
   }
-  for (var i = 0; i <= 100; i++) {
+  for ( i = 0; i <= 100; i++) {
     equal (tinycolor("red").brighten(i).toHex(), BRIGHTENS[i], "Brighter " + i + " works");
   }
-  for (var i = 0; i <= 100; i++) {
+  for (i = 0; i <= 100; i++) {
     equal (tinycolor("red").darken(i).toHex(), DARKENS[i], "Darken " + i + " works");
   }
 
@@ -684,17 +665,18 @@ test("Spin", function () {
 });
 
 test("Mix", function () {
+  var i;
     // amount 0 or none
     equal(tinycolor.mix('#000', '#fff').toHsl().l, 0.5, "Mixing without amount works");
     equal(tinycolor.mix('#f00', '#000', 0).toHex(), 'ff0000', "Mixing with 0 amount works");
 
     // black and white
-    for (var i = 0; i < 100; i++) {
+    for ( i = 0; i < 100; i++) {
         equal(Math.round(tinycolor.mix('#000', '#fff', i).toHsl().l * 100) / 100, i / 100, "Mixing black and white with " + i + " amount works");
     }
 
     // with colors
-    for (var i = 0; i < 100; i++) {
+    for ( i = 0; i < 100; i++) {
         var new_hex = Math.round(255 * (1 - (i / 100))).toString(16);
 
         if (new_hex.length === 1) {

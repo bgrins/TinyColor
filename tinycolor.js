@@ -28,12 +28,12 @@ var tinycolor = function tinycolor (color, opts) {
     }
 
     var rgb = inputToRGB(color);
-    this._originalInput = color,
-    this._r = rgb.r,
-    this._g = rgb.g,
-    this._b = rgb.b,
-    this._a = rgb.a,
-    this._roundA = mathRound(100*this._a) / 100,
+    this._originalInput = color;
+    this._r = rgb.r;
+    this._g = rgb.g;
+    this._b = rgb.b;
+    this._a = rgb.a;
+    this._roundA = mathRound(100*this._a) / 100;
     this._format = opts.format || rgb.format;
     this._gradientType = opts.gradientType;
 
@@ -703,72 +703,48 @@ tinycolor.mix = function(color1, color2, amount) {
 
 // Readability Functions
 // ---------------------
-// <http://www.w3.org/TR/AERT#color-contrast> (WCAG Version 1)
 // <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
 
-// `readability`
-// Analyze the 2 colors and returns an object with the following properties:
-//    `brightness`: difference in brightness between the two colors (WCAG Version 1)
-//    `color`: difference in color/hue between the two colors (WCAG Version 1)
-//    `contrast`: color contrast (WCAG Version 2)
+// `contrast`
+// Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
     var c1 = tinycolor(color1);
     var c2 = tinycolor(color2);
-    var rgb1 = c1.toRgb();
-    var rgb2 = c2.toRgb();
-    var brightnessA = c1.getBrightness();
-    var brightnessB = c2.getBrightness();
-    var luminance1 = c1.getLuminance();
-    var luminance2 = c2.getLuminance();
-    var colorDiff = (
-        Math.max(rgb1.r, rgb2.r) - Math.min(rgb1.r, rgb2.r) +
-        Math.max(rgb1.g, rgb2.g) - Math.min(rgb1.g, rgb2.g) +
-        Math.max(rgb1.b, rgb2.b) - Math.min(rgb1.b, rgb2.b)
-    );
-
-    return {
-        brightness: Math.abs(brightnessA - brightnessB),
-        color: colorDiff,
-        contrast:(Math.max(luminance1,luminance2)+0.05) / (Math.min(luminance1,luminance2)+0.05)
-    };
+    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
 };
 
 // `isReadable`
-// Ensure that foreground and background color combinations meet WCAG guidelines.
-// The third argument is optional. If present, it provides an object containing additional information for WCAG 2.0:
+// Ensure that foreground and background color combinations meet WCAG2 guidelines.
+// The third argument is an optional Object.
 //      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
 //      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
-//
+// If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
+
 // *Example*
 //    tinycolor.isReadable("#000", "#111") => false
 //    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
 
 tinycolor.isReadable = function(color1, color2, wcag2) {
     var readability = tinycolor.readability(color1, color2);
-    var wcag2Parms, wcag2ParmsConcat,  out;
-    if (wcag2) {
-        out = false;
+    var wcag2Parms, out;
 
-        wcag2Parms = validateWCAG2Parms(wcag2);
-        switch (wcag2Parms.level + wcag2Parms.size) {
-            case "AAsmall":
-                out = readability.contrast >= 4.5;
-                break;
-            case "AAlarge":
-                out = readability.contrast >= 3;
-                break;
-            case "AAAsmall":
-                out = readability.contrast >= 7;
-                break;
-            case "AAAlarge":
-                out = readability.contrast >= 4.5;
-                break;
-        }
-        return out;
+    out = false;
+
+    wcag2Parms = validateWCAG2Parms(wcag2);
+    switch (wcag2Parms.level + wcag2Parms.size) {
+        case "AAsmall":
+        case "AAAlarge":
+            out = readability >= 4.5;
+            break;
+        case "AAlarge":
+            out = readability >= 3;
+            break;
+        case "AAAsmall":
+            out = readability >= 7;
+            break;
     }
-    else {
-        return readability.brightness > 125 && readability.color > 500;
-    }
+    return out;
+
 };
 
 // `mostReadable`
@@ -776,61 +752,32 @@ tinycolor.isReadable = function(color1, color2, wcag2) {
 // colors for that base, returns the most readable color.
 // Optionally returns Black or White if the most readable color is unreadable.
 // *Example*
-//    tinycolor.mostReadable("#123", ["#fff", "#000"]) => "#000" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}) => "#125" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}) => "#000" (uses WCAG1)
-//    tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true,wcag2:{}}).toHexString() "#000" (uses WCAG2)
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(); // "#112255"
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString();  // "#ffffff"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
+
 
 tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
     var bestScore = 0;
-    var bestIsReadable = false;
-    var i, readability,readable, score;
-    var wcagArgs, wcag2, contrast, checkReadability;
+    var i, readability;
+    var checkReadability, level, size ;
     if (args) {
         checkReadability = args.checkReadability ;
-        wcagArgs = args.wcag2;
-        if (wcagArgs) {
-            wcag2 = validateWCAG2Parms(wcagArgs);
-        }
-        checkReadability = args.checkReadability; // used internally to prevent loop
+        level = args.level;
+        size = args.size;
     }
-    else {
-        wcagArgs = null;
-    }
-    if (wcag2) {
-        for ( i=0; i < colorList.length; i++) {
-            readability = tinycolor.readability(baseColor, colorList[i]);
-            contrast = readability.contrast;
-            if (contrast > bestScore) {
-                bestScore = contrast;
-                bestColor = tinycolor(colorList[i]);
-            }
+
+    for ( i=0; i < colorList.length; i++) {
+        readability = tinycolor.readability(baseColor, colorList[i]);
+        if (readability > bestScore) {
+            bestScore = readability;
+            bestColor = tinycolor(colorList[i]);
         }
     }
-    else {
-        // @bgrins Brian, I don't quite understand this bit so have left it alone. You might be
-        // able to optimise its co-existence with my stuff - jladbury (julian)
-        for ( i=0; i < colorList.length; i++) {
 
-            // We normalize both around the "acceptable" breaking point,
-            // but rank brightness constrast higher than hue.
-
-             readability = tinycolor.readability(baseColor, colorList[i]);
-             readable = readability.brightness > 125 && readability.color > 500;
-             score = 3 * (readability.brightness / 125) + (readability.color / 500);
-
-            if ((readable && ! bestIsReadable) ||
-                (readable && bestIsReadable && score > bestScore) ||
-                ((! readable) && (! bestIsReadable) && score > bestScore)) {
-                bestIsReadable = readable;
-                bestScore = score;
-                bestColor = tinycolor(colorList[i]);
-            }
-        }
-    }
-    bestColor =  bestColor || tinycolor(baseColor);
-    if (tinycolor.isReadable(baseColor, bestColor, wcagArgs) || !checkReadability) {
+    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !checkReadability) {
         return bestColor;
     }
     else {
@@ -1185,8 +1132,10 @@ function stringInputToObject(color) {
     return false;
 }
 function validateWCAG2Parms(parms) {
-    // return valid WCAG2 parms for isReadable. If input parms are invalid, return valid defaults.
+    // return valid WCAG2 parms for isReadable.
+    // If input parms are invalid, return {"level":"AA", "size":"small"}
     var level, size;
+    parms = parms || {"level":"AA", "size":"small"};
     level = (parms.level || "AA").toUpperCase();
     size = (parms.size || "small").toLowerCase();
     if (level !== "AA" && level !== "AAA") {
