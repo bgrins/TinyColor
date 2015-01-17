@@ -13,7 +13,7 @@ var trimLeft = /^[\s,#]+/,
     mathMax = math.max,
     mathRandom = math.random;
 
-var tinycolor = function (color, opts) {
+function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
@@ -47,7 +47,7 @@ var tinycolor = function (color, opts) {
 
     this._ok = rgb.ok;
     this._tc_id = tinyCounter++;
-};
+}
 
 tinycolor.prototype = {
     isDark: function() {
