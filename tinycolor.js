@@ -80,9 +80,10 @@ tinycolor.prototype = {
         RsRGB = rgb.r/255;
         GsRGB = rgb.g/255;
         BsRGB = rgb.b/255;
-        RsRGB <= 0.03928 ? R = RsRGB / 12.92 : R = Math.pow(((RsRGB + 0.055) / 1.055), 2.4);
-        GsRGB <= 0.03928 ? G = GsRGB / 12.92 : G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);
-        BsRGB <= 0.03928 ? B = BsRGB / 12.92 : B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);
+
+        if (RsRGB <= 0.03928) {R = RsRGB / 12.92;} else {R = Math.pow(((RsRGB + 0.055) / 1.055), 2.4);}
+        if (GsRGB <= 0.03928) {G = GsRGB / 12.92;} else {G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);}
+        if (BsRGB <= 0.03928) {B = BsRGB / 12.92;} else {B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);}
         return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
     },
 
@@ -761,15 +762,14 @@ tinycolor.isReadable = function(color1, color2, wcag2) {
 tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
     var bestScore = 0;
-    var i, readability;
+    var readability;
     var checkReadability, level, size ;
-    if (args) {
-        checkReadability = args.checkReadability ;
-        level = args.level;
-        size = args.size;
-    }
+    args = args || {};
+    checkReadability = args.checkReadability ;
+    level = args.level;
+    size = args.size;
 
-    for ( i=0; i < colorList.length; i++) {
+    for (var i= 0, ii=colorList.length; i < ii ; i++) {
         readability = tinycolor.readability(baseColor, colorList[i]);
         if (readability > bestScore) {
             bestScore = readability;
@@ -1139,10 +1139,10 @@ function validateWCAG2Parms(parms) {
     level = (parms.level || "AA").toUpperCase();
     size = (parms.size || "small").toLowerCase();
     if (level !== "AA" && level !== "AAA") {
-        level ="AA";
+        level = "AA";
     }
     if (size !== "small" && size !== "large") {
-        size ="small";
+        size = "small";
     }
     return {"level":level, "size":size};
 }
