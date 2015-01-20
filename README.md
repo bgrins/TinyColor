@@ -447,5 +447,4 @@ If none of the colors in the list is readable, `mostReadable` will return the be
     tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
     tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 
-
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
