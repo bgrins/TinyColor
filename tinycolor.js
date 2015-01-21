@@ -3,7 +3,7 @@
 // Brian Grinstead, MIT License
 
 (function() {
-
+"use strict";
 var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
     tinyCounter = 0,
@@ -13,7 +13,7 @@ var trimLeft = /^[\s,#]+/,
     mathMax = math.max,
     mathRandom = math.random;
 
-function tinycolor (color, opts) {
+var tinycolor = function (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
@@ -1098,7 +1098,7 @@ function stringInputToObject(color) {
     }
 
     return false;
-}
+};
 
 // Node: Export function
 if (typeof module !== "undefined" && module.exports) {
