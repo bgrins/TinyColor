@@ -769,7 +769,7 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
     level = args.level;
     size = args.size;
 
-    for (var i= 0, ii=colorList.length; i < ii ; i++) {
+    for (var i= 0; i < colorList.length ; i++) {
         readability = tinycolor.readability(baseColor, colorList[i]);
         if (readability > bestScore) {
             bestScore = readability;
