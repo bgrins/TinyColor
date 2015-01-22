@@ -439,12 +439,12 @@ combinations meet WCAG guidelines. `Object` is optional, defaulting to defaults 
 
 `mostReadable: function(TinyColor, [TinyColor, Tinycolor ...], Object) -> Boolean`.
 Given a base color and a list of possible foreground or background colors for that base, returns the most readable color.
-If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `checkReadability:true`.
+If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `includeFallbackColors:true`.
 
     tinycolor.mostReadable("#000", ["#f00", "#0f0", "#00f"]).toHexString(); // "#00ff00"
-    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(); // "#112255"
-    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString();  // "#ffffff"
-    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
-    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
+    tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.

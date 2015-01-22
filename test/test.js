@@ -592,19 +592,19 @@ test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
   equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "readable color present");
   equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{wcag2:{}}).toHexString(), "#ffffff", "no different color in list");
-  //checkReadability
-  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{checkReadability:true}).toHexString(), "#000000", "no different color in list");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(), "#112255", "no readable color in list");
-  equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
-  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString(), "#ffffff", "no readable color in list");
+  //includeFallbackColors
+  equal (tinycolor.mostReadable("#fff", ["#fff", "#fff"],{includeFallbackColors:true}).toHexString(), "#000000", "no different color in list");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(), "#112255", "no readable color in list");
+  equal (tinycolor.mostReadable("#123", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#ffffff", "verify assumption");
+  equal (tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString(), "#ffffff", "no readable color in list");
 
-  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#000000", "verify assumption");
-  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(), "#2e0c3a", "readable color present");
-  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(), "#000000", "no readable color in list");
+  equal (tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#000000", "verify assumption");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(), "#2e0c3a", "readable color present");
+  equal (tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(), "#000000", "no readable color in list");
 
-  equal (tinycolor.mostReadable("#371b2c", ["#000", "#fff"],{checkReadability:false}).toHexString(), "#ffffff", "verify assumption");
-  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(), "#a9acb6", "readable color present");
-  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(), "#ffffff", "no readable color in list");
+  equal (tinycolor.mostReadable("#371b2c", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#ffffff", "verify assumption");
+  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(), "#a9acb6", "readable color present");
+  equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(), "#ffffff", "no readable color in list");
 
 });
 

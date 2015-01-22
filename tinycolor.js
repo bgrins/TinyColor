@@ -753,19 +753,19 @@ tinycolor.isReadable = function(color1, color2, wcag2) {
 // colors for that base, returns the most readable color.
 // Optionally returns Black or White if the most readable color is unreadable.
 // *Example*
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:false}).toHexString(); // "#112255"
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{checkReadability:true}).toHexString();  // "#ffffff"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{checkReadability:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
+//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
 
 
 tinycolor.mostReadable = function(baseColor, colorList, args) {
     var bestColor = null;
     var bestScore = 0;
     var readability;
-    var checkReadability, level, size ;
+    var includeFallbackColors, level, size ;
     args = args || {};
-    checkReadability = args.checkReadability ;
+    includeFallbackColors = args.includeFallbackColors ;
     level = args.level;
     size = args.size;
 
@@ -777,11 +777,11 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
         }
     }
 
-    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !checkReadability) {
+    if (tinycolor.isReadable(baseColor, bestColor, {"level":level,"size":size}) || !includeFallbackColors) {
         return bestColor;
     }
     else {
-        args.checkReadability=false;
+        args.includeFallbackColors=false;
         return tinycolor.mostReadable(baseColor,["#fff", "#000"],args);
     }
 };
