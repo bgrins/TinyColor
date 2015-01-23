@@ -586,7 +586,8 @@ test("readability", function() {
   // check return values from readability function. See isReadable above for standards tests.
   equal(tinycolor.readability("#000", "#000"), 1, "Readability function test 0");
   deepEqual(tinycolor.readability("#000", "#111"), 1.1121078324840545, "Readability function test 1");
-  deepEqual(tinycolor.readability("#000", "#fff"), 21, "Readability function test 2");
+    deepEqual(tinycolor.readability("#000", "#fff"), 21, "Readability function test 2");
+    deepEqual(tinycolor.readability("#123", "#123"), 1, "Readability function test 3 - to force GIT to let me commit");
 });
 test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
