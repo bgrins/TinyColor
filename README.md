@@ -413,6 +413,7 @@ color.toRgb(); // "{r: 145, g: 40, b: 198, a: 1}"
 ```
 
 ### Readability
+
 TinyColor assesses readability based on the [Web Content Accessibility Guidelines (Version 2.0)](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef).
 
 #### readability
@@ -428,8 +429,9 @@ Use the values in your own calculations, or use one of the convenience functions
 
 #### isReadable
 
-`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color
-combinations meet WCAG guidelines. `Object` is optional, defaulting to defaults to `{level:"AA",size:"small"}`.
+`isReadable: function(TinyColor, TinyColor, Object) -> Boolean`.  Ensure that foreground and background color combinations meet WCAG guidelines. `Object` is optional, defaulting to defaults to `{level:"AA",size:"small"}`.  `level` can be `"AA"` or "AAA" and `size` can be `"small"` or `"large"`.
+
+Here are links to read more about the [AA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) and [AAA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html) requirements.
 
     tinycolor.isReadable("#000", "#111", {}); // false
     tinycolor.isReadable("#ff0088", "#5c1a72",{level:"AA",size:"small"}); //false
