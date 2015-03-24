@@ -450,3 +450,16 @@ If none of the colors in the list is readable, `mostReadable` will return the be
     tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 
 See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
+
+## Common operations
+
+### Cloning
+
+To clone a color, you can simply instantiate a new tinycolor with the old one's `toString` output.  The new color is a copy of the first one, so any changes to one won't affect the other.  See this example:
+
+    var color1 = tinycolor("#F00");
+    var color2 = tinycolor(color1.toString());
+    color2.setAlpha(.5);
+
+    color1.toString(); // "#ff0000"
+    color2.toString(); // "rgba(255, 0, 0, 0.5)"
