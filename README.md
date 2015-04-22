@@ -108,7 +108,7 @@ Returns the format used to create the tinycolor instance
     var color = tinycolor("red");
     color.getFormat(); // "name"
     color = tinycolor({r:255, g:255, b:255});
-    color.getFormat; // "rgb"
+    color.getFormat(); // "rgb"
 ```
 
 ### getOriginalInput
@@ -118,7 +118,7 @@ Returns the input passed into the constructer used to create the tinycolor insta
     var color = tinycolor("red");
     color.getOriginalInput(); // "red"
     color = tinycolor({r:255, g:255, b:255});
-    color.getOriginalInput; // "{r: 255, g: 255, b: 255}"
+    color.getOriginalInput(); // "{r: 255, g: 255, b: 255}"
 ```
 
 ### isValid
