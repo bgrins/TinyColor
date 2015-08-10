@@ -729,3 +729,14 @@ test("tetrad", function() {
   var combination = tinycolor("red").tetrad();
   equal(colorsToHexString(combination), "ff0000,80ff00,00ffff,7f00ff", "Correct Combination");
 });
+
+
+test("NumberHex", function () {
+  equal( tinycolor(0x0).toString(), "#000000") 
+
+  equal( tinycolor("rgb(18, 0, 0)").toString(), tinycolor(0x120000).toString()) 
+  equal( tinycolor("rgb(0, 52, 0)").toString(), tinycolor(0x3400).toString()) 
+  equal( tinycolor("rgb(0, 0, 86)").toString(), tinycolor(0x56).toString()) 
+
+  equal( tinycolor("rgb(0, 0, 86)").toNumber(), 0x134)   
+})
