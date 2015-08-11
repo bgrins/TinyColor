@@ -17,19 +17,15 @@ function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
-
-
-
+    
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
        return color;
     }
-
     // If we are called as a function, call using new instead
     if (!(this instanceof tinycolor)) {
         return new tinycolor(color, opts);
     }
-
 
     var rgb = inputToRGB(color);
     this._originalInput = color,
@@ -169,7 +165,7 @@ tinycolor.prototype = {
         return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
     },
     toNumber: function() {
-        return (mathRound(this._r)<<16) + (mathRound(this._g)<<8) + (mathRound(this._b))
+        return (mathRound(this._r)<<16) + (mathRound(this._g)<<8) + (mathRound(this._b));
     },
     toString: function(format) {
         var formatSet = !!format;
@@ -312,9 +308,7 @@ function inputToRGB(color) {
     var format = false;
 
     if (typeof color == "number") {
-        color = numberInputToObject(color)
-        // color.toString(16);
-        // color = '#' + ('000000'+color).substring(color.length);
+        color = numberInputToObject(color);
     }
     else if (typeof color == "string") {
         color = stringInputToObject(color);
@@ -1084,7 +1078,7 @@ function numberInputToObject(color) {
         r: color >> 16, 
         g: (color&0xff00) >> 8,
         b: color&0xff
-    }
+    };
 }
 
 // `stringInputToObject`

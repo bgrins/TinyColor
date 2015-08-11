@@ -738,5 +738,5 @@ test("NumberHex", function () {
   equal( tinycolor("rgb(0, 52, 0)").toString(), tinycolor(0x3400).toString()) 
   equal( tinycolor("rgb(0, 0, 86)").toString(), tinycolor(0x56).toString()) 
 
-  equal( tinycolor("rgb(0, 0, 86)").toNumber(), 0x134)   
+  equal( tinycolor("rgb(1, 1, 1)").toNumber(), (1<<16)+(1<<8)+1) 
 })
