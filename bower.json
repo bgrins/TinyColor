@@ -1,7 +1,7 @@
 {
   "name": "tinycolor",
   "repository": "bgrins/TinyColor",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "tinycolor.js",
   "scripts": ["tinycolor.js"],
   "license": "MIT",
