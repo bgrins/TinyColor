@@ -171,6 +171,22 @@ test("Invalid Parsing", function() {
   var invalidColor = tinycolor("this is not a color");
   equal (invalidColor.toHexString(), "#000000");
   equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor("#red");
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor("  #red");
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor("##123456");
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor("  ##123456");
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
 });
 
 test("Named colors", function() {
