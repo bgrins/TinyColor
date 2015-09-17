@@ -28,10 +28,21 @@ interface WCAG2 {
 
 declare module "tinycolor" {
 
-    function tinycolor(value: tinycolor | string| Rgb | Rgba | Hsv | Hsl): tinycolor;
+    var tinycolor : {
+        new (value: tinycolor | string | Rgb | Rgba | Hsv | Hsl): tinycolor;
+
+        fromRatio(value: string| Rgb | Rgba | Hsv | Hsl): tinycolor;
+
+        equals(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl): boolean;
+        mix(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl, amount: number): tinycolor;
+        random(): tinycolor;
+
+        isReadable(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl, wcag2?: WCAG2): boolean;
+        mostReadable(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor[]| string[]| Rgb[]| Rgba[]| Hsv[]| Hsl[], wcag2?: WCAG2): boolean|tinycolor;
+        readability(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl): number;
+    }
 
     interface tinycolor {
-        fromRatio(value: string| Rgb | Rgba | Hsv | Hsl): void;
 
         getFormat(): string;
         getOriginalInput(): string;
@@ -84,14 +95,6 @@ declare module "tinycolor" {
         triad(): tinycolor[];
         tetrad(): tinycolor[];
         complement(): tinycolor;
-
-        equals(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl): boolean;
-        mix(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl, amount: number): tinycolor;
-        random(): tinycolor;
-
-        readability(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl): number;
-        isReadable(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor | string | Rgb | Rgba | Hsv | Hsl, wcag2?: WCAG2): boolean;
-        mostReadable(color1: tinycolor | string | Rgb | Rgba | Hsv | Hsl, color2: tinycolor[]| string[]| Rgb[]| Rgba[]| Hsv[]| Hsl[], wcag2?: WCAG2): boolean|tinycolor;
     }
 
     function lighten(color: tinycolor | string | Rgb | Rgba | Hsv | Hsl, value?: number): tinycolor;
