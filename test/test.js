@@ -625,6 +625,50 @@ test("mostReadable", function () {
 });
 
 
+test("ScanForColors", function () {
+    var blackHex = tinycolor.fromRatio({ r: 0, g: 0, b: 0 }, {format: "hex"}),
+        single_line_single_result = "background-color: #000000;",
+        results = tinycolor.scanForColors(single_line_single_result);
+    equal (results.length, 1);
+    equal (results[0], blackHex.toString());
+
+    var single_line_multiple_results = "{ content: '#000'; background: orange; }";
+        results = tinycolor.scanForColors(single_line_multiple_results);
+    equal (results.length, 2);
+
+		equal (results[0], blackHex.toString());
+		equal (results[1], "orange");
+
+		var multiple_lines_single_results = "body { \n  font-size: 12px;\n\n  text-color: rgba (255, 0, 0, .5) }";
+				results = tinycolor.scanForColors(multiple_lines_single_results);
+		equal (results.length, 1);
+		equal (results[0].toRgbString(), "rgba(255, 0, 0, 0.5)");
+
+		var multiple_lines_multiple_results = "body { \n  background-color: hsl 0 1.0 0.5;\n\n  text-color: rgba (255, 0, 0, .5) }";
+				results = tinycolor.scanForColors(multiple_lines_multiple_results);
+		equal (results.length, 2);
+		equal (results[0].toHslString(), "hsl(0, 100%, 50%)");
+		equal (results[1].toRgbString(), "rgba(255, 0, 0, 0.5)");
+
+    equal (tinycolor.scanForColors("body {").length, 0);
+
+    var negativeMatchThreeHex = "background-position: 100% 50%;",
+    		results = tinycolor.scanForColors(negativeMatchThreeHex);
+		equal (results.length, 0);
+
+    var positiveMatchThreeHex = "background-position: #100% 50%;",
+    		results = tinycolor.scanForColors(positiveMatchThreeHex);
+		equal (results.length, 1);
+
+    var negativeMatchString = "margin: 0 !important;",
+    		results = tinycolor.scanForColors(negativeMatchString);
+		equal (results.length, 0);
+
+    var negativeMatchFourHex = "color: #fade;",
+    		results = tinycolor.scanForColors(negativeMatchFourHex);
+		equal (results.length, 0);
+});
+
 test("Filters", function () {
 
   equal (tinycolor("red").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)");

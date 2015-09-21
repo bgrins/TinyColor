@@ -784,6 +784,53 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
     }
 };
 
+tinycolor.constructMatcherRegExp = function() {
+  if (tinycolor.joinedMatcherRegExp !== undefined)
+    return tinycolor.joinedMatcherRegExp;
+
+  var joinedMatcherRegExp = [], name = null, match = null;
+
+  for (name in names) {
+    if (names.hasOwnProperty(name)) {
+      // "\\b" prevents words like imporTANt
+      joinedMatcherRegExp.push("\\b" + name + "\\b");
+    }
+  }
+
+  // construct a giant regexp of the color matchers
+  for (match in matchers) {
+    if (matchers.hasOwnProperty(match)) {
+      var matchAsString = String(matchers[match]);
+      if (/^hex/.test(match))
+          matchAsString = "#" + matchAsString;
+
+      joinedMatcherRegExp.push("(?:\\s*|\\b)" + matchAsString.replace(/\^|\$|\//g, '') + "\\b");
+    }
+  }
+
+  this.joinedMatcherRegExp = new RegExp(joinedMatcherRegExp.join("|"), "gi");
+  return this.joinedMatcherRegExp;
+};
+
+// `scanForColors`
+// Given a string, determines if it has a valid color.
+// Returns an array of matched objects if it does, or an empty array otherwise.
+tinycolor.scanForColors = function(text) {
+    var joinedMatcherRegExp = this.constructMatcherRegExp(), results = [], match = null, lines = text.split("\n");
+
+    // for each line, try to find a match. if it's found, turn it into a tinycolor
+    // and append it to the results
+    for (var l = 0, size = lines.length; l < size; l++) {
+      match = lines[l].match(joinedMatcherRegExp);
+      if (match === null)
+        continue;
+      while (match.length > 0) {
+        results.push(tinycolor(match.shift()));
+      }
+    }
+
+    return results;
+};
 
 // Big List of Colors
 // ------------------
