@@ -26,6 +26,19 @@ test("Original input", function() {
   ok (new tinycolor(null).getOriginalInput() === "", "when given a null value, an empty string is returned");
 });
 
+test("Cloning color", function() {
+  var originalColor = tinycolor("red");
+  var originalColorRgbString = originalColor.toRgbString();
+
+  var clonedColor = originalColor.clone();
+  ok (clonedColor.toRgbString() === originalColor.toRgbString(), "cloned color is identical");
+
+  clonedColor.setAlpha(0.5);
+  ok (clonedColor.toRgbString() !== originalColor.toRgbString(), "cloned color is changing independently from original color");
+  ok (originalColorRgbString === originalColor.toRgbString(), "original color was not changed by cloned color change");
+});
+
+
 // Taken from convertWikipediaColors.html
 var conversions = [
   {"hex":"#FFFFFF","hex8":"#FFFFFFFF","rgb":{"r":"100.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"0","s":"0.000","v":"1.000"},"hsl":{"h":"0","s":"0.000","l":"1.000"}},
