@@ -207,6 +207,9 @@ tinycolor.prototype = {
 
         return formattedString || this.toHexString();
     },
+    clone: function() {
+        return tinycolor(this.toString());
+    },
 
     _applyModification: function(fn, args) {
         var color = fn.apply(null, [this].concat([].slice.call(args)));
