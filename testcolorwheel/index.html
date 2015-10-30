@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Color wheel test</title>
+</head>
+<body>
+    <div id="outOfRange"></div>
+    <div id="normalized"></div>
+
+    <script type='text/javascript' src="../tinycolor.js"></script>
+    <script type='text/javascript'>//<![CDATA[
+
+/* Color circle:
+ * Tinycolor.js does not accept
+ * out-of-range hues.
+ * Adding a random amount to the hue value
+ * can cause it to go outside of its 0-360 range
+ * To avoid this, and maintain a color circle,
+ * values outside the scale should be reassigned.
+ * In this example,
+ * the out-of-range hue can be any numerical
+ * value, even if it is negative.
+ * The same functionality can be added to the
+ * .spin() method.
+ */
+
+// Test cdn
+// https://rawgit.com/bgrins/TinyColor/master/tinycolor.js
+// Production cdn
+// https://cdn.jsdelivr.net/tinycolor/1.2.1/tinycolor-min.js
+
+var outOfRangeHue = -700,
+    normalizedHue,
+    outOfRangeHslString,
+    normalizedHslString,
+    hueHtmlOutOfRange,
+    hueHtmlNormalized,
+    rgb;
+
+// Core function to add to tinycolor.js
+function normalizeOutOfRangeHue(m1) {
+    return m1 < 0 ? m1 % 360 + 360 : m1 % 360;
+}
+
+// Implement library
+
+function write2doc() {
+    outOfRangeHue += 1;
+    normalizedHue = normalizeOutOfRangeHue(outOfRangeHue);
+
+    // Show output in document
+    outOfRangeHslString = 'hsl ' + outOfRangeHue + ' 100% 50%';
+    hueHtmloutOfRange = 'Out-of-range hue: ' +
+        outOfRangeHue + '<br>' +
+        tinycolor(outOfRangeHslString).toHslString();
+    document.getElementById('outOfRange')
+        .style
+        .backgroundColor = tinycolor(outOfRangeHslString).toRgbString();
+    document.getElementById('outOfRange')
+        .innerHTML = hueHtmloutOfRange;
+
+    normalizedHslString = 'hsl ' + normalizedHue + ' 100% 50%';
+    hueHtmlNormalized = 'Normalized hue: ' +
+        normalizedHue + '<br>' +
+        tinycolor(normalizedHslString).toHslString();
+    document.getElementById('normalized')
+        .style
+        .backgroundColor = tinycolor(normalizedHslString).toRgbString();
+    document.getElementById('normalized')
+        .innerHTML = hueHtmlNormalized;
+
+}
+setInterval(write2doc, 10);
+
+// Show output in document
+outOfRangeHslString = 'hsl ' + outOfRangeHue + ' 100% 50%';
+hueHtmloutOfRange = 'Out-of-range hue: ' +
+    outOfRangeHue + '<br>' +
+    tinycolor(outOfRangeHslString).toHslString();
+document.getElementById('outOfRange')
+    .style
+    .backgroundColor = tinycolor(outOfRangeHslString).toRgbString();
+document.getElementById('outOfRange')
+    .innerHTML = hueHtmloutOfRange;
+
+        
+//]]></script>
+
+</body>
+</html>
+

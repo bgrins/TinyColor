@@ -995,16 +995,6 @@ function bound01(n, max) {
 
 // Take input from [-infinity, infinity] and return it as [0, 1]
 function boundInfinity(n, max) {
-    if (isOnePointZero(n)) { n = "100%"; }
-
-    var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
-
-    // Automatically convert percentage into number
-    if (processPercent) {
-        n = parseInt(n * max, 10) / 100;
-    }
-
     // Handle floating point rounding errors
     if ((math.abs(n - max) < 0.000001)) {
         return 1;
