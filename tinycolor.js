@@ -1011,7 +1011,7 @@ function boundInfinity(n, max) {
     }
 
     // Convert into [0, 1] range if it isn't already
-    return (n < 0 ? n % max + max : m1 % max) / parseFloat(max);
+    return (n < 0 ? n % max + max : n % max) / parseFloat(max);
 }
     
     // Force a number between 0 and 1
