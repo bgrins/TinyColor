@@ -30,13 +30,7 @@
 // Production cdn
 // https://cdn.jsdelivr.net/tinycolor/1.2.1/tinycolor-min.js
 
-var outOfRangeHue = -700,
-    normalizedHue,
-    outOfRangeHslString,
-    normalizedHslString,
-    hueHtmlOutOfRange,
-    hueHtmlNormalized,
-    rgb;
+var outOfRangeHue = -700;
 
 // Core function to add to tinycolor.js
 function normalizeOutOfRangeHue(m1) {
@@ -46,44 +40,26 @@ function normalizeOutOfRangeHue(m1) {
 // Implement library
 
 function write2doc() {
+    // Show output in document
+    var normalizedHue;
     outOfRangeHue += 1;
     normalizedHue = normalizeOutOfRangeHue(outOfRangeHue);
 
-    // Show output in document
-    outOfRangeHslString = 'hsl ' + outOfRangeHue + ' 100% 50%';
-    hueHtmloutOfRange = 'Out-of-range hue: ' +
-        outOfRangeHue + '<br>' +
-        tinycolor(outOfRangeHslString).toHslString();
-    document.getElementById('outOfRange')
-        .style
-        .backgroundColor = tinycolor(outOfRangeHslString).toRgbString();
-    document.getElementById('outOfRange')
-        .innerHTML = hueHtmloutOfRange;
-
-    normalizedHslString = 'hsl ' + normalizedHue + ' 100% 50%';
-    hueHtmlNormalized = 'Normalized hue: ' +
-        normalizedHue + '<br>' +
-        tinycolor(normalizedHslString).toHslString();
-    document.getElementById('normalized')
-        .style
-        .backgroundColor = tinycolor(normalizedHslString).toRgbString();
-    document.getElementById('normalized')
-        .innerHTML = hueHtmlNormalized;
-
+    function htmlOutput(hue, hueDesc, rangeId) {
+        var hslString = 'hsl ' + hue + ' 100% 50%';
+        hueHtml = hueDesc +
+            hue + '<br>' +
+            tinycolor(hslString).toHslString();
+        document.getElementById(rangeId)
+            .style
+            .backgroundColor = tinycolor(hslString).toRgbString();
+        document.getElementById(rangeId)
+            .innerHTML = hueHtml;
+    }
+    htmlOutput(outOfRangeHue, 'Out-of-range hue: ', 'outOfRange');
+    htmlOutput(normalizedHue, 'Normalized hue: ', 'normalized');
 }
 setInterval(write2doc, 10);
-
-// Show output in document
-outOfRangeHslString = 'hsl ' + outOfRangeHue + ' 100% 50%';
-hueHtmloutOfRange = 'Out-of-range hue: ' +
-    outOfRangeHue + '<br>' +
-    tinycolor(outOfRangeHslString).toHslString();
-document.getElementById('outOfRange')
-    .style
-    .backgroundColor = tinycolor(outOfRangeHslString).toRgbString();
-document.getElementById('outOfRange')
-    .innerHTML = hueHtmloutOfRange;
-
         
 //]]></script>
 
