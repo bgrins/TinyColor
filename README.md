@@ -27,7 +27,7 @@ Then just include it in the page in a `script` tag:
 
 Then it can be used in your script like so:
 
-    var tinycolor = require("./tinycolor");
+    var tinycolor = require("tinycolor2");
     var color = tinycolor("red");
 
 ## Usage
