@@ -27,7 +27,7 @@ Then just include it in the page in a `script` tag:
 
 Then it can be used in your script like so:
 
-    var tinycolor = require("./tinycolor");
+    var tinycolor = require("tinycolor2");
     var color = tinycolor("red");
 
 ## Usage
@@ -453,12 +453,13 @@ See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in 
 
 ## Common operations
 
-### Cloning
+### clone
 
-To clone a color, you can simply instantiate a new tinycolor with the old one's `toString` output.  The new color is a copy of the first one, so any changes to one won't affect the other.  See this example:
+`clone: function() -> TinyColor`.
+Instantiate a new TinyColor object with the same color.  Any changes to the new one won't affect the old one.
 
     var color1 = tinycolor("#F00");
-    var color2 = tinycolor(color1.toString());
+    var color2 = color1.clone();
     color2.setAlpha(.5);
 
     color1.toString(); // "#ff0000"
