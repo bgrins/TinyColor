@@ -348,6 +348,10 @@ test("Named colors", function() {
 
   equal (tinycolor("#f00").toName(), "red");
   equal (tinycolor("#fa0a0a").toName(), false);
+
+  Object.keys(tinycolor.names).forEach(function (name) {
+    equal(name, tinycolor(name).toName(), "Named color should be invertible");
+  })
 });
 
 
