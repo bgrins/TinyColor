@@ -794,7 +794,7 @@ tinycolor.mostReadable = function(baseColor, colorList, args) {
 var names = tinycolor.names = {
     aliceblue: "f0f8ff",
     antiquewhite: "faebd7",
-    aqua: "0ff",
+    // aqua: "0ff",  // use "cyan"
     aquamarine: "7fffd4",
     azure: "f0ffff",
     beige: "f5f5dc",
@@ -819,7 +819,7 @@ var names = tinycolor.names = {
     darkgoldenrod: "b8860b",
     darkgray: "a9a9a9",
     darkgreen: "006400",
-    darkgrey: "a9a9a9",
+    // darkgrey: "a9a9a9",  // use "darkgray"
     darkkhaki: "bdb76b",
     darkmagenta: "8b008b",
     darkolivegreen: "556b2f",
@@ -830,18 +830,18 @@ var names = tinycolor.names = {
     darkseagreen: "8fbc8f",
     darkslateblue: "483d8b",
     darkslategray: "2f4f4f",
-    darkslategrey: "2f4f4f",
+    // darkslategrey: "2f4f4f",  // use "darkgray"
     darkturquoise: "00ced1",
     darkviolet: "9400d3",
     deeppink: "ff1493",
     deepskyblue: "00bfff",
     dimgray: "696969",
-    dimgrey: "696969",
+    // dimgrey: "696969",  // use "dimgray"
     dodgerblue: "1e90ff",
     firebrick: "b22222",
     floralwhite: "fffaf0",
     forestgreen: "228b22",
-    fuchsia: "f0f",
+    // fuchsia: "f0f",  // use "magenta"
     gainsboro: "dcdcdc",
     ghostwhite: "f8f8ff",
     gold: "ffd700",
@@ -849,7 +849,7 @@ var names = tinycolor.names = {
     gray: "808080",
     green: "008000",
     greenyellow: "adff2f",
-    grey: "808080",
+    // grey: "808080", // use "gray"
     honeydew: "f0fff0",
     hotpink: "ff69b4",
     indianred: "cd5c5c",
@@ -866,13 +866,13 @@ var names = tinycolor.names = {
     lightgoldenrodyellow: "fafad2",
     lightgray: "d3d3d3",
     lightgreen: "90ee90",
-    lightgrey: "d3d3d3",
+    // lightgrey: "d3d3d3",  // use "lightgray"
     lightpink: "ffb6c1",
     lightsalmon: "ffa07a",
     lightseagreen: "20b2aa",
     lightskyblue: "87cefa",
     lightslategray: "789",
-    lightslategrey: "789",
+    // lightslategrey: "789",  // use "lightslategray"
     lightsteelblue: "b0c4de",
     lightyellow: "ffffe0",
     lime: "0f0",
@@ -926,7 +926,7 @@ var names = tinycolor.names = {
     skyblue: "87ceeb",
     slateblue: "6a5acd",
     slategray: "708090",
-    slategrey: "708090",
+    // slategrey: "708090",  // use "slategray"
     snow: "fffafa",
     springgreen: "00ff7f",
     steelblue: "4682b4",

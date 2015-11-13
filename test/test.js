@@ -205,7 +205,6 @@ test("Invalid Parsing", function() {
 test("Named colors", function() {
   equal (tinycolor("aliceblue").toHex(), "f0f8ff");
   equal (tinycolor("antiquewhite").toHex(), "faebd7");
-  equal (tinycolor("aqua").toHex(), "00ffff");
   equal (tinycolor("aquamarine").toHex(), "7fffd4");
   equal (tinycolor("azure").toHex(), "f0ffff");
   equal (tinycolor("beige").toHex(), "f5f5dc");
@@ -248,13 +247,11 @@ test("Named colors", function() {
   equal (tinycolor("firebrick").toHex(), "b22222");
   equal (tinycolor("floralwhite").toHex(), "fffaf0");
   equal (tinycolor("forestgreen").toHex(), "228b22");
-  equal (tinycolor("fuchsia").toHex(), "ff00ff");
   equal (tinycolor("gainsboro").toHex(), "dcdcdc");
   equal (tinycolor("ghostwhite").toHex(), "f8f8ff");
   equal (tinycolor("gold").toHex(), "ffd700");
   equal (tinycolor("goldenrod").toHex(), "daa520");
   equal (tinycolor("gray").toHex(), "808080");
-  equal (tinycolor("grey").toHex(), "808080");
   equal (tinycolor("green").toHex(), "008000");
   equal (tinycolor("greenyellow").toHex(), "adff2f");
   equal (tinycolor("honeydew").toHex(), "f0fff0");
@@ -271,7 +268,6 @@ test("Named colors", function() {
   equal (tinycolor("lightcoral").toHex(), "f08080");
   equal (tinycolor("lightcyan").toHex(), "e0ffff");
   equal (tinycolor("lightgoldenrodyellow").toHex(), "fafad2");
-  equal (tinycolor("lightgrey").toHex(), "d3d3d3");
   equal (tinycolor("lightgreen").toHex(), "90ee90");
   equal (tinycolor("lightpink").toHex(), "ffb6c1");
   equal (tinycolor("lightsalmon").toHex(), "ffa07a");
