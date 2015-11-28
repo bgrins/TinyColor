@@ -17,7 +17,7 @@ function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
-
+    
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
        return color;
@@ -164,6 +164,9 @@ tinycolor.prototype = {
 
         return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
     },
+    toNumber: function() {
+        return (mathRound(this._r)<<16) + (mathRound(this._g)<<8) + (mathRound(this._b));
+    },
     toString: function(format) {
         var formatSet = !!format;
         format = format || this._format;
@@ -307,7 +310,10 @@ function inputToRGB(color) {
     var ok = false;
     var format = false;
 
-    if (typeof color == "string") {
+    if (typeof color == "number") {
+        color = numberInputToObject(color);
+    }
+    else if (typeof color == "string") {
         color = stringInputToObject(color);
     }
 
@@ -1066,6 +1072,17 @@ var matchers = (function() {
         hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
     };
 })();
+
+
+// `numberInputToObject`
+// Take in a number
+function numberInputToObject(color) {
+    return {
+        r: color >> 16, 
+        g: (color&0xff00) >> 8,
+        b: color&0xff
+    };
+}
 
 // `stringInputToObject`
 // Permissive string parsing.  Take in a number of formats, and output an object
