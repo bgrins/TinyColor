@@ -691,6 +691,12 @@ test("Spin", function () {
     equal (Math.round(tinycolor("#f00").spin(10).toHsl().h), 10, "Spinning 10 works");
     equal (Math.round(tinycolor("#f00").spin(360).toHsl().h), 0, "Spinning 360 works");
     equal (Math.round(tinycolor("#f00").spin(2345).toHsl().h), 185, "Spinning 2345 works");
+
+    [-360, 0, 360].forEach(function (delta) {
+      Object.keys(tinycolor.names).forEach(function (name) {
+        equal(tinycolor(name).toHex(), tinycolor(name).spin(delta).toHex(), "Spinning " + delta.toString() + " has no effect")
+      })
+    })
 });
 
 test("Mix", function () {
