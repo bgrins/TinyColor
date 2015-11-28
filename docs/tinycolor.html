@@ -1,8 +1,8 @@
-<!DOCTYPE html>  <html> <head>   <title>tinycolor.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tinycolor.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>TinyColor v1.2.1
+<!DOCTYPE html>  <html> <head>   <title>tinycolor.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tinycolor.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>TinyColor v1.3.0
 https://github.com/bgrins/TinyColor
 Brian Grinstead, MIT License</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-<span class="kd">var</span> <span class="nx">trimLeft</span> <span class="o">=</span> <span class="sr">/^[\s,#]+/</span><span class="p">,</span>
+<span class="kd">var</span> <span class="nx">trimLeft</span> <span class="o">=</span> <span class="sr">/^\s+/</span><span class="p">,</span>
     <span class="nx">trimRight</span> <span class="o">=</span> <span class="sr">/\s+$/</span><span class="p">,</span>
     <span class="nx">tinyCounter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="nx">math</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">,</span>
@@ -190,6 +190,9 @@ will return rgba when there is transparency.</p>             </td>             <
         <span class="p">}</span>
 
         <span class="k">return</span> <span class="nx">formattedString</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">clone</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">tinycolor</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
     <span class="p">},</span>
 
     <span class="nx">_applyModification</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fn</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
@@ -908,9 +911,9 @@ Whitespace can take the place of commas or opening paren</p>             </td>  
         <span class="nx">hsla</span><span class="o">:</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;hsla&quot;</span> <span class="o">+</span> <span class="nx">PERMISSIVE_MATCH4</span><span class="p">),</span>
         <span class="nx">hsv</span><span class="o">:</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;hsv&quot;</span> <span class="o">+</span> <span class="nx">PERMISSIVE_MATCH3</span><span class="p">),</span>
         <span class="nx">hsva</span><span class="o">:</span> <span class="k">new</span> <span class="nb">RegExp</span><span class="p">(</span><span class="s2">&quot;hsva&quot;</span> <span class="o">+</span> <span class="nx">PERMISSIVE_MATCH4</span><span class="p">),</span>
-        <span class="nx">hex3</span><span class="o">:</span> <span class="sr">/^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/</span><span class="p">,</span>
-        <span class="nx">hex6</span><span class="o">:</span> <span class="sr">/^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/</span><span class="p">,</span>
-        <span class="nx">hex8</span><span class="o">:</span> <span class="sr">/^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/</span>
+        <span class="nx">hex3</span><span class="o">:</span> <span class="sr">/^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/</span><span class="p">,</span>
+        <span class="nx">hex6</span><span class="o">:</span> <span class="sr">/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/</span><span class="p">,</span>
+        <span class="nx">hex8</span><span class="o">:</span> <span class="sr">/^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/</span>
     <span class="p">};</span>
 <span class="p">})();</span></pre></div>             </td>           </tr>                               <tr id="section-51">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-51">&#182;</a>               </div>               <p><code>stringInputToObject</code>
 Permissive string parsing.  Take in a number of formats, and output an object
