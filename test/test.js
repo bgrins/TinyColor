@@ -10,11 +10,11 @@ test("TinyColor initialization", function() {
 });
 
 test("Original input", function() {
-  var colorRgbUp   = "RGB(39, 39, 39)",
-      colorRgbLow  = "rgb(39, 39, 39)",
-      colorRgbMix  = "RgB(39, 39, 39)",
-      tinycolorObj = tinycolor(colorRgbMix),
-      inputObj = {r:100,g:100,b:100};
+  var colorRgbUp   = "RGB(39, 39, 39)";
+  var colorRgbLow  = "rgb(39, 39, 39)";
+  var colorRgbMix  = "RgB(39, 39, 39)";
+  var tinycolorObj = tinycolor(colorRgbMix);
+  var inputObj = {r:100,g:100,b:100};
   var r = tinycolor("red");
 
   ok (tinycolor(colorRgbLow).getOriginalInput() === colorRgbLow, "original lowercase input is returned");
@@ -38,7 +38,6 @@ test("Cloning color", function() {
   ok (originalColorRgbString === originalColor.toRgbString(), "original color was not changed by cloned color change");
 });
 
-
 // Taken from convertWikipediaColors.html
 var conversions = [
   {"hex":"#FFFFFF","hex8":"#FFFFFFFF","rgb":{"r":"100.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"0","s":"0.000","v":"1.000"},"hsl":{"h":"0","s":"0.000","l":"1.000"}},
@@ -59,8 +58,8 @@ var conversions = [
   {"hex":"#7E7EB8","hex8":"#FF7E7EB8","rgb":{"r":"049.5%","g":"049.3%","b":"072.1%"},"hsv":{"h":"240.5","s":"0.316","v":"0.721"},"hsl":{"h":"240.5","s":"0.290","l":"0.607"}}
 ];
 
-
 module("Color translations");
+
 test("Color Equality", function() {
   for (var i = 0; i < conversions.length; i++) {
     var c =  conversions[i];
@@ -83,12 +82,11 @@ test("Color Equality", function() {
     ok (tinycolor.equals(c.hex, c.hsv), "hex equals HSV " + c.hex);
 
     ok (tinycolor.equals(c.hsl, c.hsv), "HSL equals HSV " + c.hex);
-
   }
 });
 
-
 module("Ratio Parsing");
+
 test("With Ratio", function() {
   equal (tinycolor.fromRatio({r: 1, g: 1, b: 1}).toHexString(), "#ffffff", "white");
   equal (tinycolor.fromRatio({r: 1, g: 0, b: 0, a: .5 }).toRgbString(), "rgba(255, 0, 0, 0.5)", "alpha works when ratio is parsed");
@@ -103,8 +101,8 @@ test("Without Ratio", function() {
   equal (tinycolor("rgb .1 .1 .1").toHexString(), "#000000", "000000");
 });
 
-
 module("String Parsing");
+
 test("RGB Text Parsing", function() {
   equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000", "spaced input");
   equal (tinycolor("rgb(255, 0, 0)").toHexString(), "#ff0000", "parenthesized input");
@@ -167,7 +165,6 @@ test("Hex Parsing", function() {
   equal (tinycolor("rgb 255 0 0").toHexString(), "#ff0000");
   equal (tinycolor("rgb 255 0 0").toHexString(true), "#f00");
   equal (tinycolor("rgba 255 0 0 0.5").toHex8String(), "#80ff0000");
-
 
   equal (tinycolor("rgb 255 0 0").toHex(), "ff0000");
   equal (tinycolor("rgb 255 0 0").toHex(true), "f00");
@@ -362,8 +359,8 @@ test("Named colors", function() {
   equal (tinycolor("#fa0a0a").toName(), false);
 });
 
-
 module("Alpha handling");
+
 test("Invalid alpha should normalize to 1", function() {
   equal (tinycolor({r:255,g:20,b:10,a: -1}).toRgbString(), "rgb(255, 20, 10)", "Negative value");
   equal (tinycolor({r:255,g:20,b:10,a: -0}).toRgbString(), "rgba(255, 20, 10, 0)", "Negative 0");
@@ -432,6 +429,7 @@ test("Alpha = 0 should act differently on toName()", function() {
 
 
 module("Brightness handling");
+
 test("getBrightness", function() {
     equal(tinycolor('#000').getBrightness(), 0, 'returns 0 for #000');
     equal(tinycolor('#fff').getBrightness(), 255, 'returns 255 for #fff');
@@ -443,143 +441,143 @@ test("getLuminance", function() {
 });
 
 test("isDark returns true/false for dark/light colors", function() {
-    equal(tinycolor('#000').isDark(), true, '#000 is dark');
-    equal(tinycolor('#111').isDark(), true, '#111 is dark');
-    equal(tinycolor('#222').isDark(), true, '#222 is dark');
-    equal(tinycolor('#333').isDark(), true, '#333 is dark');
-    equal(tinycolor('#444').isDark(), true, '#444 is dark');
-    equal(tinycolor('#555').isDark(), true, '#555 is dark');
-    equal(tinycolor('#666').isDark(), true, '#666 is dark');
-    equal(tinycolor('#777').isDark(), true, '#777 is dark');
-    equal(tinycolor('#888').isDark(), false, '#888 is not dark');
-    equal(tinycolor('#999').isDark(), false, '#999 is not dark');
-    equal(tinycolor('#aaa').isDark(), false, '#aaa is not dark');
-    equal(tinycolor('#bbb').isDark(), false, '#bbb is not dark');
-    equal(tinycolor('#ccc').isDark(), false, '#ccc is not dark');
-    equal(tinycolor('#ddd').isDark(), false, '#ddd is not dark');
-    equal(tinycolor('#eee').isDark(), false, '#eee is not dark');
-    equal(tinycolor('#fff').isDark(), false, '#fff is not dark');
+  equal(tinycolor('#000').isDark(), true, '#000 is dark');
+  equal(tinycolor('#111').isDark(), true, '#111 is dark');
+  equal(tinycolor('#222').isDark(), true, '#222 is dark');
+  equal(tinycolor('#333').isDark(), true, '#333 is dark');
+  equal(tinycolor('#444').isDark(), true, '#444 is dark');
+  equal(tinycolor('#555').isDark(), true, '#555 is dark');
+  equal(tinycolor('#666').isDark(), true, '#666 is dark');
+  equal(tinycolor('#777').isDark(), true, '#777 is dark');
+  equal(tinycolor('#888').isDark(), false, '#888 is not dark');
+  equal(tinycolor('#999').isDark(), false, '#999 is not dark');
+  equal(tinycolor('#aaa').isDark(), false, '#aaa is not dark');
+  equal(tinycolor('#bbb').isDark(), false, '#bbb is not dark');
+  equal(tinycolor('#ccc').isDark(), false, '#ccc is not dark');
+  equal(tinycolor('#ddd').isDark(), false, '#ddd is not dark');
+  equal(tinycolor('#eee').isDark(), false, '#eee is not dark');
+  equal(tinycolor('#fff').isDark(), false, '#fff is not dark');
 });
 
 test("isLight returns true/false for light/dark colors", function() {
-    equal(tinycolor('#000').isLight(), false, '#000 is not light');
-    equal(tinycolor('#111').isLight(), false, '#111 is not light');
-    equal(tinycolor('#222').isLight(), false, '#222 is not light');
-    equal(tinycolor('#333').isLight(), false, '#333 is not light');
-    equal(tinycolor('#444').isLight(), false, '#444 is not light');
-    equal(tinycolor('#555').isLight(), false, '#555 is not light');
-    equal(tinycolor('#666').isLight(), false, '#666 is not light');
-    equal(tinycolor('#777').isLight(), false, '#777 is not light');
-    equal(tinycolor('#888').isLight(), true, '#888 is light');
-    equal(tinycolor('#999').isLight(), true, '#999 is light');
-    equal(tinycolor('#aaa').isLight(), true, '#aaa is light');
-    equal(tinycolor('#bbb').isLight(), true, '#bbb is light');
-    equal(tinycolor('#ccc').isLight(), true, '#ccc is light');
-    equal(tinycolor('#ddd').isLight(), true, '#ddd is light');
-    equal(tinycolor('#eee').isLight(), true, '#eee is light');
-    equal(tinycolor('#fff').isLight(), true, '#fff is light');
+  equal(tinycolor('#000').isLight(), false, '#000 is not light');
+  equal(tinycolor('#111').isLight(), false, '#111 is not light');
+  equal(tinycolor('#222').isLight(), false, '#222 is not light');
+  equal(tinycolor('#333').isLight(), false, '#333 is not light');
+  equal(tinycolor('#444').isLight(), false, '#444 is not light');
+  equal(tinycolor('#555').isLight(), false, '#555 is not light');
+  equal(tinycolor('#666').isLight(), false, '#666 is not light');
+  equal(tinycolor('#777').isLight(), false, '#777 is not light');
+  equal(tinycolor('#888').isLight(), true, '#888 is light');
+  equal(tinycolor('#999').isLight(), true, '#999 is light');
+  equal(tinycolor('#aaa').isLight(), true, '#aaa is light');
+  equal(tinycolor('#bbb').isLight(), true, '#bbb is light');
+  equal(tinycolor('#ccc').isLight(), true, '#ccc is light');
+  equal(tinycolor('#ddd').isLight(), true, '#ddd is light');
+  equal(tinycolor('#eee').isLight(), true, '#eee is light');
+  equal(tinycolor('#fff').isLight(), true, '#fff is light');
 });
 
-
 module("Initialization from tinycolor output");
+
 test("HSL Object", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      equal (tiny.toHexString(), tinycolor(tiny.toHsl()).toHexString(), "HSL Object");
-    }
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    equal (tiny.toHexString(), tinycolor(tiny.toHsl()).toHexString(), "HSL Object");
+  }
 });
 
 test("HSL String", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      var input = tiny.toRgb();
-      var output = tinycolor(tiny.toHslString()).toRgb();
-      var maxDiff = 2;
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    var input = tiny.toRgb();
+    var output = tinycolor(tiny.toHslString()).toRgb();
+    var maxDiff = 2;
 
-      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHslString red value difference <= " + maxDiff);
-      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHslString green value difference <= " + maxDiff);
-      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
-    }
+    equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHslString red value difference <= " + maxDiff);
+    equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHslString green value difference <= " + maxDiff);
+    equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHslString blue value difference <= " + maxDiff);
+  }
 });
 
 test("HSV String", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      var input = tiny.toRgb();
-      var output = tinycolor(tiny.toHsvString()).toRgb();
-      var maxDiff = 2;
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    var input = tiny.toRgb();
+    var output = tinycolor(tiny.toHsvString()).toRgb();
+    var maxDiff = 2;
 
-      equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHsvString red value difference <= " + maxDiff);
-      equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHsvString green value difference <= " + maxDiff);
-      equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHsvString blue value difference <= " + maxDiff);
-    }
+    equal (Math.abs(input.r - output.r) <= maxDiff, true, "toHsvString red value difference <= " + maxDiff);
+    equal (Math.abs(input.g - output.g) <= maxDiff, true, "toHsvString green value difference <= " + maxDiff);
+    equal (Math.abs(input.b - output.b) <= maxDiff, true, "toHsvString blue value difference <= " + maxDiff);
+  }
 });
 
 test("HSV Object", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      equal (tiny.toHexString(), tinycolor(tiny.toHsv()).toHexString(), "HSV Object");
-    }
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    equal (tiny.toHexString(), tinycolor(tiny.toHsv()).toHexString(), "HSV Object");
+  }
 });
 
 test("RGB Object", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      equal (tiny.toHexString(), tinycolor(tiny.toRgb()).toHexString(), "RGB Object");
-    }
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    equal (tiny.toHexString(), tinycolor(tiny.toRgb()).toHexString(), "RGB Object");
+  }
 });
 
 test("RGB String", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      equal (tiny.toHexString(), tinycolor(tiny.toRgbString()).toHexString(), "RGB String");
-    }
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    equal (tiny.toHexString(), tinycolor(tiny.toRgbString()).toHexString(), "RGB String");
+  }
 });
 
 test("PRGB Object", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      var input = tiny.toRgb();
-      var output = tinycolor(tiny.toPercentageRgb()).toRgb();
-      var maxDiff = 2;
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    var input = tiny.toRgb();
+    var output = tinycolor(tiny.toPercentageRgb()).toRgb();
+    var maxDiff = 2;
 
-      equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-      equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-      equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
-    }
+    equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+    equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+    equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+  }
 });
 
 test("PRGB String", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      var input = tiny.toRgb();
-      var output = tinycolor(tiny.toPercentageRgbString()).toRgb();
-      var maxDiff = 2;
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    var input = tiny.toRgb();
+    var output = tinycolor(tiny.toPercentageRgbString()).toRgb();
+    var maxDiff = 2;
 
-      equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
-      equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
-      equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
-    }
+    equal (Math.abs(input.r - output.r) <= maxDiff, true, "Red value difference <= " + maxDiff);
+    equal (Math.abs(input.g - output.g) <= maxDiff, true, "Green value difference <= " + maxDiff);
+    equal (Math.abs(input.b - output.b) <= maxDiff, true, "Blue value difference <= " + maxDiff);
+  }
 });
 
 test("Object", function() {
-    for (var i = 0; i < conversions.length; i++) {
-      var c =  conversions[i];
-      var tiny =  tinycolor(c.hex);
-      equal (tiny.toHexString(), tinycolor(tiny).toHexString(), "Object");
-    }
+  for (var i = 0; i < conversions.length; i++) {
+    var c =  conversions[i];
+    var tiny =  tinycolor(c.hex);
+    equal (tiny.toHexString(), tinycolor(tiny).toHexString(), "Object");
+  }
 });
 
-
 module("Utilities");
+
 test("Color equality", function() {
   ok (tinycolor.equals("#ff0000", "#ff0000"), "Same hex");
   ok (tinycolor.equals("#ff0000", "rgb(255, 0, 0)"), "Same alphas");
@@ -591,8 +589,8 @@ test("Color equality", function() {
   ok (!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   ok (tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"), "Percentage bounds checking");
 });
-test("isReadable", function() {
 
+test("isReadable", function() {
   // "#ff0088", "#8822aa" (values used in old WCAG1 tests)
   ok (tinycolor.isReadable("#000000", "#ffffff",{level:"AA",size:"small"}), "white/black is readable");
   ok (!tinycolor.isReadable("#ff0088", "#5c1a72",{}), "not readable - empty wcag2 object");
@@ -629,6 +627,7 @@ test("readability", function() {
   deepEqual(tinycolor.readability("#000", "#111"), 1.1121078324840545, "Readability function test 1");
   deepEqual(tinycolor.readability("#000", "#fff"), 21, "Readability function test 2");
 });
+
 test("mostReadable", function () {
   equal (tinycolor.mostReadable("#000", ["#111", "#222",{wcag2:{}}]).toHexString(), "#222222", "readable color present");
   equal (tinycolor.mostReadable("#f00", ["#d00", "#0d0"],{wcag2:{}}).toHexString(), "#00dd00", "readable color present");
@@ -646,12 +645,10 @@ test("mostReadable", function () {
   equal (tinycolor.mostReadable("#371b2c", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#ffffff", "verify assumption");
   equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(), "#a9acb6", "readable color present");
   equal (tinycolor.mostReadable("#371b2c", ["#a9acb6"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(), "#ffffff", "no readable color in list");
-
 });
 
 
 test("Filters", function () {
-
   equal (tinycolor("red").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)");
   equal (tinycolor("red").toFilter("blue"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)");
 
@@ -735,7 +732,6 @@ test("Mix", function () {
         equal(tinycolor.mix(tinycolor('transparent'), '#000', i).toRgb().a, i / 100, "Mixing " + i + " (alpha channel)");
     }
 });
-
 
 // The combination tests need to be expanded further
 module("Combinations");
