@@ -200,6 +200,18 @@ test("Invalid Parsing", function() {
   invalidColor = tinycolor("  ##123456");
   equal (invalidColor.toHexString(), "#000000");
   equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor({r: 'invalid', g: 'invalid', b: 'invalid' });
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor({h: 'invalid', s: 'invalid', l: 'invalid' });
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
+
+  invalidColor = tinycolor({h: 'invalid', s: 'invalid', v: 'invalid' });
+  equal (invalidColor.toHexString(), "#000000");
+  equal (false, invalidColor.isValid());
 });
 
 test("Named colors", function() {
