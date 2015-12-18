@@ -604,9 +604,9 @@ function spin(color, amount) {
 
 function complement(color) {
     var hsl = tinycolor(color).toHsl();
-    if (hsl.l == 1) {
+    if (hsl.l === 1) {
       hsl.l = 0;
-    } else if (hsl.l == 0) {
+    } else if (hsl.l === 0) {
       hsl.l = 1;
     }
     hsl.h = (hsl.h + 180) % 360;
