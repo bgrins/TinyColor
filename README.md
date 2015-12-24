@@ -19,6 +19,12 @@ Then just include it in the page in a `script` tag:
     var color = tinycolor("red");
     </script>
 
+## Including it from CDN
+
+[JsDelivr](http://www.jsdelivr.com/#!tinycolor)
+
+    <script type='text/javascript' src='http://cdn.jsdelivr.net/tinycolor/1.2.1/tinycolor-min.js'></script>
+
 ## Including in node
 
 `tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
