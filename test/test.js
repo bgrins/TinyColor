@@ -721,7 +721,7 @@ test("Mix", function () {
 
     // with colors
     for (var i = 0; i < 100; i++) {
-        var new_hex = Math.round(255 * (1 - (i / 100))).toString(16);
+        var new_hex = Math.round((255 * (100 - i)) / 100).toString(16);
 
         if (new_hex.length === 1) {
             new_hex = '0' + new_hex;
