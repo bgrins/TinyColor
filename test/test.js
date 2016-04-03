@@ -713,6 +713,8 @@ test("Mix", function () {
     // amount 0 or none
     equal(tinycolor.mix('#000', '#fff').toHsl().l, 0.5, "Mixing without amount works");
     equal(tinycolor.mix('#f00', '#000', 0).toHex(), 'ff0000', "Mixing with 0 amount works");
+    // This case checks the the problem with floating point numbers (eg 255/90)
+    equal(tinycolor.mix('#fff', '#000', 90).toHex(), '1a1a1a', "Mixing with 90 amount works correctly");
 
     // black and white
     for (var i = 0; i < 100; i++) {
