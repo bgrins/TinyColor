@@ -263,7 +263,7 @@ tinycolor.prototype = {
     },
     tetrad: function() {
         return this._applyCombination(nad, [4]);
-    }
+    },
     pentad: function() {
         return this._applyCombination(nad, [5]);
     },
