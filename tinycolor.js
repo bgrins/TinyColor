@@ -255,12 +255,27 @@ tinycolor.prototype = {
     splitcomplement: function() {
         return this._applyCombination(splitcomplement, arguments);
     },
+    dyad: function() {
+        return this._applyCombination(nad, [2]);
+    },
     triad: function() {
         return this._applyCombination(nad, [3]);
     },
     tetrad: function() {
         return this._applyCombination(nad, [4]);
     }
+    pentad: function() {
+        return this._applyCombination(nad, [5]);
+    },
+    hexad: function() {
+        return this._applyCombination(nad, [6]);
+    },
+    heptad: function() {
+        return this._applyCombination(nad, [7]);
+    },
+    octad: function() {
+        return this._applyCombination(nad, [8]);
+    },
     nad: function(n) {
         return this._applyCombination(nad, [n])
     }
