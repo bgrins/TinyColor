@@ -277,7 +277,7 @@ tinycolor.prototype = {
         return this._applyCombination(nad, [8]);
     },
     nad: function(n) {
-        return this._applyCombination(nad, [n])
+        return this._applyCombination(nad, [n]);
     }
 };
 
