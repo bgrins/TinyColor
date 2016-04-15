@@ -256,13 +256,13 @@ tinycolor.prototype = {
         return this._applyCombination(splitcomplement, arguments);
     },
     triad: function() {
-        return this._applyCombination(nad, [3]);
+        return this._applyCombination(polyad, [3]);
     },
     tetrad: function() {
-        return this._applyCombination(nad, [4]);
+        return this._applyCombination(polyad, [4]);
     },
     polyad: function(n) {
-        return this._applyCombination(nad, [n]);
+        return this._applyCombination(polyad, [n]);
     }
 };
 
@@ -611,8 +611,8 @@ function complement(color) {
     return tinycolor(hsl);
 }
 
-// Get n-ad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...) monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
-function nad(color, n) {
+// Get polyadad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...) monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
+function polyad(color, n) {
     var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
 
