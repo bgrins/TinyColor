@@ -611,7 +611,7 @@ function complement(color) {
     return tinycolor(hsl);
 }
 
-// Get polyadad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...) monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
+// Get polyad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...) monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
 function polyad(color, n) {
     var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
