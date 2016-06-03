@@ -8,6 +8,10 @@ test("TinyColor initialization", function() {
   ok(new tinycolor(r) === r, "when given a tinycolor instance, new tinycolor() returns it");
   equal(tinycolor("red", { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
   equal(tinycolor.fromRatio({r: 1, g: 0, b: 0 }, { format: "hex" }).toString(), "#ff0000", "tinycolor options are being parsed");
+
+  var obj = {h: 180, s: 0.5, l: 0.5};
+  var color = tinycolor(obj);
+  ok(obj.s === 0.5, "when given an object, the original object is not modified");
 });
 
 test("Original input", function() {
