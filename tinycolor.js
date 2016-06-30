@@ -552,7 +552,7 @@ function hcgToRgb(h, c, gr) {
     gr = bound01(gr, 100);
 
     if (c === 0.0) {
-        return [gr * 255, gr * 255, gr * 255];
+        return {r: gr * 255, g: gr * 255, b: gr * 255};
     }
 
     var i = Math.floor(h),
