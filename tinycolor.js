@@ -522,11 +522,11 @@ function rgbToHcg(r, g, b) {
     g = bound01(g, 255);
     b = bound01(b, 255);
 
-    var max = Math.max(r, g, b)
-      , min = Math.min(r, g, b)
-      , c = (max - min)
-      , gr = 0
-      , h = 0;
+    var max = Math.max(r, g, b),
+        min = Math.min(r, g, b),
+        c = (max - min),
+        gr = 0,
+        h = 0;
 
     if (c < 1) { gr = min / (1 - c); }
     if (c > 0) {
