@@ -112,6 +112,17 @@ tinycolor.prototype = {
           "hsl("  + h + ", " + s + "%, " + l + "%)" :
           "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
     },
+    toHcg: function() {
+        var hcg = rgbToHcg(this._r, this._g, this._b);
+        return { h: hcg.h * 360, c: hcg.c, g: hcg.g, a: this._a };
+    },
+    toHcgString: function() {
+        var hcg = rgbToHcg(this._r, this._g, this._b);
+        var h = mathRound(hcg.h * 360), c = mathRound(hcg.c * 100), g = mathRound(hcg.g * 100);
+        return (this._a == 1) ?
+          "hcg("  + h + ", " + c + "%, " + g + "%)" :
+          "hcga(" + h + ", " + c + "%, " + g + "%, "+ this._roundA + ")";
+    },
     toHex: function(allow3Char) {
         return rgbToHex(this._r, this._g, this._b, allow3Char);
     },
@@ -202,6 +213,9 @@ tinycolor.prototype = {
         }
         if (format === "hsv") {
             formattedString = this.toHsvString();
+        }
+        if (format === "hcg") {
+            formattedString = this.toHcgString();
         }
 
         return formattedString || this.toHexString();
@@ -306,6 +320,8 @@ function inputToRGB(color) {
     var s = null;
     var v = null;
     var l = null;
+    var c = null;
+    var g = null;
     var ok = false;
     var format = false;
 
@@ -332,6 +348,13 @@ function inputToRGB(color) {
             rgb = hslToRgb(color.h, s, l);
             ok = true;
             format = "hsl";
+        }
+        else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.c) && isValidCSSUnit(color.g)) {
+            c = convertToPercentage(color.c);
+            g = convertToPercentage(color.g);
+            rgb = hcgToRgb(color.h, c, g);
+            ok = true;
+            format = "hcg";
         }
 
         if (color.hasOwnProperty("a")) {
@@ -487,6 +510,67 @@ function rgbToHsv(r, g, b) {
         b = [p, p, t, v, v, q][mod];
 
     return { r: r * 255, g: g * 255, b: b * 255 };
+}
+
+// `rgbToHcg`
+// Converts an RGB color value to HCG
+// *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
+// *Returns:* { h, c, gr } in [0,1]
+function rgbToHcg(r, g, b) {
+
+    r = bound01(r, 255);
+    g = bound01(g, 255);
+    b = bound01(b, 255);
+
+    var max = Math.max(r, g, b)
+      , min = Math.min(r, g, b)
+      , c = (max - min)
+      , gr = 0
+      , h = 0;
+
+    if (c < 1) { gr = min / (1 - c); }
+    if (c > 0) {
+        switch (max) {
+            case r: h = (g - b) / c + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / c + 2; break;
+            case b: h = (r - g) / c + 4; break;
+        }
+        h /= 6;
+    }
+
+    return {h: h, c: c, g: gr};
+}
+
+// `hcgToRgb`
+// Converts an HCG color value to RGB.
+// *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
+// *Returns:* { r, g, b } in the set [0, 255]
+function hcgToRgb(h, c, gr) {
+
+    h  = bound01(h, 360) * 6;
+    c  = bound01(c, 100);
+    gr = bound01(gr, 100);
+
+    if (c === 0.0) {
+        return [gr * 255, gr * 255, gr * 255];
+    }
+
+    var i = Math.floor(h),
+        f = h - i,
+        p = 0,
+        q = c * (1 - f),
+        t = c * f,
+        mod = i % 6,
+        r = [c, q, p, p, t, c][mod],
+        g = [t, c, c, q, p, p][mod],
+        b = [p, p, t, c, c, q][mod],
+        d = (1 - c) * gr;
+
+    return {
+        r : (r + d) * 255,
+        g : (g + d) * 255,
+        b : (b + d) * 255
+    };
 }
 
 // `rgbToHex`
@@ -1050,6 +1134,8 @@ var matchers = (function() {
         hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
         hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
         hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
+        hcg: new RegExp("hcg" + PERMISSIVE_MATCH3),
+        hcga: new RegExp("hcga" + PERMISSIVE_MATCH4),
         hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
         hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
         hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
@@ -1100,6 +1186,12 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hsva.exec(color))) {
         return { h: match[1], s: match[2], v: match[3], a: match[4] };
+    }
+    if ((match = matchers.hcg.exec(color))) {
+        return { h: match[1], c: match[2], g: match[3] };
+    }
+    if ((match = matchers.hcga.exec(color))) {
+        return { h: match[1], c: match[2], g: match[3], a: match[4] };
     }
     if ((match = matchers.hex8.exec(color))) {
         return {
