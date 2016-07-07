@@ -239,12 +239,12 @@ color.toHexString(); // "#ff0000"
 ### toHex8
 ```js
 var color = tinycolor("red");
-color.toHex8(); // "ffff0000"
+color.toHex8(); // "ff0000ff"
 ```
 ### toHex8String
 ```js
 var color = tinycolor("red");
-color.toHex8String(); // "#ffff0000"
+color.toHex8String(); // "#ff0000ff"
 ```
 ### toRgb
 ```js
