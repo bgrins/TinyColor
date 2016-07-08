@@ -46,21 +46,21 @@ test("Cloning color", function() {
 // Taken from convertWikipediaColors.html
 var conversions = [
   {"hex":"#FFFFFF","hex8":"#FFFFFFFF","rgb":{"r":"100.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"0","s":"0.000","v":"1.000"},"hsl":{"h":"0","s":"0.000","l":"1.000"}},
-  {"hex":"#808080","hex8":"#FF808080","rgb":{"r":"050.0%","g":"050.0%","b":"050.0%"},"hsv":{"h":"0","s":"0.000","v":"0.500"},"hsl":{"h":"0","s":"0.000","l":"0.500"}},
-  {"hex":"#000000","hex8":"#FF000000","rgb":{"r":"000.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0","s":"0.000","v":"0.000"},"hsl":{"h":"0","s":"0.000","l":"0.000"}},
-  {"hex":"#FF0000","hex8":"#FFFF0000","rgb":{"r":"100.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0.0","s":"1.000","v":"1.000"},"hsl":{"h":"0.0","s":"1.000","l":"0.500"}},
-  {"hex":"#BFBF00","hex8":"#FFBFBF00","rgb":{"r":"075.0%","g":"075.0%","b":"000.0%"},"hsv":{"h":"60.0","s":"1.000","v":"0.750"},"hsl":{"h":"60.0","s":"1.000","l":"0.375"}},
-  {"hex":"#008000","hex8":"#FF008000","rgb":{"r":"000.0%","g":"050.0%","b":"000.0%"},"hsv":{"h":"120.0","s":"1.000","v":"0.500"},"hsl":{"h":"120.0","s":"1.000","l":"0.250"}},
-  {"hex":"#80FFFF","hex8":"#FF80FFFF","rgb":{"r":"050.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"180.0","s":"0.500","v":"1.000"},"hsl":{"h":"180.0","s":"1.000","l":"0.750"}},
-  {"hex":"#8080FF","hex8":"#FF8080FF","rgb":{"r":"050.0%","g":"050.0%","b":"100.0%"},"hsv":{"h":"240.0","s":"0.500","v":"1.000"},"hsl":{"h":"240.0","s":"1.000","l":"0.750"}},
-  {"hex":"#BF40BF","hex8":"#FFBF40BF","rgb":{"r":"075.0%","g":"025.0%","b":"075.0%"},"hsv":{"h":"300.0","s":"0.667","v":"0.750"},"hsl":{"h":"300.0","s":"0.500","l":"0.500"}},
-  {"hex":"#A0A424","hex8":"#FFA0A424","rgb":{"r":"062.8%","g":"064.3%","b":"014.2%"},"hsv":{"h":"61.8","s":"0.779","v":"0.643"},"hsl":{"h":"61.8","s":"0.638","l":"0.393"}},
-  {"hex":"#1EAC41","hex8":"#FF1EAC41","rgb":{"r":"011.6%","g":"067.5%","b":"025.5%"},"hsv":{"h":"134.9","s":"0.828","v":"0.675"},"hsl":{"h":"134.9","s":"0.707","l":"0.396"}},
-  {"hex":"#B430E5","hex8":"#FFB430E5","rgb":{"r":"070.4%","g":"018.7%","b":"089.7%"},"hsv":{"h":"283.7","s":"0.792","v":"0.897"},"hsl":{"h":"283.7","s":"0.775","l":"0.542"}},
-  {"hex":"#FEF888","hex8":"#FFFEF888","rgb":{"r":"099.8%","g":"097.4%","b":"053.2%"},"hsv":{"h":"56.9","s":"0.467","v":"0.998"},"hsl":{"h":"56.9","s":"0.991","l":"0.765"}},
-  {"hex":"#19CB97","hex8":"#FF19CB97","rgb":{"r":"009.9%","g":"079.5%","b":"059.1%"},"hsv":{"h":"162.4","s":"0.875","v":"0.795"},"hsl":{"h":"162.4","s":"0.779","l":"0.447"}},
-  {"hex":"#362698","hex8":"#FF362698","rgb":{"r":"021.1%","g":"014.9%","b":"059.7%"},"hsv":{"h":"248.3","s":"0.750","v":"0.597"},"hsl":{"h":"248.3","s":"0.601","l":"0.373"}},
-  {"hex":"#7E7EB8","hex8":"#FF7E7EB8","rgb":{"r":"049.5%","g":"049.3%","b":"072.1%"},"hsv":{"h":"240.5","s":"0.316","v":"0.721"},"hsl":{"h":"240.5","s":"0.290","l":"0.607"}}
+  {"hex":"#808080","hex8":"#808080FF","rgb":{"r":"050.0%","g":"050.0%","b":"050.0%"},"hsv":{"h":"0","s":"0.000","v":"0.500"},"hsl":{"h":"0","s":"0.000","l":"0.500"}},
+  {"hex":"#000000","hex8":"#000000FF","rgb":{"r":"000.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0","s":"0.000","v":"0.000"},"hsl":{"h":"0","s":"0.000","l":"0.000"}},
+  {"hex":"#FF0000","hex8":"#FF0000FF","rgb":{"r":"100.0%","g":"000.0%","b":"000.0%"},"hsv":{"h":"0.0","s":"1.000","v":"1.000"},"hsl":{"h":"0.0","s":"1.000","l":"0.500"}},
+  {"hex":"#BFBF00","hex8":"#BFBF00FF","rgb":{"r":"075.0%","g":"075.0%","b":"000.0%"},"hsv":{"h":"60.0","s":"1.000","v":"0.750"},"hsl":{"h":"60.0","s":"1.000","l":"0.375"}},
+  {"hex":"#008000","hex8":"#008000FF","rgb":{"r":"000.0%","g":"050.0%","b":"000.0%"},"hsv":{"h":"120.0","s":"1.000","v":"0.500"},"hsl":{"h":"120.0","s":"1.000","l":"0.250"}},
+  {"hex":"#80FFFF","hex8":"#80FFFFFF","rgb":{"r":"050.0%","g":"100.0%","b":"100.0%"},"hsv":{"h":"180.0","s":"0.500","v":"1.000"},"hsl":{"h":"180.0","s":"1.000","l":"0.750"}},
+  {"hex":"#8080FF","hex8":"#8080FFFF","rgb":{"r":"050.0%","g":"050.0%","b":"100.0%"},"hsv":{"h":"240.0","s":"0.500","v":"1.000"},"hsl":{"h":"240.0","s":"1.000","l":"0.750"}},
+  {"hex":"#BF40BF","hex8":"#BF40BFFF","rgb":{"r":"075.0%","g":"025.0%","b":"075.0%"},"hsv":{"h":"300.0","s":"0.667","v":"0.750"},"hsl":{"h":"300.0","s":"0.500","l":"0.500"}},
+  {"hex":"#A0A424","hex8":"#A0A424FF","rgb":{"r":"062.8%","g":"064.3%","b":"014.2%"},"hsv":{"h":"61.8","s":"0.779","v":"0.643"},"hsl":{"h":"61.8","s":"0.638","l":"0.393"}},
+  {"hex":"#1EAC41","hex8":"#1EAC41FF","rgb":{"r":"011.6%","g":"067.5%","b":"025.5%"},"hsv":{"h":"134.9","s":"0.828","v":"0.675"},"hsl":{"h":"134.9","s":"0.707","l":"0.396"}},
+  {"hex":"#B430E5","hex8":"#B430E5FF","rgb":{"r":"070.4%","g":"018.7%","b":"089.7%"},"hsv":{"h":"283.7","s":"0.792","v":"0.897"},"hsl":{"h":"283.7","s":"0.775","l":"0.542"}},
+  {"hex":"#FEF888","hex8":"#FEF888FF","rgb":{"r":"099.8%","g":"097.4%","b":"053.2%"},"hsv":{"h":"56.9","s":"0.467","v":"0.998"},"hsl":{"h":"56.9","s":"0.991","l":"0.765"}},
+  {"hex":"#19CB97","hex8":"#19CB97FF","rgb":{"r":"009.9%","g":"079.5%","b":"059.1%"},"hsv":{"h":"162.4","s":"0.875","v":"0.795"},"hsl":{"h":"162.4","s":"0.779","l":"0.447"}},
+  {"hex":"#362698","hex8":"#362698FF","rgb":{"r":"021.1%","g":"014.9%","b":"059.7%"},"hsv":{"h":"248.3","s":"0.750","v":"0.597"},"hsl":{"h":"248.3","s":"0.601","l":"0.373"}},
+  {"hex":"#7E7EB8","hex8":"#7E7EB8FF","rgb":{"r":"049.5%","g":"049.3%","b":"072.1%"},"hsv":{"h":"240.5","s":"0.316","v":"0.721"},"hsl":{"h":"240.5","s":"0.290","l":"0.607"}}
 ];
 
 module("Color translations");
@@ -169,11 +169,15 @@ test("HSL parsing", function() {
 test("Hex Parsing", function() {
   equal(tinycolor("rgb 255 0 0").toHexString(), "#ff0000");
   equal(tinycolor("rgb 255 0 0").toHexString(true), "#f00");
-  equal(tinycolor("rgba 255 0 0 0.5").toHex8String(), "#80ff0000");
+
+  equal(tinycolor("rgba 255 0 0 0.5").toHex8String(), "#ff000080");
+  equal(tinycolor("rgba 255 0 0 0").toHex8String(), "#ff000000");
+  equal(tinycolor("rgba 255 0 0 1").toHex8String(), "#ff0000ff");
+  equal(tinycolor("rgba 255 0 0 1").toHex8String(true), "#f00f");
 
   equal(tinycolor("rgb 255 0 0").toHex(), "ff0000");
   equal(tinycolor("rgb 255 0 0").toHex(true), "f00");
-  equal(tinycolor("rgba 255 0 0 0.5").toHex8(), "80ff0000");
+  equal(tinycolor("rgba 255 0 0 0.5").toHex8(), "ff000080");
 });
 
 test("HSV Parsing", function() {
@@ -380,24 +384,26 @@ test("Invalid alpha should normalize to 1", function() {
 });
 
 test("toString() with alpha set", function() {
-  var redNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "name"});
+  var redNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .6}, {format: "name"});
   var transparentNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: 0 }, {format: "name"});
-  var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .5}, {format: "hex"});
+  var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .4}, {format: "hex"});
 
   equal(redNamed.getFormat(), "name", "getFormat() is correct");
   equal(redHex.getFormat(), "hex", "getFormat() is correct");
 
-  equal(redNamed.toString(), "rgba(255, 0, 0, 0.5)", "Names should default to rgba if alpha is < 1");
-  equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
+  equal(redNamed.toString(), "rgba(255, 0, 0, 0.6)", "Names should default to rgba if alpha is < 1");
+  equal(redHex.toString(), "rgba(255, 0, 0, 0.4)", "Hex should default to rgba if alpha is < 1");
 
   equal(redNamed.toString("hex"), "#ff0000", "Names should not be returned as rgba if format is specified");
   equal(redNamed.toString("hex6"), "#ff0000", "Names should not be returned as rgba if format is specified");
   equal(redNamed.toString("hex3"), "#f00", "Names should not be returned as rgba if format is specified");
+  equal(redNamed.toString("hex8"), "#ff000099", "Names should not be returned as rgba if format is specified");
+  equal(redNamed.toString("hex4"), "#f009", "Names should not be returned as rgba if format is specified");
   equal(redNamed.toString("name"), "#ff0000", "Semi transparent names should return hex in toString() if name format is specified");
 
   equal(redNamed.toName(), false, "Semi transparent names should be false in toName()");
 
-  equal(redHex.toString(), "rgba(255, 0, 0, 0.5)", "Hex should default to rgba if alpha is < 1");
+  equal(redHex.toString(), "rgba(255, 0, 0, 0.4)", "Hex should default to rgba if alpha is < 1");
   equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
 
   redHex.setAlpha(0);
@@ -587,7 +593,11 @@ test("Color equality", function() {
   ok(tinycolor.equals("#ff0000", "#ff0000"), "Same hex");
   ok(tinycolor.equals("#ff0000", "rgb(255, 0, 0)"), "Same alphas");
   ok(!tinycolor.equals("#ff0000", "rgba(255, 0, 0, .1)"), "Different alphas");
+  ok(tinycolor.equals("#ff000066", "rgba(255, 0, 0, .4)"), "Same alphas");
+  ok(tinycolor.equals("#f009", "rgba(255, 0, 0, .6)"), "Same alphas");
+  ok(tinycolor.equals("#336699CC", "369C"), "Same hex");
   ok(tinycolor.equals("ff0000", "#ff0000"), "Same hex");
+  ok(tinycolor.equals("#f00", "#ff0000"), "Same hex");
   ok(tinycolor.equals("#f00", "#ff0000"), "Same hex");
   ok(tinycolor.equals("f00", "#ff0000"), "Same hex");
   equal(tinycolor("010101").toHexString(), "#010101");
@@ -660,7 +670,7 @@ test("Filters", function () {
   equal(tinycolor("transparent").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)");
   equal(tinycolor("transparent").toFilter("red"), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)");
 
-  equal(tinycolor("#ddf0f0f0").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ddf0f0f0,endColorstr=#ddf0f0f0)");
+  equal(tinycolor("#f0f0f0dd").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ddf0f0f0,endColorstr=#ddf0f0f0)");
   equal(tinycolor("rgba(0, 0, 255, .5").toFilter(), "progid:DXImageTransform.Microsoft.gradient(startColorstr=#800000ff,endColorstr=#800000ff)");
 });
 

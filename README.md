@@ -46,14 +46,16 @@ If you call `tinycolor.fromRatio`, RGB and Hue input can also accept 0-1.
 
 Here are some examples of string input:
 
-### Hex, 8-digit (ARGB) Hex
+### Hex, 8-digit (RGBA) Hex
 ```js
 tinycolor("#000");
 tinycolor("000");
+tinycolor("#369C");
+tinycolor("369C");
 tinycolor("#f0f0f6");
 tinycolor("f0f0f6");
-tinycolor("#88f0f0f6");
-tinycolor("88f0f0f6");
+tinycolor("#f0f0f688");
+tinycolor("f0f0f688");
 ```
 ### RGB, RGBA
 ```js
@@ -237,12 +239,12 @@ color.toHexString(); // "#ff0000"
 ### toHex8
 ```js
 var color = tinycolor("red");
-color.toHex8(); // "ffff0000"
+color.toHex8(); // "ff0000ff"
 ```
 ### toHex8String
 ```js
 var color = tinycolor("red");
-color.toHex8String(); // "#ffff0000"
+color.toHex8String(); // "#ff0000ff"
 ```
 ### toRgb
 ```js
