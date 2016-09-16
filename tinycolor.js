@@ -1187,9 +1187,17 @@ if (typeof module !== "undefined" && module.exports) {
 else if (typeof define === 'function' && define.amd) {
     define(function () {return tinycolor;});
 }
-// Browser: Expose to window
+
 else {
-    window.tinycolor = tinycolor;
+    // Web Worker: Expose to worker scope
+    if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+        self.tinycolor = tinycolor;
+    }
+
+    // Browser: Expose to window
+    else {
+        window.tinycolor = tinycolor;
+    }
 }
 
 })(Math);
