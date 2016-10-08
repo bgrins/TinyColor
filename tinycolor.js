@@ -172,8 +172,8 @@ tinycolor.prototype = {
         var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "hex4" || format === "hex8" || format === "name");
 
         if (needsAlphaFormat) {
-            // Special case for "transparent", all other non-alpha formats
-            // will return rgba when there is transparency.
+            // Special case for "transparent".
+            // All other non-alpha formats will return rgba when there is transparency.
             if (format === "name" && this._a === 0) {
                 return this.toName();
             }
@@ -387,13 +387,13 @@ function rgbToHsl(r, g, b) {
     var max = mathMax(r, g, b), min = mathMin(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if(max == min) {
-        h = s = 0; // achromatic
+    if (max == min) {
+        h = s = 0; // Achromatic
     }
     else {
         var d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max) {
+        switch (max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
             case g: h = (b - r) / d + 2; break;
             case b: h = (r - g) / d + 4; break;
@@ -417,16 +417,16 @@ function hslToRgb(h, s, l) {
     l = bound01(l, 100);
 
     function hue2rgb(p, q, t) {
-        if(t < 0) t += 1;
-        if(t > 1) t -= 1;
-        if(t < 1/6) return p + (q - p) * 6 * t;
-        if(t < 1/2) return q;
-        if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
         return p;
     }
 
-    if(s === 0) {
-        r = g = b = l; // achromatic
+    if (s === 0) {
+        r = g = b = l; // Achromatic
     }
     else {
         var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
@@ -455,11 +455,11 @@ function rgbToHsv(r, g, b) {
     var d = max - min;
     s = max === 0 ? 0 : d / max;
 
-    if(max == min) {
-        h = 0; // achromatic
+    if (max == min) {
+        h = 0; // Achromatic
     }
     else {
-        switch(max) {
+        switch (max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
             case g: h = (b - r) / d + 2; break;
             case b: h = (r - g) / d + 4; break;
@@ -1088,8 +1088,8 @@ function isValidCSSUnit(color) {
 }
 
 // `stringInputToObject`
-// Permissive string parsing.  Take in a number of formats, and output an object
-// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v }`
+// Permissive string parsing. Take in a number of formats, and output an object
+// based on detected format. Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v }`
 function stringInputToObject(color) {
 
     color = color.replace(trimLeft, "").replace(trimRight, "").toLowerCase();
