@@ -1,6 +1,9 @@
 {
   "name": "tinycolor",
-  "repository": "bgrins/TinyColor",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bgrins/TinyColor.git"
+  },
   "version": "1.4.1",
   "main": "tinycolor.js",
   "scripts": ["tinycolor.js"],
