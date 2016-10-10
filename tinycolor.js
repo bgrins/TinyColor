@@ -97,7 +97,7 @@ tinycolor.prototype = {
     toHsvString: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
         var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
-        return (this._a == 1) ?
+        return (this._a === 1) ?
           "hsv("  + h + ", " + s + "%, " + v + "%)" :
           "hsva(" + h + ", " + s + "%, " + v + "%, "+ this._roundA + ")";
     },
@@ -108,7 +108,7 @@ tinycolor.prototype = {
     toHslString: function() {
         var hsl = rgbToHsl(this._r, this._g, this._b);
         var h = mathRound(hsl.h * 360), s = mathRound(hsl.s * 100), l = mathRound(hsl.l * 100);
-        return (this._a == 1) ?
+        return (this._a === 1) ?
           "hsl("  + h + ", " + s + "%, " + l + "%)" :
           "hsla(" + h + ", " + s + "%, " + l + "%, "+ this._roundA + ")";
     },
@@ -128,7 +128,7 @@ tinycolor.prototype = {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
     },
     toRgbString: function() {
-        return (this._a == 1) ?
+        return (this._a === 1) ?
           "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
           "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
     },
@@ -136,7 +136,7 @@ tinycolor.prototype = {
         return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
     },
     toPercentageRgbString: function() {
-        return (this._a == 1) ?
+        return (this._a === 1) ?
           "rgb("  + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%)" :
           "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
     },
@@ -269,7 +269,7 @@ tinycolor.prototype = {
 // If input is an object, force 1 into "1.0" to handle ratios properly
 // String input requires "1.0" as input, so 1 will be treated as 1
 tinycolor.fromRatio = function(color, opts) {
-    if (typeof color == "object") {
+    if (typeof color === "object") {
         var newColor = { };
         for (var i in color) {
             if (color.hasOwnProperty(i)) {
@@ -312,11 +312,11 @@ function inputToRGB(color) {
     var ok = false;
     var format = false;
 
-    if (typeof color == "string") {
+    if (typeof color === "string") {
         color = stringInputToObject(color);
     }
 
-    if (typeof color == "object") {
+    if (typeof color === "object") {
         if (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b)) {
             rgb = rgbToRgb(color.r, color.g, color.b);
             ok = true;
@@ -387,7 +387,7 @@ function rgbToHsl(r, g, b) {
     var max = mathMax(r, g, b), min = mathMin(r, g, b);
     var h, s, l = (max + min) / 2;
 
-    if (max == min) {
+    if (max === min) {
         h = s = 0; // Achromatic
     }
     else {
@@ -455,7 +455,7 @@ function rgbToHsv(r, g, b) {
     var d = max - min;
     s = max === 0 ? 0 : d / max;
 
-    if (max == min) {
+    if (max === min) {
         h = 0; // Achromatic
     }
     else {
@@ -505,7 +505,7 @@ function rgbToHex(r, g, b, allow3Char) {
     ];
 
     // Return a 3 character hex if possible
-    if (allow3Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)) {
+    if (allow3Char && hex[0].charAt(0) === hex[0].charAt(1) && hex[1].charAt(0) === hex[1].charAt(1) && hex[2].charAt(0) === hex[2].charAt(1)) {
         return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
     }
 
@@ -526,7 +526,7 @@ function rgbaToHex(r, g, b, a, allow4Char) {
     ];
 
     // Return a 4 character hex if possible
-    if (allow4Char && hex[0].charAt(0) == hex[0].charAt(1) && hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1) && hex[3].charAt(0) == hex[3].charAt(1)) {
+    if (allow4Char && hex[0].charAt(0) === hex[0].charAt(1) && hex[1].charAt(0) === hex[1].charAt(1) && hex[2].charAt(0) === hex[2].charAt(1) && hex[3].charAt(0) === hex[3].charAt(1)) {
         return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0);
     }
 
@@ -552,7 +552,7 @@ function rgbaToArgbHex(r, g, b, a) {
 // Can be called with any tinycolor input
 tinycolor.equals = function(color1, color2) {
     if (!color1 || !color2) { return false; }
-    return tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
+    return tinycolor(color1).toRgbString() === tinycolor(color2).toRgbString();
 };
 
 tinycolor.random = function() {
@@ -1017,17 +1017,17 @@ function parseIntFromHex(val) {
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 function isOnePointZero(n) {
-    return typeof n == "string" && n.indexOf(".") != -1 && parseFloat(n) === 1;
+    return typeof n === "string" && n.indexOf(".") !== -1 && parseFloat(n) === 1;
 }
 
 // Check to see if string passed in is a percentage
 function isPercentage(n) {
-    return typeof n === "string" && n.indexOf("%") != -1;
+    return typeof n === "string" && n.indexOf("%") !== -1;
 }
 
 // Force a hex value to have 2 characters
 function pad2(c) {
-    return c.length == 1 ? "0" + c : "" + c;
+    return c.length === 1 ? "0" + c : "" + c;
 }
 
 // Replace a decimal with its percentage value
@@ -1098,7 +1098,7 @@ function stringInputToObject(color) {
         color = names[color];
         named = true;
     }
-    else if (color == "transparent") {
+    else if (color === "transparent") {
         return { r: 0, g: 0, b: 0, a: 0, format: "name" };
     }
 
