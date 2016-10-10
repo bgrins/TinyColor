@@ -447,7 +447,7 @@ Combination functions return an array of TinyColor objects unless otherwise note
 
 ### analogous
 
-`analogous: function(, results = 6, slices = 30) -> array<TinyColor>`.
+`analogous: function(results = 6, slices = 30) -> array<TinyColor>`.
 
 ```js
 var colors = tinycolor("#f00").analogous();
@@ -457,7 +457,7 @@ colors.map(function(t) { return t.toHexString(); }); // ["#ff0000", "#ff0066", "
 
 ### monochromatic
 
-`monochromatic: function(, results = 6) -> array<TinyColor>`.
+`monochromatic: function(results = 6) -> array<TinyColor>`.
 
 ```js
 var colors = tinycolor("#f00").monochromatic();
