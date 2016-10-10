@@ -1032,11 +1032,7 @@ function pad2(c) {
 
 // Replace a decimal with its percentage value
 function convertToPercentage(n) {
-    if (n <= 1) {
-        n = (n * 100) + "%";
-    }
-
-    return n;
+    return n <= 1 ? (n * 100) + "%" : n;
 }
 
 // Converts a decimal to a hex value
