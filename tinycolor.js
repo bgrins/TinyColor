@@ -1062,17 +1062,17 @@ var matchers = (function() {
     var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
 
     return {
-        CSS_UNIT: new RegExp(CSS_UNIT),
-        rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
-        rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
-        hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
-        hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
-        hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
-        hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
-        hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-        hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-        hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-        hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+        CSS_UNIT: new RegExp(CSS_UNIT, "i"),
+        rgb: new RegExp("rgb" + PERMISSIVE_MATCH3, "i"),
+        rgba: new RegExp("rgba" + PERMISSIVE_MATCH4, "i"),
+        hsl: new RegExp("hsl" + PERMISSIVE_MATCH3, "i"),
+        hsla: new RegExp("hsla" + PERMISSIVE_MATCH4, "i"),
+        hsv: new RegExp("hsv" + PERMISSIVE_MATCH3, "i"),
+        hsva: new RegExp("hsva" + PERMISSIVE_MATCH4, "i"),
+        hex3: /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+        hex4: /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])$/i,
+        hex6: /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i,
+        hex8: /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
     };
 })();
 
