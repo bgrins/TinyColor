@@ -4,8 +4,7 @@
 
 (function(Math) {
 
-var trimLeft = /^\s+/,
-    trimRight = /\s+$/,
+var trimWhitespace = /^\s+|\s+$/g,
     tinyCounter = 0,
     mathRound = Math.round,
     mathMin = Math.min,
@@ -1088,7 +1087,7 @@ function isValidCSSUnit(color) {
 // based on detected format. Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v }`
 function stringInputToObject(color) {
 
-    color = color.replace(trimLeft, "").replace(trimRight, "").toLowerCase();
+    color = color.replace(trimWhitespace, "").toLowerCase();
     var named = false;
     if (names[color]) {
         color = names[color];
