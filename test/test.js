@@ -1,7 +1,7 @@
 
 test("TinyColor initialization", function() {
-  ok(typeof tinycolor != "undefined", "tinycolor is initialized on the page");
-  ok(typeof tinycolor("red") == "object", "tinycolor is able to be instantiated");
+  ok(typeof tinycolor !== "undefined", "tinycolor is initialized on the page");
+  ok(typeof tinycolor("red") === "object", "tinycolor is able to be instantiated");
 
   var r = tinycolor("red");
   ok(tinycolor(r) === r, "when given a tinycolor instance, tinycolor() returns it");
@@ -404,10 +404,10 @@ test("toString() with alpha set", function() {
   equal(redNamed.toName(), false, "Semi transparent names should be false in toName()");
 
   equal(redHex.toString(), "rgba(255, 0, 0, 0.4)", "Hex should default to rgba if alpha is < 1");
-  equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha == 0");
+  equal(transparentNamed.toString(), "transparent", "Named color should equal transparent if alpha is 0");
 
   redHex.setAlpha(0);
-  equal(redHex.toString(), "rgba(255, 0, 0, 0)", "Hex should default to rgba if alpha is = 0");
+  equal(redHex.toString(), "rgba(255, 0, 0, 0)", "Hex should default to rgba if alpha is 0");
 });
 
 test("setting alpha", function() {
