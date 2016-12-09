@@ -412,7 +412,7 @@ function rgbToHsl(r, g, b) {
 function hslToRgb(h, s, l) {
     var r, g, b;
 
-    h = bound01(h, 360);
+    h = boundInfinity(h, 360);
     s = bound01(s, 100);
     l = bound01(l, 100);
 
@@ -475,7 +475,7 @@ function rgbToHsv(r, g, b) {
 // *Returns:* { r, g, b } in the set [0, 255]
  function hsvToRgb(h, s, v) {
 
-    h = bound01(h, 360) * 6;
+    h = boundInfinity(h, 360) * 6;
     s = bound01(s, 100);
     v = bound01(v, 100);
 
@@ -1004,7 +1004,18 @@ function bound01(n, max) {
     return (n % max) / parseFloat(max);
 }
 
-// Force a number between 0 and 1
+// Take input from [-infinity, infinity] and return it as [0, 1]
+function boundInfinity(n, max) {
+    // Handle floating point rounding errors
+    if ((math.abs(n - max) < 0.000001)) {
+        return 1;
+    }
+
+    // Convert into [0, 1] range if it isn't already
+    return (n < 0 ? n % max + max : n % max) / parseFloat(max);
+}
+    
+    // Force a number between 0 and 1
 function clamp01(val) {
     return mathMin(1, mathMax(0, val));
 }
