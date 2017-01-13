@@ -656,6 +656,7 @@ test("mostReadable", function () {
   equal(tinycolor.mostReadable("#ff0088", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#000000", "verify assumption");
   equal(tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(), "#2e0c3a", "readable color present");
   equal(tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(), "#000000", "no readable color in list");
+  equal(tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:12}).toHexString(), "#000000", "no readable color in list");
 
   equal(tinycolor.mostReadable("#371b2c", ["#000", "#fff"],{includeFallbackColors:false}).toHexString(), "#ffffff", "verify assumption");
   equal(tinycolor.mostReadable("#371b2c", ["#a9acb6"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(), "#a9acb6", "readable color present");
