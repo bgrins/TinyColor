@@ -994,9 +994,14 @@ function bound01(n, max) {
     return (n % max) / parseFloat(max);
 }
 
+// Force a numeric value within the inclusive lower and upper bounds
+var clamp = function(lower, upper, numeric){
+	return mathMin(upper, mathMax(lower, numeric));
+};
+
 // Force a number between 0 and 1
 function clamp01(val) {
-    return mathMin(1, mathMax(0, val));
+    return clamp(0, 1, val);
 }
 
 // Parse a base-16 hex value into a base-10 integer
