@@ -337,9 +337,9 @@ function inputToRGB(color) {
     return {
         ok: ok,
         format: color.format || format,
-        r: mathMin(255, mathMax(rgb.r, 0)),
-        g: mathMin(255, mathMax(rgb.g, 0)),
-        b: mathMin(255, mathMax(rgb.b, 0)),
+        r: clamp(0, 255, rgb.r),
+        g: clamp(0, 255, rgb.g),
+        b: clamp(0, 255, rgb.b),
         a: a
     };
 }
@@ -978,7 +978,7 @@ function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
 
     var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
+    n = clamp(0, max, parseFloat(n));
 
     // Automatically convert percentage into number
     if (processPercent) {
