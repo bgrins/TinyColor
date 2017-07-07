@@ -37,6 +37,9 @@
 			filters.find(".tint").css("background-color",
 			     tinycolor(color).tint(20).toHexString()
             );
+			filters.find(".shade").css("background-color",
+			     tinycolor(color).shade(20).toHexString()
+            );
 			filters.find(".saturate").css("background-color",
 			     tinycolor(color).saturate(20).toHexString()
 			 );
@@ -151,6 +154,10 @@
 	       <tr>
 	           <th>Tint</th>
 	           <td><div class='tint'></div></td>
+	       </tr>
+	       <tr>
+	           <th>Shade</th>
+	           <td><div class='shade'></div></td>
 	       </tr>
 	       <tr>
 	           <th>Saturate</th>
