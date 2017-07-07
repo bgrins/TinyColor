@@ -230,6 +230,9 @@ tinycolor.prototype = {
     darken: function() {
         return this._applyModification(darken, arguments);
     },
+    tint: function() {
+        return this._applyModification(tint, arguments);
+    },
     desaturate: function() {
         return this._applyModification(desaturate, arguments);
     },
@@ -612,6 +615,11 @@ function darken (color, amount) {
     hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
     return tinycolor(hsl);
+}
+
+function tint (color, amount) {
+  amount = (amount === 0) ? 0 : (amount || 10);
+  return tinycolor.mix(color, 'white', amount);
 }
 
 // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
