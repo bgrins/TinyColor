@@ -594,10 +594,10 @@ function rgbToCmyk(r, g, b) {
 // Assumes c, m, y, k are in [0,1]
 // Returns: { r, g, b } in [0,255]
 function cmykToRgb(c,m,y,k){
-  c = c < 1 ? c : parseFloat(c)/100
-  m = m < 1 ? m : parseFloat(m)/100
-  y = y < 1 ? y : parseFloat(y)/100
-  k = k < 1 ? k : parseFloat(k)/100
+  c = c < 1 ? c : parseFloat(c)/100;
+  m = m < 1 ? m : parseFloat(m)/100;
+  y = y < 1 ? y : parseFloat(y)/100;
+  k = k < 1 ? k : parseFloat(k)/100;
 
   c = c * (1 - k) + k;
   m = m * (1 - k) + k;
