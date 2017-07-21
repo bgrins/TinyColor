@@ -94,6 +94,14 @@ tinycolor.prototype = {
         var hsv = rgbToHsv(this._r, this._g, this._b);
         return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
     },
+    toCmyk: function() {
+      return rgbToCmyk(this._r, this._g, this._b);
+    },
+    toCmykString: function() {
+      var Cmyk = rgbToCmyk(this._r, this._g, this._b);
+      var c = mathRound(Cmyk.c * 100), m = mathRound(Cmyk.m * 100), y = mathRound(Cmyk.y * 100), k = mathRound(Cmyk.k * 100);
+      return 'cmyk(' + c + '%,' + m + '%,' + y + '%,' + k + '%' + ')';
+    },
     toHsvString: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
         var h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
@@ -329,6 +337,11 @@ function inputToRGB(color) {
             ok = true;
             format = "hsv";
         }
+        else if (isValidCSSUnit(color.c) && isValidCSSUnit(color.m) && isValidCSSUnit(color.y) && isValidCSSUnit(color.k)){
+            rgb = cmykToRgb(color.c, color.m, color.y, color.k);
+            ok = true;
+            format = "cmyk";
+        }
         else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
             s = convertToPercentage(color.s);
             l = convertToPercentage(color.l);
@@ -548,6 +561,62 @@ function rgbaToArgbHex(r, g, b, a) {
     return hex.join("");
 }
 
+// `rgbToCmyk`
+// Converts an RGBA color to a CMYK object
+// Assumes r, g, and b are contained in the set [0, 255]
+// Returns: { c, m, y, k } in [0,1]
+function rgbToCmyk(r, g, b) {
+    var c = 1 - (r / 255);
+    var m = 1 - (g / 255);
+    var y = 1 - (b / 255);
+    var k = Math.min(c, Math.min(m, y));
+
+    c = (c - k) / (1 - k);
+    m = (m - k) / (1 - k);
+    y = (y - k) / (1 - k);
+
+
+    c = isNaN(c) ? 0 : c;
+    m = isNaN(m) ? 0 : m;
+    y = isNaN(y) ? 0 : y;
+    k = isNaN(k) ? 0 : k;
+
+    return {
+        c: c,
+        m: m,
+        y: y,
+        k: k
+    };
+}
+
+// `rgbToCmyk`
+// Converts an RGBA color to a CMYK object
+// Assumes c, m, y, k are in [0,1]
+// Returns: { r, g, b } in [0,255]
+function cmykToRgb(c,m,y,k){
+  c = c < 1 ? c : parseFloat(c)/100
+  m = m < 1 ? m : parseFloat(m)/100
+  y = y < 1 ? y : parseFloat(y)/100
+  k = k < 1 ? k : parseFloat(k)/100
+
+  c = c * (1 - k) + k;
+  m = m * (1 - k) + k;
+  y = y * (1 - k) + k;
+
+  var r = 1 - c;
+  var g = 1 - m;
+  var b = 1 - y;
+
+  r = Math.round(255 * r);
+  g = Math.round(255 * g);
+  b = Math.round(255 * b);
+
+  return {
+      r: r,
+      g: g,
+      b: b
+  };
+}
 // `equals`
 // Can be called with any tinycolor input
 tinycolor.equals = function (color1, color2) {
@@ -1073,6 +1142,7 @@ var matchers = (function() {
         hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
         hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
         hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
+        cmyk: new RegExp("cmyk" + PERMISSIVE_MATCH4),
         hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
         hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
         hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
@@ -1121,6 +1191,9 @@ function stringInputToObject(color) {
     }
     if ((match = matchers.hsv.exec(color))) {
         return { h: match[1], s: match[2], v: match[3] };
+    }
+    if ((match = matchers.cmyk.exec(color))) {
+        return { c: match[1], m: match[2], y: match[3], k: match[4] };
     }
     if ((match = matchers.hsva.exec(color))) {
         return { h: match[1], s: match[2], v: match[3], a: match[4] };
