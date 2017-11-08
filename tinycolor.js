@@ -126,17 +126,17 @@ tinycolor.prototype = {
     },
     toInt: function (allow3Char) {
         switch (this._format) {
-            case 'rgb': return parseInt(rgbToHex(this._r, this._g, this._b, allow3Char), 16); break;
-            case 'hsl': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, allow3Char)), 16); break;
-            case 'hsv': return parseInt(rgbToHex(hsvToRgb(this._r, this._g, this._b, allow3Char)), 16); break;
-            default: throw new TypeError("Invalid Data Type Format"); 
+            case 'rgb': return parseInt(rgbToHex(this._r, this._g, this._b, allow3Char), 16);
+            case 'hsl': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, allow3Char)), 16);
+            case 'hsv': return parseInt(rgbToHex(hsvToRgb(this._r, this._g, this._b, allow3Char)), 16);
+            default: throw new TypeError("Invalid Data Type Format");
         }
     },
     toIntAlpha: function (allow4Char) {                 // for colors containing the alpha channel
 
         switch (this._format) {
-            case 'rgba': return parseInt(rgbToHex(this._r, this._g, this._b, this._a, allow4Char), 16); break;
-            case 'hsla': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, this._a, allow3Char)), 16); break;
+            case 'rgba': return parseInt(rgbToHex(this._r, this._g, this._b, this._a, allow4Char), 16);
+            case 'hsla': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, this._a, allow3Char)), 16);
             default: throw new TypeError("Invalid Data Type Format");
         }
     },
@@ -332,16 +332,19 @@ tinycolor.fromRatio = function(color, opts) {
 //
 //
 
-// receives an integer value and does the conversion of the rbg values 
-// via bitwise - Sign - propagating right shift -
+// receives an integer value and does the conversion to rbg or rgba
+// via bitwise operator (>>)- propagating right shift -
+// *Assumes:* r, g, b or r, g, b, a in a number, e.g.: 12345678
+// *Returns:* {r, g, b} if alpha returns empty (0) else {r, g, b, a}
 function intToObject(integerValue) {
-        
-    var r = ((integerValue & 0xFF0000) >> 16);
-    var g = ((integerValue & 0xFF00) >> 8);
-    var d = (intergerValue & 0xFF);
-    var a = ((integerValue & 0xFF000000) >> 24) / 255;
+    if(typeof intergerValue == "number") {
+      let r = ((integerValue & 0xFF0000) >> 16),
+          g = ((integerValue & 0xFF00) >> 8),
+          b = (intergerValue & 0xFF),
+          a = ((integerValue & 0xFF000000) >> 24) / 255;
 
-    return a != 0 ? { r: r, g: g, b: b } : { r: r, g: g, b: b, a: a };
+      return a == 0 ? { r: r, g: g, b: b } : { r: r, g: g, b: b, a: a };
+    }
 }
 
 function inputToRGB(color) {
