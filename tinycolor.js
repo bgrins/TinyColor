@@ -303,7 +303,6 @@ tinycolor.fromRatio = function(color, opts) {
 //     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
 //
 function inputToRGB(color) {
-        
     var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
     var s = null;
