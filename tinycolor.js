@@ -313,12 +313,11 @@ function inputToRGB(color) {
     var tooManyCommas = false;
     var format = false;
 
-    /* Add check for proper comma usage */
     var colorSplitToArray = "" + color.split(","); 
-    for(let i=0, len=colorSplitToArray.length; i<len; i++) {
+    for(var i=0, len=colorSplitToArray.length; i<len; i++) {
         if (colorSplitToArray.split(",")[i] === "") {    	     
             tooManyCommas = true;
-	    }
+        }
     }
 
     if (typeof color == "string") {
@@ -340,15 +339,13 @@ function inputToRGB(color) {
         }
         else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
             
-            /* Strip off '%' from S, L for below evaluation */
             color.s = color.s.slice(0, -1);
             color.l = color.l.slice(0, -1);
             
-            /* Provide Sanity Checks: */
             if (color.h < 1 || color.h > 360 || color.s < 0 || color.s > 100 || color.l < 0 || color.l > 100) {
-                ok = false; /* value out of bounds */
+                ok = false;
             } else { 
-                ok = true; /* valid range used */
+                ok = true;
             }
             s = convertToPercentage(color.s);
             l = convertToPercentage(color.l);
@@ -356,14 +353,13 @@ function inputToRGB(color) {
             format = "hsl";
         }
 
-        /* Add validation of color.a values */
         if (color.hasOwnProperty("a")) {
             if (format === "hsl" && color.a > 1 || color.a < 0) {
                 ok = false;
             }
             a = color.a;
         }
-        if (tooManyCommas) ok = false; /* If false, format used is invalid */
+        if (tooManyCommas) ok = false;
     }
     a = boundAlpha(a);
 
