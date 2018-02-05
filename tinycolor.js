@@ -303,6 +303,7 @@ tinycolor.fromRatio = function(color, opts) {
 //     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
 //
 function inputToRGB(color) {
+    
     var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
     var s = null;
@@ -362,9 +363,8 @@ function inputToRGB(color) {
             }
             a = color.a;
         }
-        if (tooManyCommas) ok = false; /* If false, format invalid */
+        if (tooManyCommas) ok = false; /* If false, format used is invalid */
     }
-    
     a = boundAlpha(a);
 
     return {
@@ -1074,7 +1074,7 @@ function convertHexToDecimal(h) {
 var matchers = (function() {
 
 
-
+    
     // <http://www.w3.org/TR/css3-values/#integers>
     var CSS_INTEGER = "[-\\+]?\\d+%?";
     
