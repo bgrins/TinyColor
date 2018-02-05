@@ -303,14 +303,23 @@ tinycolor.fromRatio = function(color, opts) {
 //     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
 //
 function inputToRGB(color) {
-
+        
     var rgb = { r: 0, g: 0, b: 0 };
     var a = 1;
     var s = null;
     var v = null;
     var l = null;
     var ok = false;
+    var tooManyCommas = false;
     var format = false;
+
+    /* Add check for proper comma usage */
+    var colorSplitToArray = "" + color.split(","); 
+    for(let i=0, len=colorSplitToArray.length; i<len; i++) {
+        if (colorSplitToArray.split(",")[i] === "") {    	     
+            tooManyCommas = true;
+	    }
+    }
 
     if (typeof color == "string") {
         color = stringInputToObject(color);
@@ -330,18 +339,33 @@ function inputToRGB(color) {
             format = "hsv";
         }
         else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.l)) {
+            
+            /* Strip off '%' from S, L for below evaluation */
+            color.s = color.s.slice(0, -1);
+            color.l = color.l.slice(0, -1);
+            
+            /* Provide Sanity Checks: */
+            if (color.h < 1 || color.h > 360 || color.s < 0 || color.s > 100 || color.l < 0 || color.l > 100) {
+                ok = false; /* value out of bounds */
+            } else { 
+                ok = true; /* valid range used */
+            }
             s = convertToPercentage(color.s);
             l = convertToPercentage(color.l);
             rgb = hslToRgb(color.h, s, l);
-            ok = true;
             format = "hsl";
         }
 
+        /* Add validation of color.a values */
         if (color.hasOwnProperty("a")) {
+            if (format === "hsl" && color.a > 1 || color.a < 0) {
+                ok = false;
+            }
             a = color.a;
         }
+        if (tooManyCommas) ok = false; /* If false, format invalid */
     }
-
+    
     a = boundAlpha(a);
 
     return {
@@ -1050,21 +1074,30 @@ function convertHexToDecimal(h) {
 
 var matchers = (function() {
 
+
+    
     // <http://www.w3.org/TR/css3-values/#integers>
     var CSS_INTEGER = "[-\\+]?\\d+%?";
-
+    
+    
+    
     // <http://www.w3.org/TR/css3-values/#number-value>
     var CSS_NUMBER = "[-\\+]?\\d*\\.\\d+%?";
 
+    
+
     // Allow positive/negative integer/number.  Don't capture the either/or, just the entire outcome.
     var CSS_UNIT = "(?:" + CSS_NUMBER + ")|(?:" + CSS_INTEGER + ")";
+    
 
     // Actual matching.
     // Parentheses and commas are optional, but not required.
     // Whitespace can take the place of commas or opening paren
     var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+    
+    
     var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-
+    
     return {
         CSS_UNIT: new RegExp(CSS_UNIT),
         rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
