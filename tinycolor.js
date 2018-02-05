@@ -316,7 +316,7 @@ function inputToRGB(color) {
     var colorSplitToArray = "" + color.split(","); 
     for(var i=0, len=colorSplitToArray.length; i<len; i++) {
         if (colorSplitToArray.split(",")[i] === "") {    	     
-            tooManyCommas = true;
+        tooManyCommas = true;
         }
     }
 
