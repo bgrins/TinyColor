@@ -1,6 +1,5 @@
 import { rgbaToArgbHex } from './conversion';
 import { ColorInput, TinyColor } from './index';
-
 /**
  * Returns the color represented as a Microsoft filter for use in old versions of IE.
  */

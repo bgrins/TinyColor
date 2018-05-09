@@ -1,7 +1,7 @@
 import {
-  fromLegacyRandom,
   fromRatio,
   isReadable,
+  legacyRandom,
   mostReadable,
   names,
   readability,
@@ -845,7 +845,7 @@ describe('TinyColor', () => {
   });
 
   it('legacy random', () => {
-    expect(fromLegacyRandom().isValid).toBeTruthy();
+    expect(legacyRandom().isValid).toBeTruthy();
   });
 });
 
