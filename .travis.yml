@@ -1,7 +1,23 @@
+sudo: false
 language: node_js
 node_js:
-    - "0.11"
-before_script:
-    - npm install -g grunt-cli
+  - 10
 script:
-    - grunt default --verbose
+  - npm run lint
+  - npm run test:prod
+  - npm run build
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  - npm run travis-deploy-once "npm run semantic-release"
+  - npm run build:demo
+  - cp -r demo/public docs
+  - npm run build:docs
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs
+  github_token: $GH_TOKEN
+  on:
+    branch: master
+notifications:
+  email: false

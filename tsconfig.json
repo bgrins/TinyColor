@@ -1,0 +1,38 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "declaration": true,
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "pretty": true,
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": ["node_modules/@types"],
+    "outDir": "dist/package-dist",
+    "paths": {
+      "@ctrl/tinycolor": ["./src/public_api"]
+    }
+  },
+  "files": ["./src/public_api"],
+  "typedocOptions": {
+    "out": "docs/docs",
+    "mode": "file",
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "ignoreCompilerErrors": true,
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "stripInternal": true,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "theme": "minimal",
+    "hideGenerator": true,
+    "readme": "none"
+  }
+}

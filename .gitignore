@@ -1,6 +1,37 @@
-.DS_Store
-ehthumbs.db
-Icon?
-Thumbs.db
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Coverage directory
+coverage
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
 node_modules
-.idea
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+.vscode
+
+# build
+build
+docs
+dist
+.rpt2_cache
+demo/**/*.js
+demo/**/*.js.map
