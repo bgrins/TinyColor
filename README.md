@@ -16,7 +16,7 @@
 * added polyad colors tinycolor PR #126
 * color wheel values (360) are allowed to over or under-spin and still return valid colors tinycolor PR #108
 * added `tint()` and `shade()` tinycolor PR #159
-* `isValid`, `format` are now propertys instead of a function
+* `isValid`, `format` are now properties instead of functions
 
 ## Install
 
