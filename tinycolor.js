@@ -766,9 +766,9 @@ function _readability_minimal (foreground, background) {
 // `contrast`
 // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
-    var c1 = tinycolor(color1);
-    var c2 = tinycolor(color2);
-    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
+    var r1 = _readability_minimal(color1, color2);
+    var r2 = _readability_minimal(color2, color1);
+    return (r1 + r2) / 2;
 };
 
 // `isReadable`

@@ -634,6 +634,12 @@ test("isReadable", function() {
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AA",size:"large"}), "readable - AA large");
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"small"}), "readable - AAA small");
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"large"}), "readable - AAA large");
+
+  // transparency
+  // "#0009" as foreground:  contrast ratio 5.74
+  // "#0009" as background:  contrast ration between 5.74 and 21
+  ok(!tinycolor.isReadable("#fff", "#0009",{level:"AAA",size:"small"}), "not readable - transparency");
+  ok(tinycolor.isReadable("#fff", "#0009",{level:"AA",size:"small"}), "readable - transparency");
 });
 
 test("readability", function() {
