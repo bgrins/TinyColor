@@ -749,6 +749,20 @@ function _readability (foreground, background) {
     return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
 }
 
+function _readability_minimal (foreground, background) {
+    var fg = tinycolor(foreground);
+    var bgOnBlack = tinycolor.alphaBlend(background, '#000');
+    var bgOnWhite = tinycolor.alphaBlend(background, '#fff');
+
+    if (bgOnWhite.getLuminance() < fg.getLuminance()) {
+      return _readability(foreground, bgOnWhite);
+    } else if (bgOnBlack.getLuminance() > fg.getLuminance()) {
+      return _readability(foreground, bgOnBlack);
+    } else {
+      return 1;
+    }
+}
+
 // `contrast`
 // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
