@@ -716,6 +716,28 @@ tinycolor.mix = function(color1, color2, amount) {
     return tinycolor(rgba);
 };
 
+tinycolor.alphaBlend = function(foreground, background) {
+    var c1 = tinycolor(foreground);
+    var a1 = c1.getAlpha();
+    var rgb1 = c1.toRgb();
+
+    var c2 = tinycolor(background);
+    var a2 = c2.getAlpha();
+    var rgb2 = c2.toRgb();
+
+    if (a1 === 0 && a2 === 0) {
+        return c2;
+    }
+
+    var alpha = a1 + (1 - a1) * a2;
+
+    return tinycolor({
+        r: (a1 * rgb1.r + (1 - a1) * a2 * rgb2.r) / alpha,
+        g: (a1 * rgb1.g + (1 - a1) * a2 * rgb2.g) / alpha,
+        b: (a1 * rgb1.b + (1 - a1) * a2 * rgb2.b) / alpha,
+        a: alpha
+    });
+};
 
 // Readability Functions
 // ---------------------

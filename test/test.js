@@ -750,6 +750,14 @@ test("Mix", function () {
     }
 });
 
+test("AlphaBlend", function () {
+    equal(tinycolor.alphaBlend('#fff', '#000').toHex(), 'ffffff', "Blending with solid foreground returns foreground");
+    equal(tinycolor.alphaBlend('#fff0', '#000').toHex(), '000000', "Blending with full transparent foreground returns background");
+    equal(tinycolor.alphaBlend('#f008', '#0f0').toHex(), '887700', "Blending with solid background works");
+    equal(tinycolor.alphaBlend('#f008', '#0f08').toHex(), 'ae5100', "Blending works");
+    equal(tinycolor.alphaBlend('#fff0', '#0000').toHex(), '000000', "Blending returns background if both are fully transparent");
+});
+
 // The combination tests need to be expanded further
 module("Combinations");
 
