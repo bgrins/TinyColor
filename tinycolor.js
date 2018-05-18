@@ -743,6 +743,12 @@ tinycolor.alphaBlend = function(foreground, background) {
 // ---------------------
 // <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
 
+function _readability (foreground, background) {
+    var c1 = tinycolor.alphaBlend(foreground, background);
+    var c2 = tinycolor(background);
+    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
+}
+
 // `contrast`
 // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
