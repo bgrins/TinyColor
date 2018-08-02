@@ -481,6 +481,8 @@ export class TinyColor {
 }
 
 // kept for backwards compatability with v1
-export function tinycolor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
-  return new TinyColor(color, opts);
-}
+// exports as a function that can be called with or without `new`
+const _old = TinyColor;
+export const tinycolor = function(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
+  return new _old(color, opts);
+};
