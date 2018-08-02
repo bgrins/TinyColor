@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "tslint-config-standard",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "semicolon": [true, "always"],
+    "prefer-const": true,
+    "no-unused-variable": true,
+    "no-use-before-declare": false,
+    "prefer-template": [true, "allow-single-concat"],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-last",
+        "named-imports-order": "lowercase-first"
+      }
+    ]
+  }
+}

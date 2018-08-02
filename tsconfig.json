@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": ["es2017"],
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true,
+    "sourceMap": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "strictPropertyInitialization": false
+  },
+  "files": ["./src/index"],
+  "typedocOptions": {
+    "out": "docs/docs",
+    "mode": "file",
+    "target": "ES6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "exclude": "source/test",
+    "ignoreCompilerErrors": true,
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "stripInternal": true,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "theme": "minimal",
+    "hideGenerator": true,
+    "readme": "none"
+  }
+}

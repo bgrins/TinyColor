@@ -4,28 +4,91 @@
   "description": "Fast Color Parsing and Manipulation",
   "url": "http://bgrins.github.com/TinyColor",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://bgrins.github.com/TinyColor"
-  },
+  "repository": "bgrins/TinyColor",
   "keywords": [
     "color",
     "parser",
     "tinycolor"
   ],
+  "sideEffects": false,
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
-  "contributors": [],
-  "main": "./tinycolor.js",
-  "directories": {},
-  "engines": {
-    "node": "*"
+  "main": "./public_api.js",
+  "module": "./es/public_api.js",
+  "typings": "./public_api.d.ts",
+  "scripts": {
+    "demo": "npm-run-all --parallel start:demo watch:demo",
+    "build:demo": "rollup -c rollup.demo.js",
+    "watch:demo": "rollup -c rollup.demo.js -w",
+    "start:demo": "serve demo/public",
+    "lint": "tslint -p tsconfig.json -t stylish 'src/**/*.ts' 'test/**/*.ts'",
+    "lint:fix": "tslint -p tsconfig.json -t stylish --fix 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "npm run build-es6; npm run build-cmjs; ts-node build",
+    "build-es6": "tsc -P ./tsconfig-build.json --outDir 'dist/es' --module es2015 -d false --moduleResolution node",
+    "build-cmjs": "tsc -P ./tsconfig-build.json",
+    "build:docs": "typedoc src && touch docs/.nojekyll",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "npm run test -- --coverage --no-cache",
+    "commit": "git-cz",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "cd dist && semantic-release"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-qunit": "^0.7.0",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-docco": "~0.2.0"
+    "@types/fs-extra": "5.0.4",
+    "@types/jest": "23.3.1",
+    "@types/node": "10.5.5",
+    "commitizen": "2.10.1",
+    "cz-conventional-changelog": "2.1.0",
+    "fs-extra": "7.0.0",
+    "jest": "23.4.2",
+    "npm-run-all": "4.1.3",
+    "rimraf": "2.6.2",
+    "rollup": "0.63.5",
+    "rollup-plugin-sourcemaps": "0.4.2",
+    "rollup-plugin-terser": "1.0.1",
+    "rollup-plugin-typescript2": "0.16.1",
+    "rollup-plugin-uglify": "4.0.0",
+    "semantic-release": "15.9.3",
+    "travis-deploy-once": "5.0.1",
+    "ts-jest": "23.0.1",
+    "ts-node": "7.0.0",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.14.0",
+    "tslint-config-standard": "7.1.0",
+    "typedoc": "0.11.1",
+    "typescript": "3.0.1"
+  },
+  "release": {
+    "branch": "master"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "transform": {
+      ".ts": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/test/"
+    ],
+    "collectCoverage": true
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
