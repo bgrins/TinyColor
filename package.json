@@ -4,15 +4,13 @@
   "description": "Fast Color Parsing and Manipulation",
   "url": "http://bgrins.github.com/TinyColor",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://bgrins.github.com/TinyColor"
-  },
+  "repository": "bgrins/TinyColor",
   "keywords": [
     "color",
     "parser",
     "tinycolor"
   ],
+  "sideEffects": false,
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
   "main": "./public_api.js",
   "module": "./bundles/tinycolor.es2015.js",
