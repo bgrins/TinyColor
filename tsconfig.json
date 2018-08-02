@@ -14,7 +14,7 @@
   },
   "files": ["./src/index"],
   "typedocOptions": {
-    "out": "docs",
+    "out": "docs/docs",
     "mode": "file",
     "target": "ES6",
     "module": "commonjs",
