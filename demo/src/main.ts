@@ -1,10 +1,10 @@
-import { mostReadable, names, random, TinyColor } from '../../src/public_api';
+import { mostReadable, names, random, TinyColor, tinycolor } from '../../src/public_api';
 
 // make tinycolor available in the console
-(window as any).tinycolor = TinyColor;
+(window as any).tinycolor = tinycolor;
 (window as any).TinyColor = TinyColor;
 (window as any).random = random;
-console.log(`try "new TinyColor('blue')" or "random()"`);
+console.log(`try "new TinyColor('blue')" or "random()" or tinycolor('red')`);
 
 const input = document.querySelector<HTMLInputElement>('#color');
 
