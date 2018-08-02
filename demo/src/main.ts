@@ -1,9 +1,25 @@
-import { mostReadable, names, random, tinycolor, TinyColor } from '../../src/public_api';
+import {
+  fromRatio,
+  legacyRandom,
+  mostReadable,
+  names,
+  random,
+  readability,
+  tinycolor,
+  toMsFilter,
+  TinyColor,
+} from '../../src/public_api';
 
 // make tinycolor available in the console
 (window as any).tinycolor = tinycolor;
+(window as any).tinycolor.random = random;
+(window as any).tinycolor.readability = readability;
+(window as any).tinycolor.mostReadable = mostReadable;
+(window as any).tinycolor.fromRatio = fromRatio;
+(window as any).tinycolor.toMsFilter = toMsFilter;
+(window as any).tinycolor.names = names;
+(window as any).tinycolor.legacyRandom = legacyRandom;
 (window as any).TinyColor = TinyColor;
-(window as any).random = random;
 console.log(`try "new TinyColor('blue')" or "random()" or tinycolor('red')`);
 
 const input = document.querySelector<HTMLInputElement>('#color');
