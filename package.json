@@ -13,7 +13,8 @@
   "sideEffects": false,
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
   "main": "./public_api.js",
-  "module": "./bundles/tinycolor.es2015.js",
+  "module": "./es/public_api.js",
+  "typings": "./public_api.d.ts",
   "scripts": {
     "demo": "npm-run-all --parallel start:demo watch:demo",
     "build:demo": "rollup -c rollup.demo.js",
@@ -22,14 +23,16 @@
     "lint": "tslint -p tsconfig.json -t stylish 'src/**/*.ts' 'test/**/*.ts'",
     "lint:fix": "tslint -p tsconfig.json -t stylish --fix 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.esm.json && ts-node ./build.ts",
+    "build": "npm run build-es6; npm run build-cmjs; ts-node build",
+    "build-es6": "tsc -P ./tsconfig-build.json --outDir 'dist/es' --module es2015 -d false --moduleResolution node",
+    "build-cmjs": "tsc -P ./tsconfig-build.json",
     "build:docs": "typedoc src && touch docs/.nojekyll",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:prod": "npm run test -- --coverage --no-cache",
     "commit": "git-cz",
     "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "cd dist/package-dist && semantic-release"
+    "semantic-release": "cd dist && semantic-release"
   },
   "devDependencies": {
     "@types/fs-extra": "5.0.4",

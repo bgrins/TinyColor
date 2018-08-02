@@ -1,30 +1,25 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "declaration": true,
+    "target": "es2015",
     "lib": ["es2017"],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "./dist",
     "strict": true,
-    "pretty": true,
     "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "outDir": "dist/package-dist",
-    "paths": {
-      "@ctrl/tinycolor": ["./src/public_api"]
-    }
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "strictPropertyInitialization": false
   },
-  "files": ["./src/public_api"],
+  "files": ["./src/index"],
   "typedocOptions": {
-    "out": "docs/docs",
+    "out": "docs",
     "mode": "file",
     "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
+    "exclude": "source/test",
     "ignoreCompilerErrors": true,
     "excludePrivate": true,
     "excludeNotExported": true,
