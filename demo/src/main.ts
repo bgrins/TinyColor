@@ -1,4 +1,4 @@
-import { mostReadable, names, random, TinyColor, tinycolor } from '../../src/public_api';
+import { mostReadable, names, random, tinycolor, TinyColor } from '../../src/public_api';
 
 // make tinycolor available in the console
 (window as any).tinycolor = tinycolor;

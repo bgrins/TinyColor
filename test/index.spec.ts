@@ -1,4 +1,5 @@
 import {
+  default as defaultTiny,
   fromRatio,
   isReadable,
   legacyRandom,
@@ -28,6 +29,11 @@ describe('TinyColor', () => {
   });
   it('should init as function', () => {
     const r = tinycolor('red');
+    expect(r.toName()).toBe('red');
+    expect(r).toBeTruthy();
+  });
+  it('should have function as default export', () => {
+    const r = defaultTiny('red');
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
