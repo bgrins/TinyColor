@@ -10,7 +10,7 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
   - npm run travis-deploy-once "npm run semantic-release"
   - npm run build:demo
-  - cp -r demo/public/* docs
+  - cp -r demo/public/ docs
   - npm run build:docs
 deploy:
   provider: pages
