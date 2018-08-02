@@ -2,8 +2,8 @@ import { join } from 'path';
 
 import { copySync } from 'fs-extra';
 import { rollup, OutputOptions, RollupFileOptions } from 'rollup';
+const terser = require('rollup-plugin-terser').terser;
 const sourceMaps = require('rollup-plugin-sourcemaps');
-const uglify =  require('rollup-plugin-uglify');
 
 // es2015 module
 const moduleInputOptions: RollupFileOptions = {
@@ -18,7 +18,7 @@ const moduleOutputOptions: OutputOptions = {
 // umd min
 const umdMinInputOptions: RollupFileOptions = {
   input: `dist/esm5/public_api.js`,
-  plugins: [sourceMaps(), uglify()],
+  plugins: [sourceMaps(), terser()],
 };
 const umdMinOutputOptions: OutputOptions = {
   file: './dist/package-dist/bundles/tinycolor.umd.min.js',
