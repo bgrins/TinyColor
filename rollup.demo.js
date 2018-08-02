@@ -1,4 +1,4 @@
-import uglify from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 
 // `npm run build` -> `production` is true
@@ -16,6 +16,6 @@ export default {
     typescript({
       tsconfig: './demo/tsconfig.json',
     }),
-		production && uglify() // minify, but only in production
+		production && terser() // minify, but only in production
 	]
 };
