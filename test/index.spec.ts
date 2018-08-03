@@ -212,9 +212,9 @@ describe('TinyColor', () => {
     );
   });
   it('should have random in TinyColor', () => {
-    const r = tinycolor().random();
+    const r = TinyColor.random();
     expect(r).toBeInstanceOf(TinyColor);
-    const r1 = tinycolor().random({ hue: 'blue' });
+    const r1 = TinyColor.random({ hue: 'blue' });
     expect(typeof r1.toHex()).toBe('string');
   });
   it('should parse invalid input', () => {
