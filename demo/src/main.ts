@@ -1,10 +1,9 @@
-import { mostReadable, names, random, tinycolor, TinyColor } from '../../src/public_api';
+import * as tinycolor from '../../src/public_api';
 
 // make tinycolor available in the console
 (window as any).tinycolor = tinycolor;
-(window as any).TinyColor = TinyColor;
-(window as any).random = random;
-console.log(`try "new TinyColor('blue')" or "random()" or tinycolor('red')`);
+(window as any).TinyColor = tinycolor.TinyColor;
+console.log(`try "new TinyColor('blue')" or "tinycolor.random()" or tinycolor('red')`);
 
 const input = document.querySelector<HTMLInputElement>('#color');
 
@@ -16,7 +15,7 @@ const mostReadableEl = document.querySelector<HTMLElement>('#mostReadable');
 const colorBoxEl = document.querySelector<HTMLElement>('#colorBox');
 
 function colorChange(color) {
-  const tiny = new TinyColor(color);
+  const tiny = new tinycolor.TinyColor(color);
 
   const output = [
     'hex:\t' + tiny.toHexString(),
@@ -34,24 +33,24 @@ function colorChange(color) {
 
   filtersEl.classList.toggle('invisible', !tiny.isValid);
 
-  const lighten = new TinyColor(color).lighten(20).toHexString();
+  const lighten = new tinycolor.TinyColor(color).lighten(20).toHexString();
   filtersEl.querySelector<HTMLElement>('.lighten').style['background-color'] = lighten;
-  const darken = new TinyColor(color).darken(20).toHexString();
+  const darken = new tinycolor.TinyColor(color).darken(20).toHexString();
   filtersEl.querySelector<HTMLElement>('.darken').style['background-color'] = darken;
-  const saturate = new TinyColor(color).darken(20).toHexString();
+  const saturate = new tinycolor.TinyColor(color).darken(20).toHexString();
   filtersEl.querySelector<HTMLElement>('.saturate').style['background-color'] = saturate;
-  const desaturate = new TinyColor(color).desaturate(20).toHexString();
+  const desaturate = new tinycolor.TinyColor(color).desaturate(20).toHexString();
   filtersEl.querySelector<HTMLElement>('.desaturate').style['background-color'] = desaturate;
-  const greyscale = new TinyColor(color).greyscale().toHexString();
+  const greyscale = new tinycolor.TinyColor(color).greyscale().toHexString();
   filtersEl.querySelector<HTMLElement>('.greyscale').style['background-color'] = greyscale;
-  const brighten = new TinyColor(color).brighten(20).toHexString();
+  const brighten = new tinycolor.TinyColor(color).brighten(20).toHexString();
   filtersEl.querySelector<HTMLElement>('.brighten').style['background-color'] = brighten;
 
   const allColors = [];
-  for (const i in names) {
+  for (const i in tinycolor.names) {
     allColors.push(i);
   }
-  const readable = mostReadable(color, allColors);
+  const readable = tinycolor.mostReadable(color, allColors);
   mostReadableEl.style['background-color'] = readable.toHexString();
 
   const colorArrayToHTML = arr =>
@@ -70,4 +69,4 @@ function colorChange(color) {
 colorChange({ r: 150, g: 0, b: 100 });
 
 // Set that box next to the title to a random color
-colorBoxEl.style['background-color'] = random({ luminosity: 'bright' }).toHexString();
+colorBoxEl.style['background-color'] = tinycolor.random({ luminosity: 'bright' }).toHexString();

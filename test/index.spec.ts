@@ -24,16 +24,19 @@ import {
 describe('TinyColor', () => {
   it('should init', () => {
     const r = new TinyColor('red');
+    expect(r).toBeInstanceOf(TinyColor);
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
   it('should init as function', () => {
     const r = tinycolor('red');
+    expect(r).toBeInstanceOf(TinyColor);
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
   it('should have function as default export', () => {
     const r = defaultTiny('red');
+    expect(r).toBeInstanceOf(TinyColor);
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
@@ -207,6 +210,12 @@ describe('TinyColor', () => {
     expect(new TinyColor('hsva 251.1 0.887 0.918 0.5').toHsvString()).toBe(
       'hsva(251, 89%, 92%, 0.5)',
     );
+  });
+  it('should have random in TinyColor', () => {
+    const r = tinycolor().random();
+    expect(r).toBeInstanceOf(TinyColor);
+    const r1 = tinycolor().random({ hue: 'blue' });
+    expect(typeof r1.toHex()).toBe('string');
   });
   it('should parse invalid input', () => {
     let invalidColor = new TinyColor('not a color');
