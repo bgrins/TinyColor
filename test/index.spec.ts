@@ -32,17 +32,10 @@ describe('TinyColor', () => {
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
-  it('should have function as default export that can be used as class', () => {
+  it('should have function as default export', () => {
     const r = defaultTiny('red');
-    const x = 1;
-    // @ts-ignore
-    const c = new defaultTiny('red');
-    expect(r).toBeInstanceOf(TinyColor);
-    expect(c).toBeInstanceOf(TinyColor);
     expect(r.toName()).toBe('red');
-    expect(c.toName()).toBe('red');
     expect(r).toBeTruthy();
-    expect(c).toBeTruthy();
   });
   it('should clone', () => {
     const color1 = new TinyColor('red');

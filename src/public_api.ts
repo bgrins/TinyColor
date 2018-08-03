@@ -1,5 +1,4 @@
 import { tinycolor } from './index';
-
 export * from './index';
 export * from './css-color-names';
 export * from './readability';
