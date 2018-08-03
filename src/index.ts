@@ -42,7 +42,7 @@ export class TinyColor {
   gradientType?: string;
   /** rounded alpha */
   roundA!: number;
-  random = random;
+  static random = random;
 
   constructor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
     // If input is already a tinycolor, return itself
