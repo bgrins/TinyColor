@@ -2,7 +2,6 @@ import { rgbaToHex, rgbToHex, rgbToHsl, rgbToHsv } from './conversion';
 import { names } from './css-color-names';
 import { inputToRGB } from './format-input';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
-import { random } from './random';
 import { bound01, boundAlpha, clamp01 } from './util';
 
 export interface TinyColorOptions {
@@ -42,7 +41,6 @@ export class TinyColor {
   gradientType?: string;
   /** rounded alpha */
   roundA!: number;
-  static random = random;
 
   constructor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
     // If input is already a tinycolor, return itself

@@ -12,7 +12,7 @@
     "noUnusedLocals": true,
     "strictPropertyInitialization": false
   },
-  "files": ["./src/index"],
+  "files": ["./src/public_api", "./src/umd_api"],
   "typedocOptions": {
     "out": "docs/docs",
     "mode": "file",
