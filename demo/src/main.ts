@@ -1,4 +1,4 @@
-import tinycolor from '../../src/umd_api';
+import tinycolor from '../../src/public_api';
 
 // make tinycolor available in the console
 (window as any).tinycolor = tinycolor;
