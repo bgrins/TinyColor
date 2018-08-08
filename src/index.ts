@@ -479,3 +479,8 @@ export class TinyColor {
     return this.toRgbString() === new TinyColor(color).toRgbString();
   }
 }
+
+// kept for backwards compatability with v1
+export function tinycolor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
+  return new TinyColor(color, opts);
+}
