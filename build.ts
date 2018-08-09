@@ -7,7 +7,7 @@ const sourceMaps = require('rollup-plugin-sourcemaps');
 
 // umd min
 const umdMinInputOptions: RollupFileOptions = {
-  input: `dist/es/public_api.js`,
+  input: `dist/es/umd_api.js`,
   plugins: [sourceMaps(), terser()],
 };
 const umdMinOutputOptions: OutputOptions = {
@@ -15,7 +15,7 @@ const umdMinOutputOptions: OutputOptions = {
   format: 'umd',
   sourcemap: true,
   name: 'tinycolor',
-  exports: 'named',
+  exports: 'default',
 };
 
 async function build() {
