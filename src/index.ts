@@ -1,7 +1,11 @@
 import { rgbaToHex, rgbToHex, rgbToHsl, rgbToHsv } from './conversion';
 import { names } from './css-color-names';
-import { inputToRGB } from './format-input';
+import { inputToRGB, isValidCSSUnit, stringInputToObject } from './format-input';
+import { fromRatio, legacyRandom } from './from-ratio';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
+import { random } from './random';
+import { mostReadable, readability } from './readability';
+import { toMsFilter } from './to-ms-filter';
 import { bound01, boundAlpha, clamp01 } from './util';
 
 export interface TinyColorOptions {
@@ -41,6 +45,16 @@ export class TinyColor {
   gradientType?: string;
   /** rounded alpha */
   roundA!: number;
+  static random = random;
+  static readability = readability;
+  static mostReadable = mostReadable;
+  static names = names;
+  static fromRatio = fromRatio;
+  static legacyRandom = legacyRandom;
+  static toMsFilter = toMsFilter;
+  static inputToRGB = inputToRGB;
+  static stringInputToObject = stringInputToObject;
+  static isValidCSSUnit = isValidCSSUnit;
 
   constructor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
     // If input is already a tinycolor, return itself
