@@ -4,7 +4,7 @@ import { inputToRGB, isValidCSSUnit, stringInputToObject } from './format-input'
 import { fromRatio, legacyRandom } from './from-ratio';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
 import { random } from './random';
-import { mostReadable, isReadable, readability } from './readability';
+import { isReadable, mostReadable, readability } from './readability';
 import { toMsFilter } from './to-ms-filter';
 import { bound01, boundAlpha, clamp01 } from './util';
 
