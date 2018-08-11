@@ -1,15 +1,14 @@
-import {
-  default as defaultTiny,
+import TinyColor from '../src/public_api';
+const {
   fromRatio,
   isReadable,
   legacyRandom,
   mostReadable,
   names,
   readability,
-  tinycolor,
   toMsFilter,
-  TinyColor,
-} from '../src/public_api';
+} = TinyColor;
+
 import conversions from './conversions';
 import {
   BRIGHTENS,
@@ -24,18 +23,6 @@ import {
 describe('TinyColor', () => {
   it('should init', () => {
     const r = new TinyColor('red');
-    expect(r).toBeInstanceOf(TinyColor);
-    expect(r.toName()).toBe('red');
-    expect(r).toBeTruthy();
-  });
-  it('should init as function', () => {
-    const r = tinycolor('red');
-    expect(r).toBeInstanceOf(TinyColor);
-    expect(r.toName()).toBe('red');
-    expect(r).toBeTruthy();
-  });
-  it('should have function as default export', () => {
-    const r = defaultTiny('red');
     expect(r).toBeInstanceOf(TinyColor);
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();

@@ -4,7 +4,7 @@ import { inputToRGB, isValidCSSUnit, stringInputToObject } from './format-input'
 import { fromRatio, legacyRandom } from './from-ratio';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
 import { random } from './random';
-import { mostReadable, readability } from './readability';
+import { mostReadable, isReadable, readability } from './readability';
 import { toMsFilter } from './to-ms-filter';
 import { bound01, boundAlpha, clamp01 } from './util';
 
@@ -45,8 +45,10 @@ export class TinyColor {
   gradientType?: string;
   /** rounded alpha */
   roundA!: number;
+
   static random = random;
   static readability = readability;
+  static isReadable = isReadable;
   static mostReadable = mostReadable;
   static names = names;
   static fromRatio = fromRatio;
@@ -494,7 +496,4 @@ export class TinyColor {
   }
 }
 
-// kept for backwards compatability with v1
-export function tinycolor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
-  return new TinyColor(color, opts);
-}
+export default TinyColor;
