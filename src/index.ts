@@ -59,10 +59,16 @@ export class TinyColor {
   static isValidCSSUnit = isValidCSSUnit;
 
   constructor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
+    // If called without `new`, instantiate the class
+    if(!(this instanceof TinyColor)) {
+      return new TinyColor(color, opts);
+    }
+
     // If input is already a tinycolor, return itself
     if (color instanceof TinyColor) {
       return color;
     }
+
     this.originalInput = color;
     const rgb = inputToRGB(color);
     this.originalInput = color;
@@ -495,5 +501,3 @@ export class TinyColor {
     return this.toRgbString() === new TinyColor(color).toRgbString();
   }
 }
-
-export default TinyColor;

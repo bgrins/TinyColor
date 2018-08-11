@@ -14,8 +14,8 @@ const umdMinOutputOptions: OutputOptions = {
   file: './dist/bundles/tinycolor.umd.min.js',
   format: 'umd',
   sourcemap: true,
-  name: 'TinyColor',
-  exports: 'default',
+  name: 'tinycolor',
+  // exports: 'default',
 };
 
 async function build() {

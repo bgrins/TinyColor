@@ -1,4 +1,5 @@
 import TinyColor from '../src/public_api';
+
 const {
   fromRatio,
   isReadable,
