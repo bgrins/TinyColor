@@ -1,6 +1,7 @@
 import { TinyColor } from './index';
 
-// This line tells TypeScript about the ES2015 default export
+// This line tells TypeScript about the ES2015 default export,
+// and provides the export for UMD (where `module` is undefined).
 export default TinyColor;
 
 // This line provides the export for both node and
