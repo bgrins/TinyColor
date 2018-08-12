@@ -7,11 +7,8 @@
 * reformatted into TypeScript / es2015 and requires node >= 8
   * tree shakeable "module" export and no package `sideEffects`
 * `tinycolor` is now exported as a class called `TinyColor`
-* new `random`, an implementation of [randomColor](https://github.com/davidmerfield/randomColor/) by David Merfield that returns a TinyColor object, the old one is still available as `legacyRandom`
-* several functions moved out of the tinycolor class and are no longer `TinyColor.<function>`. See updated docs for use examples.
-  * `readability`, `fromRatio` moved out
-  * `random` moved out and renamed to `legacyRandom`
-  * `toFilter` has been moved out and renamed to `toMsFilter`
+* new `random`, an implementation of [randomColor](https://github.com/davidmerfield/randomColor/) by David Merfield that returns a TinyColor object
+* `TinyColor.toFilter` has been renamed to `TinyColor.toMsFilter`
 * `mix`, `equals` use the current TinyColor object as the first parameter
 * added polyad colors tinycolor PR #126
 * color wheel values (360) are allowed to over or under-spin and still return valid colors tinycolor PR #108
