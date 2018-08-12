@@ -1,11 +1,14 @@
-import { tinycolor } from './index';
-export * from './index';
-export * from './css-color-names';
-export * from './readability';
-export * from './to-ms-filter';
-export * from './from-ratio';
-export * from './format-input';
-export * from './random';
+import { TinyColor } from './index';
 
-// kept for backwards compatability with v1
-export default tinycolor;
+// This line tells TypeScript about the ES2015 default export,
+// and provides the export for UMD (where `module` is undefined).
+export default TinyColor;
+
+// This line provides the export for both node and
+// the ES2015 default export. So both of these will work:
+//   node: `var TinyColor = require('./public_api');`
+//   ts: `import TinyColor from './public_api';
+if (typeof module !== "undefined") { // tslint:disable-line
+  module.exports = TinyColor;
+  module.exports.default = TinyColor;
+}

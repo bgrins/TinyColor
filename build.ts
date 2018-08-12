@@ -15,7 +15,6 @@ const umdMinOutputOptions: OutputOptions = {
   format: 'umd',
   sourcemap: true,
   name: 'tinycolor',
-  exports: 'named',
 };
 
 async function build() {

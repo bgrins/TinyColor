@@ -1,8 +1,11 @@
 import { rgbaToHex, rgbToHex, rgbToHsl, rgbToHsv } from './conversion';
 import { names } from './css-color-names';
-import { inputToRGB } from './format-input';
+import { inputToRGB, isValidCSSUnit, stringInputToObject } from './format-input';
+import { fromRatio, legacyRandom } from './from-ratio';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
 import { random } from './random';
+import { isReadable, mostReadable, readability } from './readability';
+import { toMsFilter } from './to-ms-filter';
 import { bound01, boundAlpha, clamp01 } from './util';
 
 export interface TinyColorOptions {
@@ -42,13 +45,30 @@ export class TinyColor {
   gradientType?: string;
   /** rounded alpha */
   roundA!: number;
+
   static random = random;
+  static readability = readability;
+  static isReadable = isReadable;
+  static mostReadable = mostReadable;
+  static names = names;
+  static fromRatio = fromRatio;
+  static legacyRandom = legacyRandom;
+  static toMsFilter = toMsFilter;
+  static inputToRGB = inputToRGB;
+  static stringInputToObject = stringInputToObject;
+  static isValidCSSUnit = isValidCSSUnit;
 
   constructor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
+    // If called without `new`, instantiate the class
+    if(!(this instanceof TinyColor)) {
+      return new TinyColor(color, opts);
+    }
+
     // If input is already a tinycolor, return itself
     if (color instanceof TinyColor) {
       return color;
     }
+
     this.originalInput = color;
     const rgb = inputToRGB(color);
     this.originalInput = color;
@@ -480,9 +500,4 @@ export class TinyColor {
   equals(color?: ColorInput): boolean {
     return this.toRgbString() === new TinyColor(color).toRgbString();
   }
-}
-
-// kept for backwards compatability with v1
-export function tinycolor(color: ColorInput = '', opts: Partial<TinyColorOptions> = {}) {
-  return new TinyColor(color, opts);
 }
