@@ -3,7 +3,6 @@ import TinyColor from '../src/public_api';
 const {
   fromRatio,
   isReadable,
-  legacyRandom,
   mostReadable,
   names,
   readability,
@@ -845,10 +844,6 @@ describe('TinyColor', () => {
   it('tetrad', () => {
     const combination = new TinyColor('red').tetrad();
     expect(colorsToHexString(combination)).toBe('ff0000,80ff00,00ffff,7f00ff');
-  });
-
-  it('legacy random', () => {
-    expect(legacyRandom().isValid).toBeTruthy();
   });
 });
 

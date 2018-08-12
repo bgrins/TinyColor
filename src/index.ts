@@ -1,7 +1,7 @@
 import { rgbaToHex, rgbToHex, rgbToHsl, rgbToHsv } from './conversion';
 import { names } from './css-color-names';
 import { inputToRGB, isValidCSSUnit, stringInputToObject } from './format-input';
-import { fromRatio, legacyRandom } from './from-ratio';
+import { fromRatio } from './from-ratio';
 import { HSL, HSLA, HSV, HSVA, RGB, RGBA } from './interfaces';
 import { random } from './random';
 import { isReadable, mostReadable, readability } from './readability';
@@ -52,7 +52,6 @@ export class TinyColor {
   static mostReadable = mostReadable;
   static names = names;
   static fromRatio = fromRatio;
-  static legacyRandom = legacyRandom;
   static toMsFilter = toMsFilter;
   static inputToRGB = inputToRGB;
   static stringInputToObject = stringInputToObject;
