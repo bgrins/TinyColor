@@ -45,7 +45,6 @@ describe('TinyColor', () => {
     const colorRgbMix = 'RgB(39, 39, 39)';
     const tinycolorObj = new TinyColor(colorRgbMix);
     const inputObj = { r: 100, g: 100, b: 100 };
-    const r = new TinyColor('red');
     // original lowercase input is returned
     expect(new TinyColor(colorRgbLow).originalInput).toBe(colorRgbLow);
     //  original uppercase input is returned
@@ -469,7 +468,7 @@ describe('TinyColor', () => {
     hexSetter.setAlpha();
     // setAlpha with invalid value should be bound to 1
     expect(hexSetter.a).toBe(1);
-    hexSetter.setAlpha(null);
+    hexSetter.setAlpha(null as any);
     // setAlpha with invalid value should be bound to 1
     expect(hexSetter.a).toBe(1);
     hexSetter.setAlpha('test');
@@ -664,68 +663,67 @@ describe('TinyColor', () => {
   });
   it('readability', () => {
     // check return values from readability function. See isReadable above for standards tests.
-    const tinycolor = new TinyColor();
     expect(readability('#000', '#000')).toBe(1);
     expect(readability('#000', '#111')).toBe(1.1121078324840545);
     expect(readability('#000', '#fff')).toBe(21);
   });
 
   it('mostReadable', () => {
-    const tinycolor = new TinyColor();
-    expect(mostReadable('#000', ['#111', '#222']).toHexString()).toBe('#222222');
-    expect(mostReadable('#f00', ['#d00', '#0d0']).toHexString()).toBe('#00dd00');
-    expect(mostReadable('#fff', ['#fff', '#fff']).toHexString()).toBe('#ffffff');
+    expect((mostReadable('#000', ['#111', '#222']) as TinyColor).toHexString()).toBe('#222222');
+    expect((mostReadable('#f00', ['#d00', '#0d0']) as TinyColor).toHexString()).toBe('#00dd00');
+    expect((mostReadable('#fff', ['#fff', '#fff']) as TinyColor).toHexString()).toBe('#ffffff');
     // includeFallbackColors
-    expect(
-      mostReadable('#fff', ['#fff', '#fff'], { includeFallbackColors: true }).toHexString(),
-    ).toBe('#000000');
+    let readable = mostReadable('#fff', ['#fff', '#fff'], {
+      includeFallbackColors: true,
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#000000');
     // no readable color in list
-    expect(
-      mostReadable('#123', ['#124', '#125'], { includeFallbackColors: false }).toHexString(),
-    ).toBe('#112255');
-    expect(
-      mostReadable('#123', ['#000', '#fff'], { includeFallbackColors: false }).toHexString(),
-    ).toBe('#ffffff');
+    readable = mostReadable('#123', ['#124', '#125'], {
+      includeFallbackColors: false,
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#112255');
+    readable = mostReadable('#123', ['#000', '#fff'], {
+      includeFallbackColors: false,
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#ffffff');
     // no readable color in list
-    expect(
-      mostReadable('#123', ['#124', '#125'], { includeFallbackColors: true }).toHexString(),
-    ).toBe('#ffffff');
+    readable = mostReadable('#123', ['#124', '#125'], { includeFallbackColors: true }) as TinyColor;
+    expect(readable.toHexString()).toBe('#ffffff');
 
-    expect(
-      mostReadable('#ff0088', ['#000', '#fff'], { includeFallbackColors: false }).toHexString(),
-    ).toBe('#000000');
-    expect(
-      mostReadable('#ff0088', ['#2e0c3a'], {
-        includeFallbackColors: true,
-        level: 'AAA',
-        size: 'large',
-      }).toHexString(),
-    ).toBe('#2e0c3a');
-    expect(
-      mostReadable('#ff0088', ['#2e0c3a'], {
-        includeFallbackColors: true,
-        level: 'AAA',
-        size: 'small',
-      }).toHexString(),
-    ).toBe('#000000');
+    readable = mostReadable('#ff0088', ['#000', '#fff'], {
+      includeFallbackColors: true,
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#000000');
 
-    expect(
-      mostReadable('#371b2c', ['#000', '#fff'], { includeFallbackColors: false }).toHexString(),
-    ).toBe('#ffffff');
-    expect(
-      mostReadable('#371b2c', ['#a9acb6'], {
-        includeFallbackColors: true,
-        level: 'AAA',
-        size: 'large',
-      }).toHexString(),
-    ).toBe('#a9acb6');
-    expect(
-      mostReadable('#371b2c', ['#a9acb6'], {
-        includeFallbackColors: true,
-        level: 'AAA',
-        size: 'small',
-      }).toHexString(),
-    ).toBe('#ffffff');
+    readable = mostReadable('#ff0088', ['#2e0c3a'], {
+      includeFallbackColors: true,
+      level: 'AAA',
+      size: 'large',
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#2e0c3a');
+    readable = mostReadable('#ff0088', ['#2e0c3a'], {
+      includeFallbackColors: true,
+      level: 'AAA',
+      size: 'small',
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#000000');
+
+    readable = mostReadable('#371b2c', ['#000', '#fff'], {
+      includeFallbackColors: true,
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#ffffff');
+    readable = mostReadable('#371b2c', ['#a9acb6'], {
+      includeFallbackColors: true,
+      level: 'AAA',
+      size: 'large',
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#a9acb6');
+    readable = mostReadable('#371b2c', ['#a9acb6'], {
+      includeFallbackColors: true,
+      level: 'AAA',
+      size: 'small',
+    }) as TinyColor;
+    expect(readable.toHexString()).toBe('#ffffff');
   });
 
   it('should create microsoft filter', () => {
@@ -803,7 +801,7 @@ describe('TinyColor', () => {
 
     // with colors
     for (let i = 0; i < 100; i++) {
-      let newHex = Math.round(255 * (100 - i) / 100).toString(16);
+      let newHex = Math.round((255 * (100 - i)) / 100).toString(16);
 
       if (newHex.length === 1) {
         newHex = '0' + newHex;
@@ -847,7 +845,7 @@ describe('TinyColor', () => {
   });
 });
 
-function colorsToHexString(colors) {
+function colorsToHexString(colors: TinyColor[]) {
   return colors
     .map(function(c) {
       return c.toHex();

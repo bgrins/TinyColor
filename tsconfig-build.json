@@ -6,11 +6,13 @@
     "declaration": true,
     "sourceMap": false,
     "outDir": "./dist",
-    "rootDir": "./src",
     "removeComments": true,
     "skipLibCheck": true
   },
   "files": [
     "./src/public_api"
+  ],
+  "include": [
+    "./src/*.ts"
   ]
 }
