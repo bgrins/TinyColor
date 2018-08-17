@@ -29,5 +29,6 @@
     "theme": "minimal",
     "hideGenerator": true,
     "readme": "none"
-  }
+  },
+  "include": ["./src/*.ts"]
 }
