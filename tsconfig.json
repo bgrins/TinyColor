@@ -30,8 +30,5 @@
     "hideGenerator": true,
     "readme": "none"
   },
-  "include": [
-    "./src/*.ts",
-    "./test/*.ts"
-  ]
+  "include": ["./src/*.ts"]
 }
