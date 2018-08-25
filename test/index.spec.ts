@@ -1,4 +1,5 @@
 import TinyColor from '../src/public_api';
+import TinyColorDist from '../dist/public_api';
 
 const {
   fromRatio,
@@ -24,6 +25,12 @@ describe('TinyColor', () => {
   it('should init', () => {
     const r = new TinyColor('red');
     expect(r).toBeInstanceOf(TinyColor);
+    expect(r.toName()).toBe('red');
+    expect(r).toBeTruthy();
+  });
+  it('should init with function', () => {
+    const r = TinyColorDist('red');
+    expect(r).toBeInstanceOf(TinyColorDist);
     expect(r.toName()).toBe('red');
     expect(r).toBeTruthy();
   });
