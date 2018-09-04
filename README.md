@@ -24,7 +24,7 @@ npm install tinycolor2
 ## Use
 
 ```ts
-import { TinyColor } from 'tinycolor2';
+const TinyColor = require('tinycolor2');
 const color = new TinyColor('red').toHexString(); // '#ff0000'
 ```
 
@@ -61,9 +61,8 @@ new TinyColor('rgb 255 0 0');
 new TinyColor('rgba (255, 0, 0, .5)');
 new TinyColor({ r: 255, g: 0, b: 0 });
 
-import { fromRatio } from 'tinycolor2';
-fromRatio({ r: 1, g: 0, b: 0 });
-fromRatio({ r: 0.5, g: 0.5, b: 0.5 });
+TinyColor.fromRatio({ r: 1, g: 0, b: 0 });
+TinyColor.fromRatio({ r: 0.5, g: 0.5, b: 0.5 });
 ```
 
 ### HSL, HSLA
@@ -75,9 +74,8 @@ new TinyColor('hsl(0, 100%, 50%)');
 new TinyColor('hsl 0 1.0 0.5');
 new TinyColor({ h: 0, s: 1, l: 0.5 });
 
-import { fromRatio } from 'tinycolor2';
-fromRatio({ h: 1, s: 0, l: 0 });
-fromRatio({ h: 0.5, s: 0.5, l: 0.5 });
+TinyColor.fromRatio({ h: 1, s: 0, l: 0 });
+TinyColor.fromRatio({ h: 0.5, s: 0.5, l: 0.5 });
 ```
 
 ### HSV, HSVA
@@ -89,9 +87,8 @@ new TinyColor('hsv (0 100% 100%)');
 new TinyColor('hsv 0 1 1');
 new TinyColor({ h: 0, s: 100, v: 100 });
 
-import { fromRatio } from 'tinycolor2';
-fromRatio({ h: 1, s: 0, v: 0 });
-fromRatio({ h: 0.5, s: 0.5, v: 0.5 });
+TinyColor.fromRatio({ h: 1, s: 0, v: 0 });
+TinyColor.fromRatio({ h: 0.5, s: 0.5, v: 0.5 });
 ```
 
 ### Named
@@ -334,8 +331,8 @@ color.toName(); // "red"
 ### toFilter
 
 ```ts
-import { toMsFilter } from 'tinycolor2';
-toMsFilter('red', 'blue'); // 'progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)'
+const TinyColor = require('tinycolor2');
+TinyColor.toMsFilter('red', 'blue'); // 'progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)'
 ```
 
 ### toString
@@ -514,8 +511,8 @@ new TinyColor('#f00').complement().toHexString(); // "#00ffff"
 ### equals
 
 ```ts
-import { equals } from 'tinycolor2';
-equals(color1, color2);
+const TinyColor = require('tinycolor2');
+TinyColor.equals(color1, color2);
 ```
 
 ### random
@@ -532,7 +529,8 @@ You can pass an options object to influence the type of color it produces. The o
 `alpha` – A decimal between 0 and 1. Only relevant when using a format with an alpha channel (rgba and hsla). Defaults to a random value.
 
 ```ts
-import { random } from 'tinycolor2';
+const TinyColor = require('tinycolor2');
+const random = TinyColor.random;
 // Returns a TinyColor for an attractive color
 random();
 
@@ -571,10 +569,10 @@ TinyColor assesses readability based on the [Web Content Accessibility Guideline
 Returns the contrast ratio between two colors.
 
 ```ts
-import { readability } from 'tinycolor2';
-readability('#000', '#000'); // 1
-readability('#000', '#111'); // 1.1121078324840545
-readability('#000', '#fff'); // 21
+const TinyColor = require('tinycolor2');
+TinyColor.readability('#000', '#000'); // 1
+TinyColor.readability('#000', '#111'); // 1.1121078324840545
+TinyColor.readability('#000', '#fff'); // 21
 ```
 
 Use the values in your own calculations, or use one of the convenience functions below.
@@ -586,10 +584,10 @@ Use the values in your own calculations, or use one of the convenience functions
 Here are links to read more about the [AA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html) and [AAA](http://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast7.html) requirements.
 
 ```ts
-import { isReadable } from 'tinycolor2';
-isReadable("#000", "#111"); // false
-isReadable("#ff0088", "#5c1a72", { level: "AA", size: "small" }); // false
-isReadable("#ff0088", "#5c1a72", { level: "AA", size: "large" }), // true
+const TinyColor = require('tinycolor2');
+TinyColor.isReadable("#000", "#111"); // false
+TinyColor.isReadable("#ff0088", "#5c1a72", { level: "AA", size: "small" }); // false
+TinyColor.isReadable("#ff0088", "#5c1a72", { level: "AA", size: "large" }), // true
 ```
 
 #### mostReadable
@@ -599,16 +597,16 @@ Given a base color and a list of possible foreground or background colors for th
 If none of the colors in the list is readable, `mostReadable` will return the better of black or white if `includeFallbackColors:true`.
 
 ```ts
-import { mostReadable } from 'tinycolor2';
-mostReadable('#000', ['#f00', '#0f0', '#00f']).toHexString(); // "#00ff00"
-mostReadable('#123', ['#124', '#125'], { includeFallbackColors: false }).toHexString(); // "#112255"
-mostReadable('#123', ['#124', '#125'], { includeFallbackColors: true }).toHexString(); // "#ffffff"
-mostReadable('#ff0088', ['#2e0c3a'], {
+const TinyColor = require('tinycolor2');
+TinyColor.mostReadable('#000', ['#f00', '#0f0', '#00f']).toHexString(); // "#00ff00"
+TinyColor.mostReadable('#123', ['#124', '#125'], { includeFallbackColors: false }).toHexString(); // "#112255"
+TinyColor.mostReadable('#123', ['#124', '#125'], { includeFallbackColors: true }).toHexString(); // "#ffffff"
+TinyColor.mostReadable('#ff0088', ['#2e0c3a'], {
   includeFallbackColors: true,
   level: 'AAA',
   size: 'large',
 }).toHexString(); // "#2e0c3a",
-mostReadable('#ff0088', ['#2e0c3a'], {
+TinyColor.mostReadable('#ff0088', ['#2e0c3a'], {
   includeFallbackColors: true,
   level: 'AAA',
   size: 'small',
