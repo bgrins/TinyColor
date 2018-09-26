@@ -83,6 +83,11 @@
       "ts",
       "js"
     ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "./test/tsconfig.json"
+      }
+    },
     "collectCoverage": true
   },
   "engines": {
