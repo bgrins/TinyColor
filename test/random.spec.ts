@@ -1,4 +1,3 @@
-import TinyColor from '../src/public_api';
 import { random } from '../src/random';
 
 describe('random', () => {

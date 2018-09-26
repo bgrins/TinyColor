@@ -6,17 +6,19 @@ const terser = require('rollup-plugin-terser').terser;
 const sourceMaps = require('rollup-plugin-sourcemaps');
 
 const umdInputOptions: RollupFileOptions = {
-  input: `dist/es/public_api.js`,
+  input: `./dist/es/public_api.js`,
+  plugins: [sourceMaps()],
 };
 const umdOutputOptions: OutputOptions = {
   file: './dist/bundles/tinycolor.umd.js',
   format: 'umd',
+  sourcemap: true,
   name: 'tinycolor',
 };
 
 // umd min
 const umdMinInputOptions: RollupFileOptions = {
-  input: `dist/es/public_api.js`,
+  input: `./dist/es/public_api.js`,
   plugins: [sourceMaps(), terser()],
 };
 const umdMinOutputOptions: OutputOptions = {
