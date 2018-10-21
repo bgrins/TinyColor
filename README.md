@@ -7,8 +7,8 @@ TinyColor is a small, fast library for color manipulation and conversion in Java
 [![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
 ## Including in a browser
-
-Download [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js) or install it with bower:
+https://github.com/CrandellWS/TinyColor/
+Download [tinycolor.js](tinycolor.js?raw=true) or install it with bower:
 
     bower install tinycolor
 
