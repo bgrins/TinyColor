@@ -50,12 +50,19 @@ Here are some examples of string input:
 ```js
 tinycolor("#000");
 tinycolor("000");
-tinycolor("#369C");
+tinycolor("#");
 tinycolor("369C");
 tinycolor("#f0f0f6");
 tinycolor("f0f0f6");
 tinycolor("#f0f0f688");
 tinycolor("f0f0f688");
+```
+### Hex (Argb), 8-digit (ARGB) Hex
+```js
+tinycolor("#C369", {"hex8Argb":true});
+tinycolor("C369", {"hex8Argb":true});
+tinycolor("#88f0f0f6", {"hex8Argb":true});
+tinycolor("88f0f0f6", {"hex8Argb":true});
 ```
 ### RGB, RGBA
 ```js
@@ -245,6 +252,16 @@ color.toHex8(); // "ff0000ff"
 ```js
 var color = tinycolor("red");
 color.toHex8String(); // "#ff0000ff"
+```
+### toHex8Argb
+```js
+var color = tinycolor("red");
+color.toHex8Argb(); // "ffff0000"
+```
+### toHex8ArgbString
+```js
+var color = tinycolor("red");
+color.toHex8ArgbString(); // "#ffff0000"
 ```
 ### toRgb
 ```js
