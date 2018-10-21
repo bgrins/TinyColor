@@ -17,8 +17,6 @@ function tinycolor (color, opts) {
     color = (color) ? color : '';
     opts = opts || { };
 
-    console.log(opts);
-
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
        return color;
@@ -27,26 +25,11 @@ function tinycolor (color, opts) {
     if (!(this instanceof tinycolor)) {
         return new tinycolor(color, opts);
     }
-    // this will fix old browsers
-    if (!Array.prototype.indexOf) {
-      Array.prototype.indexOf = function(value) {
-        for (var i = 0; i < this.length; i++) {
-          if (this[i] === value) {
-            return i;
-          }
-        }
-
-        return -1;
-      }
-    }
-    
     var rgb;
     
     if(opts.hex8Argb){
-        console.log(true);
         rgb = stringHexArgbInputToObject(color);        
     } else {
-        console.log(false);
         rgb = inputToRGB(color); 
     }
     
