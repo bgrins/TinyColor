@@ -124,6 +124,12 @@ tinycolor.prototype = {
     toHex8String: function(allow4Char) {
         return '#' + this.toHex8(allow4Char);
     },
+    toHex8Argb: function(allow4Char) {
+        return rgbaToArgbHex(this._r, this._g, this._b,this._a);
+    },
+    toHex8ArgbString: function(allow4Char) {
+        return '#' + this.toHex8Argb(allow4Char);
+    },
     toRgb: function() {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
     },
