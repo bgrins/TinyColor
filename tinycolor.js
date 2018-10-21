@@ -1,4 +1,4 @@
-// TinyColor v1.4.1
+// TinyColor v1.4.2
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
@@ -17,6 +17,8 @@ function tinycolor (color, opts) {
     color = (color) ? color : '';
     opts = opts || { };
 
+    console.log(opts);
+
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
        return color;
@@ -25,8 +27,29 @@ function tinycolor (color, opts) {
     if (!(this instanceof tinycolor)) {
         return new tinycolor(color, opts);
     }
+    // this will fix old browsers
+    if (!Array.prototype.indexOf) {
+      Array.prototype.indexOf = function(value) {
+        for (var i = 0; i < this.length; i++) {
+          if (this[i] === value) {
+            return i;
+          }
+        }
 
-    var rgb = inputToRGB(color);
+        return -1;
+      }
+    }
+    
+    var rgb;
+    
+    if(opts.hex8Argb){
+        console.log(true);
+        rgb = stringHexArgbInputToObject(color);        
+    } else {
+        console.log(false);
+        rgb = inputToRGB(color); 
+    }
+    
     this._originalInput = color,
     this._r = rgb.r,
     this._g = rgb.g,
@@ -1155,6 +1178,54 @@ function stringInputToObject(color) {
             b: parseIntFromHex(match[3] + '' + match[3]),
             a: convertHexToDecimal(match[4] + '' + match[4]),
             format: named ? "name" : "hex8"
+        };
+    }
+    if ((match = matchers.hex3.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
+            format: named ? "name" : "hex"
+        };
+    }
+
+    return false;
+}
+
+// `stringHexArgbInputToObject`
+// Permissive string parsing.  Take in a number of formats, and output an object
+// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
+function stringHexArgbInputToObject(color) {
+
+    // Try to match string input using regular expressions.
+    // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
+    // Just return an object and let the conversion functions handle that.
+    // This way the result will be the same whether the tinycolor is initialized with string or object.
+    var match;
+    if ((match = matchers.hex8.exec(color))) {
+        return {
+            r: parseIntFromHex(match[2]),
+            g: parseIntFromHex(match[3]),
+            b: parseIntFromHex(match[4]),
+            a: convertHexToDecimal(match[1]),
+            format: "hex8"
+        };
+    }
+    if ((match = matchers.hex6.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
+            format: "hex"
+        };
+    }
+    if ((match = matchers.hex4.exec(color))) {
+        return {
+            r: parseIntFromHex(match[2] + '' + match[1]),
+            g: parseIntFromHex(match[3] + '' + match[2]),
+            b: parseIntFromHex(match[4] + '' + match[3]),
+            a: convertHexToDecimal(match[1] + '' + match[4]),
+            format: "hex8"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
