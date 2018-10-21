@@ -25,19 +25,6 @@ function tinycolor (color, opts) {
     if (!(this instanceof tinycolor)) {
         return new tinycolor(color, opts);
     }
-    // this will fix old browsers
-    if (!Array.prototype.indexOf) {
-      Array.prototype.indexOf = function(value) {
-        for (var i = 0; i < this.length; i++) {
-          if (this[i] === value) {
-            return i;
-          }
-        }
-
-        return -1;
-      }
-    }
-    
     var rgb;
     
     if(opts.hex8Argb){
