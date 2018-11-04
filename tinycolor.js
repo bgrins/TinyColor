@@ -144,6 +144,11 @@ tinycolor.prototype = {
           "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
           "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
     },
+    toRgbaString: function() {
+        return (typeof this._a === "undefined" || this._a == 1) ?
+          "rgba("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", 1)" :
+          "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
+    },
     toPercentageRgb: function() {
         return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
     },
