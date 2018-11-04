@@ -96,6 +96,11 @@ tinycolor.prototype = {
         this._roundA = mathRound(1000*this._a) / 1000;
         return this;
     },
+    toArgbString: function() {
+        return (typeof this._a === "undefined" || this._a == 1) ?
+          "argb(1, "  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+          "argb(" + parseIntFromHex(convertDecimalToHex(this._a)) + ", " + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")";
+    },
     toHsv: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
         return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: this._a };
