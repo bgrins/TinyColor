@@ -38,7 +38,7 @@ function tinycolor (color, opts) {
     this._g = rgb.g,
     this._b = rgb.b,
     this._a = rgb.a,
-    this._roundA = mathRound(100*this._a) / 100,
+    this._roundA = mathRound(1000*this._a) / 1000,
     this._format = opts.format || rgb.format;
     this._gradientType = opts.gradientType;
 
