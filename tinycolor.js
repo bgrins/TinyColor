@@ -93,7 +93,7 @@ tinycolor.prototype = {
     },
     setAlpha: function(value) {
         this._a = boundAlpha(value);
-        this._roundA = mathRound(100*this._a) / 100;
+        this._roundA = mathRound(1000*this._a) / 1000;
         return this;
     },
     toHsv: function() {
