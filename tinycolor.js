@@ -1133,7 +1133,7 @@ function stringInputToObject(color) {
     // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
     if ((match = matchers.argb.exec(color))) {
-        return { a: match[1], r: match[2], g: match[3], b: match[4] };
+        return { a: (match[1] / 255), r: match[2], g: match[3], b: match[4] };
     }
     if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
