@@ -33,6 +33,8 @@ function tinycolor (color, opts) {
         rgb = inputToRGB(color); 
     }
     
+    
+    
     this._originalInput = color,
     this._r = rgb.r,
     this._g = rgb.g,
@@ -375,8 +377,8 @@ function inputToRGB(color) {
         a: a
     };
 }
-
-
+    
+    
 // Conversion Functions
 // --------------------
 
@@ -1089,6 +1091,7 @@ var matchers = (function() {
 
     return {
         CSS_UNIT: new RegExp(CSS_UNIT),
+        argb: new RegExp("argb" + PERMISSIVE_MATCH4),
         rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
         rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
         hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
@@ -1129,6 +1132,9 @@ function stringInputToObject(color) {
     // Just return an object and let the conversion functions handle that.
     // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
+    if ((match = matchers.argb.exec(color))) {
+        return { a: match[1], r: match[2], g: match[3], b: match[4] };
+    }
     if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
