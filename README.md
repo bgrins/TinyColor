@@ -8,7 +8,7 @@ TinyColor is a small, fast library for color manipulation and conversion in Java
 
 ## Including in a browser
 
-Download [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js) or install it with bower:
+Download [tinycolor.js](tinycolor.js?raw=true) or install it with bower:
 
     bower install tinycolor
 
@@ -50,12 +50,19 @@ Here are some examples of string input:
 ```js
 tinycolor("#000");
 tinycolor("000");
-tinycolor("#369C");
+tinycolor("#");
 tinycolor("369C");
 tinycolor("#f0f0f6");
 tinycolor("f0f0f6");
 tinycolor("#f0f0f688");
 tinycolor("f0f0f688");
+```
+### Hex (Argb), 8-digit (ARGB) Hex
+```js
+tinycolor("#C369", {"hex8Argb":true});
+tinycolor("C369", {"hex8Argb":true});
+tinycolor("#88f0f0f6", {"hex8Argb":true});
+tinycolor("88f0f0f6", {"hex8Argb":true});
 ```
 ### RGB, RGBA
 ```js
@@ -245,6 +252,16 @@ color.toHex8(); // "ff0000ff"
 ```js
 var color = tinycolor("red");
 color.toHex8String(); // "#ff0000ff"
+```
+### toHex8Argb
+```js
+var color = tinycolor("red");
+color.toHex8Argb(); // "ffff0000"
+```
+### toHex8ArgbString
+```js
+var color = tinycolor("red");
+color.toHex8ArgbString(); // "#ffff0000"
 ```
 ### toRgb
 ```js
@@ -451,7 +468,7 @@ tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).to
 tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString()   // "#2e0c3a",
 tinycolor.mostReadable("#ff0088", ["#2e0c3a"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString()   // "#000000",
 ```
-See [index.html](https://github.com/bgrins/TinyColor/blob/master/index.html) in the project for a demo.
+See [index.html](index.html) in the project for a demo.
 
 ## Common operations
 

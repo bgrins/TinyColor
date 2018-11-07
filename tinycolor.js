@@ -33,8 +33,6 @@ function tinycolor (color, opts) {
         rgb = inputToRGB(color); 
     }
     
-    
-    
     this._originalInput = color,
     this._r = rgb.r,
     this._g = rgb.g,
