@@ -15,7 +15,7 @@ var trimLeft = /^\s+/,
 function tinycolor (color, opts) {
     
     color = (color) ? color : '';
-    opts = opts || { };
+    opts = opts || {'preserve': false};
 
     // If input is already a tinycolor, return itself
     if (color instanceof tinycolor) {
@@ -44,8 +44,10 @@ function tinycolor (color, opts) {
     if (this._g < 1) { this._g = mathRound(this._g); }
     if (this._b < 1) { this._b = mathRound(this._b); }
 
-    this._ok = opts.perserve?opts.ok:rgb.ok;
+    this._ok = opts.preserve?opts.ok:rgb.ok;
+    opts.ok = this._ok;
     this._tc_id = tinyCounter++;
+    this._opts = opts;
 }
 
 tinycolor.prototype = {
@@ -209,9 +211,9 @@ tinycolor.prototype = {
 
         return formattedString || this.toHexString();
     },
-    clone: function(_opts) {
-        //this.opts.perserve = true;
-        return tinycolor(this.toString(), _opts);
+    clone: function() {
+        this._opts.preserve = true;
+        return tinycolor(this.toString(), this._opts);
     },
 
     _applyModification: function(fn, args) {
