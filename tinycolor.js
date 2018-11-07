@@ -45,6 +45,7 @@ function tinycolor (color, opts) {
     if (this._b < 1) { this._b = mathRound(this._b); }
 
     this._ok = opts.preserve?opts.ok:rgb.ok;
+    opts.preserve = false;
     opts.ok = this._ok;
     this._tc_id = tinyCounter++;
     this._opts = opts;
