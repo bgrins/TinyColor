@@ -13,7 +13,7 @@ var trimLeft = /^\s+/,
     mathRandom = Math.random;
 
 function tinycolor (color, opts) {
-
+    
     color = (color) ? color : '';
     opts = opts || { };
 
@@ -44,7 +44,7 @@ function tinycolor (color, opts) {
     if (this._g < 1) { this._g = mathRound(this._g); }
     if (this._b < 1) { this._b = mathRound(this._b); }
 
-    this._ok = rgb.ok;
+    this._ok = opts.perserve?opts.ok:rgb.ok;
     this._tc_id = tinyCounter++;
 }
 
@@ -209,8 +209,9 @@ tinycolor.prototype = {
 
         return formattedString || this.toHexString();
     },
-    clone: function() {
-        return tinycolor(this.toString());
+    clone: function(_opts) {
+        //this.opts.perserve = true;
+        return tinycolor(this.toString(), _opts);
     },
 
     _applyModification: function(fn, args) {
