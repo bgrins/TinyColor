@@ -319,6 +319,20 @@ tinycolor("#f00").brighten().toString(); // "#ff1919"
 tinycolor("#f00").darken().toString(); // "#cc0000"
 tinycolor("#f00").darken(100).toString(); // "#000000"
 ```
+### tint
+
+`tint: function(amount = 10) -> TinyColor`.  Mix the color with pure white, from 0 to 100.  Providing 0 will do nothing, providing 100 will always return white.
+```js
+tinycolor("#f00").tint().toString(); // "#ff1a1a"
+tinycolor("#f00").tint(100).toString(); // "#ffffff"
+```
+### shade
+
+`shade: function(amount = 10) -> TinyColor`.  Mix the color with pure black, from 0 to 100.  Providing 0 will do nothing, providing 100 will always return black.
+```js
+tinycolor("#f00").shade().toString(); // "#e60000"
+tinycolor("#f00").shade(100).toString(); // "#000000"
+```
 ### desaturate
 
 `desaturate: function(amount = 10) -> TinyColor`.  Desaturate the color a given amount, from 0 to 100.  Providing 100 will is the same as calling `greyscale`.
