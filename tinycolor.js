@@ -1168,8 +1168,8 @@ function validateWCAG2Parms(parms) {
     // If input parms are invalid, return {"level":"AA", "size":"small"}
     var level, size;
     parms = parms || {"level":"AA", "size":"small"};
-    level = (parms.level || "AA").toUpperCase();
-    size = (parms.size || "small").toLowerCase();
+    level = typeof parms.level === 'string' ? parms.level.toUpperCase() : "AA";
+    size = typeof parms.size === 'string' ? parms.size.toLowerCase() : "small";
     if (level !== "AA" && level !== "AAA") {
         level = "AA";
     }
