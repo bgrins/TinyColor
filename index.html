@@ -80,7 +80,7 @@
 			combines.querySelector(".sc").innerHTML = colorArrayToHTML(splitcomplement);
 		}
 
-		$(function () {
+		document.addEventListener("DOMContentLoaded", function () {
 			var color = document.querySelector("#color");
 			color.addEventListener("keyup", onchange);
 			color.addEventListener("change", onchange);

@@ -115,7 +115,7 @@ color.getFormat(); // "rgb"
 
 ### getOriginalInput
 
-Returns the input passed into the constructer used to create the tinycolor instance
+Returns the input passed into the constructor used to create the tinycolor instance
 ```js
 var color = tinycolor("red");
 color.getOriginalInput(); // "red"
