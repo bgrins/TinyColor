@@ -7,7 +7,6 @@
 	<title>TinyColor - Fast, small color manipulation in JavaScript</title>
 
 	<link rel="stylesheet" href="demo/demo.css" type="text/css" media="screen" />
-	<script type='text/javascript' src='demo/jquery-1.9.1.js'></script>
 	<script type='text/javascript' src='tinycolor.js'></script>
 	<script type='text/javascript'>
 
@@ -58,7 +57,7 @@
 			combines.classList.toggle("invisible", !tiny.isValid());
 
 			function colorArrayToHTML(arr) {
-				return $.map(arr, function (e) {
+				return arr.map(function (e) {
 					return '<span style="background:' + e.toHexString() + '"></span>'
 				}).join('');
 			}
