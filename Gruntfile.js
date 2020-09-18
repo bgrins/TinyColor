@@ -30,9 +30,6 @@ module.exports = function(grunt) {
       options: {
         browser: true,
         sub: true,
-        globals: {
-          jQuery: true
-        }
       },
       all: ['tinycolor.js']
     },
