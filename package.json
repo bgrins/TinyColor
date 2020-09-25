@@ -1,5 +1,5 @@
 {
-  "version": "1.4.1",
+  "version": "1.4.2",
   "name": "tinycolor2",
   "description": "Fast Color Parsing and Manipulation",
   "url": "http://bgrins.github.com/TinyColor",
@@ -14,9 +14,7 @@
     "tinycolor"
   ],
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
-  "contributors": [],
   "main": "./tinycolor.js",
-  "directories": {},
   "engines": {
     "node": "*"
   },
