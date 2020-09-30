@@ -19,6 +19,15 @@ Then just include it in the page in a `script` tag:
 var color = tinycolor("red");
 </script>
 ```
+
+or using modules importing for the side effect of declaring `tinycolor` as a global
+
+    npm install tinycolor2
+
+```jsx
+import 'tinycolor2'
+```
+
 ## Including in node
 
 `tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
