@@ -10,7 +10,8 @@ var trimLeft = /^\s+/,
     mathRound = Math.round,
     mathMin = Math.min,
     mathMax = Math.max,
-    mathRandom = Math.random;
+    mathRandom = Math.random,
+    mathAbsolute = Math.abs;
 
 function tinycolor (color, opts) {
 
@@ -84,6 +85,14 @@ tinycolor.prototype = {
         if (GsRGB <= 0.03928) {G = GsRGB / 12.92;} else {G = Math.pow(((GsRGB + 0.055) / 1.055), 2.4);}
         if (BsRGB <= 0.03928) {B = BsRGB / 12.92;} else {B = Math.pow(((BsRGB + 0.055) / 1.055), 2.4);}
         return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
+    },
+    getSaturation: function () {
+      var rgb = this.toRgb();
+      var maxRGB = mathMax(rgb.r, rgb.g, rgb.b) / 255;
+      var minRGB = mathMin(rgb.r, rgb.g, rgb.b) / 255;
+      var luminance = this.getLuminance();
+
+      return luminance === 1 ? 0 : (maxRGB - minRGB) / (1 - mathAbsolute(2 * luminance - 1));
     },
     setAlpha: function(value) {
         this._a = boundAlpha(value);
