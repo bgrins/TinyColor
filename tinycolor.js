@@ -55,6 +55,108 @@ tinycolor.prototype = {
     isLight: function() {
         return !this.isDark();
     },
+    /**
+     * The color with less brightness value is considered as Darker.
+     * @param {tinycolor} secondColor 
+     */
+    isDarker: function (secondColor) {
+        return this.getBrightness() < secondColor.getBrightness();
+    },
+    /**
+     * Return the opposite value of isDarker().
+     * @param {tinycolor} secondColor 
+     */
+    isLighter: function (secondColor) {
+        return !this.isDarker(secondColor);
+    },
+    isWarm: function () {
+        return this._r > this._b;
+    },
+    isCool: function () {
+        return !this.isWarm();
+    },
+    /**
+     * Returns true if the color is warmer i.e. have more red value. 
+     * If both colors have the same red value the one with less green and blue values is considered warmer.
+     * @param {tinycolor} secondColor 
+     */
+    isWarmer: function (secondColor) {
+        if (this._r > secondColor._r)
+            return true;
+        if (this._r == secondColor._r) {
+            return (this._b + this._g) < (secondColor._b + secondColor._g);
+        }
+        return false;
+    },
+    /**
+     * Return the opposite value of isWarmer().
+     * @param {tinycolor} secondColor 
+     */
+    isCooler: function (secondColor) {
+        return !this.isWarmer(secondColor);
+    },
+    /**
+     * Returns true if colors are harmonious with the selected harmony.
+     * 
+     * @param {String} harmony 
+     * Should be a value from ['complement', 'analogous', 'monochromatic', 'splitcomplement', 'triad', 'tetrad'].
+     * @param {tinycolor[]} otherColors
+     * you have to pass 
+     * 1 color for 'complement', 'monochromatic',
+     * 2 colors for 'analogous', 'splitcomplement', 'triad', and
+     * 3 colors for 'tetrad'.
+     * @src https://www.sessions.edu/color-calculator/
+     */
+    isHarmonious: function (harmony, ...otherColors) {
+        var len = otherColors.length;
+        switch (harmony) {
+            case 'complement': {
+                var compColor = this.complement();
+                return compColor.toRgbString() == otherColors[0].toRgbString();
+            }
+            case 'analogous': {
+                var anaList = this.analogous();
+                for (const color of anaList) {
+                    if (!(otherColors.includes(color))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            case 'monochromatic': {
+                var monoList = this.monochromatic();
+                for (const color of monoList) {
+                    if (!(otherColors.includes(color)))
+                        return false;
+                }
+                return true;
+            }
+            case 'splitcomplement': {
+                var splitList = this.splitcomplement();
+                for (const color of splitList) {
+                    if (!(otherColors.includes(color)))
+                        return false;
+                }
+                return true;
+            }
+            case 'triad': {
+                var triList = this.triad();
+                for (const color of triList) {
+                    if (!(otherColors.includes(color)))
+                        return false;
+                }
+                return true;
+            }
+            case 'tetrad': {
+                var tetList = this.tetrad();
+                for (const color of tetList) {
+                    if (!(otherColors.includes(color)))
+                        return false;
+                }
+                return true;
+            }
+        }
+    },
     isValid: function() {
         return this._ok;
     },
