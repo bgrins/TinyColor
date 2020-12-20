@@ -101,13 +101,14 @@ tinycolor.prototype = {
      * @param {String} harmony 
      * Should be a value from ['complement', 'analogous', 'monochromatic', 'splitcomplement', 'triad', 'tetrad'].
      * @param {tinycolor[]} otherColors
+     * List of the colors to be checked.
      * you have to pass 
      * 1 color for 'complement', 'monochromatic',
      * 2 colors for 'analogous', 'splitcomplement', 'triad', and
      * 3 colors for 'tetrad'.
      * @src https://www.sessions.edu/color-calculator/
      */
-    isHarmonious: function (harmony, ...otherColors) {
+    isHarmonious: function (harmony, otherColors) {
         var len = otherColors.length;
         switch (harmony) {
             case 'complement': {
@@ -116,8 +117,8 @@ tinycolor.prototype = {
             }
             case 'analogous': {
                 var anaList = this.analogous();
-                for (const color of anaList) {
-                    if (!(otherColors.includes(color))) {
+                for (let i = 0; i < anaList.length; i++) {
+                    if (!(otherColors.includes(anaList[i]))) {
                         return false;
                     }
                 }
@@ -125,32 +126,32 @@ tinycolor.prototype = {
             }
             case 'monochromatic': {
                 var monoList = this.monochromatic();
-                for (const color of monoList) {
-                    if (!(otherColors.includes(color)))
+                for (let i = 0; i < monoList.length; i++) {
+                    if (!(otherColors.includes(monoList[i])))
                         return false;
                 }
                 return true;
             }
             case 'splitcomplement': {
                 var splitList = this.splitcomplement();
-                for (const color of splitList) {
-                    if (!(otherColors.includes(color)))
+                for (let i = 0; i < splitList.length; i++) {
+                    if (!(otherColors.includes(splitList[i])))
                         return false;
                 }
                 return true;
             }
             case 'triad': {
                 var triList = this.triad();
-                for (const color of triList) {
-                    if (!(otherColors.includes(color)))
+                for (let i = 0; i < triList.length; i++) {
+                    if (!(otherColors.includes(triList[i])))
                         return false;
                 }
                 return true;
             }
             case 'tetrad': {
                 var tetList = this.tetrad();
-                for (const color of tetList) {
-                    if (!(otherColors.includes(color)))
+                for (let i = 0; i < tetList.length; i++) {
+                    if (!(otherColors.includes(tetList[i])))
                         return false;
                 }
                 return true;
