@@ -115,8 +115,8 @@ tinycolor.prototype = {
             case 'complement': {
                 var compColor = this.complement();
                 restult = compColor.toRgbString() == otherColors[0].toRgbString();
-                break;
             }
+            break;
             case 'analogous': {
                 var anaList = this.analogous();
                 for (var aIndex = 0; aIndex < anaList.length; aIndex++) {
@@ -125,8 +125,8 @@ tinycolor.prototype = {
                     }
                 }
                 result = true;
-                break;
             }
+            break;
             case 'monochromatic': {
                 var monoList = this.monochromatic();
                 for (var mIndex = 0; mIndex < monoList.length; mIndex++) {
@@ -134,17 +134,17 @@ tinycolor.prototype = {
                         result = false;
                 }
                 result = true;
-                break;
             }
+            break;
             case 'splitcomplement': {
                 var splitList = this.splitcomplement();
                 for (var sIndex = 0; sIndex < splitList.length; sIndex++) {
                     if (!(otherColors.includes(splitList[sIndex])))
                         result = false;
                 }
-                result = true;
-                break;
+                result = true;   
             }
+            break;
             case 'triad': {
                 var triList = this.triad();
                 for (var tIndex = 0; tIndex < triList.length; tIndex++) {
@@ -152,8 +152,9 @@ tinycolor.prototype = {
                         result = false;
                 }
                 result = true;
-                break;
+                
             }
+            break;
             case 'tetrad': {
                 var tetList = this.tetrad();
                 for (var tetIndex = 0; tetIndex < tetList.length; tetIndex++) {
@@ -161,7 +162,6 @@ tinycolor.prototype = {
                         result = false;
                 }
                 result = true;
-                break;
             }
         }
         return result;
