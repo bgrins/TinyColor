@@ -110,53 +110,61 @@ tinycolor.prototype = {
      */
     isHarmonious: function (harmony, otherColors) {
         var len = otherColors.length;
+        var result = false;
         switch (harmony) {
             case 'complement': {
                 var compColor = this.complement();
-                return compColor.toRgbString() == otherColors[0].toRgbString();
+                restult = compColor.toRgbString() == otherColors[0].toRgbString();
+                break;
             }
             case 'analogous': {
                 var anaList = this.analogous();
-                for (let i = 0; i < anaList.length; i++) {
-                    if (!(otherColors.includes(anaList[i]))) {
-                        return false;
+                for (var aIndex = 0; aIndex < anaList.length; aIndex++) {
+                    if (!(otherColors.includes(anaList[aIndex]))) {
+                        result = false;
                     }
                 }
-                return true;
+                result = true;
+                break;
             }
             case 'monochromatic': {
                 var monoList = this.monochromatic();
-                for (let i = 0; i < monoList.length; i++) {
-                    if (!(otherColors.includes(monoList[i])))
-                        return false;
+                for (var mIndex = 0; mIndex < monoList.length; mIndex++) {
+                    if (!(otherColors.includes(monoList[mIndex])))
+                        result = false;
                 }
-                return true;
+                result = true;
+                break;
             }
             case 'splitcomplement': {
                 var splitList = this.splitcomplement();
-                for (let i = 0; i < splitList.length; i++) {
-                    if (!(otherColors.includes(splitList[i])))
-                        return false;
+                for (var sIndex = 0; sIndex < splitList.length; sIndex++) {
+                    if (!(otherColors.includes(splitList[sIndex])))
+                        result = false;
                 }
-                return true;
+                result = true;
+                break;
             }
             case 'triad': {
                 var triList = this.triad();
-                for (let i = 0; i < triList.length; i++) {
-                    if (!(otherColors.includes(triList[i])))
-                        return false;
+                for (var tIndex = 0; tIndex < triList.length; tIndex++) {
+                    if (!(otherColors.includes(triList[tIndex])))
+                        result = false;
                 }
-                return true;
+                result = true;
+                break;
             }
             case 'tetrad': {
                 var tetList = this.tetrad();
-                for (let i = 0; i < tetList.length; i++) {
-                    if (!(otherColors.includes(tetList[i])))
-                        return false;
+                for (var tetIndex = 0; tetIndex < tetList.length; tetIndex++) {
+                    if (!(otherColors.includes(tetList[tetIndex])))
+                        result = false;
                 }
-                return true;
+                result = true;
+                break;
             }
         }
+        return result;
     },
     isValid: function() {
         return this._ok;
