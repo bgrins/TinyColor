@@ -132,6 +132,13 @@ tinycolor.prototype = {
           "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
           "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
     },
+    toCmyk: function() {
+        return rgbToCmyk(this._r, this._g, this._b);
+    }
+    toCmykString: function() {
+        var cmyk = rgbToCmyk(this._r, this._g, this._b);
+        return `cmyk(${mathRound(cmyk.c * 100)},${mathRound(cmyk.m * 100)},${mathRound(cmyk.y * 100)},${mathRound(cmyk.k * 100)})`;
+    }
     toPercentageRgb: function() {
         return { r: mathRound(bound01(this._r, 255) * 100) + "%", g: mathRound(bound01(this._g, 255) * 100) + "%", b: mathRound(bound01(this._b, 255) * 100) + "%", a: this._a };
     },
@@ -546,6 +553,16 @@ function rgbaToArgbHex(r, g, b, a) {
     ];
 
     return hex.join("");
+}
+
+// `rgbToCmyk`
+// Converts RGB color to CMYK
+function rgbToCmyk(r, g, b) {
+    var R = r/255,
+        G = g/255,
+        B = b/255,
+        K = 1-Math.max(R, G, B);
+    return {c: (1-R-K) / (1-K), m:(1-B-K) / (1-K), y:(1-G-K) / (1-K), k:K};
 }
 
 // `equals`
