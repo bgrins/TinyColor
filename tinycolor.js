@@ -11,6 +11,7 @@ var trimLeft = /^\s+/,
     mathMin = Math.min,
     mathMax = Math.max,
     mathRandom = Math.random;
+})
 class TinyColor {
     constructor (color, opts) {
          this.color = (color) ? color : '';
