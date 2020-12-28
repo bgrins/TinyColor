@@ -2,8 +2,6 @@
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
-(function(Math) {
-
 var trimLeft = /^\s+/,
     trimRight = /\s+$/,
     tinyCounter = 0,
@@ -11,7 +9,7 @@ var trimLeft = /^\s+/,
     mathMin = Math.min,
     mathMax = Math.max,
     mathRandom = Math.random;
-})
+    
 class TinyColor {
     constructor (color, opts) {
          this.color = (color) ? color : '';
@@ -131,7 +129,7 @@ class TinyColor {
 
     toHex8(allow4Char) {
         return rgbaToHex(this.red, this.green, this.blue, this.alpha, allow4Char);
-    },
+    }
     toHex8String(allow4Char) {
         return '#' + this.toHex8(allow4Char);
     }
@@ -143,19 +141,19 @@ class TinyColor {
             b: mathRound(this.blue),
             a: this.alpha
         };
-    },
+    }
     toRgbString() {
         return (this.alpha == 1) ?
           "rgb("  + mathRound(this.red) + ", " + mathRound(this.green) + ", " + mathRound(this.blue) + ")" :
           "rgba(" + mathRound(this.red) + ", " + mathRound(this.green) + ", " + mathRound(this.blue) + ", " + this.roundAlpha + ")";
-    },
+    }
     toCmyk() {
         return rgbToCmyk(this.red, this.green, this.blue);
     }
     toCmykString() {
         var cmyk = rgbToCmyk(this.red, this.green, this.blue);
         return "cmyk(" + mathRound(cmyk.c * 100) + "," + mathRound(cmyk.m * 100) + "," + mathRound(cmyk.y * 100) + "," + mathRound(cmyk.k * 100) + ")";
-    },
+    }
     toPercentageRgb() {
         return {
             r: mathRound(bound01(this.red, 255) * 100) + "%", 
@@ -163,12 +161,12 @@ class TinyColor {
             b: mathRound(bound01(this.blue, 255) * 100) + "%",
             a: this.alpha
         };
-    },
+    }
     toPercentageRgbString() {
         return (this.alpha== 1) ?
           "rgb("  + mathRound(bound01(this.red, 255) * 100) + "%, " + mathRound(bound01(this.green, 255) * 100) + "%, " + mathRound(bound01(this.blue, 255) * 100) + "%)" :
           "rgba(" + mathRound(bound01(this.red, 255) * 100) + "%, " + mathRound(bound01(this.green, 255) * 100) + "%, " + mathRound(bound01(this.blue, 255) * 100) + "%, " + this.roundAlpha + ")";
-    },
+    }
     toName() {
         if (this.alpha === 0) 
             return "transparent";
@@ -177,7 +175,7 @@ class TinyColor {
             return false;
 
         return hexNames[rgbToHex(this.red, this.green, this.blue, true)] || false;
-    },
+    }
     toFilter(secondColor) {
         var hex8String = '#' + rgbaToArgbHex(this.red, this.green, this.blue, this.alpha),
             secondHex8String = hex8String,
@@ -189,7 +187,7 @@ class TinyColor {
         }
 
         return "progid:DXImageTransform.Microsoft.gradient("+gradientType+"startColorstr="+hex8String+",endColorstr="+secondHex8String+")";
-    },
+    }
     toString(format) {
         var formatSet = !!format;
         format = format || this.format;
@@ -273,7 +271,7 @@ class TinyColor {
         return this.applyModification(spin, arguments);
     }
 
-    applyCombination: function(fn, args) {
+    applyCombination(fn, args) {
         return fn.apply(null, [this].concat([].slice.call(args)));
     }
 
