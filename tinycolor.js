@@ -2,14 +2,9 @@
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
-(function (Math) {
     var trimLeft = /^\s+/,
         trimRight = /\s+$/,
-        tinyCounter = 0,
-        mathRound = Math.round,
-        mathMin = Math.min,
-        mathMax = Math.max,
-        mathRandom = Math.random;
+        tinyCounter = 0
 
     class TinyColor {
         constructor(color, opts) {
@@ -22,7 +17,7 @@
                 this.green = rgb.g,
                 this.blue = rgb.b,
                 this.alpha = rgb.a,
-                this.roundAlpha = mathRound(100 * this.alpha) / 100,
+                this.roundAlpha = Math.round(100 * this.alpha) / 100,
                 this.format = opts.format || rgb.format;
             this.gradientType = opts.gradientType;
 
@@ -32,11 +27,11 @@
             // If it was supposed to be 128, this was already taken care of by `inputToRgb`
 
             if (this.red < 1)
-                this.red = mathRound(this.red);
+                this.red = Math.round(this.red);
             if (this.green < 1)
-                this.green = mathRound(this.green);
+                this.green = Math.round(this.green);
             if (this.blue < 1)
-                this.blue = mathRound(this.blue);
+                this.blue = Math.round(this.blue);
 
             this.ok = rgb.ok;
             this.tinyColorId = tinyCounter++;
@@ -81,7 +76,7 @@
 
         setAlpha(value) {
             this.alpha = boundAlpha(value);
-            this.roundAlpha = mathRound(100 * this.alpha) / 100;
+            this.roundAlpha = Math.round(100 * this.alpha) / 100;
             return this;
         }
 
@@ -96,7 +91,7 @@
         }
         toHsvString() {
             var hsv = rgbToHsv(this.red, this.green, this.blue),
-                h = mathRound(hsv.h * 360), s = mathRound(hsv.s * 100), v = mathRound(hsv.v * 100);
+                h = Math.round(hsv.h * 360), s = Math.round(hsv.s * 100), v = Math.round(hsv.v * 100);
             return (this.alpha == 1) ?
                 "hsv(" + h + ", " + s + "%, " + v + "%)" :
                 "hsva(" + h + ", " + s + "%, " + v + "%, " + this.roundAlpha + ")";
@@ -113,9 +108,9 @@
         }
         toHslString() {
             var hsl = rgbToHsl(this.red, this.green, this.blue),
-                h = mathRound(hsl.h * 360),
-                s = mathRound(hsl.s * 100),
-                l = mathRound(hsl.l * 100);
+                h = Math.round(hsl.h * 360),
+                s = Math.round(hsl.s * 100),
+                l = Math.round(hsl.l * 100);
             return (this.alpha == 1) ?
                 "hsl(" + h + ", " + s + "%, " + l + "%)" :
                 "hsla(" + h + ", " + s + "%, " + l + "%, " + this.roundAlpha + ")";
@@ -137,36 +132,36 @@
 
         toRgb() {
             return {
-                r: mathRound(this.red),
-                g: mathRound(this.green),
-                b: mathRound(this.blue),
+                r: Math.round(this.red),
+                g: Math.round(this.green),
+                b: Math.round(this.blue),
                 a: this.alpha
             };
         }
         toRgbString() {
             return (this.alpha == 1) ?
-                "rgb(" + mathRound(this.red) + ", " + mathRound(this.green) + ", " + mathRound(this.blue) + ")" :
-                "rgba(" + mathRound(this.red) + ", " + mathRound(this.green) + ", " + mathRound(this.blue) + ", " + this.roundAlpha + ")";
+                "rgb(" + Math.round(this.red) + ", " + Math.round(this.green) + ", " + Math.round(this.blue) + ")" :
+                "rgba(" + Math.round(this.red) + ", " + Math.round(this.green) + ", " + Math.round(this.blue) + ", " + this.roundAlpha + ")";
         }
         toCmyk() {
             return rgbToCmyk(this.red, this.green, this.blue);
         }
         toCmykString() {
             var cmyk = rgbToCmyk(this.red, this.green, this.blue);
-            return "cmyk(" + mathRound(cmyk.c * 100) + "," + mathRound(cmyk.m * 100) + "," + mathRound(cmyk.y * 100) + "," + mathRound(cmyk.k * 100) + ")";
+            return "cmyk(" + Math.round(cmyk.c * 100) + "," + Math.round(cmyk.m * 100) + "," + Math.round(cmyk.y * 100) + "," + Math.round(cmyk.k * 100) + ")";
         }
         toPercentageRgb() {
             return {
-                r: mathRound(bound01(this.red, 255) * 100) + "%",
-                g: mathRound(bound01(this.green, 255) * 100) + "%",
-                b: mathRound(bound01(this.blue, 255) * 100) + "%",
+                r: Math.round(bound01(this.red, 255) * 100) + "%",
+                g: Math.round(bound01(this.green, 255) * 100) + "%",
+                b: Math.round(bound01(this.blue, 255) * 100) + "%",
                 a: this.alpha
             };
         }
         toPercentageRgbString() {
             return (this.alpha == 1) ?
-                "rgb(" + mathRound(bound01(this.red, 255) * 100) + "%, " + mathRound(bound01(this.green, 255) * 100) + "%, " + mathRound(bound01(this.blue, 255) * 100) + "%)" :
-                "rgba(" + mathRound(bound01(this.red, 255) * 100) + "%, " + mathRound(bound01(this.green, 255) * 100) + "%, " + mathRound(bound01(this.blue, 255) * 100) + "%, " + this.roundAlpha + ")";
+                "rgb(" + Math.round(bound01(this.red, 255) * 100) + "%, " + Math.round(bound01(this.green, 255) * 100) + "%, " + Math.round(bound01(this.blue, 255) * 100) + "%)" :
+                "rgba(" + Math.round(bound01(this.red, 255) * 100) + "%, " + Math.round(bound01(this.green, 255) * 100) + "%, " + Math.round(bound01(this.blue, 255) * 100) + "%, " + this.roundAlpha + ")";
         }
         toName() {
             if (this.alpha === 0)
@@ -380,9 +375,9 @@
         return {
             ok: ok,
             format: color.format || format,
-            r: mathMin(255, mathMax(rgb.r, 0)),
-            g: mathMin(255, mathMax(rgb.g, 0)),
-            b: mathMin(255, mathMax(rgb.b, 0)),
+            r: Math.min(255, Math.max(rgb.r, 0)),
+            g: Math.min(255, Math.max(rgb.g, 0)),
+            b: Math.min(255, Math.max(rgb.b, 0)),
             a: a
         };
     }
@@ -418,7 +413,7 @@ function rgbToHsl(r, g, b) {
     g = bound01(g, 255);
     b = bound01(b, 255);
 
-    var max = mathMax(r, g, b), min = mathMin(r, g, b);
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
 
     if (max == min) {
@@ -483,7 +478,7 @@ function rgbToHsv(r, g, b) {
     g = bound01(g, 255);
     b = bound01(b, 255);
 
-    var max = mathMax(r, g, b), min = mathMin(r, g, b);
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
     var h, s, v = max;
 
     var d = max - min;
@@ -533,9 +528,9 @@ function hsvToRgb(h, s, v) {
 function rgbToHex(r, g, b, allow3Char) {
 
     var hex = [
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16))
+        pad2(Math.round(r).toString(16)),
+        pad2(Math.round(g).toString(16)),
+        pad2(Math.round(b).toString(16))
     ];
 
     // Return a 3 character hex if possible
@@ -553,9 +548,9 @@ function rgbToHex(r, g, b, allow3Char) {
 function rgbaToHex(r, g, b, a, allow4Char) {
 
     var hex = [
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16)),
+        pad2(Math.round(r).toString(16)),
+        pad2(Math.round(g).toString(16)),
+        pad2(Math.round(b).toString(16)),
         pad2(convertDecimalToHex(a))
     ];
 
@@ -574,9 +569,9 @@ function rgbaToArgbHex(r, g, b, a) {
 
     var hex = [
         pad2(convertDecimalToHex(a)),
-        pad2(mathRound(r).toString(16)),
-        pad2(mathRound(g).toString(16)),
-        pad2(mathRound(b).toString(16))
+        pad2(Math.round(r).toString(16)),
+        pad2(Math.round(g).toString(16)),
+        pad2(Math.round(b).toString(16))
     ];
 
     return hex.join("");
@@ -601,9 +596,9 @@ tinycolor.equals = function (color1, color2) {
 
 tinycolor.random = function () {
     return tinycolor.fromRatio({
-        r: mathRandom(),
-        g: mathRandom(),
-        b: mathRandom()
+        r: Math.random(),
+        g: Math.random(),
+        b: Math.random()
     });
 };
 
@@ -644,9 +639,9 @@ function lighten(color, amount) {
 function brighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var rgb = tinycolor(color).toRgb();
-    rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
-    rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
-    rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
+    rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(255 * - (amount / 100))));
+    rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(255 * - (amount / 100))));
+    rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(255 * - (amount / 100))));
     return tinycolor(rgb);
 }
 
@@ -1032,7 +1027,7 @@ function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
 
     var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
+    n = Math.min(max, Math.max(0, parseFloat(n)));
 
     // Automatically convert percentage into number
     if (processPercent) {
@@ -1050,7 +1045,7 @@ function bound01(n, max) {
 
 // Force a number between 0 and 1
 function clamp01(val) {
-    return mathMin(1, mathMax(0, val));
+    return Math.min(1, Math.max(0, val));
 }
 
 // Parse a base-16 hex value into a base-10 integer
@@ -1230,10 +1225,7 @@ if (typeof module !== "undefined" && module.exports) {
 // AMD/requirejs: Define the module
 else if (typeof define === 'class' && define.amd) {
     define(function () { return TinyColor; });
-}
-// Browser: Expose to window
+} // Browser: Expose to window
 else {
     window.tinycolor = tinycolor;
 }
-
-}) (Math);
