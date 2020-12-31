@@ -34,6 +34,163 @@ class TinyColor {
 
             this.ok = rgb.ok;
             this.tinyColorId = tinyCounter++;
+        
+            // Big List of Colors
+            // ------------------
+            // <http://www.w3.org/TR/css3-color/#svg-color>
+
+            // Make it easy to access colors via `hexNames[hex]`
+            this.names = {
+                aliceblue: "f0f8ff",
+                antiquewhite: "faebd7",
+                aqua: "0ff",
+                aquamarine: "7fffd4",
+                azure: "f0ffff",
+                beige: "f5f5dc",
+                bisque: "ffe4c4",
+                black: "000",
+                blanchedalmond: "ffebcd",
+                blue: "00f",
+                blueviolet: "8a2be2",
+                brown: "a52a2a",
+                burlywood: "deb887",
+                burntsienna: "ea7e5d",
+                cadetblue: "5f9ea0",
+                chartreuse: "7fff00",
+                chocolate: "d2691e",
+                coral: "ff7f50",
+                cornflowerblue: "6495ed",
+                cornsilk: "fff8dc",
+                crimson: "dc143c",
+                cyan: "0ff",
+                darkblue: "00008b",
+                darkcyan: "008b8b",
+                darkgoldenrod: "b8860b",
+                darkgray: "a9a9a9",
+                darkgreen: "006400",
+                darkgrey: "a9a9a9",
+                darkkhaki: "bdb76b",
+                darkmagenta: "8b008b",
+                darkolivegreen: "556b2f",
+                darkorange: "ff8c00",
+                darkorchid: "9932cc",
+                darkred: "8b0000",
+                darksalmon: "e9967a",
+                darkseagreen: "8fbc8f",
+                darkslateblue: "483d8b",
+                darkslategray: "2f4f4f",
+                darkslategrey: "2f4f4f",
+                darkturquoise: "00ced1",
+                darkviolet: "9400d3",
+                deeppink: "ff1493",
+                deepskyblue: "00bfff",
+                dimgray: "696969",
+                dimgrey: "696969",
+                dodgerblue: "1e90ff",
+                firebrick: "b22222",
+                floralwhite: "fffaf0",
+                forestgreen: "228b22",
+                fuchsia: "f0f",
+                gainsboro: "dcdcdc",
+                ghostwhite: "f8f8ff",
+                gold: "ffd700",
+                goldenrod: "daa520",
+                gray: "808080",
+                green: "008000",
+                greenyellow: "adff2f",
+                grey: "808080",
+                honeydew: "f0fff0",
+                hotpink: "ff69b4",
+                indianred: "cd5c5c",
+                indigo: "4b0082",
+                ivory: "fffff0",
+                khaki: "f0e68c",
+                lavender: "e6e6fa",
+                lavenderblush: "fff0f5",
+                lawngreen: "7cfc00",
+                lemonchiffon: "fffacd",
+                lightblue: "add8e6",
+                lightcoral: "f08080",
+                lightcyan: "e0ffff",
+                lightgoldenrodyellow: "fafad2",
+                lightgray: "d3d3d3",
+                lightgreen: "90ee90",
+                lightgrey: "d3d3d3",
+                lightpink: "ffb6c1",
+                lightsalmon: "ffa07a",
+                lightseagreen: "20b2aa",
+                lightskyblue: "87cefa",
+                lightslategray: "789",
+                lightslategrey: "789",
+                lightsteelblue: "b0c4de",
+                lightyellow: "ffffe0",
+                lime: "0f0",
+                limegreen: "32cd32",
+                linen: "faf0e6",
+                magenta: "f0f",
+                maroon: "800000",
+                mediumaquamarine: "66cdaa",
+                mediumblue: "0000cd",
+                mediumorchid: "ba55d3",
+                mediumpurple: "9370db",
+                mediumseagreen: "3cb371",
+                mediumslateblue: "7b68ee",
+                mediumspringgreen: "00fa9a",
+                mediumturquoise: "48d1cc",
+                mediumvioletred: "c71585",
+                midnightblue: "191970",
+                mintcream: "f5fffa",
+                mistyrose: "ffe4e1",
+                moccasin: "ffe4b5",
+                navajowhite: "ffdead",
+                navy: "000080",
+                oldlace: "fdf5e6",
+                olive: "808000",
+                olivedrab: "6b8e23",
+                orange: "ffa500",
+                orangered: "ff4500",
+                orchid: "da70d6",
+                palegoldenrod: "eee8aa",
+                palegreen: "98fb98",
+                paleturquoise: "afeeee",
+                palevioletred: "db7093",
+                papayawhip: "ffefd5",
+                peachpuff: "ffdab9",
+                peru: "cd853f",
+                pink: "ffc0cb",
+                plum: "dda0dd",
+                powderblue: "b0e0e6",
+                purple: "800080",
+                rebeccapurple: "663399",
+                red: "f00",
+                rosybrown: "bc8f8f",
+                royalblue: "4169e1",
+                saddlebrown: "8b4513",
+                salmon: "fa8072",
+                sandybrown: "f4a460",
+                seagreen: "2e8b57",
+                seashell: "fff5ee",
+                sienna: "a0522d",
+                silver: "c0c0c0",
+                skyblue: "87ceeb",
+                slateblue: "6a5acd",
+                slategray: "708090",
+                slategrey: "708090",
+                snow: "fffafa",
+                springgreen: "00ff7f",
+                steelblue: "4682b4",
+                tan: "d2b48c",
+                teal: "008080",
+                thistle: "d8bfd8",
+                tomato: "ff6347",
+                turquoise: "40e0d0",
+                violet: "ee82ee",
+                wheat: "f5deb3",
+                white: "fff",
+                whitesmoke: "f5f5f5",
+                yellow: "ff0",
+                yellowgreen: "9acd32"
+            };
         }
 
         isDark() {
@@ -177,7 +334,7 @@ class TinyColor {
                 gradientType = this.gradientType ? "GradientType = 1, " : "";
 
             if (secondColor) {
-                var s = tinycolor(secondColor);
+                var s = TinyColor(secondColor);
                 secondHex8String = '#' + rgbaToArgbHex(s.red, s.green, s.blue, s.alpha);
             }
 
@@ -380,7 +537,126 @@ class TinyColor {
             a: a
         };
     }
-}
+    
+    random() {
+        return this.fromRatio({
+            r: Math.random(),
+            g: Math.random(),
+            b: Math.random()
+        });
+    };
+    // `equals`
+    // Can be called with any tinycolor input
+    equals(color1, color2) {
+        if (!color1 || !color2) { return false; }
+        let c1 = new TinyColor(color1),
+            c2 = new TinyColor(color2)
+        return c1.toRgbString() == c2.toRgbString();
+    };
+    
+    // Readability Functions
+    // ---------------------
+    // <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
+
+    // `contrast`
+    // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
+    readability (color1, color2) {
+        var c1 = new TinyColor(color1),
+            c2 = new TinyColor(color2);
+        return (Math.max(c1.getLuminance(), c2.getLuminance()) + 0.05) / (Math.min(c1.getLuminance(), c2.getLuminance()) + 0.05);
+    };
+    // `isReadable`
+    // Ensure that foreground and background color combinations meet WCAG2 guidelines.
+    // The third argument is an optional Object.
+    //      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
+    //      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
+    // If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
+
+    // *Example*
+    //    tinycolor.isReadable("#000", "#111") => false
+    //    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
+    isReadable (color1, color2, wcag2) {
+        var readability = this.readability(color1, color2);
+        var wcag2Parms, out;
+
+        out = false;
+
+        wcag2Parms = validateWCAG2Parms(wcag2);
+        switch (wcag2Parms.level + wcag2Parms.size) {
+            case "AAsmall":
+            case "AAAlarge":
+                out = readability >= 4.5;
+                break;
+            case "AAlarge":
+                out = readability >= 3;
+                break;
+            case "AAAsmall":
+                out = readability >= 7;
+                break;
+        }
+        return out;
+
+    };
+
+    // `mostReadable`
+    // Given a base color and a list of possible foreground or background
+    // colors for that base, returns the most readable color.
+    // Optionally returns Black or White if the most readable color is unreadable.
+    // *Example*
+    //    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
+    //    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
+    //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
+    //    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
+    mostReadable (baseColor, colorList, args) {
+        var bestColor = null;
+        var bestScore = 0;
+        var readability;
+        var includeFallbackColors, level, size;
+        args = args || {};
+        includeFallbackColors = args.includeFallbackColors;
+        level = args.level;
+        size = args.size;
+
+        for (var i = 0; i < colorList.length; i++) {
+            readability = this.readability(baseColor, colorList[i]);
+            if (readability > bestScore) {
+                bestScore = readability;
+                bestColor = this.colorList[i];
+            }
+        }
+
+        if (this.isReadable(baseColor, bestColor, { "level": level, "size": size }) || !includeFallbackColors) {
+            return bestColor;
+        }
+        else {
+            args.includeFallbackColors = false;
+            return this.mostReadable(baseColor, ["#fff", "#000"], args);
+        }
+    };
+    
+// Utility Functions
+// ---------------------
+
+tinycolor.mix = function (color1, color2, amount) {
+    amount = (amount === 0) ? 0 : (amount || 50);
+
+    var c1 = new TinyColor(color1),
+        rgb1 = c1.toRgb();
+    var c2 = new TinyColor(color2),
+        rgb2 = c2.toRgb();
+
+    var p = amount / 100;
+
+    var rgba = {
+        r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
+        g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
+        b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
+        a: ((rgb2.a - rgb1.a) * p) + rgb1.a
+    };
+
+    return new TinyColor(rgba);
+};
+
 
 
 // Conversion Functions
@@ -586,22 +862,6 @@ function rgbToCmyk(r, g, b) {
     return { c: (1 - R - K) / (1 - K), m: (1 - B - K) / (1 - K), y: (1 - G - K) / (1 - K), k: K };
 }
 
-// `equals`
-// Can be called with any tinycolor input
-tinycolor.equals = function (color1, color2) {
-    if (!color1 || !color2) { return false; }
-    return tinycolor(color1).toRgbString() == tinycolor(color2).toRgbString();
-};
-
-tinycolor.random = function () {
-    return tinycolor.fromRatio({
-        r: Math.random(),
-        g: Math.random(),
-        b: Math.random()
-    });
-};
-
-
 // Modification Functions
 // ----------------------
 // Thanks to less.js for some of the basics here
@@ -609,56 +869,63 @@ tinycolor.random = function () {
 
 function desaturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     hsl.s -= amount / 100;
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 function saturate(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     hsl.s += amount / 100;
     hsl.s = clamp01(hsl.s);
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 function greyscale(color) {
-    return tinycolor(color).desaturate(100);
+    var c = new TinyColor(color);
+    return c.desaturate(100);
 }
 
 function lighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     hsl.l += amount / 100;
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 function brighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var rgb = tinycolor(color).toRgb();
+    var c = new TinyColor(color),
+        rgb = c.toRgb();
     rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(255 * - (amount / 100))));
     rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(255 * - (amount / 100))));
     rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(255 * - (amount / 100))));
-    return tinycolor(rgb);
+    return new TinyColor(rgb);
 }
 
 function darken(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     hsl.l -= amount / 100;
     hsl.l = clamp01(hsl.l);
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 // Spin takes a positive or negative amount within [-360, 360] indicating the change of hue.
 // Values outside of this range will be wrapped into this range.
 function spin(color, amount) {
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     var hue = (hsl.h + amount) % 360;
     hsl.h = hue < 0 ? 360 + hue : hue;
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 // Combination Functions
@@ -667,24 +934,27 @@ function spin(color, amount) {
 // <https://github.com/infusion/jQuery-xcolor/blob/master/jquery.xcolor.js>
 
 function complement(color) {
-    var hsl = tinycolor(color).toHsl();
+    var c = new TinyColor(color),
+        hsl = c.toHsl();
     hsl.h = (hsl.h + 180) % 360;
-    return tinycolor(hsl);
+    return new TinyColor(hsl);
 }
 
 function triad(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
+    var c = new TinyColor(color),
+        hsl = c.toHsl(),
+        h = hsl.h;
     return [
-        tinycolor(color),
-        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
+        new TinyColor(color);,
+        new TinyColor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
+        new TinyColor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
     ];
 }
 
 function tetrad(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
+    var c = new TinyColor(color),
+        hsl = c.toHsl(),
+        h = hsl.h;
     return [
         tinycolor(color),
         tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
@@ -694,8 +964,9 @@ function tetrad(color) {
 }
 
 function splitcomplement(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
+    var c = new TinyColor(color),
+        hsl = c.toHsl(),
+        h = hsl.h;
     return [
         tinycolor(color),
         tinycolor({ h: (h + 72) % 360, s: hsl.s, l: hsl.l }),
@@ -720,280 +991,18 @@ function analogous(color, results, slices) {
 
 function monochromatic(color, results) {
     results = results || 6;
-    var hsv = tinycolor(color).toHsv();
+    var hsv = new TinyColor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
     var modification = 1 / results;
 
     while (results--) {
-        ret.push(tinycolor({ h: h, s: s, v: v }));
+        ret.push(TinyColor({ h: h, s: s, v: v }));
         v = (v + modification) % 1;
     }
 
     return ret;
 }
-
-// Utility Functions
-// ---------------------
-
-tinycolor.mix = function (color1, color2, amount) {
-    amount = (amount === 0) ? 0 : (amount || 50);
-
-    var rgb1 = tinycolor(color1).toRgb();
-    var rgb2 = tinycolor(color2).toRgb();
-
-    var p = amount / 100;
-
-    var rgba = {
-        r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
-        g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
-        b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
-        a: ((rgb2.a - rgb1.a) * p) + rgb1.a
-    };
-
-    return tinycolor(rgba);
-};
-
-
-// Readability Functions
-// ---------------------
-// <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
-
-// `contrast`
-// Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
-tinycolor.readability = function (color1, color2) {
-    var c1 = tinycolor(color1);
-    var c2 = tinycolor(color2);
-    return (Math.max(c1.getLuminance(), c2.getLuminance()) + 0.05) / (Math.min(c1.getLuminance(), c2.getLuminance()) + 0.05);
-};
-
-// `isReadable`
-// Ensure that foreground and background color combinations meet WCAG2 guidelines.
-// The third argument is an optional Object.
-//      the 'level' property states 'AA' or 'AAA' - if missing or invalid, it defaults to 'AA';
-//      the 'size' property states 'large' or 'small' - if missing or invalid, it defaults to 'small'.
-// If the entire object is absent, isReadable defaults to {level:"AA",size:"small"}.
-
-// *Example*
-//    tinycolor.isReadable("#000", "#111") => false
-//    tinycolor.isReadable("#000", "#111",{level:"AA",size:"large"}) => false
-tinycolor.isReadable = function (color1, color2, wcag2) {
-    var readability = tinycolor.readability(color1, color2);
-    var wcag2Parms, out;
-
-    out = false;
-
-    wcag2Parms = validateWCAG2Parms(wcag2);
-    switch (wcag2Parms.level + wcag2Parms.size) {
-        case "AAsmall":
-        case "AAAlarge":
-            out = readability >= 4.5;
-            break;
-        case "AAlarge":
-            out = readability >= 3;
-            break;
-        case "AAAsmall":
-            out = readability >= 7;
-            break;
-    }
-    return out;
-
-};
-
-// `mostReadable`
-// Given a base color and a list of possible foreground or background
-// colors for that base, returns the most readable color.
-// Optionally returns Black or White if the most readable color is unreadable.
-// *Example*
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:false}).toHexString(); // "#112255"
-//    tinycolor.mostReadable(tinycolor.mostReadable("#123", ["#124", "#125"],{includeFallbackColors:true}).toHexString();  // "#ffffff"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"large"}).toHexString(); // "#faf3f3"
-//    tinycolor.mostReadable("#a8015a", ["#faf3f3"],{includeFallbackColors:true,level:"AAA",size:"small"}).toHexString(); // "#ffffff"
-tinycolor.mostReadable = function (baseColor, colorList, args) {
-    var bestColor = null;
-    var bestScore = 0;
-    var readability;
-    var includeFallbackColors, level, size;
-    args = args || {};
-    includeFallbackColors = args.includeFallbackColors;
-    level = args.level;
-    size = args.size;
-
-    for (var i = 0; i < colorList.length; i++) {
-        readability = tinycolor.readability(baseColor, colorList[i]);
-        if (readability > bestScore) {
-            bestScore = readability;
-            bestColor = tinycolor(colorList[i]);
-        }
-    }
-
-    if (tinycolor.isReadable(baseColor, bestColor, { "level": level, "size": size }) || !includeFallbackColors) {
-        return bestColor;
-    }
-    else {
-        args.includeFallbackColors = false;
-        return tinycolor.mostReadable(baseColor, ["#fff", "#000"], args);
-    }
-};
-
-
-// Big List of Colors
-// ------------------
-// <http://www.w3.org/TR/css3-color/#svg-color>
-var names = tinycolor.names = {
-    aliceblue: "f0f8ff",
-    antiquewhite: "faebd7",
-    aqua: "0ff",
-    aquamarine: "7fffd4",
-    azure: "f0ffff",
-    beige: "f5f5dc",
-    bisque: "ffe4c4",
-    black: "000",
-    blanchedalmond: "ffebcd",
-    blue: "00f",
-    blueviolet: "8a2be2",
-    brown: "a52a2a",
-    burlywood: "deb887",
-    burntsienna: "ea7e5d",
-    cadetblue: "5f9ea0",
-    chartreuse: "7fff00",
-    chocolate: "d2691e",
-    coral: "ff7f50",
-    cornflowerblue: "6495ed",
-    cornsilk: "fff8dc",
-    crimson: "dc143c",
-    cyan: "0ff",
-    darkblue: "00008b",
-    darkcyan: "008b8b",
-    darkgoldenrod: "b8860b",
-    darkgray: "a9a9a9",
-    darkgreen: "006400",
-    darkgrey: "a9a9a9",
-    darkkhaki: "bdb76b",
-    darkmagenta: "8b008b",
-    darkolivegreen: "556b2f",
-    darkorange: "ff8c00",
-    darkorchid: "9932cc",
-    darkred: "8b0000",
-    darksalmon: "e9967a",
-    darkseagreen: "8fbc8f",
-    darkslateblue: "483d8b",
-    darkslategray: "2f4f4f",
-    darkslategrey: "2f4f4f",
-    darkturquoise: "00ced1",
-    darkviolet: "9400d3",
-    deeppink: "ff1493",
-    deepskyblue: "00bfff",
-    dimgray: "696969",
-    dimgrey: "696969",
-    dodgerblue: "1e90ff",
-    firebrick: "b22222",
-    floralwhite: "fffaf0",
-    forestgreen: "228b22",
-    fuchsia: "f0f",
-    gainsboro: "dcdcdc",
-    ghostwhite: "f8f8ff",
-    gold: "ffd700",
-    goldenrod: "daa520",
-    gray: "808080",
-    green: "008000",
-    greenyellow: "adff2f",
-    grey: "808080",
-    honeydew: "f0fff0",
-    hotpink: "ff69b4",
-    indianred: "cd5c5c",
-    indigo: "4b0082",
-    ivory: "fffff0",
-    khaki: "f0e68c",
-    lavender: "e6e6fa",
-    lavenderblush: "fff0f5",
-    lawngreen: "7cfc00",
-    lemonchiffon: "fffacd",
-    lightblue: "add8e6",
-    lightcoral: "f08080",
-    lightcyan: "e0ffff",
-    lightgoldenrodyellow: "fafad2",
-    lightgray: "d3d3d3",
-    lightgreen: "90ee90",
-    lightgrey: "d3d3d3",
-    lightpink: "ffb6c1",
-    lightsalmon: "ffa07a",
-    lightseagreen: "20b2aa",
-    lightskyblue: "87cefa",
-    lightslategray: "789",
-    lightslategrey: "789",
-    lightsteelblue: "b0c4de",
-    lightyellow: "ffffe0",
-    lime: "0f0",
-    limegreen: "32cd32",
-    linen: "faf0e6",
-    magenta: "f0f",
-    maroon: "800000",
-    mediumaquamarine: "66cdaa",
-    mediumblue: "0000cd",
-    mediumorchid: "ba55d3",
-    mediumpurple: "9370db",
-    mediumseagreen: "3cb371",
-    mediumslateblue: "7b68ee",
-    mediumspringgreen: "00fa9a",
-    mediumturquoise: "48d1cc",
-    mediumvioletred: "c71585",
-    midnightblue: "191970",
-    mintcream: "f5fffa",
-    mistyrose: "ffe4e1",
-    moccasin: "ffe4b5",
-    navajowhite: "ffdead",
-    navy: "000080",
-    oldlace: "fdf5e6",
-    olive: "808000",
-    olivedrab: "6b8e23",
-    orange: "ffa500",
-    orangered: "ff4500",
-    orchid: "da70d6",
-    palegoldenrod: "eee8aa",
-    palegreen: "98fb98",
-    paleturquoise: "afeeee",
-    palevioletred: "db7093",
-    papayawhip: "ffefd5",
-    peachpuff: "ffdab9",
-    peru: "cd853f",
-    pink: "ffc0cb",
-    plum: "dda0dd",
-    powderblue: "b0e0e6",
-    purple: "800080",
-    rebeccapurple: "663399",
-    red: "f00",
-    rosybrown: "bc8f8f",
-    royalblue: "4169e1",
-    saddlebrown: "8b4513",
-    salmon: "fa8072",
-    sandybrown: "f4a460",
-    seagreen: "2e8b57",
-    seashell: "fff5ee",
-    sienna: "a0522d",
-    silver: "c0c0c0",
-    skyblue: "87ceeb",
-    slateblue: "6a5acd",
-    slategray: "708090",
-    slategrey: "708090",
-    snow: "fffafa",
-    springgreen: "00ff7f",
-    steelblue: "4682b4",
-    tan: "d2b48c",
-    teal: "008080",
-    thistle: "d8bfd8",
-    tomato: "ff6347",
-    turquoise: "40e0d0",
-    violet: "ee82ee",
-    wheat: "f5deb3",
-    white: "fff",
-    whitesmoke: "f5f5f5",
-    yellow: "ff0",
-    yellowgreen: "9acd32"
-};
-
-// Make it easy to access colors via `hexNames[hex]`
-var hexNames = tinycolor.hexNames = flip(names);
 
 
 // Utilities
@@ -1226,5 +1235,5 @@ else if (typeof define === 'class' && define.amd) {
     define(function () { return TinyColor; });
 } // Browser: Expose to window
 else {
-    window.tinycolor = tinycolor;
+    window.tinycolor = TinyColor;
 }
