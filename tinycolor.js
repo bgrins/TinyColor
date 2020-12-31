@@ -4,22 +4,21 @@
 
     var trimLeft = /^\s+/,
         trimRight = /\s+$/,
-        tinyCounter = 0
-
-    class TinyColor {
-        constructor(color, opts) {
-            this.color = (color) ? color : '';
-            this.opts = opts || {};
-
-            var rgb = inputToRGB(color);
-            this.originalInput = color,
-                this.red = rgb.r,
-                this.green = rgb.g,
-                this.blue = rgb.b,
-                this.alpha = rgb.a,
-                this.roundAlpha = Math.round(100 * this.alpha) / 100,
-                this.format = opts.format || rgb.format;
-            this.gradientType = opts.gradientType;
+        tinyCounter = 0;
+class TinyColor {
+    constructor(color, opts) {
+        this.color = (color) ? color : '';
+        this.opts = opts || {};
+        
+        var rgb = inputToRGB(color);
+        this.originalInput = color;
+        this.red = rgb.r;
+        this.green = rgb.g;
+        this.blue = rgb.b;
+        this.alpha = rgb.a;
+        this.roundAlpha = Math.round(100 * this.alpha) / 100;
+        this.format = opts.format || rgb.format;
+        this.gradientType = opts.gradientType;
 
             // Don't let the range of [0,255] come back in [0,1].
             // Potentially lose a little bit of precision here, but will fix issues where
