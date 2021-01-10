@@ -141,10 +141,10 @@ tinycolor.prototype = {
           "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " + mathRound(bound01(this._g, 255) * 100) + "%, " + mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
     },
     toCmyk: function() {
-        return rgbToCmyk(this.red, this.green, this.blue);
+        return rgbToCmyk(this._r, this._g, this._b);
     },
     toCmykString: function() {
-        var cmyk = rgbToCmyk(this.red, this.green, this.blue);
+        var cmyk = rgbToCmyk(this._r, this._g, this._b);
         return "cmyk(" + Math.round(cmyk.c * 100) + "," + Math.round(cmyk.m * 100) + "," + Math.round(cmyk.y * 100) + "," + Math.round(cmyk.k * 100) + ")";
     },
     toName: function() {
