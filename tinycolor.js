@@ -557,7 +557,7 @@ function rgbaToArgbHex(r, g, b, a) {
 
 // `rgbToCmyk`
 // Converts RGB color to CMYK
-function rgbToCMYK(r, g, b) {
+function rgbToCmyk(r, g, b) {
   var R = r/255,
       G = g/255,
       B = b/255,
