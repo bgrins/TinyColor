@@ -557,12 +557,17 @@ function rgbaToArgbHex(r, g, b, a) {
 
 // `rgbToCmyk`
 // Converts RGB color to CMYK
-function rgbToCmyk(r, g, b) {
-    var R = r / 255,
-        G = g / 255,
-        B = b / 255,
-        K = 1 - Math.max(R, G, B);
-    return { c: (1 - R - K) / (1 - K), m: (1 - B - K) / (1 - K), y: (1 - G - K) / (1 - K), k: K };
+function rgbToCMYK(r, g, b) {
+  var R = r/255,
+      G = g/255,
+      B = b/255,
+      K = 1-Math.max(R, G, B);
+  return {
+    C: (1-R-K) / (1-K),
+    M: (1-B-K) / (1-K),
+    Y: (1-G-K) / (1-K),
+    K: K
+  };
 }
 
 // `equals`
