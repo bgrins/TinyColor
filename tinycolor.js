@@ -165,7 +165,6 @@ tinycolor.prototype = {
         var formatSet = !!format;
         format = format || this._format;
 
-        var formattedString = false;
         var hasAlpha = this._a < 1 && this._a >= 0;
         var needsAlphaFormat = !formatSet && hasAlpha && (format === "hex" || format === "hex6" || format === "hex3" || format === "hex4" || format === "hex8" || format === "name");
 
@@ -177,35 +176,26 @@ tinycolor.prototype = {
             }
             return this.toRgbString();
         }
-        if (format === "rgb") {
-            formattedString = this.toRgbString();
+        switch(format){
+            case 'rgb':
+                return this.toRgbString();
+            case "prgb":
+                return this.toPercentageRgbString();
+            case "hex3":
+                return this.toHexString(true);
+            case "hex4":
+                return this.toHex8String(true);
+            case "hex8":
+                return this.toHex8String();
+            case "name":
+                return this.toName() || this.toHexString();
+            case "hsl":
+                return this.toHslString();
+            case "hsv":
+                return this.toHsvString();
+            // case "hex": case "hex6": case unknown:
+            default: return this.toHexString();
         }
-        if (format === "prgb") {
-            formattedString = this.toPercentageRgbString();
-        }
-        if (format === "hex" || format === "hex6") {
-            formattedString = this.toHexString();
-        }
-        if (format === "hex3") {
-            formattedString = this.toHexString(true);
-        }
-        if (format === "hex4") {
-            formattedString = this.toHex8String(true);
-        }
-        if (format === "hex8") {
-            formattedString = this.toHex8String();
-        }
-        if (format === "name") {
-            formattedString = this.toName();
-        }
-        if (format === "hsl") {
-            formattedString = this.toHslString();
-        }
-        if (format === "hsv") {
-            formattedString = this.toHsvString();
-        }
-
-        return formattedString || this.toHexString();
     },
     clone: function() {
         return tinycolor(this.toString());
@@ -345,9 +335,9 @@ function inputToRGB(color) {
     return {
         ok: ok,
         format: color.format || format,
-        r: mathMin(255, mathMax(rgb.r, 0)),
-        g: mathMin(255, mathMax(rgb.g, 0)),
-        b: mathMin(255, mathMax(rgb.b, 0)),
+        r: clamp(0, 255, rgb.r),
+        g: clamp(0, 255, rgb.g),
+        b: clamp(0, 255, rgb.b),
         a: a
     };
 }
@@ -598,9 +588,9 @@ function lighten (color, amount) {
 function brighten(color, amount) {
     amount = (amount === 0) ? 0 : (amount || 10);
     var rgb = tinycolor(color).toRgb();
-    rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * - (amount / 100))));
-    rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * - (amount / 100))));
-    rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * - (amount / 100))));
+    rgb.r = clamp(0, 255, rgb.r - mathRound(255 * - (amount / 100)));
+    rgb.g = clamp(0, 255, rgb.g - mathRound(255 * - (amount / 100)));
+    rgb.b = clamp(0, 255, rgb.b - mathRound(255 * - (amount / 100)));
     return tinycolor(rgb);
 }
 
@@ -986,7 +976,7 @@ function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
 
     var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
+    n = clamp(0, max, parseFloat(n));
 
     // Automatically convert percentage into number
     if (processPercent) {
@@ -1002,9 +992,14 @@ function bound01(n, max) {
     return (n % max) / parseFloat(max);
 }
 
+// Force a numeric value within the inclusive lower and upper bounds
+var clamp = function(lower, upper, numeric){
+	return mathMin(upper, mathMax(lower, numeric));
+};
+
 // Force a number between 0 and 1
 function clamp01(val) {
-    return mathMin(1, mathMax(0, val));
+    return clamp(0, 1, val);
 }
 
 // Parse a base-16 hex value into a base-10 integer
