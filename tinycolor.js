@@ -986,7 +986,8 @@ function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
 
     var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
+    // If range [0,360] then do nothing.
+    n = max === 360 ? n : mathMin(max, mathMax(0, parseFloat(n)));
 
     // Automatically convert percentage into number
     if (processPercent) {
@@ -998,11 +999,21 @@ function bound01(n, max) {
         return 1;
     }
 
-    // Convert into [0, 1] range if it isn't already
-    return (n % max) / parseFloat(max);
+    if (max === 360) {
+        // If n is a hue given in degrees,
+        // wrap around out-of-range values into [0, 360] range
+        // then convert into [0, 1].
+        n = (n < 0 ? n % max + max : n % max) / parseFloat(max);
+    } else {
+        // If n not a hue given in degrees
+        // Convert into [0, 1] range if it isn't already.
+        n = (n % max) / parseFloat(max);
+    }
+    
+    return n;
 }
 
-// Force a number between 0 and 1
+    // Force a number between 0 and 1
 function clamp01(val) {
     return mathMin(1, mathMax(0, val));
 }
