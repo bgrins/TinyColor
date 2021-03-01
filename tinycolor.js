@@ -24,14 +24,20 @@ function tinycolor (color, opts) {
     if (!(this instanceof tinycolor)) {
         return new tinycolor(color, opts);
     }
-
-    var rgb = inputToRGB(color);
+    var rgb;
+    
+    if(opts.hex8Argb){
+        rgb = stringHexArgbInputToObject(color);        
+    } else {
+        rgb = inputToRGB(color); 
+    }
+    
     this._originalInput = color,
     this._r = rgb.r,
     this._g = rgb.g,
     this._b = rgb.b,
     this._a = rgb.a,
-    this._roundA = mathRound(100*this._a) / 100,
+    this._roundA = mathRound(1000*this._a) / 1000,
     this._format = opts.format || rgb.format;
     this._gradientType = opts.gradientType;
 
@@ -85,8 +91,13 @@ tinycolor.prototype = {
     },
     setAlpha: function(value) {
         this._a = boundAlpha(value);
-        this._roundA = mathRound(100*this._a) / 100;
+        this._roundA = mathRound(1000*this._a) / 1000;
         return this;
+    },
+    toArgbString: function() {
+        return (typeof this._a === "undefined" || this._a == 1) ?
+          "argb(1, "  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+          "argb(" + parseIntFromHex(convertDecimalToHex(this._a)) + ", " + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")";
     },
     toHsv: function() {
         var hsv = rgbToHsv(this._r, this._g, this._b);
@@ -122,12 +133,23 @@ tinycolor.prototype = {
     toHex8String: function(allow4Char) {
         return '#' + this.toHex8(allow4Char);
     },
+    toHex8Argb: function(allow4Char) {
+        return rgbaToArgbHex(this._r, this._g, this._b,this._a);
+    },
+    toHex8ArgbString: function(allow4Char) {
+        return '#' + this.toHex8Argb(allow4Char);
+    },
     toRgb: function() {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
     },
     toRgbString: function() {
-        return (this._a == 1) ?
+        return (typeof this._a === "undefined" || this._a == 1) ?
           "rgb("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ")" :
+          "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
+    },
+    toRgbaString: function() {
+        return (typeof this._a === "undefined" || this._a == 1) ?
+          "rgba("  + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", 1)" :
           "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " + mathRound(this._b) + ", " + this._roundA + ")";
     },
     toPercentageRgb: function() {
@@ -351,8 +373,8 @@ function inputToRGB(color) {
         a: a
     };
 }
-
-
+    
+    
 // Conversion Functions
 // --------------------
 
@@ -1065,6 +1087,7 @@ var matchers = (function() {
 
     return {
         CSS_UNIT: new RegExp(CSS_UNIT),
+        argb: new RegExp("argb" + PERMISSIVE_MATCH4),
         rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
         rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
         hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
@@ -1105,6 +1128,9 @@ function stringInputToObject(color) {
     // Just return an object and let the conversion functions handle that.
     // This way the result will be the same whether the tinycolor is initialized with string or object.
     var match;
+    if ((match = matchers.argb.exec(color))) {
+        return { a: (match[1] / 255), r: match[2], g: match[3], b: match[4] };
+    }
     if ((match = matchers.rgb.exec(color))) {
         return { r: match[1], g: match[2], b: match[3] };
     }
@@ -1147,6 +1173,54 @@ function stringInputToObject(color) {
             b: parseIntFromHex(match[3] + '' + match[3]),
             a: convertHexToDecimal(match[4] + '' + match[4]),
             format: named ? "name" : "hex8"
+        };
+    }
+    if ((match = matchers.hex3.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1] + '' + match[1]),
+            g: parseIntFromHex(match[2] + '' + match[2]),
+            b: parseIntFromHex(match[3] + '' + match[3]),
+            format: named ? "name" : "hex"
+        };
+    }
+
+    return false;
+}
+
+// `stringHexArgbInputToObject`
+// Permissive string parsing.  Take in a number of formats, and output an object
+// based on detected format.  Returns `{ r, g, b }` or `{ h, s, l }` or `{ h, s, v}`
+function stringHexArgbInputToObject(color) {
+
+    // Try to match string input using regular expressions.
+    // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
+    // Just return an object and let the conversion functions handle that.
+    // This way the result will be the same whether the tinycolor is initialized with string or object.
+    var match;
+    if ((match = matchers.hex8.exec(color))) {
+        return {
+            r: parseIntFromHex(match[2]),
+            g: parseIntFromHex(match[3]),
+            b: parseIntFromHex(match[4]),
+            a: convertHexToDecimal(match[1]),
+            format: "hex8"
+        };
+    }
+    if ((match = matchers.hex6.exec(color))) {
+        return {
+            r: parseIntFromHex(match[1]),
+            g: parseIntFromHex(match[2]),
+            b: parseIntFromHex(match[3]),
+            format: "hex"
+        };
+    }
+    if ((match = matchers.hex4.exec(color))) {
+        return {
+            r: parseIntFromHex(match[2] + '' + match[1]),
+            g: parseIntFromHex(match[3] + '' + match[2]),
+            b: parseIntFromHex(match[4] + '' + match[3]),
+            a: convertHexToDecimal(match[1] + '' + match[4]),
+            format: "hex8"
         };
     }
     if ((match = matchers.hex3.exec(color))) {
