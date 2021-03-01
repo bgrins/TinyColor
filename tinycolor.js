@@ -257,10 +257,13 @@ tinycolor.prototype = {
         return this._applyCombination(splitcomplement, arguments);
     },
     triad: function() {
-        return this._applyCombination(triad, arguments);
+        return this._applyCombination(polyad, [3]);
     },
     tetrad: function() {
-        return this._applyCombination(tetrad, arguments);
+        return this._applyCombination(polyad, [4]);
+    },
+    polyad: function(n) {
+        return this._applyCombination(polyad, [n]);
     }
 };
 
@@ -632,25 +635,18 @@ function complement(color) {
     return tinycolor(hsl);
 }
 
-function triad(color) {
+// Get polyad colors, like (for 1, 2, 3, 4, 5, 6, 7, 8, etc...) monad, dyad, triad, tetrad, pentad, hexad, heptad, octad, etc...
+function polyad(color, n) {
     var hsl = tinycolor(color).toHsl();
     var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l })
-    ];
-}
 
-function tetrad(color) {
-    var hsl = tinycolor(color).toHsl();
-    var h = hsl.h;
-    return [
-        tinycolor(color),
-        tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-        tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l })
-    ];
+    var result = [tinycolor(color)];
+    var increment = 360 / n;
+    for(var i = 1; i < n; i++) {
+        result.push(tinycolor({ h: (h + (i * increment)) % 360, s: hsl.s, l: hsl.l }));
+    }
+
+    return result;
 }
 
 function splitcomplement(color) {
