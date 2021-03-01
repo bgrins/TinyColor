@@ -122,6 +122,22 @@ tinycolor.prototype = {
     toHex8String: function(allow4Char) {
         return '#' + this.toHex8(allow4Char);
     },
+    toInt: function (allow3Char) {
+        switch (this._format) {
+            case 'rgb': return parseInt(rgbToHex(this._r, this._g, this._b, allow3Char), 16);
+            case 'hsl': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, allow3Char)), 16);
+            case 'hsv': return parseInt(rgbToHex(hsvToRgb(this._r, this._g, this._b, allow3Char)), 16);
+            default: throw new TypeError("Invalid Data Type Format");
+        }
+    },
+    toIntAlpha: function (allow4Char) {                 // for colors containing the alpha channel
+
+        switch (this._format) {
+            case 'rgba': return parseInt(rgbToHex(this._r, this._g, this._b, this._a, allow4Char), 16);
+            case 'hsla': return parseInt(rgbToHex(hslToRgb(this._r, this._g, this._b, this._a, allow3Char)), 16);
+            default: throw new TypeError("Invalid Data Type Format");
+        }
+    },
     toRgb: function() {
         return { r: mathRound(this._r), g: mathRound(this._g), b: mathRound(this._b), a: this._a };
     },
@@ -177,32 +193,44 @@ tinycolor.prototype = {
             }
             return this.toRgbString();
         }
-        if (format === "rgb") {
-            formattedString = this.toRgbString();
-        }
-        if (format === "prgb") {
-            formattedString = this.toPercentageRgbString();
-        }
-        if (format === "hex" || format === "hex6") {
-            formattedString = this.toHexString();
-        }
-        if (format === "hex3") {
-            formattedString = this.toHexString(true);
-        }
-        if (format === "hex4") {
-            formattedString = this.toHex8String(true);
-        }
-        if (format === "hex8") {
-            formattedString = this.toHex8String();
-        }
-        if (format === "name") {
-            formattedString = this.toName();
-        }
-        if (format === "hsl") {
-            formattedString = this.toHslString();
-        }
-        if (format === "hsv") {
-            formattedString = this.toHsvString();
+
+        switch (format)
+        {
+            case "rgb":
+                formattedString = this.toRgbString();
+                break;
+
+            case "prgb":
+                formattedString = this.toPercentageRgbString();
+                break;
+
+            case "hex", "hex6":
+                formattedString = this.toHexString();
+                break;
+
+            case "hex3":
+                formattedString = this.toHexString(true);
+                break;
+
+            case "hex4":
+                formattedString = this.toHex8String(true);
+                break;
+
+            case "hex8":
+                formattedString = this.toHex8String();
+                break;
+
+            case "name":
+                formattedString = this.toName();
+                break;
+
+            case "hsl":
+                formattedString = this.toHslString();
+                break;
+
+            case "hsv":
+                formattedString = this.toHsvString();
+                break;
         }
 
         return formattedString || this.toHexString();
@@ -300,6 +328,23 @@ tinycolor.fromRatio = function(color, opts) {
 //     "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
 //     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
 //
+//
+
+// receives an integer value and does the conversion to rbg or rgba
+// via bitwise operator (>>)- propagating right shift -
+// *Assumes:* r, g, b or r, g, b, a in a number, e.g.: 12345678
+// *Returns:* {r, g, b} if alpha returns empty (0) else {r, g, b, a}
+function intToObject(integerValue) {
+    if(typeof intergerValue == "number") {
+      let r = ((integerValue & 0xFF0000) >> 16),
+          g = ((integerValue & 0xFF00) >> 8),
+          b = (intergerValue & 0xFF),
+          a = ((integerValue & 0xFF000000) >> 24) / 255;
+
+      return a == 0 ? { r: r, g: g, b: b } : { r: r, g: g, b: b, a: a };
+    }
+}
+
 function inputToRGB(color) {
 
     var rgb = { r: 0, g: 0, b: 0 };
@@ -312,6 +357,10 @@ function inputToRGB(color) {
 
     if (typeof color == "string") {
         color = stringInputToObject(color);
+    }
+
+    if (typeof color == "number") {
+        color = intToObject(color);
     }
 
     if (typeof color == "object") {
