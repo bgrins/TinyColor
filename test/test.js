@@ -634,6 +634,12 @@ test("isReadable", function() {
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AA",size:"large"}), "readable - AA large");
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"small"}), "readable - AAA small");
   ok(tinycolor.isReadable("#db91b8", "#2e0c3a",{level:"AAA",size:"large"}), "readable - AAA large");
+
+  // transparency
+  // "#0009" as foreground:  contrast ratio 5.74
+  // "#0009" as background:  contrast ration between 5.74 and 21
+  ok(!tinycolor.isReadable("#fff", "#0009",{level:"AAA",size:"small"}), "not readable - transparency");
+  ok(tinycolor.isReadable("#fff", "#0009",{level:"AA",size:"small"}), "readable - transparency");
 });
 
 test("readability", function() {
@@ -748,6 +754,14 @@ test("Mix", function () {
         equal(tinycolor.mix('#00f', '#000', i).toHex(),  '0000' + new_hex, "Mixing " + i + " (blue channel)");
         equal(tinycolor.mix(tinycolor('transparent'), '#000', i).toRgb().a, i / 100, "Mixing " + i + " (alpha channel)");
     }
+});
+
+test("AlphaBlend", function () {
+    equal(tinycolor.alphaBlend('#fff', '#000').toHex(), 'ffffff', "Blending with solid foreground returns foreground");
+    equal(tinycolor.alphaBlend('#fff0', '#000').toHex(), '000000', "Blending with full transparent foreground returns background");
+    equal(tinycolor.alphaBlend('#f008', '#0f0').toHex(), '887700', "Blending with solid background works");
+    equal(tinycolor.alphaBlend('#f008', '#0f08').toHex(), 'ae5100', "Blending works");
+    equal(tinycolor.alphaBlend('#fff0', '#0000').toHex(), '000000', "Blending returns background if both are fully transparent");
 });
 
 // The combination tests need to be expanded further

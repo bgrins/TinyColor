@@ -714,17 +714,59 @@ tinycolor.mix = function(color1, color2, amount) {
     return tinycolor(rgba);
 };
 
+tinycolor.alphaBlend = function(foreground, background) {
+    var c1 = tinycolor(foreground);
+    var a1 = c1.getAlpha();
+    var rgb1 = c1.toRgb();
+
+    var c2 = tinycolor(background);
+    var a2 = c2.getAlpha();
+    var rgb2 = c2.toRgb();
+
+    if (a1 === 0 && a2 === 0) {
+        return c2;
+    }
+
+    var alpha = a1 + (1 - a1) * a2;
+
+    return tinycolor({
+        r: (a1 * rgb1.r + (1 - a1) * a2 * rgb2.r) / alpha,
+        g: (a1 * rgb1.g + (1 - a1) * a2 * rgb2.g) / alpha,
+        b: (a1 * rgb1.b + (1 - a1) * a2 * rgb2.b) / alpha,
+        a: alpha
+    });
+};
 
 // Readability Functions
 // ---------------------
 // <http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef (WCAG Version 2)
 
+function _readability (foreground, background) {
+    var c1 = tinycolor.alphaBlend(foreground, background);
+    var c2 = tinycolor(background);
+    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
+}
+
+function _readability_minimal (foreground, background) {
+    var fg = tinycolor(foreground);
+    var bgOnBlack = tinycolor.alphaBlend(background, '#000');
+    var bgOnWhite = tinycolor.alphaBlend(background, '#fff');
+
+    if (bgOnWhite.getLuminance() < fg.getLuminance()) {
+      return _readability(foreground, bgOnWhite);
+    } else if (bgOnBlack.getLuminance() > fg.getLuminance()) {
+      return _readability(foreground, bgOnBlack);
+    } else {
+      return 1;
+    }
+}
+
 // `contrast`
 // Analyze the 2 colors and returns the color contrast defined by (WCAG Version 2)
 tinycolor.readability = function(color1, color2) {
-    var c1 = tinycolor(color1);
-    var c2 = tinycolor(color2);
-    return (Math.max(c1.getLuminance(),c2.getLuminance())+0.05) / (Math.min(c1.getLuminance(),c2.getLuminance())+0.05);
+    var r1 = _readability_minimal(color1, color2);
+    var r2 = _readability_minimal(color2, color1);
+    return (r1 + r2) / 2;
 };
 
 // `isReadable`

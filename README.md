@@ -405,6 +405,7 @@ tinycolor("#f00").complement().toHexString(); // "#00ffff"
 ```js
 tinycolor.equals(color1, color2)
 tinycolor.mix(color1, color2, amount = 50)
+tinycolor.alphaBlend('#f008', '#0f08') // #ae5100
 ```
 ### random
 
