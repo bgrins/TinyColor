@@ -818,6 +818,7 @@ var names = tinycolor.names = {
     cadetblue: "5f9ea0",
     chartreuse: "7fff00",
     chocolate: "d2691e",
+    chucknorris: "c00000",
     coral: "ff7f50",
     cornflowerblue: "6495ed",
     cornsilk: "fff8dc",
