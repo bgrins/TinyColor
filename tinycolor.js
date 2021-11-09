@@ -664,7 +664,7 @@ function splitcomplement(color) {
 }
 
 function analogous(color, results, slices) {
-    results = results || 6;
+    results = results > 0 ? results: 6;
     slices = slices || 30;
 
     var hsl = tinycolor(color).toHsl();
@@ -679,7 +679,7 @@ function analogous(color, results, slices) {
 }
 
 function monochromatic(color, results) {
-    results = results || 6;
+    results = results > 0 ? results: 6;
     var hsv = tinycolor(color).toHsv();
     var h = hsv.h, s = hsv.s, v = hsv.v;
     var ret = [];
