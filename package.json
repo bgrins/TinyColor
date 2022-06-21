@@ -1,12 +1,13 @@
 {
   "version": "1.4.2",
-  "name": "tinycolor2",
+  "name": "@ctm/tinycolor",
   "description": "Fast Color Parsing and Manipulation",
-  "url": "http://bgrins.github.com/TinyColor",
+  "url": "https://github.com/ctmui/TinyColor",
   "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bgrins/TinyColor.git"
+    "url": "https://github.com/ctmui/TinyColor.git"
   },
   "keywords": [
     "color",
@@ -18,12 +19,15 @@
   "engines": {
     "node": "*"
   },
+  "scripts": {
+    "docs": "docco ./tinycolor.js",
+    "prepublishOnly": "npm run test",
+    "pretest": "jshint tinycolor.js",
+    "test": "qunit"
+  },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.1.3",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-qunit": "^4.0.0",
-    "grunt-contrib-uglify": "~0.2.0",
-    "grunt-docco": "~0.2.0"
+    "docco": "^0.9.1",
+    "jshint": "^2.13.4",
+    "qunit": "^2.19.1"
   }
 }
