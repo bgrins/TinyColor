@@ -21,7 +21,7 @@ var color = tinycolor("red");
 Or using ESM with:
 ```html
 <script type="module">
-import tinycolor from "https://esm.sh/tinycolor2";
+import tinycolor from "https://esm.sh/tinycolor2@1.4.2";
 var color = tinycolor("red");
 </script>
 ```

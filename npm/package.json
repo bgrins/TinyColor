@@ -1,0 +1,37 @@
+{
+  "module": "./esm/mod.js",
+  "main": "./script/mod.js",
+  "name": "@bgrins/test-tinycolor-esm",
+  "version": "0.1",
+  "description": "Fast Color Parsing and Manipulation",
+  "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
+  "license": "MIT",
+  "url": "http://bgrins.github.com/TinyColor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bgrins/TinyColor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bgrins/TinyColor/issues"
+  },
+  "keywords": [
+    "color",
+    "color manipulation",
+    "color parsing"
+  ],
+  "exports": {
+    ".": {
+      "import": "./esm/mod.js",
+      "require": "./script/mod.js"
+    }
+  },
+  "scripts": {
+    "test": "node test_runner.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "16.11.26",
+    "chalk": "4.1.2",
+    "@deno/shim-deno": "~0.5.0"
+  }
+}
