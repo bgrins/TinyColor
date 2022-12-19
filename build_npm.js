@@ -13,9 +13,10 @@ await build({
   entryPoints: ["./mod.js"],
   declaration: false,
   outDir: "./npm",
+  scriptModule: "umd",
   shims: {
     // see JS docs for overview and more options
-    deno: true,
+    deno: "dev",
   },
   typeCheck: false,
   package: {
