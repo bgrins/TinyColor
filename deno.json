@@ -2,6 +2,7 @@
   "tasks": {
     "test": "deno test test.js",
     "dev": "deno test --watch test.js",
-    "build-npm": "deno run -A build_npm.js"
+    "build-npm": "deno run -A build_npm.js",
+    "publish": "cd npm && npm test && npm publish --access public && cd .."
   }
 }
