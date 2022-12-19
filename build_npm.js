@@ -18,7 +18,6 @@ await build({
     // see JS docs for overview and more options
     deno: "dev",
   },
-  typeCheck: false,
   package: {
     // package.json properties
     name: "@bgrins/test-tinycolor-esm",
