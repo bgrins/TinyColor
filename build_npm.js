@@ -1,4 +1,4 @@
-import { build, emptyDir } from "https://deno.land/x/dnt/mod.ts";
+import { build, emptyDir } from "https://raw.githubusercontent.com/bgrins/dnt/baf144b84b9c29e8019c4697b306a22d2ffec8f1/mod.ts";
 import { rollup } from "npm:rollup";
 import { minify } from "npm:terser";
 

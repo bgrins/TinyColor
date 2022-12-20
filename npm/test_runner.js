@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const process = require("process");
+const { pathToFileURL } = require("url");
 const { testDefinitions } = require("@deno/shim-deno/test-internals");
 const filePaths = [
     "test.js",
@@ -16,6 +17,10 @@ async function main() {
         const scriptPath = "./script/" + filePath;
         console.log("Running tests in " + chalk.underline(scriptPath) + "...\n");
         process.chdir(__dirname + "/script");
+        const scriptTestContext = {
+            origin: pathToFileURL(filePath).toString(),
+            ...testContext,
+        };
         try {
             require(scriptPath);
         }
@@ -23,12 +28,16 @@ async function main() {
             console.error(err);
             process.exit(1);
         }
-        await runTestDefinitions(testDefinitions.splice(0, testDefinitions.length), testContext);
+        await runTestDefinitions(testDefinitions.splice(0, testDefinitions.length), scriptTestContext);
         const esmPath = "./esm/" + filePath;
-        process.chdir(__dirname + "/esm");
         console.log("\nRunning tests in " + chalk.underline(esmPath) + "...\n");
+        process.chdir(__dirname + "/esm");
+        const esmTestContext = {
+            origin: pathToFileURL(filePath).toString(),
+            ...testContext,
+        };
         await import(esmPath);
-        await runTestDefinitions(testDefinitions.splice(0, testDefinitions.length), testContext);
+        await runTestDefinitions(testDefinitions.splice(0, testDefinitions.length), esmTestContext);
     }
 }
 async function runTestDefinitions(testDefinitions, options) {
@@ -39,7 +48,7 @@ async function runTestDefinitions(testDefinitions, options) {
             options.process.stdout.write(` ${options.chalk.gray("ignored")}\n`);
             continue;
         }
-        const context = getTestContext();
+        const context = getTestContext(definition, undefined);
         let pass = false;
         try {
             await definition.fn(context);
@@ -78,9 +87,11 @@ async function runTestDefinitions(testDefinitions, options) {
         }
         options.process.exit(1);
     }
-    function getTestContext() {
+    function getTestContext(definition, parent) {
         return {
-            name: undefined,
+            name: definition.name,
+            parent,
+            origin: options.origin,
             /** @type {any} */ err: undefined,
             status: "ok",
             children: [],
@@ -89,7 +100,7 @@ async function runTestDefinitions(testDefinitions, options) {
             },
             getOutput() {
                 let output = "";
-                if (this.name) {
+                if (this.parent) {
                     output += "test " + this.name + " ...";
                 }
                 if (this.children.length > 0) {
@@ -98,25 +109,23 @@ async function runTestDefinitions(testDefinitions, options) {
                 else if (!this.err) {
                     output += " ";
                 }
-                if (this.name && this.err) {
+                if (this.parent && this.err) {
                     output += "\n";
                 }
                 if (this.err) {
                     output += indentText((this.err.stack ?? this.err).toString(), 1);
-                    if (this.name) {
+                    if (this.parent) {
                         output += "\n";
                     }
                 }
-                if (this.name) {
+                if (this.parent) {
                     output += getStatusText(this.status);
                 }
                 return output;
             },
             async step(nameOrTestDefinition, fn) {
                 const definition = getDefinition();
-                const context = getTestContext();
-                context.status = "pending";
-                context.name = definition.name;
+                const context = getTestContext(definition, this);
                 context.status = "pending";
                 this.children.push(context);
                 if (definition.ignore) {
