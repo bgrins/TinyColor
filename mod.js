@@ -2,8 +2,6 @@
 // https://github.com/bgrins/TinyColor
 // Brian Grinstead, MIT License
 
-(function(Math) {
-
 var trimLeft = /^\s+/,
     trimRight = /\s+$/,
     mathRound = Math.round,
@@ -11,7 +9,7 @@ var trimLeft = /^\s+/,
     mathMax = Math.max,
     mathRandom = Math.random;
 
-function tinycolor (color, opts) {
+export default function tinycolor (color, opts) {
 
     color = (color) ? color : '';
     opts = opts || { };
@@ -1176,18 +1174,3 @@ function validateWCAG2Parms(parms) {
     }
     return {"level":level, "size":size};
 }
-
-// Node: Export function
-if (typeof module !== "undefined" && module.exports) {
-    module.exports = tinycolor;
-}
-// AMD/requirejs: Define the module
-else if (typeof define === 'function' && define.amd) {
-    define(function () {return tinycolor;});
-}
-// Browser: Expose to window
-else {
-    window.tinycolor = tinycolor;
-}
-
-})(Math);
