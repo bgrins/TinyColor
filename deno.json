@@ -1,9 +1,9 @@
 {
   "tasks": {
     "test": "deno test test.js",
-    "test-cjs": "npm install && node test_cjs.js",
     "dev": "deno test --watch test.js",
-    "build": "deno test test.js && deno run --allow-env --allow-read --allow-write=. build.js && deno task test-cjs",
+    "test-cjs": "cd cjs && npm install && node test_cjs.js",
+    "build": "deno task test && deno run --allow-env --allow-read --allow-write=. build.js && deno task test-cjs",
     "publish": "deno task test && deno task test-cjs && npm publish --access public"
   }
 }
