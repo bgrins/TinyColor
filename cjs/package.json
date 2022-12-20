@@ -1,0 +1,6 @@
+{
+  "type": "commonjs",
+  "devDependencies": {
+    "@deno/shim-deno-test": "^0.4.0"
+  }
+}
