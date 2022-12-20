@@ -1,6 +1,6 @@
 {
   "name": "@bgrins/test-tinycolor-esm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Fast Color Parsing and Manipulation",
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
   "license": "MIT",
