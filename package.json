@@ -1,6 +1,6 @@
 {
   "name": "@bgrins/test-tinycolor-esm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Fast Color Parsing and Manipulation",
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
   "license": "MIT",
@@ -25,10 +25,7 @@
       "require": "./tinycolor.js"
     }
   },
-  "scripts": {
-    "test": "jest test.js"
-  },
   "devDependencies": {
-    "jest": "^29.3.1"
+    "@deno/shim-deno-test": "^0.4.0"
   }
 }
