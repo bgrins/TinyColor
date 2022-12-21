@@ -28,6 +28,30 @@ function color_detail(color) {
     splitcomplement: color.splitcomplement().map((c) => c.toHexString()),
   };
 }
+async function api_handler(req, input) {
+  const color = tinycolor(input);
+  if (!color.isValid()) {
+    return new Response(
+      JSON.stringify({
+        error: "Invalid color",
+      }),
+      {
+        status: 400,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  }
+  return new Response(
+    JSON.stringify(Object.assign({ input }, color_detail(color)), null, 2),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
 async function image_handler(req, input) {
   const color = tinycolor(input || "lavender");
   console.log(input, color.toHexString());
@@ -82,6 +106,10 @@ const handler = (req) => {
   }
   if (["/demo/demo.css", "/tinycolor.js"].includes(pathname)) {
     return serveFile(req, `.${pathname}`);
+  }
+  if (pathname.startsWith("/api/")) {
+    const input = pathname.replace("/api/", "");
+    return api_handler(req, input);
   }
   if (pathname.startsWith("/graphic/")) {
     const input = pathname.replace("/graphic/", "");
