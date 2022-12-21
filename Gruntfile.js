@@ -34,23 +34,14 @@ module.exports = function(grunt) {
       all: ['tinycolor.js']
     },
 
-    docco: {
-      debug: {
-        src: ['tinycolor.js'],
-        options: {
-          output: 'docs/'
-        }
-      }
-    }
   });
 
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-docco');
 
   grunt.registerTask('default', ['jshint', 'qunit']);
-  grunt.registerTask('version-bump', ['jshint', 'qunit', 'uglify', 'docco']);
+  grunt.registerTask('version-bump', ['jshint', 'qunit', 'uglify']);
 
 };
