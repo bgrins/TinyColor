@@ -2,9 +2,9 @@
 // Ideally it wouldn't exist, but it's here to test cjs in node
 // Changes should go into ./test.js, and if new assertions are needed
 // they'll need to be shimmed here as well
-const tinycolor = require("./tinycolor.js");
-const { Deno, testDefinitions } = require("@deno/shim-deno-test");
-const requireAssert = require("assert");
+import tinycolor from "./tinycolor.js";
+import { Deno, testDefinitions } from "@deno/shim-deno-test";
+import nodeAssert from "assert";
 let currentAssertionCount = 0;
 let totalAssertionCount = 0;
 async function runDenoTests() {
@@ -21,11 +21,11 @@ async function runDenoTests() {
 }
 function assertEquals(...args) {
   currentAssertionCount++;
-  return requireAssert.deepEqual(...args);
+  return nodeAssert.deepEqual(...args);
 }
 function assert(...args) {
   currentAssertionCount++;
-  return requireAssert(...args);
+  return nodeAssert(...args);
 }
 
 // CONTENT_GOES_HERE
