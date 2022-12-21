@@ -10,7 +10,7 @@ var trimLeft = /^\s+/,
   mathRandom = Math.random;
 
 export default function tinycolor(color, opts) {
-  color = (color) ? color : "";
+  color = color ? color : "";
   opts = opts || {};
 
   // If input is already a tinycolor, return itself
@@ -23,13 +23,13 @@ export default function tinycolor(color, opts) {
   }
 
   var rgb = inputToRGB(color);
-  this._originalInput = color,
-    this._r = rgb.r,
-    this._g = rgb.g,
-    this._b = rgb.b,
-    this._a = rgb.a,
-    this._roundA = mathRound(100 * this._a) / 100,
-    this._format = opts.format || rgb.format;
+  (this._originalInput = color),
+    (this._r = rgb.r),
+    (this._g = rgb.g),
+    (this._b = rgb.b),
+    (this._a = rgb.a),
+    (this._roundA = mathRound(100 * this._a) / 100),
+    (this._format = opts.format || rgb.format);
   this._gradientType = opts.gradientType;
 
   // Don't let the range of [0,255] come back in [0,1].
@@ -81,7 +81,7 @@ tinycolor.prototype = {
     else G = Math.pow((GsRGB + 0.055) / 1.055, 2.4);
     if (BsRGB <= 0.03928) B = BsRGB / 12.92;
     else B = Math.pow((BsRGB + 0.055) / 1.055, 2.4);
-    return (0.2126 * R) + (0.7152 * G) + (0.0722 * B);
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
   },
   setAlpha: function (value) {
     this._a = boundAlpha(value);
@@ -97,7 +97,7 @@ tinycolor.prototype = {
     var h = mathRound(hsv.h * 360),
       s = mathRound(hsv.s * 100),
       v = mathRound(hsv.v * 100);
-    return (this._a == 1)
+    return this._a == 1
       ? "hsv(" + h + ", " + s + "%, " + v + "%)"
       : "hsva(" + h + ", " + s + "%, " + v + "%, " + this._roundA + ")";
   },
@@ -110,7 +110,7 @@ tinycolor.prototype = {
     var h = mathRound(hsl.h * 360),
       s = mathRound(hsl.s * 100),
       l = mathRound(hsl.l * 100);
-    return (this._a == 1)
+    return this._a == 1
       ? "hsl(" + h + ", " + s + "%, " + l + "%)"
       : "hsla(" + h + ", " + s + "%, " + l + "%, " + this._roundA + ")";
   },
@@ -135,11 +135,23 @@ tinycolor.prototype = {
     };
   },
   toRgbString: function () {
-    return (this._a == 1)
-      ? "rgb(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " +
-        mathRound(this._b) + ")"
-      : "rgba(" + mathRound(this._r) + ", " + mathRound(this._g) + ", " +
-        mathRound(this._b) + ", " + this._roundA + ")";
+    return this._a == 1
+      ? "rgb(" +
+          mathRound(this._r) +
+          ", " +
+          mathRound(this._g) +
+          ", " +
+          mathRound(this._b) +
+          ")"
+      : "rgba(" +
+          mathRound(this._r) +
+          ", " +
+          mathRound(this._g) +
+          ", " +
+          mathRound(this._b) +
+          ", " +
+          this._roundA +
+          ")";
   },
   toPercentageRgb: function () {
     return {
@@ -150,13 +162,23 @@ tinycolor.prototype = {
     };
   },
   toPercentageRgbString: function () {
-    return (this._a == 1)
-      ? "rgb(" + mathRound(bound01(this._r, 255) * 100) + "%, " +
-        mathRound(bound01(this._g, 255) * 100) + "%, " +
-        mathRound(bound01(this._b, 255) * 100) + "%)"
-      : "rgba(" + mathRound(bound01(this._r, 255) * 100) + "%, " +
-        mathRound(bound01(this._g, 255) * 100) + "%, " +
-        mathRound(bound01(this._b, 255) * 100) + "%, " + this._roundA + ")";
+    return this._a == 1
+      ? "rgb(" +
+          mathRound(bound01(this._r, 255) * 100) +
+          "%, " +
+          mathRound(bound01(this._g, 255) * 100) +
+          "%, " +
+          mathRound(bound01(this._b, 255) * 100) +
+          "%)"
+      : "rgba(" +
+          mathRound(bound01(this._r, 255) * 100) +
+          "%, " +
+          mathRound(bound01(this._g, 255) * 100) +
+          "%, " +
+          mathRound(bound01(this._b, 255) * 100) +
+          "%, " +
+          this._roundA +
+          ")";
   },
   toName: function () {
     if (this._a === 0) {
@@ -179,8 +201,15 @@ tinycolor.prototype = {
       secondHex8String = "#" + rgbaToArgbHex(s._r, s._g, s._b, s._a);
     }
 
-    return "progid:DXImageTransform.Microsoft.gradient(" + gradientType +
-      "startColorstr=" + hex8String + ",endColorstr=" + secondHex8String + ")";
+    return (
+      "progid:DXImageTransform.Microsoft.gradient(" +
+      gradientType +
+      "startColorstr=" +
+      hex8String +
+      ",endColorstr=" +
+      secondHex8String +
+      ")"
+    );
   },
   toString: function (format) {
     var formatSet = !!format;
@@ -188,9 +217,15 @@ tinycolor.prototype = {
 
     var formattedString = false;
     var hasAlpha = this._a < 1 && this._a >= 0;
-    var needsAlphaFormat = !formatSet && hasAlpha &&
-      (format === "hex" || format === "hex6" || format === "hex3" ||
-        format === "hex4" || format === "hex8" || format === "name");
+    var needsAlphaFormat =
+      !formatSet &&
+      hasAlpha &&
+      (format === "hex" ||
+        format === "hex6" ||
+        format === "hex3" ||
+        format === "hex4" ||
+        format === "hex8" ||
+        format === "name");
 
     if (needsAlphaFormat) {
       // Special case for "transparent", all other non-alpha formats
@@ -337,14 +372,16 @@ function inputToRGB(color) {
 
   if (typeof color == "object") {
     if (
-      isValidCSSUnit(color.r) && isValidCSSUnit(color.g) &&
+      isValidCSSUnit(color.r) &&
+      isValidCSSUnit(color.g) &&
       isValidCSSUnit(color.b)
     ) {
       rgb = rgbToRgb(color.r, color.g, color.b);
       ok = true;
       format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
     } else if (
-      isValidCSSUnit(color.h) && isValidCSSUnit(color.s) &&
+      isValidCSSUnit(color.h) &&
+      isValidCSSUnit(color.s) &&
       isValidCSSUnit(color.v)
     ) {
       s = convertToPercentage(color.s);
@@ -353,7 +390,8 @@ function inputToRGB(color) {
       ok = true;
       format = "hsv";
     } else if (
-      isValidCSSUnit(color.h) && isValidCSSUnit(color.s) &&
+      isValidCSSUnit(color.h) &&
+      isValidCSSUnit(color.s) &&
       isValidCSSUnit(color.l)
     ) {
       s = convertToPercentage(color.s);
@@ -408,8 +446,11 @@ function rgbToHsl(r, g, b) {
   g = bound01(g, 255);
   b = bound01(b, 255);
 
-  var max = mathMax(r, g, b), min = mathMin(r, g, b);
-  var h, s, l = (max + min) / 2;
+  var max = mathMax(r, g, b),
+    min = mathMin(r, g, b);
+  var h,
+    s,
+    l = (max + min) / 2;
 
   if (max == min) {
     h = s = 0; // achromatic
@@ -476,8 +517,11 @@ function rgbToHsv(r, g, b) {
   g = bound01(g, 255);
   b = bound01(b, 255);
 
-  var max = mathMax(r, g, b), min = mathMin(r, g, b);
-  var h, s, v = max;
+  var max = mathMax(r, g, b),
+    min = mathMin(r, g, b);
+  var h,
+    s,
+    v = max;
 
   var d = max - min;
   s = max === 0 ? 0 : d / max;
@@ -536,8 +580,10 @@ function rgbToHex(r, g, b, allow3Char) {
 
   // Return a 3 character hex if possible
   if (
-    allow3Char && hex[0].charAt(0) == hex[0].charAt(1) &&
-    hex[1].charAt(0) == hex[1].charAt(1) && hex[2].charAt(0) == hex[2].charAt(1)
+    allow3Char &&
+    hex[0].charAt(0) == hex[0].charAt(1) &&
+    hex[1].charAt(0) == hex[1].charAt(1) &&
+    hex[2].charAt(0) == hex[2].charAt(1)
   ) {
     return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0);
   }
@@ -559,12 +605,15 @@ function rgbaToHex(r, g, b, a, allow4Char) {
 
   // Return a 4 character hex if possible
   if (
-    allow4Char && hex[0].charAt(0) == hex[0].charAt(1) &&
+    allow4Char &&
+    hex[0].charAt(0) == hex[0].charAt(1) &&
     hex[1].charAt(0) == hex[1].charAt(1) &&
-    hex[2].charAt(0) == hex[2].charAt(1) && hex[3].charAt(0) == hex[3].charAt(1)
+    hex[2].charAt(0) == hex[2].charAt(1) &&
+    hex[3].charAt(0) == hex[3].charAt(1)
   ) {
-    return hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) +
-      hex[3].charAt(0);
+    return (
+      hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0)
+    );
   }
 
   return hex.join("");
@@ -605,7 +654,7 @@ tinycolor.random = function () {
 // <https://github.com/cloudhead/less.js/blob/master/lib/less/functions.js>
 
 function desaturate(color, amount) {
-  amount = (amount === 0) ? 0 : (amount || 10);
+  amount = amount === 0 ? 0 : amount || 10;
   var hsl = tinycolor(color).toHsl();
   hsl.s -= amount / 100;
   hsl.s = clamp01(hsl.s);
@@ -613,7 +662,7 @@ function desaturate(color, amount) {
 }
 
 function saturate(color, amount) {
-  amount = (amount === 0) ? 0 : (amount || 10);
+  amount = amount === 0 ? 0 : amount || 10;
   var hsl = tinycolor(color).toHsl();
   hsl.s += amount / 100;
   hsl.s = clamp01(hsl.s);
@@ -625,7 +674,7 @@ function greyscale(color) {
 }
 
 function lighten(color, amount) {
-  amount = (amount === 0) ? 0 : (amount || 10);
+  amount = amount === 0 ? 0 : amount || 10;
   var hsl = tinycolor(color).toHsl();
   hsl.l += amount / 100;
   hsl.l = clamp01(hsl.l);
@@ -633,7 +682,7 @@ function lighten(color, amount) {
 }
 
 function brighten(color, amount) {
-  amount = (amount === 0) ? 0 : (amount || 10);
+  amount = amount === 0 ? 0 : amount || 10;
   var rgb = tinycolor(color).toRgb();
   rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * -(amount / 100))));
   rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * -(amount / 100))));
@@ -642,7 +691,7 @@ function brighten(color, amount) {
 }
 
 function darken(color, amount) {
-  amount = (amount === 0) ? 0 : (amount || 10);
+  amount = amount === 0 ? 0 : amount || 10;
   var hsl = tinycolor(color).toHsl();
   hsl.l -= amount / 100;
   hsl.l = clamp01(hsl.l);
@@ -708,7 +757,7 @@ function analogous(color, results, slices) {
   var part = 360 / slices;
   var ret = [tinycolor(color)];
 
-  for (hsl.h = ((hsl.h - (part * results >> 1)) + 720) % 360; --results;) {
+  for (hsl.h = (hsl.h - ((part * results) >> 1) + 720) % 360; --results; ) {
     hsl.h = (hsl.h + part) % 360;
     ret.push(tinycolor(hsl));
   }
@@ -718,7 +767,9 @@ function analogous(color, results, slices) {
 function monochromatic(color, results) {
   results = results || 6;
   var hsv = tinycolor(color).toHsv();
-  var h = hsv.h, s = hsv.s, v = hsv.v;
+  var h = hsv.h,
+    s = hsv.s,
+    v = hsv.v;
   var ret = [];
   var modification = 1 / results;
 
@@ -734,7 +785,7 @@ function monochromatic(color, results) {
 // ---------------------
 
 tinycolor.mix = function (color1, color2, amount) {
-  amount = (amount === 0) ? 0 : (amount || 50);
+  amount = amount === 0 ? 0 : amount || 50;
 
   var rgb1 = tinycolor(color1).toRgb();
   var rgb2 = tinycolor(color2).toRgb();
@@ -742,10 +793,10 @@ tinycolor.mix = function (color1, color2, amount) {
   var p = amount / 100;
 
   var rgba = {
-    r: ((rgb2.r - rgb1.r) * p) + rgb1.r,
-    g: ((rgb2.g - rgb1.g) * p) + rgb1.g,
-    b: ((rgb2.b - rgb1.b) * p) + rgb1.b,
-    a: ((rgb2.a - rgb1.a) * p) + rgb1.a,
+    r: (rgb2.r - rgb1.r) * p + rgb1.r,
+    g: (rgb2.g - rgb1.g) * p + rgb1.g,
+    b: (rgb2.b - rgb1.b) * p + rgb1.b,
+    a: (rgb2.a - rgb1.a) * p + rgb1.a,
   };
 
   return tinycolor(rgba);
@@ -760,8 +811,10 @@ tinycolor.mix = function (color1, color2, amount) {
 tinycolor.readability = function (color1, color2) {
   var c1 = tinycolor(color1);
   var c2 = tinycolor(color2);
-  return (Math.max(c1.getLuminance(), c2.getLuminance()) + 0.05) /
-    (Math.min(c1.getLuminance(), c2.getLuminance()) + 0.05);
+  return (
+    (Math.max(c1.getLuminance(), c2.getLuminance()) + 0.05) /
+    (Math.min(c1.getLuminance(), c2.getLuminance()) + 0.05)
+  );
 };
 
 // `isReadable`
@@ -825,9 +878,10 @@ tinycolor.mostReadable = function (baseColor, colorList, args) {
 
   if (
     tinycolor.isReadable(baseColor, bestColor, {
-      "level": level,
-      "size": size,
-    }) || !includeFallbackColors
+      level: level,
+      size: size,
+    }) ||
+    !includeFallbackColors
   ) {
     return bestColor;
   } else {
@@ -839,7 +893,7 @@ tinycolor.mostReadable = function (baseColor, colorList, args) {
 // Big List of Colors
 // ------------------
 // <http://www.w3.org/TR/css3-color/#svg-color>
-var names = tinycolor.names = {
+var names = (tinycolor.names = {
   aliceblue: "f0f8ff",
   antiquewhite: "faebd7",
   aqua: "0ff",
@@ -989,10 +1043,10 @@ var names = tinycolor.names = {
   whitesmoke: "f5f5f5",
   yellow: "ff0",
   yellowgreen: "9acd32",
-};
+});
 
 // Make it easy to access colors via `hexNames[hex]`
-var hexNames = tinycolor.hexNames = flip(names);
+var hexNames = (tinycolor.hexNames = flip(names));
 
 // Utilities
 // ---------
@@ -1032,7 +1086,7 @@ function bound01(n, max) {
   }
 
   // Handle floating point rounding errors
-  if ((Math.abs(n - max) < 0.000001)) {
+  if (Math.abs(n - max) < 0.000001) {
     return 1;
   }
 
@@ -1069,7 +1123,7 @@ function pad2(c) {
 // Replace a decimal with it's percentage value
 function convertToPercentage(n) {
   if (n <= 1) {
-    n = (n * 100) + "%";
+    n = n * 100 + "%";
   }
 
   return n;
@@ -1081,7 +1135,7 @@ function convertDecimalToHex(d) {
 }
 // Converts a hex value to a decimal
 function convertHexToDecimal(h) {
-  return (parseIntFromHex(h) / 255);
+  return parseIntFromHex(h) / 255;
 }
 
 var matchers = (function () {
@@ -1097,10 +1151,24 @@ var matchers = (function () {
   // Actual matching.
   // Parentheses and commas are optional, but not required.
   // Whitespace can take the place of commas or opening paren
-  var PERMISSIVE_MATCH3 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT +
-    ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
-  var PERMISSIVE_MATCH4 = "[\\s|\\(]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT +
-    ")[,|\\s]+(" + CSS_UNIT + ")[,|\\s]+(" + CSS_UNIT + ")\\s*\\)?";
+  var PERMISSIVE_MATCH3 =
+    "[\\s|\\(]+(" +
+    CSS_UNIT +
+    ")[,|\\s]+(" +
+    CSS_UNIT +
+    ")[,|\\s]+(" +
+    CSS_UNIT +
+    ")\\s*\\)?";
+  var PERMISSIVE_MATCH4 =
+    "[\\s|\\(]+(" +
+    CSS_UNIT +
+    ")[,|\\s]+(" +
+    CSS_UNIT +
+    ")[,|\\s]+(" +
+    CSS_UNIT +
+    ")[,|\\s]+(" +
+    CSS_UNIT +
+    ")\\s*\\)?";
 
   return {
     CSS_UNIT: new RegExp(CSS_UNIT),
@@ -1112,10 +1180,8 @@ var matchers = (function () {
     hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
     hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
     hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-    hex4:
-      /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-    hex8:
-      /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+    hex4: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+    hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
   };
 })();
 
@@ -1204,7 +1270,7 @@ function validateWCAG2Parms(parms) {
   // return valid WCAG2 parms for isReadable.
   // If input parms are invalid, return {"level":"AA", "size":"small"}
   var level, size;
-  parms = parms || { "level": "AA", "size": "small" };
+  parms = parms || { level: "AA", size: "small" };
   level = (parms.level || "AA").toUpperCase();
   size = (parms.size || "small").toLowerCase();
   if (level !== "AA" && level !== "AAA") {
@@ -1213,5 +1279,5 @@ function validateWCAG2Parms(parms) {
   if (size !== "small" && size !== "large") {
     size = "small";
   }
-  return { "level": level, "size": size };
+  return { level: level, size: size };
 }

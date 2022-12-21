@@ -7,38 +7,38 @@ import tinycolor from "./mod.js";
 Deno.test("TinyColor initialization", function () {
   assert(
     typeof tinycolor != "undefined",
-    "tinycolor is initialized on the page",
+    "tinycolor is initialized on the page"
   );
   assert(
     typeof tinycolor("red") == "object",
-    "tinycolor is able to be instantiated",
+    "tinycolor is able to be instantiated"
   );
 
   var r = tinycolor("red");
   assert(
     tinycolor(r) === r,
-    "when given a tinycolor instance, tinycolor() returns it",
+    "when given a tinycolor instance, tinycolor() returns it"
   );
   assert(
     new tinycolor(r) === r,
-    "when given a tinycolor instance, new tinycolor() returns it",
+    "when given a tinycolor instance, new tinycolor() returns it"
   );
   assertEquals(
     tinycolor("red", { format: "hex" }).toString(),
     "#ff0000",
-    "tinycolor options are being parsed",
+    "tinycolor options are being parsed"
   );
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 0, b: 0 }, { format: "hex" }).toString(),
     "#ff0000",
-    "tinycolor options are being parsed",
+    "tinycolor options are being parsed"
   );
 
   var obj = { h: 180, s: 0.5, l: 0.5 };
   var color = tinycolor(obj);
   assert(
     obj.s === 0.5,
-    "when given an object, the original object is not modified",
+    "when given an object, the original object is not modified"
   );
 });
 
@@ -52,31 +52,31 @@ Deno.test("Original input", function () {
 
   assert(
     tinycolor(colorRgbLow).getOriginalInput() === colorRgbLow,
-    "original lowercase input is returned",
+    "original lowercase input is returned"
   );
   assert(
     tinycolor(colorRgbUp).getOriginalInput() === colorRgbUp,
-    "original uppercase input is returned",
+    "original uppercase input is returned"
   );
   assert(
     tinycolor(colorRgbMix).getOriginalInput() === colorRgbMix,
-    "original mixed input is returned",
+    "original mixed input is returned"
   );
   assert(
     tinycolor(tinycolorObj).getOriginalInput() === colorRgbMix,
-    "when given a tinycolor instance, the color string is returned",
+    "when given a tinycolor instance, the color string is returned"
   );
   assert(
     tinycolor(inputObj).getOriginalInput() === inputObj,
-    "when given an object, the object is returned",
+    "when given an object, the object is returned"
   );
   assert(
     new tinycolor("").getOriginalInput() === "",
-    "when given an empty string, an empty string is returned",
+    "when given an empty string, an empty string is returned"
   );
   assert(
     new tinycolor(null).getOriginalInput() === "",
-    "when given a null value, an empty string is returned",
+    "when given a null value, an empty string is returned"
   );
 });
 
@@ -87,133 +87,133 @@ Deno.test("Cloning color", function () {
   var clonedColor = originalColor.clone();
   assert(
     clonedColor.toRgbString() === originalColor.toRgbString(),
-    "cloned color is identical",
+    "cloned color is identical"
   );
 
   clonedColor.setAlpha(0.5);
   assert(
     clonedColor.toRgbString() !== originalColor.toRgbString(),
-    "cloned color is changing independently from original color",
+    "cloned color is changing independently from original color"
   );
   assert(
     originalColorRgbString === originalColor.toRgbString(),
-    "original color was not changed by cloned color change",
+    "original color was not changed by cloned color change"
   );
 });
 
 // Taken from convertWikipediaColors.html
 var conversions = [
   {
-    "hex": "#FFFFFF",
-    "hex8": "#FFFFFFFF",
-    "rgb": { "r": "100.0%", "g": "100.0%", "b": "100.0%" },
-    "hsv": { "h": "0", "s": "0.000", "v": "1.000" },
-    "hsl": { "h": "0", "s": "0.000", "l": "1.000" },
+    hex: "#FFFFFF",
+    hex8: "#FFFFFFFF",
+    rgb: { r: "100.0%", g: "100.0%", b: "100.0%" },
+    hsv: { h: "0", s: "0.000", v: "1.000" },
+    hsl: { h: "0", s: "0.000", l: "1.000" },
   },
   {
-    "hex": "#808080",
-    "hex8": "#808080FF",
-    "rgb": { "r": "050.0%", "g": "050.0%", "b": "050.0%" },
-    "hsv": { "h": "0", "s": "0.000", "v": "0.500" },
-    "hsl": { "h": "0", "s": "0.000", "l": "0.500" },
+    hex: "#808080",
+    hex8: "#808080FF",
+    rgb: { r: "050.0%", g: "050.0%", b: "050.0%" },
+    hsv: { h: "0", s: "0.000", v: "0.500" },
+    hsl: { h: "0", s: "0.000", l: "0.500" },
   },
   {
-    "hex": "#000000",
-    "hex8": "#000000FF",
-    "rgb": { "r": "000.0%", "g": "000.0%", "b": "000.0%" },
-    "hsv": { "h": "0", "s": "0.000", "v": "0.000" },
-    "hsl": { "h": "0", "s": "0.000", "l": "0.000" },
+    hex: "#000000",
+    hex8: "#000000FF",
+    rgb: { r: "000.0%", g: "000.0%", b: "000.0%" },
+    hsv: { h: "0", s: "0.000", v: "0.000" },
+    hsl: { h: "0", s: "0.000", l: "0.000" },
   },
   {
-    "hex": "#FF0000",
-    "hex8": "#FF0000FF",
-    "rgb": { "r": "100.0%", "g": "000.0%", "b": "000.0%" },
-    "hsv": { "h": "0.0", "s": "1.000", "v": "1.000" },
-    "hsl": { "h": "0.0", "s": "1.000", "l": "0.500" },
+    hex: "#FF0000",
+    hex8: "#FF0000FF",
+    rgb: { r: "100.0%", g: "000.0%", b: "000.0%" },
+    hsv: { h: "0.0", s: "1.000", v: "1.000" },
+    hsl: { h: "0.0", s: "1.000", l: "0.500" },
   },
   {
-    "hex": "#BFBF00",
-    "hex8": "#BFBF00FF",
-    "rgb": { "r": "075.0%", "g": "075.0%", "b": "000.0%" },
-    "hsv": { "h": "60.0", "s": "1.000", "v": "0.750" },
-    "hsl": { "h": "60.0", "s": "1.000", "l": "0.375" },
+    hex: "#BFBF00",
+    hex8: "#BFBF00FF",
+    rgb: { r: "075.0%", g: "075.0%", b: "000.0%" },
+    hsv: { h: "60.0", s: "1.000", v: "0.750" },
+    hsl: { h: "60.0", s: "1.000", l: "0.375" },
   },
   {
-    "hex": "#008000",
-    "hex8": "#008000FF",
-    "rgb": { "r": "000.0%", "g": "050.0%", "b": "000.0%" },
-    "hsv": { "h": "120.0", "s": "1.000", "v": "0.500" },
-    "hsl": { "h": "120.0", "s": "1.000", "l": "0.250" },
+    hex: "#008000",
+    hex8: "#008000FF",
+    rgb: { r: "000.0%", g: "050.0%", b: "000.0%" },
+    hsv: { h: "120.0", s: "1.000", v: "0.500" },
+    hsl: { h: "120.0", s: "1.000", l: "0.250" },
   },
   {
-    "hex": "#80FFFF",
-    "hex8": "#80FFFFFF",
-    "rgb": { "r": "050.0%", "g": "100.0%", "b": "100.0%" },
-    "hsv": { "h": "180.0", "s": "0.500", "v": "1.000" },
-    "hsl": { "h": "180.0", "s": "1.000", "l": "0.750" },
+    hex: "#80FFFF",
+    hex8: "#80FFFFFF",
+    rgb: { r: "050.0%", g: "100.0%", b: "100.0%" },
+    hsv: { h: "180.0", s: "0.500", v: "1.000" },
+    hsl: { h: "180.0", s: "1.000", l: "0.750" },
   },
   {
-    "hex": "#8080FF",
-    "hex8": "#8080FFFF",
-    "rgb": { "r": "050.0%", "g": "050.0%", "b": "100.0%" },
-    "hsv": { "h": "240.0", "s": "0.500", "v": "1.000" },
-    "hsl": { "h": "240.0", "s": "1.000", "l": "0.750" },
+    hex: "#8080FF",
+    hex8: "#8080FFFF",
+    rgb: { r: "050.0%", g: "050.0%", b: "100.0%" },
+    hsv: { h: "240.0", s: "0.500", v: "1.000" },
+    hsl: { h: "240.0", s: "1.000", l: "0.750" },
   },
   {
-    "hex": "#BF40BF",
-    "hex8": "#BF40BFFF",
-    "rgb": { "r": "075.0%", "g": "025.0%", "b": "075.0%" },
-    "hsv": { "h": "300.0", "s": "0.667", "v": "0.750" },
-    "hsl": { "h": "300.0", "s": "0.500", "l": "0.500" },
+    hex: "#BF40BF",
+    hex8: "#BF40BFFF",
+    rgb: { r: "075.0%", g: "025.0%", b: "075.0%" },
+    hsv: { h: "300.0", s: "0.667", v: "0.750" },
+    hsl: { h: "300.0", s: "0.500", l: "0.500" },
   },
   {
-    "hex": "#A0A424",
-    "hex8": "#A0A424FF",
-    "rgb": { "r": "062.8%", "g": "064.3%", "b": "014.2%" },
-    "hsv": { "h": "61.8", "s": "0.779", "v": "0.643" },
-    "hsl": { "h": "61.8", "s": "0.638", "l": "0.393" },
+    hex: "#A0A424",
+    hex8: "#A0A424FF",
+    rgb: { r: "062.8%", g: "064.3%", b: "014.2%" },
+    hsv: { h: "61.8", s: "0.779", v: "0.643" },
+    hsl: { h: "61.8", s: "0.638", l: "0.393" },
   },
   {
-    "hex": "#1EAC41",
-    "hex8": "#1EAC41FF",
-    "rgb": { "r": "011.6%", "g": "067.5%", "b": "025.5%" },
-    "hsv": { "h": "134.9", "s": "0.828", "v": "0.675" },
-    "hsl": { "h": "134.9", "s": "0.707", "l": "0.396" },
+    hex: "#1EAC41",
+    hex8: "#1EAC41FF",
+    rgb: { r: "011.6%", g: "067.5%", b: "025.5%" },
+    hsv: { h: "134.9", s: "0.828", v: "0.675" },
+    hsl: { h: "134.9", s: "0.707", l: "0.396" },
   },
   {
-    "hex": "#B430E5",
-    "hex8": "#B430E5FF",
-    "rgb": { "r": "070.4%", "g": "018.7%", "b": "089.7%" },
-    "hsv": { "h": "283.7", "s": "0.792", "v": "0.897" },
-    "hsl": { "h": "283.7", "s": "0.775", "l": "0.542" },
+    hex: "#B430E5",
+    hex8: "#B430E5FF",
+    rgb: { r: "070.4%", g: "018.7%", b: "089.7%" },
+    hsv: { h: "283.7", s: "0.792", v: "0.897" },
+    hsl: { h: "283.7", s: "0.775", l: "0.542" },
   },
   {
-    "hex": "#FEF888",
-    "hex8": "#FEF888FF",
-    "rgb": { "r": "099.8%", "g": "097.4%", "b": "053.2%" },
-    "hsv": { "h": "56.9", "s": "0.467", "v": "0.998" },
-    "hsl": { "h": "56.9", "s": "0.991", "l": "0.765" },
+    hex: "#FEF888",
+    hex8: "#FEF888FF",
+    rgb: { r: "099.8%", g: "097.4%", b: "053.2%" },
+    hsv: { h: "56.9", s: "0.467", v: "0.998" },
+    hsl: { h: "56.9", s: "0.991", l: "0.765" },
   },
   {
-    "hex": "#19CB97",
-    "hex8": "#19CB97FF",
-    "rgb": { "r": "009.9%", "g": "079.5%", "b": "059.1%" },
-    "hsv": { "h": "162.4", "s": "0.875", "v": "0.795" },
-    "hsl": { "h": "162.4", "s": "0.779", "l": "0.447" },
+    hex: "#19CB97",
+    hex8: "#19CB97FF",
+    rgb: { r: "009.9%", g: "079.5%", b: "059.1%" },
+    hsv: { h: "162.4", s: "0.875", v: "0.795" },
+    hsl: { h: "162.4", s: "0.779", l: "0.447" },
   },
   {
-    "hex": "#362698",
-    "hex8": "#362698FF",
-    "rgb": { "r": "021.1%", "g": "014.9%", "b": "059.7%" },
-    "hsv": { "h": "248.3", "s": "0.750", "v": "0.597" },
-    "hsl": { "h": "248.3", "s": "0.601", "l": "0.373" },
+    hex: "#362698",
+    hex8: "#362698FF",
+    rgb: { r: "021.1%", g: "014.9%", b: "059.7%" },
+    hsv: { h: "248.3", s: "0.750", v: "0.597" },
+    hsl: { h: "248.3", s: "0.601", l: "0.373" },
   },
   {
-    "hex": "#7E7EB8",
-    "hex8": "#7E7EB8FF",
-    "rgb": { "r": "049.5%", "g": "049.3%", "b": "072.1%" },
-    "hsv": { "h": "240.5", "s": "0.316", "v": "0.721" },
-    "hsl": { "h": "240.5", "s": "0.290", "l": "0.607" },
+    hex: "#7E7EB8",
+    hex8: "#7E7EB8FF",
+    rgb: { r: "049.5%", g: "049.3%", b: "072.1%" },
+    hsv: { h: "240.5", s: "0.316", v: "0.721" },
+    hsl: { h: "240.5", s: "0.290", l: "0.607" },
   },
 ];
 
@@ -225,11 +225,24 @@ Deno.test("Color Equality", function () {
     assert(true, tiny.isValid());
     assert(
       true,
-      "Testing " + c.hex + ": " + tiny.toRgbString() + " " +
-        tiny.toPercentageRgbString() + " " + tiny.toHsvString() + " " +
-        tiny.toHslString() + " " + tiny.toHexString() +
-        "Original: " + JSON.stringify(c.rgb) + " " + JSON.stringify(c.hsv) +
-        " " + JSON.stringify(c.hsl),
+      "Testing " +
+        c.hex +
+        ": " +
+        tiny.toRgbString() +
+        " " +
+        tiny.toPercentageRgbString() +
+        " " +
+        tiny.toHsvString() +
+        " " +
+        tiny.toHslString() +
+        " " +
+        tiny.toHexString() +
+        "Original: " +
+        JSON.stringify(c.rgb) +
+        " " +
+        JSON.stringify(c.hsv) +
+        " " +
+        JSON.stringify(c.hsl)
     );
     assert(tinycolor.equals(c.rgb, c.hex), "RGB equals hex " + c.hex);
     assert(tinycolor.equals(c.rgb, c.hex8), "RGB equals hex " + c.hex);
@@ -250,27 +263,27 @@ Deno.test("With Ratio", function () {
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 1, b: 1 }).toHexString(),
     "#ffffff",
-    "white",
+    "white"
   );
   assertEquals(
-    tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: .5 }).toRgbString(),
+    tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: 0.5 }).toRgbString(),
     "rgba(255, 0, 0, 0.5)",
-    "alpha works when ratio is parsed",
+    "alpha works when ratio is parsed"
   );
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: 1 }).toRgbString(),
     "rgb(255, 0, 0)",
-    "alpha = 1 works when ratio is parsed",
+    "alpha = 1 works when ratio is parsed"
   );
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: 10 }).toRgbString(),
     "rgb(255, 0, 0)",
-    "alpha > 1 works when ratio is parsed",
+    "alpha > 1 works when ratio is parsed"
   );
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: -1 }).toRgbString(),
     "rgb(255, 0, 0)",
-    "alpha < 1 works when ratio is parsed",
+    "alpha < 1 works when ratio is parsed"
   );
 });
 
@@ -278,12 +291,12 @@ Deno.test("Without Ratio", function () {
   assertEquals(
     tinycolor({ r: 1, g: 1, b: 1 }).toHexString(),
     "#010101",
-    "010101",
+    "010101"
   );
   assertEquals(
-    tinycolor({ r: .1, g: .1, b: .1 }).toHexString(),
+    tinycolor({ r: 0.1, g: 0.1, b: 0.1 }).toHexString(),
     "#000000",
-    "000000",
+    "000000"
   );
   assertEquals(tinycolor("rgb .1 .1 .1").toHexString(), "#000000", "000000");
 });
@@ -292,35 +305,39 @@ Deno.test("RGB Text Parsing", function () {
   assertEquals(
     tinycolor("rgb 255 0 0").toHexString(),
     "#ff0000",
-    "spaced input",
+    "spaced input"
   );
   assertEquals(
     tinycolor("rgb(255, 0, 0)").toHexString(),
     "#ff0000",
-    "parenthesized input",
+    "parenthesized input"
   );
   assertEquals(
     tinycolor("rgb (255, 0, 0)").toHexString(),
     "#ff0000",
-    "parenthesized spaced input",
+    "parenthesized spaced input"
   );
   assertEquals(
     tinycolor({ r: 255, g: 0, b: 0 }).toHexString(),
     "#ff0000",
-    "object input",
+    "object input"
   );
-  assertEquals(tinycolor({ r: 255, g: 0, b: 0 }).toRgb(), {
-    r: 255,
-    g: 0,
-    b: 0,
-    a: 1,
-  }, "object input and compare");
+  assertEquals(
+    tinycolor({ r: 255, g: 0, b: 0 }).toRgb(),
+    {
+      r: 255,
+      g: 0,
+      b: 0,
+      a: 1,
+    },
+    "object input and compare"
+  );
 
   assert(tinycolor.equals({ r: 200, g: 100, b: 0 }, "rgb(200, 100, 0)"));
   assert(tinycolor.equals({ r: 200, g: 100, b: 0 }, "rgb 200 100 0"));
   assert(tinycolor.equals({ r: 200, g: 100, b: 0 }, "rgb 200 100 0"));
   assert(
-    tinycolor.equals({ r: 200, g: 100, b: 0, a: .4 }, "rgba 200 100 0 .4"),
+    tinycolor.equals({ r: 200, g: 100, b: 0, a: 0.4 }, "rgba 200 100 0 .4")
   );
   assert(!tinycolor.equals({ r: 199, g: 100, b: 0 }, "rgba 200 100 0 1"));
 
@@ -329,13 +346,13 @@ Deno.test("RGB Text Parsing", function () {
   assert(!tinycolor.equals({ r: 199, g: 100, b: 0 }, "rgb 200 100 0"));
 
   assert(
-    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb(200, 100, 0)"),
+    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb(200, 100, 0)")
   );
   assert(
-    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb 200 100 0"),
+    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb 200 100 0")
   );
   assert(
-    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb 200 100 0"),
+    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb 200 100 0")
   );
 });
 
@@ -343,47 +360,51 @@ Deno.test("Percentage RGB Text Parsing", function () {
   assertEquals(
     tinycolor("rgb 100% 0% 0%").toHexString(),
     "#ff0000",
-    "spaced input",
+    "spaced input"
   );
   assertEquals(
     tinycolor("rgb(100%, 0%, 0%)").toHexString(),
     "#ff0000",
-    "parenthesized input",
+    "parenthesized input"
   );
   assertEquals(
     tinycolor("rgb (100%, 0%, 0%)").toHexString(),
     "#ff0000",
-    "parenthesized spaced input",
+    "parenthesized spaced input"
   );
   assertEquals(
     tinycolor({ r: "100%", g: "0%", b: "0%" }).toHexString(),
     "#ff0000",
-    "object input",
+    "object input"
   );
-  assertEquals(tinycolor({ r: "100%", g: "0%", b: "0%" }).toRgb(), {
-    r: 255,
-    g: 0,
-    b: 0,
-    a: 1,
-  }, "object input and compare");
+  assertEquals(
+    tinycolor({ r: "100%", g: "0%", b: "0%" }).toRgb(),
+    {
+      r: 255,
+      g: 0,
+      b: 0,
+      a: 1,
+    },
+    "object input and compare"
+  );
 
   assert(
-    tinycolor.equals({ r: "90%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)"),
+    tinycolor.equals({ r: "90%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)")
   );
   assert(tinycolor.equals({ r: "90%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
   assert(tinycolor.equals({ r: "90%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
   assert(
     tinycolor.equals(
-      { r: "90%", g: "45%", b: "0%", a: .4 },
-      "rgba 90% 45% 0% .4",
-    ),
+      { r: "90%", g: "45%", b: "0%", a: 0.4 },
+      "rgba 90% 45% 0% .4"
+    )
   );
   assert(
-    !tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgba 90% 45% 0% 1"),
+    !tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgba 90% 45% 0% 1")
   );
 
   assert(
-    !tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)"),
+    !tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgb(90%, 45%, 0%)")
   );
   assert(!tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
   assert(!tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgb 90% 45% 0%"));
@@ -391,58 +412,58 @@ Deno.test("Percentage RGB Text Parsing", function () {
   assert(
     tinycolor.equals(
       tinycolor({ r: "90%", g: "45%", b: "0%" }),
-      "rgb(90%, 45%, 0%)",
-    ),
+      "rgb(90%, 45%, 0%)"
+    )
   );
   assert(
     tinycolor.equals(
       tinycolor({ r: "90%", g: "45%", b: "0%" }),
-      "rgb 90% 45% 0%",
-    ),
+      "rgb 90% 45% 0%"
+    )
   );
   assert(
     tinycolor.equals(
       tinycolor({ r: "90%", g: "45%", b: "0%" }),
-      "rgb 90% 45% 0%",
-    ),
+      "rgb 90% 45% 0%"
+    )
   );
 });
 
 Deno.test("HSL parsing", function () {
   assertEquals(
-    tinycolor({ h: 251, s: 100, l: .38 }).toHexString(),
+    tinycolor({ h: 251, s: 100, l: 0.38 }).toHexString(),
     "#2400c2",
-    "to hex",
+    "to hex"
   );
   assertEquals(
-    tinycolor({ h: 251, s: 100, l: .38 }).toRgbString(),
+    tinycolor({ h: 251, s: 100, l: 0.38 }).toRgbString(),
     "rgb(36, 0, 194)",
-    "to rgb",
+    "to rgb"
   );
   assertEquals(
-    tinycolor({ h: 251, s: 100, l: .38 }).toHslString(),
+    tinycolor({ h: 251, s: 100, l: 0.38 }).toHslString(),
     "hsl(251, 100%, 38%)",
-    "to hsl",
+    "to hsl"
   );
   assertEquals(
     tinycolor("hsl(251, 100, 38)").toHexString(),
     "#2400c2",
-    "to hex",
+    "to hex"
   );
   assertEquals(
     tinycolor("hsl(251, 100%, 38%)").toRgbString(),
     "rgb(36, 0, 194)",
-    "to rgb",
+    "to rgb"
   );
   assertEquals(
     tinycolor("hsl(251, 100%, 38%)").toHslString(),
     "hsl(251, 100%, 38%)",
-    "to hsl",
+    "to hsl"
   );
   assertEquals(
     tinycolor("hsl 100 20 10").toHslString(),
     "hsl(100, 20%, 10%)",
-    "problematic hsl",
+    "problematic hsl"
   );
 });
 
@@ -463,15 +484,15 @@ Deno.test("Hex Parsing", function () {
 Deno.test("HSV Parsing", function () {
   assertEquals(
     tinycolor("hsv 251.1 0.887 .918").toHsvString(),
-    "hsv(251, 89%, 92%)",
+    "hsv(251, 89%, 92%)"
   );
   assertEquals(
     tinycolor("hsv 251.1 0.887 0.918").toHsvString(),
-    "hsv(251, 89%, 92%)",
+    "hsv(251, 89%, 92%)"
   );
   assertEquals(
     tinycolor("hsva 251.1 0.887 0.918 0.5").toHsvString(),
-    "hsva(251, 89%, 92%, 0.5)",
+    "hsva(251, 89%, 92%, 0.5)"
   );
 });
 
@@ -661,61 +682,70 @@ Deno.test("Invalid alpha should normalize to 1", function () {
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: -1 }).toRgbString(),
     "rgb(255, 20, 10)",
-    "Negative value",
+    "Negative value"
   );
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: -0 }).toRgbString(),
     "rgba(255, 20, 10, 0)",
-    "Negative 0",
+    "Negative 0"
   );
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: 0 }).toRgbString(),
     "rgba(255, 20, 10, 0)",
-    "0",
+    "0"
   );
   assertEquals(
-    tinycolor({ r: 255, g: 20, b: 10, a: .5 }).toRgbString(),
+    tinycolor({ r: 255, g: 20, b: 10, a: 0.5 }).toRgbString(),
     "rgba(255, 20, 10, 0.5)",
-    ".5",
+    ".5"
   );
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: 1 }).toRgbString(),
     "rgb(255, 20, 10)",
-    "1",
+    "1"
   );
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: 100 }).toRgbString(),
     "rgb(255, 20, 10)",
-    "Greater than 1",
+    "Greater than 1"
   );
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: "asdfasd" }).toRgbString(),
     "rgb(255, 20, 10)",
-    "Non Numeric",
+    "Non Numeric"
   );
 
   assertEquals(
     tinycolor("#fff").toRgbString(),
     "rgb(255, 255, 255)",
-    "Hex should be 1",
+    "Hex should be 1"
   );
   assertEquals(
     tinycolor("rgba 255 0 0 100").toRgbString(),
     "rgb(255, 0, 0)",
-    "Greater than 1 in string parsing",
+    "Greater than 1 in string parsing"
   );
 });
 
 Deno.test("toString() with alpha set", function () {
-  var redNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .6 }, {
-    format: "name",
-  });
-  var transparentNamed = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: 0 }, {
-    format: "name",
-  });
-  var redHex = tinycolor.fromRatio({ r: 255, g: 0, b: 0, a: .4 }, {
-    format: "hex",
-  });
+  var redNamed = tinycolor.fromRatio(
+    { r: 255, g: 0, b: 0, a: 0.6 },
+    {
+      format: "name",
+    }
+  );
+  var transparentNamed = tinycolor.fromRatio(
+    { r: 255, g: 0, b: 0, a: 0 },
+    {
+      format: "name",
+    }
+  );
+  var redHex = tinycolor.fromRatio(
+    { r: 255, g: 0, b: 0, a: 0.4 },
+    {
+      format: "hex",
+    }
+  );
 
   assertEquals(redNamed.getFormat(), "name", "getFormat() is correct");
   assertEquals(redHex.getFormat(), "hex", "getFormat() is correct");
@@ -723,113 +753,113 @@ Deno.test("toString() with alpha set", function () {
   assertEquals(
     redNamed.toString(),
     "rgba(255, 0, 0, 0.6)",
-    "Names should default to rgba if alpha is < 1",
+    "Names should default to rgba if alpha is < 1"
   );
   assertEquals(
     redHex.toString(),
     "rgba(255, 0, 0, 0.4)",
-    "Hex should default to rgba if alpha is < 1",
+    "Hex should default to rgba if alpha is < 1"
   );
 
   assertEquals(
     redNamed.toString("hex"),
     "#ff0000",
-    "Names should not be returned as rgba if format is specified",
+    "Names should not be returned as rgba if format is specified"
   );
   assertEquals(
     redNamed.toString("hex6"),
     "#ff0000",
-    "Names should not be returned as rgba if format is specified",
+    "Names should not be returned as rgba if format is specified"
   );
   assertEquals(
     redNamed.toString("hex3"),
     "#f00",
-    "Names should not be returned as rgba if format is specified",
+    "Names should not be returned as rgba if format is specified"
   );
   assertEquals(
     redNamed.toString("hex8"),
     "#ff000099",
-    "Names should not be returned as rgba if format is specified",
+    "Names should not be returned as rgba if format is specified"
   );
   assertEquals(
     redNamed.toString("hex4"),
     "#f009",
-    "Names should not be returned as rgba if format is specified",
+    "Names should not be returned as rgba if format is specified"
   );
   assertEquals(
     redNamed.toString("name"),
     "#ff0000",
-    "Semi transparent names should return hex in toString() if name format is specified",
+    "Semi transparent names should return hex in toString() if name format is specified"
   );
 
   assertEquals(
     redNamed.toName(),
     false,
-    "Semi transparent names should be false in toName()",
+    "Semi transparent names should be false in toName()"
   );
 
   assertEquals(
     redHex.toString(),
     "rgba(255, 0, 0, 0.4)",
-    "Hex should default to rgba if alpha is < 1",
+    "Hex should default to rgba if alpha is < 1"
   );
   assertEquals(
     transparentNamed.toString(),
     "transparent",
-    "Named color should equal transparent if alpha == 0",
+    "Named color should equal transparent if alpha == 0"
   );
 
   redHex.setAlpha(0);
   assertEquals(
     redHex.toString(),
     "rgba(255, 0, 0, 0)",
-    "Hex should default to rgba if alpha is = 0",
+    "Hex should default to rgba if alpha is = 0"
   );
 });
 
 Deno.test("setting alpha", function () {
   var hexSetter = tinycolor("rgba(255, 0, 0, 1)");
   assertEquals(hexSetter.getAlpha(), 1, "Alpha should start as 1");
-  var returnedFromSetAlpha = hexSetter.setAlpha(.9);
+  var returnedFromSetAlpha = hexSetter.setAlpha(0.9);
   assertEquals(
     returnedFromSetAlpha,
     hexSetter,
-    "setAlpha return value should be the color.",
+    "setAlpha return value should be the color."
   );
-  assertEquals(hexSetter.getAlpha(), .9, "setAlpha should change alpha value");
-  hexSetter.setAlpha(.5);
-  assertEquals(hexSetter.getAlpha(), .5, "setAlpha should change alpha value");
+  assertEquals(hexSetter.getAlpha(), 0.9, "setAlpha should change alpha value");
+  hexSetter.setAlpha(0.5);
+  assertEquals(hexSetter.getAlpha(), 0.5, "setAlpha should change alpha value");
   hexSetter.setAlpha(0);
   assertEquals(hexSetter.getAlpha(), 0, "setAlpha should change alpha value");
   hexSetter.setAlpha(-1);
   assertEquals(
     hexSetter.getAlpha(),
     1,
-    "setAlpha with value < 0 should be bound to 1",
+    "setAlpha with value < 0 should be bound to 1"
   );
   hexSetter.setAlpha(2);
   assertEquals(
     hexSetter.getAlpha(),
     1,
-    "setAlpha with value > 1 should be bound to 1",
+    "setAlpha with value > 1 should be bound to 1"
   );
   hexSetter.setAlpha();
   assertEquals(
     hexSetter.getAlpha(),
     1,
-    "setAlpha with invalid value should be bound to 1",
+    "setAlpha with invalid value should be bound to 1"
   );
   hexSetter.setAlpha(null);
   assertEquals(
     hexSetter.getAlpha(),
     1,
-    "setAlpha with invalid value should be bound to 1",
+    "setAlpha with invalid value should be bound to 1"
   );
   hexSetter.setAlpha("test");
   assertEquals(
     hexSetter.getAlpha(),
     1,
-    "setAlpha with invalid value should be bound to 1",
+    "setAlpha with invalid value should be bound to 1"
   );
 });
 
@@ -837,12 +867,12 @@ Deno.test("Alpha = 0 should act differently on toName()", function () {
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: 0 }).toName(),
     "transparent",
-    "0",
+    "0"
   );
   assertEquals(
     tinycolor("transparent").toString(),
     "transparent",
-    "toString when passed",
+    "toString when passed"
   );
   assertEquals(tinycolor("transparent").toHex(), "000000", "toHex");
 });
@@ -902,7 +932,7 @@ Deno.test("HSL Object", function () {
     assertEquals(
       tiny.toHexString(),
       tinycolor(tiny.toHsl()).toHexString(),
-      "HSL Object",
+      "HSL Object"
     );
   }
 });
@@ -918,17 +948,17 @@ Deno.test("HSL String", function () {
     assertEquals(
       Math.abs(input.r - output.r) <= maxDiff,
       true,
-      "toHslString red value difference <= " + maxDiff,
+      "toHslString red value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.g - output.g) <= maxDiff,
       true,
-      "toHslString green value difference <= " + maxDiff,
+      "toHslString green value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.b - output.b) <= maxDiff,
       true,
-      "toHslString blue value difference <= " + maxDiff,
+      "toHslString blue value difference <= " + maxDiff
     );
   }
 });
@@ -944,17 +974,17 @@ Deno.test("HSV String", function () {
     assertEquals(
       Math.abs(input.r - output.r) <= maxDiff,
       true,
-      "toHsvString red value difference <= " + maxDiff,
+      "toHsvString red value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.g - output.g) <= maxDiff,
       true,
-      "toHsvString green value difference <= " + maxDiff,
+      "toHsvString green value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.b - output.b) <= maxDiff,
       true,
-      "toHsvString blue value difference <= " + maxDiff,
+      "toHsvString blue value difference <= " + maxDiff
     );
   }
 });
@@ -966,7 +996,7 @@ Deno.test("HSV Object", function () {
     assertEquals(
       tiny.toHexString(),
       tinycolor(tiny.toHsv()).toHexString(),
-      "HSV Object",
+      "HSV Object"
     );
   }
 });
@@ -978,7 +1008,7 @@ Deno.test("RGB Object", function () {
     assertEquals(
       tiny.toHexString(),
       tinycolor(tiny.toRgb()).toHexString(),
-      "RGB Object",
+      "RGB Object"
     );
   }
 });
@@ -990,7 +1020,7 @@ Deno.test("RGB String", function () {
     assertEquals(
       tiny.toHexString(),
       tinycolor(tiny.toRgbString()).toHexString(),
-      "RGB String",
+      "RGB String"
     );
   }
 });
@@ -1006,17 +1036,17 @@ Deno.test("PRGB Object", function () {
     assertEquals(
       Math.abs(input.r - output.r) <= maxDiff,
       true,
-      "Red value difference <= " + maxDiff,
+      "Red value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.g - output.g) <= maxDiff,
       true,
-      "Green value difference <= " + maxDiff,
+      "Green value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.b - output.b) <= maxDiff,
       true,
-      "Blue value difference <= " + maxDiff,
+      "Blue value difference <= " + maxDiff
     );
   }
 });
@@ -1032,17 +1062,17 @@ Deno.test("PRGB String", function () {
     assertEquals(
       Math.abs(input.r - output.r) <= maxDiff,
       true,
-      "Red value difference <= " + maxDiff,
+      "Red value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.g - output.g) <= maxDiff,
       true,
-      "Green value difference <= " + maxDiff,
+      "Green value difference <= " + maxDiff
     );
     assertEquals(
       Math.abs(input.b - output.b) <= maxDiff,
       true,
-      "Blue value difference <= " + maxDiff,
+      "Blue value difference <= " + maxDiff
     );
   }
 });
@@ -1060,7 +1090,7 @@ Deno.test("Color equality", function () {
   assert(tinycolor.equals("#ff0000", "rgb(255, 0, 0)"), "Same alphas");
   assert(
     !tinycolor.equals("#ff0000", "rgba(255, 0, 0, .1)"),
-    "Different alphas",
+    "Different alphas"
   );
   assert(tinycolor.equals("#ff000066", "rgba(255, 0, 0, .4)"), "Same alphas");
   assert(tinycolor.equals("#f009", "rgba(255, 0, 0, .6)"), "Same alphas");
@@ -1073,7 +1103,7 @@ Deno.test("Color equality", function () {
   assert(!tinycolor.equals("#ff0000", "#00ff00"), "Different hex");
   assert(
     tinycolor.equals("#ff8000", "rgb(100%, 50%, 0%)"),
-    "Percentage bounds checking",
+    "Percentage bounds checking"
   );
 });
 
@@ -1081,33 +1111,33 @@ Deno.test("isReadable", function () {
   // "#ff0088", "#8822aa" (values used in old WCAG1 tests)
   assert(
     tinycolor.isReadable("#000000", "#ffffff", { level: "AA", size: "small" }),
-    "white/black is readable",
+    "white/black is readable"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#5c1a72", {}),
-    "not readable - empty wcag2 object",
+    "not readable - empty wcag2 object"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#8822aa", { level: "AA", size: "small" }),
-    "not readable - AA small",
+    "not readable - AA small"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#8822aa", { level: "AA", size: "large" }),
-    "not  readable - AA large",
+    "not  readable - AA large"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#8822aa", {
       level: "AAA",
       size: "small",
     }),
-    "not readable - AAA small",
+    "not readable - AAA small"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#8822aa", {
       level: "AAA",
       size: "large",
     }),
-    "not readable - AAA large",
+    "not readable - AAA large"
   );
 
   // values derived from and validated using the calculators at http://www.dasplankton.de/ContrastA/
@@ -1116,64 +1146,64 @@ Deno.test("isReadable", function () {
   // "#ff0088", "#5c1a72": contrast ratio 3.04
   assert(
     !tinycolor.isReadable("#ff0088", "#5c1a72", { level: "AA", size: "small" }),
-    "not readable - AA small",
+    "not readable - AA small"
   );
   assert(
     tinycolor.isReadable("#ff0088", "#5c1a72", { level: "AA", size: "large" }),
-    "readable - AA large",
+    "readable - AA large"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#5c1a72", {
       level: "AAA",
       size: "small",
     }),
-    "not readable - AAA small",
+    "not readable - AAA small"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#5c1a72", {
       level: "AAA",
       size: "large",
     }),
-    "not readable - AAA large",
+    "not readable - AAA large"
   );
 
   // "#ff0088", "#2e0c3a": contrast ratio 4.56
   assert(
     tinycolor.isReadable("#ff0088", "#2e0c3a", { level: "AA", size: "small" }),
-    "readable - AA small",
+    "readable - AA small"
   );
   assert(
     tinycolor.isReadable("#ff0088", "#2e0c3a", { level: "AA", size: "large" }),
-    "readable - AA large",
+    "readable - AA large"
   );
   assert(
     !tinycolor.isReadable("#ff0088", "#2e0c3a", {
       level: "AAA",
       size: "small",
     }),
-    "not readable - AAA small",
+    "not readable - AAA small"
   );
   assert(
     tinycolor.isReadable("#ff0088", "#2e0c3a", { level: "AAA", size: "large" }),
-    "readable - AAA large",
+    "readable - AAA large"
   );
 
   // "#db91b8", "#2e0c3a":  contrast ratio 7.12
   assert(
     tinycolor.isReadable("#db91b8", "#2e0c3a", { level: "AA", size: "small" }),
-    "readable - AA small",
+    "readable - AA small"
   );
   assert(
     tinycolor.isReadable("#db91b8", "#2e0c3a", { level: "AA", size: "large" }),
-    "readable - AA large",
+    "readable - AA large"
   );
   assert(
     tinycolor.isReadable("#db91b8", "#2e0c3a", { level: "AAA", size: "small" }),
-    "readable - AAA small",
+    "readable - AAA small"
   );
   assert(
     tinycolor.isReadable("#db91b8", "#2e0c3a", { level: "AAA", size: "large" }),
-    "readable - AAA large",
+    "readable - AAA large"
   );
 });
 
@@ -1182,148 +1212,171 @@ Deno.test("readability", function () {
   assertEquals(
     tinycolor.readability("#000", "#000"),
     1,
-    "Readability function test 0",
+    "Readability function test 0"
   );
   assertEquals(
     tinycolor.readability("#000", "#111"),
     1.1121078324840545,
-    "Readability function test 1",
+    "Readability function test 1"
   );
   assertEquals(
     tinycolor.readability("#000", "#fff"),
     21,
-    "Readability function test 2",
+    "Readability function test 2"
   );
 });
 
 Deno.test("mostReadable", function () {
   assertEquals(
-    tinycolor.mostReadable("#000", ["#111", "#222", { wcag2: {} }])
+    tinycolor
+      .mostReadable("#000", ["#111", "#222", { wcag2: {} }])
       .toHexString(),
     "#222222",
-    "readable color present",
+    "readable color present"
   );
   assertEquals(
-    tinycolor.mostReadable("#f00", ["#d00", "#0d0"], { wcag2: {} })
+    tinycolor
+      .mostReadable("#f00", ["#d00", "#0d0"], { wcag2: {} })
       .toHexString(),
     "#00dd00",
-    "readable color present",
+    "readable color present"
   );
   assertEquals(
-    tinycolor.mostReadable("#fff", ["#fff", "#fff"], { wcag2: {} })
+    tinycolor
+      .mostReadable("#fff", ["#fff", "#fff"], { wcag2: {} })
       .toHexString(),
     "#ffffff",
-    "no different color in list",
+    "no different color in list"
   );
   //includeFallbackColors
   assertEquals(
-    tinycolor.mostReadable("#fff", ["#fff", "#fff"], {
-      includeFallbackColors: true,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#fff", ["#fff", "#fff"], {
+        includeFallbackColors: true,
+      })
+      .toHexString(),
     "#000000",
-    "no different color in list",
+    "no different color in list"
   );
   assertEquals(
-    tinycolor.mostReadable("#123", ["#124", "#125"], {
-      includeFallbackColors: false,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#123", ["#124", "#125"], {
+        includeFallbackColors: false,
+      })
+      .toHexString(),
     "#112255",
-    "no readable color in list",
+    "no readable color in list"
   );
   assertEquals(
-    tinycolor.mostReadable("#123", ["#000", "#fff"], {
-      includeFallbackColors: false,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#123", ["#000", "#fff"], {
+        includeFallbackColors: false,
+      })
+      .toHexString(),
     "#ffffff",
-    "verify assumption",
+    "verify assumption"
   );
   assertEquals(
-    tinycolor.mostReadable("#123", ["#124", "#125"], {
-      includeFallbackColors: true,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#123", ["#124", "#125"], {
+        includeFallbackColors: true,
+      })
+      .toHexString(),
     "#ffffff",
-    "no readable color in list",
+    "no readable color in list"
   );
 
   assertEquals(
-    tinycolor.mostReadable("#ff0088", ["#000", "#fff"], {
-      includeFallbackColors: false,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#ff0088", ["#000", "#fff"], {
+        includeFallbackColors: false,
+      })
+      .toHexString(),
     "#000000",
-    "verify assumption",
+    "verify assumption"
   );
   assertEquals(
-    tinycolor.mostReadable("#ff0088", ["#2e0c3a"], {
-      includeFallbackColors: true,
-      level: "AAA",
-      size: "large",
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#ff0088", ["#2e0c3a"], {
+        includeFallbackColors: true,
+        level: "AAA",
+        size: "large",
+      })
+      .toHexString(),
     "#2e0c3a",
-    "readable color present",
+    "readable color present"
   );
   assertEquals(
-    tinycolor.mostReadable("#ff0088", ["#2e0c3a"], {
-      includeFallbackColors: true,
-      level: "AAA",
-      size: "small",
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#ff0088", ["#2e0c3a"], {
+        includeFallbackColors: true,
+        level: "AAA",
+        size: "small",
+      })
+      .toHexString(),
     "#000000",
-    "no readable color in list",
+    "no readable color in list"
   );
 
   assertEquals(
-    tinycolor.mostReadable("#371b2c", ["#000", "#fff"], {
-      includeFallbackColors: false,
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#371b2c", ["#000", "#fff"], {
+        includeFallbackColors: false,
+      })
+      .toHexString(),
     "#ffffff",
-    "verify assumption",
+    "verify assumption"
   );
   assertEquals(
-    tinycolor.mostReadable("#371b2c", ["#a9acb6"], {
-      includeFallbackColors: true,
-      level: "AAA",
-      size: "large",
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#371b2c", ["#a9acb6"], {
+        includeFallbackColors: true,
+        level: "AAA",
+        size: "large",
+      })
+      .toHexString(),
     "#a9acb6",
-    "readable color present",
+    "readable color present"
   );
   assertEquals(
-    tinycolor.mostReadable("#371b2c", ["#a9acb6"], {
-      includeFallbackColors: true,
-      level: "AAA",
-      size: "small",
-    }).toHexString(),
+    tinycolor
+      .mostReadable("#371b2c", ["#a9acb6"], {
+        includeFallbackColors: true,
+        level: "AAA",
+        size: "small",
+      })
+      .toHexString(),
     "#ffffff",
-    "no readable color in list",
+    "no readable color in list"
   );
 });
 
 Deno.test("Filters", function () {
   assertEquals(
     tinycolor("red").toFilter(),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ffff0000)"
   );
   assertEquals(
     tinycolor("red").toFilter("blue"),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffff0000,endColorstr=#ff0000ff)"
   );
 
   assertEquals(
     tinycolor("transparent").toFilter(),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#00000000)"
   );
   assertEquals(
     tinycolor("transparent").toFilter("red"),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000,endColorstr=#ffff0000)"
   );
 
   assertEquals(
     tinycolor("#f0f0f0dd").toFilter(),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ddf0f0f0,endColorstr=#ddf0f0f0)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ddf0f0f0,endColorstr=#ddf0f0f0)"
   );
   assertEquals(
     tinycolor("rgba(0, 0, 255, .5").toFilter(),
-    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#800000ff,endColorstr=#800000ff)",
+    "progid:DXImageTransform.Microsoft.gradient(startColorstr=#800000ff,endColorstr=#800000ff)"
   );
 });
 
@@ -1853,42 +1906,42 @@ Deno.test("Modifications", function () {
     assertEquals(
       tinycolor("red").desaturate(i).toHex(),
       DESATURATIONS[i],
-      "Desaturation " + i + " works",
+      "Desaturation " + i + " works"
     );
   }
   for (var i = 0; i <= 100; i++) {
     assertEquals(
       tinycolor("red").saturate(i).toHex(),
       SATURATIONS[i],
-      "Saturation " + i + " works",
+      "Saturation " + i + " works"
     );
   }
   for (var i = 0; i <= 100; i++) {
     assertEquals(
       tinycolor("red").lighten(i).toHex(),
       LIGHTENS[i],
-      "Lighten " + i + " works",
+      "Lighten " + i + " works"
     );
   }
   for (var i = 0; i <= 100; i++) {
     assertEquals(
       tinycolor("red").brighten(i).toHex(),
       BRIGHTENS[i],
-      "Brighter " + i + " works",
+      "Brighter " + i + " works"
     );
   }
   for (var i = 0; i <= 100; i++) {
     assertEquals(
       tinycolor("red").darken(i).toHex(),
       DARKENS[i],
-      "Darken " + i + " works",
+      "Darken " + i + " works"
     );
   }
 
   assertEquals(
     tinycolor("red").greyscale().toHex(),
     "808080",
-    "Greyscale works",
+    "Greyscale works"
   );
 });
 
@@ -1896,37 +1949,37 @@ Deno.test("Spin", function () {
   assertEquals(
     Math.round(tinycolor("#f00").spin(-1234).toHsl().h),
     206,
-    "Spinning -1234 works",
+    "Spinning -1234 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(-360).toHsl().h),
     0,
-    "Spinning -360 works",
+    "Spinning -360 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(-120).toHsl().h),
     240,
-    "Spinning -120 works",
+    "Spinning -120 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(0).toHsl().h),
     0,
-    "Spinning 0 works",
+    "Spinning 0 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(10).toHsl().h),
     10,
-    "Spinning 10 works",
+    "Spinning 10 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(360).toHsl().h),
     0,
-    "Spinning 360 works",
+    "Spinning 360 works"
   );
   assertEquals(
     Math.round(tinycolor("#f00").spin(2345).toHsl().h),
     185,
-    "Spinning 2345 works",
+    "Spinning 2345 works"
   );
 
   [-360, 0, 360].forEach(function (delta) {
@@ -1934,7 +1987,7 @@ Deno.test("Spin", function () {
       assertEquals(
         tinycolor(name).toHex(),
         tinycolor(name).spin(delta).toHex(),
-        "Spinning " + delta.toString() + " has no effect",
+        "Spinning " + delta.toString() + " has no effect"
       );
     });
   });
@@ -1945,18 +1998,18 @@ Deno.test("Mix", function () {
   assertEquals(
     tinycolor.mix("#000", "#fff").toHsl().l,
     0.5,
-    "Mixing without amount works",
+    "Mixing without amount works"
   );
   assertEquals(
     tinycolor.mix("#f00", "#000", 0).toHex(),
     "ff0000",
-    "Mixing with 0 amount works",
+    "Mixing with 0 amount works"
   );
   // This case checks the the problem with floating point numbers (eg 255/90)
   assertEquals(
     tinycolor.mix("#fff", "#000", 90).toHex(),
     "1a1a1a",
-    "Mixing with 90 amount works correctly",
+    "Mixing with 90 amount works correctly"
   );
 
   // black and white
@@ -1964,7 +2017,7 @@ Deno.test("Mix", function () {
     assertEquals(
       Math.round(tinycolor.mix("#000", "#fff", i).toHsl().l * 100) / 100,
       i / 100,
-      "Mixing black and white with " + i + " amount works",
+      "Mixing black and white with " + i + " amount works"
     );
   }
 
@@ -1979,22 +2032,22 @@ Deno.test("Mix", function () {
     assertEquals(
       tinycolor.mix("#f00", "#000", i).toHex(),
       new_hex + "0000",
-      "Mixing " + i + " (red channel)",
+      "Mixing " + i + " (red channel)"
     );
     assertEquals(
       tinycolor.mix("#0f0", "#000", i).toHex(),
       "00" + new_hex + "00",
-      "Mixing " + i + " (green channel)",
+      "Mixing " + i + " (green channel)"
     );
     assertEquals(
       tinycolor.mix("#00f", "#000", i).toHex(),
       "0000" + new_hex,
-      "Mixing " + i + " (blue channel)",
+      "Mixing " + i + " (blue channel)"
     );
     assertEquals(
       tinycolor.mix(tinycolor("transparent"), "#000", i).toRgb().a,
       i / 100,
-      "Mixing " + i + " (alpha channel)",
+      "Mixing " + i + " (alpha channel)"
     );
   }
 });
@@ -2002,9 +2055,11 @@ Deno.test("Mix", function () {
 // The combination tests need to be expanded furthe
 
 function colorsToHexString(colors) {
-  return colors.map(function (c) {
-    return c.toHex();
-  }).join(",");
+  return colors
+    .map(function (c) {
+      return c.toHex();
+    })
+    .join(",");
 }
 
 Deno.test("complement", function () {
@@ -2012,12 +2067,12 @@ Deno.test("complement", function () {
   assertEquals(
     complementDoesntModifyInstance.complement().toHex(),
     "00ffff",
-    "Complement works",
+    "Complement works"
   );
   assertEquals(
     complementDoesntModifyInstance.toHex(),
     "ff0000",
-    "Complement did not modify this color",
+    "Complement did not modify this color"
   );
 });
 
@@ -2026,7 +2081,7 @@ Deno.test("analogous", function () {
   assertEquals(
     colorsToHexString(combination),
     "ff0000,ff0066,ff0033,ff0000,ff3300,ff6600",
-    "Correct Combination",
+    "Correct Combination"
   );
 });
 
@@ -2035,7 +2090,7 @@ Deno.test("monochromatic", function () {
   assertEquals(
     colorsToHexString(combination),
     "ff0000,2a0000,550000,800000,aa0000,d40000",
-    "Correct Combination",
+    "Correct Combination"
   );
 });
 
@@ -2044,7 +2099,7 @@ Deno.test("splitcomplement", function () {
   assertEquals(
     colorsToHexString(combination),
     "ff0000,ccff00,0066ff",
-    "Correct Combination",
+    "Correct Combination"
   );
 });
 
@@ -2053,7 +2108,7 @@ Deno.test("triad", function () {
   assertEquals(
     colorsToHexString(combination),
     "ff0000,00ff00,0000ff",
-    "Correct Combination",
+    "Correct Combination"
   );
 });
 
@@ -2062,6 +2117,6 @@ Deno.test("tetrad", function () {
   assertEquals(
     colorsToHexString(combination),
     "ff0000,80ff00,00ffff,7f00ff",
-    "Correct Combination",
+    "Correct Combination"
   );
 });
