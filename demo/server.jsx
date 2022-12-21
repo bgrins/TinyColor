@@ -6,18 +6,42 @@ import { serve } from "https://deno.land/std@0.126.0/http/server.ts";
 import { serveFile } from "https://deno.land/std@0.140.0/http/file_server.ts";
 import tinycolor from "../mod.js";
 
+function color_detail(color) {
+  return {
+    hex: color.toHexString(),
+    hex8: color.toHex8String(),
+    rgb: color.toRgbString(),
+    hsl: color.toHslString(),
+    hsv: color.toHsvString(),
+    name: color.toName() || "none",
+    format: color.getFormat(),
+    lighten: color.lighten(20).toHexString(),
+    darken: color.darken(20).toHexString(),
+    saturate: color.saturate(20).toHexString(),
+    desaturate: color.desaturate(20).toHexString(),
+    greyscale: color.greyscale().toHexString(),
+    brighten: color.brighten(20).toHexString(),
+    triad: color.triad().map((c) => c.toHexString()),
+    tetrad: color.tetrad().map((c) => c.toHexString()),
+    monochromatic: color.monochromatic().map((c) => c.toHexString()),
+    analogous: color.analogous().map((c) => c.toHexString()),
+    splitcomplement: color.splitcomplement().map((c) => c.toHexString()),
+  };
+}
 async function image_handler(req, input) {
   const color = tinycolor(input || "lavender");
+  console.log(input, color.toHexString());
   const { searchParams } = new URL(req.url);
   const fontSize = searchParams.get("fontSize") || 60;
   const width = searchParams.get("width") || 1200;
   const height = searchParams.get("height") || 627;
   const debug = searchParams.get("debug") || false;
-
+  const detail = color_detail(color);
+  console.log(detail);
   if (!color.isValid()) {
     return new Response("Invalid color", { status: 400 });
   }
-  
+
   let textColor = tinycolor.mostReadable(color, ["#333", "#ddd"]);
   return new ImageResponse(
     (
@@ -31,17 +55,14 @@ async function image_handler(req, input) {
           justifyContent: "center",
           fontSize,
           color: textColor.toHexString(),
-          backgroundColor: color.toHexString(),
+          backgroundColor: detail.hex,
         }}
       >
-        {/* <div>{color.toString()}</div>
-        <div>{color.toHexString()}</div> */}
-        {/* <div>{text}</div> */}
-        <div>{color.toName()}</div>
-        <div>{color.toHexString()}</div>
-        <div>{color.toRgbString()}</div>
-        <div>{color.toHslString()}</div>
-        <div>{color.toHsvString()}</div>
+        <div>{detail.name}</div>
+        <div>{detail.hex}</div>
+        <div>{detail.rgb}</div>
+        <div>{detail.hsl}</div>
+        <div>{detail.hsv}</div>
       </div>
     ),
     {
@@ -59,11 +80,8 @@ const handler = (req) => {
   if (pathname === "/") {
     return serveFile(req, "./index.html");
   }
-  if (pathname === "/demo/demo.css") {
-    return serveFile(req, "./demo/demo.css");
-  }
-  if (pathname === "/tinycolor.js") {
-    return serveFile(req, "./tinycolor.js");
+  if (["/demo/demo.css", "/tinycolor.js"].includes(pathname)) {
+    return serveFile(req, `.${pathname}`);
   }
   if (pathname.startsWith("/graphic/")) {
     const input = pathname.replace("/graphic/", "");
