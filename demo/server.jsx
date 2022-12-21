@@ -41,7 +41,7 @@ async function image_handler(req, input) {
   if (!color.isValid()) {
     return new Response("Invalid color", { status: 400 });
   }
-  
+
   let textColor = tinycolor.mostReadable(color, ["#333", "#ddd"]);
   return new ImageResponse(
     (
@@ -80,11 +80,8 @@ const handler = (req) => {
   if (pathname === "/") {
     return serveFile(req, "./index.html");
   }
-  if (pathname === "/demo/demo.css") {
-    return serveFile(req, "./demo/demo.css");
-  }
-  if (pathname === "/tinycolor.js") {
-    return serveFile(req, "./tinycolor.js");
+  if (["/demo/demo.css", "/tinycolor.js"].includes(pathname)) {
+    return serveFile(req, `.${pathname}`);
   }
   if (pathname.startsWith("/graphic/")) {
     const input = pathname.replace("/graphic/", "");
