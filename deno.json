@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "test": "deno test test.js",
+    "dev": "deno test --watch test.js",
+    "test-npm": "npm install --prefix npm && npm test --prefix npm",
+    "build": "deno task test && deno run --allow-env --allow-read --allow-write=. build.js && deno task test-npm",
+    "publish": "deno task build && cd npm && npm publish --access public"
+  }
+}
