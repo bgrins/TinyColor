@@ -5,16 +5,11 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.tinycolor = factory());
 })(this, (function () { 'use strict';
 
-  // TinyColor v1.4.2
   // https://github.com/bgrins/TinyColor
   // Brian Grinstead, MIT License
 
-  var trimLeft = /^\s+/,
-    trimRight = /\s+$/,
-    mathRound = Math.round,
-    mathMin = Math.min,
-    mathMax = Math.max,
-    mathRandom = Math.random;
+  const trimLeft = /^\s+/;
+  const trimRight = /\s+$/;
 
   function tinycolor(color, opts) {
     color = color ? color : "";
@@ -35,7 +30,7 @@
       (this._g = rgb.g),
       (this._b = rgb.b),
       (this._a = rgb.a),
-      (this._roundA = mathRound(100 * this._a) / 100),
+      (this._roundA = Math.round(100 * this._a) / 100),
       (this._format = opts.format || rgb.format);
     this._gradientType = opts.gradientType;
 
@@ -43,9 +38,9 @@
     // Potentially lose a little bit of precision here, but will fix issues where
     // .5 gets interpreted as half of the total, instead of half of 1
     // If it was supposed to be 128, this was already taken care of by `inputToRgb`
-    if (this._r < 1) this._r = mathRound(this._r);
-    if (this._g < 1) this._g = mathRound(this._g);
-    if (this._b < 1) this._b = mathRound(this._b);
+    if (this._r < 1) this._r = Math.round(this._r);
+    if (this._g < 1) this._g = Math.round(this._g);
+    if (this._b < 1) this._b = Math.round(this._b);
 
     this._ok = rgb.ok;
   }
@@ -92,7 +87,7 @@
     },
     setAlpha: function (value) {
       this._a = boundAlpha(value);
-      this._roundA = mathRound(100 * this._a) / 100;
+      this._roundA = Math.round(100 * this._a) / 100;
       return this;
     },
     toHsv: function () {
@@ -101,9 +96,9 @@
     },
     toHsvString: function () {
       var hsv = rgbToHsv(this._r, this._g, this._b);
-      var h = mathRound(hsv.h * 360),
-        s = mathRound(hsv.s * 100),
-        v = mathRound(hsv.v * 100);
+      var h = Math.round(hsv.h * 360),
+        s = Math.round(hsv.s * 100),
+        v = Math.round(hsv.v * 100);
       return this._a == 1
         ? "hsv(" + h + ", " + s + "%, " + v + "%)"
         : "hsva(" + h + ", " + s + "%, " + v + "%, " + this._roundA + ")";
@@ -114,9 +109,9 @@
     },
     toHslString: function () {
       var hsl = rgbToHsl(this._r, this._g, this._b);
-      var h = mathRound(hsl.h * 360),
-        s = mathRound(hsl.s * 100),
-        l = mathRound(hsl.l * 100);
+      var h = Math.round(hsl.h * 360),
+        s = Math.round(hsl.s * 100),
+        l = Math.round(hsl.l * 100);
       return this._a == 1
         ? "hsl(" + h + ", " + s + "%, " + l + "%)"
         : "hsla(" + h + ", " + s + "%, " + l + "%, " + this._roundA + ")";
@@ -135,54 +130,54 @@
     },
     toRgb: function () {
       return {
-        r: mathRound(this._r),
-        g: mathRound(this._g),
-        b: mathRound(this._b),
+        r: Math.round(this._r),
+        g: Math.round(this._g),
+        b: Math.round(this._b),
         a: this._a,
       };
     },
     toRgbString: function () {
       return this._a == 1
         ? "rgb(" +
-            mathRound(this._r) +
+            Math.round(this._r) +
             ", " +
-            mathRound(this._g) +
+            Math.round(this._g) +
             ", " +
-            mathRound(this._b) +
+            Math.round(this._b) +
             ")"
         : "rgba(" +
-            mathRound(this._r) +
+            Math.round(this._r) +
             ", " +
-            mathRound(this._g) +
+            Math.round(this._g) +
             ", " +
-            mathRound(this._b) +
+            Math.round(this._b) +
             ", " +
             this._roundA +
             ")";
     },
     toPercentageRgb: function () {
       return {
-        r: mathRound(bound01(this._r, 255) * 100) + "%",
-        g: mathRound(bound01(this._g, 255) * 100) + "%",
-        b: mathRound(bound01(this._b, 255) * 100) + "%",
+        r: Math.round(bound01(this._r, 255) * 100) + "%",
+        g: Math.round(bound01(this._g, 255) * 100) + "%",
+        b: Math.round(bound01(this._b, 255) * 100) + "%",
         a: this._a,
       };
     },
     toPercentageRgbString: function () {
       return this._a == 1
         ? "rgb(" +
-            mathRound(bound01(this._r, 255) * 100) +
+            Math.round(bound01(this._r, 255) * 100) +
             "%, " +
-            mathRound(bound01(this._g, 255) * 100) +
+            Math.round(bound01(this._g, 255) * 100) +
             "%, " +
-            mathRound(bound01(this._b, 255) * 100) +
+            Math.round(bound01(this._b, 255) * 100) +
             "%)"
         : "rgba(" +
-            mathRound(bound01(this._r, 255) * 100) +
+            Math.round(bound01(this._r, 255) * 100) +
             "%, " +
-            mathRound(bound01(this._g, 255) * 100) +
+            Math.round(bound01(this._g, 255) * 100) +
             "%, " +
-            mathRound(bound01(this._b, 255) * 100) +
+            Math.round(bound01(this._b, 255) * 100) +
             "%, " +
             this._roundA +
             ")";
@@ -418,9 +413,9 @@
     return {
       ok: ok,
       format: color.format || format,
-      r: mathMin(255, mathMax(rgb.r, 0)),
-      g: mathMin(255, mathMax(rgb.g, 0)),
-      b: mathMin(255, mathMax(rgb.b, 0)),
+      r: Math.min(255, Math.max(rgb.r, 0)),
+      g: Math.min(255, Math.max(rgb.g, 0)),
+      b: Math.min(255, Math.max(rgb.b, 0)),
       a: a,
     };
   }
@@ -453,8 +448,8 @@
     g = bound01(g, 255);
     b = bound01(b, 255);
 
-    var max = mathMax(r, g, b),
-      min = mathMin(r, g, b);
+    var max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
     var h,
       s,
       l = (max + min) / 2;
@@ -524,8 +519,8 @@
     g = bound01(g, 255);
     b = bound01(b, 255);
 
-    var max = mathMax(r, g, b),
-      min = mathMin(r, g, b);
+    var max = Math.max(r, g, b),
+      min = Math.min(r, g, b);
     var h,
       s,
       v = max;
@@ -580,9 +575,9 @@
   // Returns a 3 or 6 character hex
   function rgbToHex(r, g, b, allow3Char) {
     var hex = [
-      pad2(mathRound(r).toString(16)),
-      pad2(mathRound(g).toString(16)),
-      pad2(mathRound(b).toString(16)),
+      pad2(Math.round(r).toString(16)),
+      pad2(Math.round(g).toString(16)),
+      pad2(Math.round(b).toString(16)),
     ];
 
     // Return a 3 character hex if possible
@@ -604,9 +599,9 @@
   // a in [0, 1]. Returns a 4 or 8 character rgba hex
   function rgbaToHex(r, g, b, a, allow4Char) {
     var hex = [
-      pad2(mathRound(r).toString(16)),
-      pad2(mathRound(g).toString(16)),
-      pad2(mathRound(b).toString(16)),
+      pad2(Math.round(r).toString(16)),
+      pad2(Math.round(g).toString(16)),
+      pad2(Math.round(b).toString(16)),
       pad2(convertDecimalToHex(a)),
     ];
 
@@ -632,9 +627,9 @@
   function rgbaToArgbHex(r, g, b, a) {
     var hex = [
       pad2(convertDecimalToHex(a)),
-      pad2(mathRound(r).toString(16)),
-      pad2(mathRound(g).toString(16)),
-      pad2(mathRound(b).toString(16)),
+      pad2(Math.round(r).toString(16)),
+      pad2(Math.round(g).toString(16)),
+      pad2(Math.round(b).toString(16)),
     ];
 
     return hex.join("");
@@ -649,9 +644,9 @@
 
   tinycolor.random = function () {
     return tinycolor.fromRatio({
-      r: mathRandom(),
-      g: mathRandom(),
-      b: mathRandom(),
+      r: Math.random(),
+      g: Math.random(),
+      b: Math.random(),
     });
   };
 
@@ -691,9 +686,9 @@
   function brighten(color, amount) {
     amount = amount === 0 ? 0 : amount || 10;
     var rgb = tinycolor(color).toRgb();
-    rgb.r = mathMax(0, mathMin(255, rgb.r - mathRound(255 * -(amount / 100))));
-    rgb.g = mathMax(0, mathMin(255, rgb.g - mathRound(255 * -(amount / 100))));
-    rgb.b = mathMax(0, mathMin(255, rgb.b - mathRound(255 * -(amount / 100))));
+    rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(255 * -(amount / 100))));
+    rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(255 * -(amount / 100))));
+    rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(255 * -(amount / 100))));
     return tinycolor(rgb);
   }
 
@@ -1085,7 +1080,7 @@
     if (isOnePointZero(n)) n = "100%";
 
     var processPercent = isPercentage(n);
-    n = mathMin(max, mathMax(0, parseFloat(n)));
+    n = Math.min(max, Math.max(0, parseFloat(n)));
 
     // Automatically convert percentage into number
     if (processPercent) {
@@ -1103,7 +1098,7 @@
 
   // Force a number between 0 and 1
   function clamp01(val) {
-    return mathMin(1, mathMax(0, val));
+    return Math.min(1, Math.max(0, val));
   }
 
   // Parse a base-16 hex value into a base-10 integer

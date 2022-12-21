@@ -19,9 +19,31 @@ var tinycolor = require("tinycolor2");
 var color = tinycolor("red");
 ```
 
+Or in a module like so:
+
+```js
+import tinycolor from "tinycolor2";
+var color = tinycolor("red");
+```
+
 ## Including in a browser
 
-The package can be bundled from npm, or you can use it directly in a script tag by downloading [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js):
+The package can be bundled from npm, but if you prefer to download it locally you have two choices:
+
+### ESM
+
+It can be used as a module by downloading [npm/esm/tinycolor.js](https://github.com/bgrins/TinyColor/blob/master/npm/esm/tinycolor.js) or using https://esm.sh/tinycolor2.
+
+```html
+<script type='module'>
+import tinycolor from "https://esm.sh/tinycolor2";
+var color = tinycolor("red");
+</script>
+```
+
+### UMD
+
+You can use it directly in a script tag by downloading the UMD file from [npm/cjs/tinycolor.js](https://github.com/bgrins/TinyColor/blob/master/npm/cjs/tinycolor.js):
 
 ```html
 <script type='text/javascript' src='tinycolor.js'></script>
