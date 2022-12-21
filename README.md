@@ -6,30 +6,30 @@ TinyColor is a small, fast library for color manipulation and conversion in Java
 
 [![Build Status](https://travis-ci.org/bgrins/TinyColor.png?branch=master)](https://travis-ci.org/bgrins/TinyColor)
 
+## Including in node
+
+`tinycolor` can be installed from npm:
+
+    npm install tinycolor2
+
+Then it can be used in your script like so:
+
+```js
+var tinycolor = require("tinycolor2");
+var color = tinycolor("red");
+```
+
 ## Including in a browser
 
-Download [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js) or install it with bower:
+The package can be bundled from npm, or you can use it directly in a script tag by downloading [tinycolor.js](https://raw.githubusercontent.com/bgrins/TinyColor/master/tinycolor.js):
 
-    bower install tinycolor
-
-Then just include it in the page in a `script` tag:
 ```html
 <script type='text/javascript' src='tinycolor.js'></script>
 <script type='text/javascript'>
 var color = tinycolor("red");
 </script>
 ```
-## Including in node
 
-`tinycolor` may also be included as a [node](http://nodejs.org/) module like so:
-
-    npm install tinycolor2
-
-Then it can be used in your script like so:
-```js
-var tinycolor = require("tinycolor2");
-var color = tinycolor("red");
-```
 ## Usage
 
 Call `tinycolor(input)` or `new tinycolor(input)`, and you will have an object with the following properties.  See Accepted String Input and Accepted Object Input below for more information about what is accepted.
