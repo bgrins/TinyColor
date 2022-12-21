@@ -17,6 +17,7 @@ async function image_handler(req, input) {
   if (!color.isValid()) {
     return new Response("Invalid color", { status: 400 });
   }
+  
   let textColor = tinycolor.mostReadable(color, ["#333", "#ddd"]);
   return new ImageResponse(
     (
