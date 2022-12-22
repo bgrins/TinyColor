@@ -4,31 +4,19 @@
 // they'll need to be shimmed here as well
 const tinycolor = require("./tinycolor.js");
 const { Deno, testDefinitions } = require("@deno/shim-deno-test");
-const nodeAssert = require("assert");
-let currentAssertionCount = 0;
-let totalAssertionCount = 0;
 async function runDenoTests() {
   for (const test of testDefinitions) {
     console.log(`Running ${test.name}`);
     await test.fn();
-    console.log(`> Passed ${currentAssertionCount}`);
-    totalAssertionCount += currentAssertionCount;
-    currentAssertionCount = 0;
-  }
-  if (totalAssertionCount === 0) {
-    throw new Error("No tests were run");
+    console.log(`> Passed ${test.name}`);
   }
 }
-function assertEquals(...args) {
-  currentAssertionCount++;
-  return nodeAssert.deepEqual(...args);
-}
-function assert(...args) {
-  currentAssertionCount++;
-  return nodeAssert(...args);
-}
+(async () => {
+  const { assertEquals, assert, assertThrows } = await import(
+    "../deno_asserts@0.168.0.mjs"
+  );
 
-// TEST_BEGINS_HERE
+  // TEST_BEGINS_HERE
 
 Deno.test("TinyColor initialization", function () {
   assert(
@@ -2147,4 +2135,32 @@ Deno.test("tetrad", function () {
   );
 });
 
-runDenoTests();
+Deno.test("polyad", function () {
+  assertThrows(() => {
+    tinycolor("red").polyad();
+  });
+  assertThrows(() => {
+    tinycolor("red").polyad(-1);
+  });
+  assertThrows(() => {
+    tinycolor("red").polyad("invalid");
+  });
+  assertEquals(colorsToHexString(tinycolor("red").polyad(1)), "ff0000");
+  assertEquals(colorsToHexString(tinycolor("red").polyad("1")), "ff0000");
+  assertEquals(colorsToHexString(tinycolor("red").polyad(2)), "ff0000,00ffff");
+  assertEquals(
+    colorsToHexString(tinycolor("red").polyad(3)),
+    "ff0000,00ff00,0000ff"
+  );
+  assertEquals(
+    colorsToHexString(tinycolor("red").polyad(4)),
+    "ff0000,80ff00,00ffff,7f00ff"
+  );
+  assertEquals(
+    colorsToHexString(tinycolor("red").polyad(5)),
+    "ff0000,ccff00,00ff66,0066ff,cc00ff"
+  );
+});
+
+  runDenoTests();
+})();
