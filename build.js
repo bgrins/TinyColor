@@ -80,3 +80,6 @@ async function write_npm_esm() {
 await write_cdn_umd();
 await write_npm_cjs();
 await write_npm_esm();
+
+await Deno.copyFile("README.md", "npm/README.md");
+await Deno.copyFile("LICENSE", "npm/LICENSE");
