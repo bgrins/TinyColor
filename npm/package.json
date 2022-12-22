@@ -14,9 +14,6 @@
     "tinycolor"
   ],
   "author": "Brian Grinstead <briangrinstead@gmail.com> (http://briangrinstead.com)",
-  "engines": {
-    "node": "*"
-  },
   "bugs": {
     "url": "https://github.com/bgrins/TinyColor/issues"
   },
