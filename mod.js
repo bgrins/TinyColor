@@ -883,7 +883,7 @@ tinycolor.mostReadable = function (baseColor, colorList, args) {
 
 // Big List of Colors
 // ------------------
-// <http://www.w3.org/TR/css3-color/#svg-color>
+// <https://www.w3.org/TR/css-color-4/#named-colors>
 var names = (tinycolor.names = {
   aliceblue: "f0f8ff",
   antiquewhite: "faebd7",

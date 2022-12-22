@@ -111,6 +111,9 @@ tinycolor.fromRatio({ h: 1, s: 0, v: 0 });
 tinycolor.fromRatio({ h: .5, s: .5, v: .5 });
 ```
 ### Named
+
+Case insenstive names are accepted, using the [list of colors in the CSS spec](https://www.w3.org/TR/css-color-4/#named-colors).
+
 ```js
 tinycolor("RED");
 tinycolor("blanchedalmond");
