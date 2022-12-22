@@ -309,11 +309,14 @@ tinycolor.prototype = {
   splitcomplement: function () {
     return this._applyCombination(splitcomplement, arguments);
   },
+  polyad: function (number) {
+    return this._applyCombination(polyad, [number]);
+  },
   triad: function () {
-    return this._applyCombination(triad, arguments);
+    return this._applyCombination(polyad, [3]);
   },
   tetrad: function () {
-    return this._applyCombination(tetrad, arguments);
+    return this._applyCombination(polyad, [4]);
   },
 };
 
@@ -713,25 +716,18 @@ function complement(color) {
   return tinycolor(hsl);
 }
 
-function triad(color) {
+function polyad(color, number) {
+  if (isNaN(number) || number <= 0) {
+    throw new Error("Argument to polyad must be a positive number");
+  }
   var hsl = tinycolor(color).toHsl();
-  var h = hsl.h;
-  return [
-    tinycolor(color),
-    tinycolor({ h: (h + 120) % 360, s: hsl.s, l: hsl.l }),
-    tinycolor({ h: (h + 240) % 360, s: hsl.s, l: hsl.l }),
-  ];
-}
+  var result = [tinycolor(color)];
+  var step = 360 / number;
+  for (var i = 1; i < number; i++) {
+    result.push(tinycolor({ h: (hsl.h + i * step) % 360, s: hsl.s, l: hsl.l }));
+  }
 
-function tetrad(color) {
-  var hsl = tinycolor(color).toHsl();
-  var h = hsl.h;
-  return [
-    tinycolor(color),
-    tinycolor({ h: (h + 90) % 360, s: hsl.s, l: hsl.l }),
-    tinycolor({ h: (h + 180) % 360, s: hsl.s, l: hsl.l }),
-    tinycolor({ h: (h + 270) % 360, s: hsl.s, l: hsl.l }),
-  ];
+  return result;
 }
 
 function splitcomplement(color) {

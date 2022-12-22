@@ -4,30 +4,19 @@
 // they'll need to be shimmed here as well
 const tinycolor = require("./tinycolor.js");
 const { Deno, testDefinitions } = require("@deno/shim-deno-test");
-const nodeAssert = require("assert");
-let currentAssertionCount = 0;
-let totalAssertionCount = 0;
 async function runDenoTests() {
   for (const test of testDefinitions) {
     console.log(`Running ${test.name}`);
     await test.fn();
-    console.log(`> Passed ${currentAssertionCount}`);
-    totalAssertionCount += currentAssertionCount;
-    currentAssertionCount = 0;
-  }
-  if (totalAssertionCount === 0) {
-    throw new Error("No tests were run");
+    console.log(`> Passed ${test.name}`);
   }
 }
-function assertEquals(...args) {
-  currentAssertionCount++;
-  return nodeAssert.deepEqual(...args);
-}
-function assert(...args) {
-  currentAssertionCount++;
-  return nodeAssert(...args);
-}
+(async () => {
+  const { assertEquals, assert, assertThrows } = await import(
+    "../deno_asserts@0.168.0.mjs"
+  );
 
-// CONTENT_GOES_HERE
+  // CONTENT_GOES_HERE
 
-runDenoTests();
+  runDenoTests();
+})();
