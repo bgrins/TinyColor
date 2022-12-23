@@ -38,5 +38,5 @@ jobs:
       # - name: Run linter
       #   run: deno lint
 
-      - name: Run tests
-        run: deno test test.js
+      - name: Build & Run Tests
+        run: deno task build
