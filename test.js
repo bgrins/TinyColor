@@ -450,6 +450,11 @@ Deno.test("HSL parsing", function () {
     "to hsl"
   );
   assertEquals(
+    tinycolor({ h: 251, s: 100, l: 0.38, a: .5 }).toHslString(),
+    "hsla(251, 100%, 38%, 0.5)",
+    "to hsla"
+  );
+  assertEquals(
     tinycolor("hsl(251, 100, 38)").toHexString(),
     "#2400c2",
     "to hex"
