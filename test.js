@@ -104,6 +104,14 @@ Deno.test("Cloning color", function () {
     "original color was not changed by cloned color change"
   );
 });
+Deno.test("Random color", function () {
+  var randomColor = tinycolor.random();
+  assertEquals(randomColor.getAlpha(), 1);
+  assertEquals(randomColor.getFormat(), "prgb");
+
+  randomColor.setAlpha(0.5);
+  assertEquals(randomColor.toHex8String().slice(-2), "80");
+});
 
 // Taken from convertWikipediaColors.html
 var conversions = [
@@ -450,7 +458,7 @@ Deno.test("HSL parsing", function () {
     "to hsl"
   );
   assertEquals(
-    tinycolor({ h: 251, s: 100, l: 0.38, a: .5 }).toHslString(),
+    tinycolor({ h: 251, s: 100, l: 0.38, a: 0.5 }).toHslString(),
     "hsla(251, 100%, 38%, 0.5)",
     "to hsla"
   );
