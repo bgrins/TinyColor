@@ -9,6 +9,10 @@ const { assertEquals, assert, assertThrows } = await import(
 );
 async function runDenoTests() {
   for (const test of testDefinitions) {
+    if (test.ignore) {
+      console.log(`Ignoring ${test.name}`);
+      continue;
+    }
     console.log(`Running ${test.name}`);
     await test.fn();
     console.log(`> Passed ${test.name}`);

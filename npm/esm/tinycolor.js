@@ -310,9 +310,10 @@ tinycolor.prototype = {
   splitcomplement: function () {
     return this._applyCombination(splitcomplement, arguments);
   },
-  polyad: function (number) {
-    return this._applyCombination(polyad, [number]);
-  },
+  // Disabled until https://github.com/bgrins/TinyColor/issues/254
+  // polyad: function (number) {
+  //   return this._applyCombination(polyad, [number]);
+  // },
   triad: function () {
     return this._applyCombination(polyad, [3]);
   },
