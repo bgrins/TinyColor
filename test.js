@@ -2125,29 +2125,37 @@ Deno.test("tetrad", function () {
   );
 });
 
-Deno.test("polyad", function () {
-  assertThrows(() => {
-    tinycolor("red").polyad();
-  });
-  assertThrows(() => {
-    tinycolor("red").polyad(-1);
-  });
-  assertThrows(() => {
-    tinycolor("red").polyad("invalid");
-  });
-  assertEquals(colorsToHexString(tinycolor("red").polyad(1)), "ff0000");
-  assertEquals(colorsToHexString(tinycolor("red").polyad("1")), "ff0000");
-  assertEquals(colorsToHexString(tinycolor("red").polyad(2)), "ff0000,00ffff");
-  assertEquals(
-    colorsToHexString(tinycolor("red").polyad(3)),
-    "ff0000,00ff00,0000ff"
-  );
-  assertEquals(
-    colorsToHexString(tinycolor("red").polyad(4)),
-    "ff0000,80ff00,00ffff,7f00ff"
-  );
-  assertEquals(
-    colorsToHexString(tinycolor("red").polyad(5)),
-    "ff0000,ccff00,00ff66,0066ff,cc00ff"
-  );
+Deno.test({
+  name: "polyad",
+  // Disabled until https://github.com/bgrins/TinyColor/issues/254
+  ignore: true,
+  fn: function () {
+    assertThrows(() => {
+      tinycolor("red").polyad();
+    });
+    assertThrows(() => {
+      tinycolor("red").polyad(-1);
+    });
+    assertThrows(() => {
+      tinycolor("red").polyad("invalid");
+    });
+    assertEquals(colorsToHexString(tinycolor("red").polyad(1)), "ff0000");
+    assertEquals(colorsToHexString(tinycolor("red").polyad("1")), "ff0000");
+    assertEquals(
+      colorsToHexString(tinycolor("red").polyad(2)),
+      "ff0000,00ffff"
+    );
+    assertEquals(
+      colorsToHexString(tinycolor("red").polyad(3)),
+      "ff0000,00ff00,0000ff"
+    );
+    assertEquals(
+      colorsToHexString(tinycolor("red").polyad(4)),
+      "ff0000,80ff00,00ffff,7f00ff"
+    );
+    assertEquals(
+      colorsToHexString(tinycolor("red").polyad(5)),
+      "ff0000,ccff00,00ff66,0066ff,cc00ff"
+    );
+  },
 });
