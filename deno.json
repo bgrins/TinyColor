@@ -1,10 +1,17 @@
 {
   "tasks": {
-    "test": "deno test test.js",
+    "test": "deno test",
     "dev": "deno test --watch test.js",
     "serve": "deno run --watch --allow-env --allow-net=unpkg.com,0.0.0.0 --allow-read=. demo/server.jsx",
     "test-npm": "npm install --prefix npm && npm test --prefix npm",
     "build": "deno task test && deno run --allow-env --allow-read --allow-write=. build.js && deno task test-npm",
     "publish": "deno task build && cd npm && npm publish --access public"
+  },
+  "test": {
+    "files": {
+      "exclude": [
+        "npm"
+      ]
+    }
   }
 }
