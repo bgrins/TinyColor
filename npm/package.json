@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0-beta.2",
+  "version": "1.6.0-beta.6",
   "name": "tinycolor2",
   "description": "Fast Color Parsing and Manipulation",
   "url": "http://bgrins.github.com/TinyColor",
@@ -19,6 +19,7 @@
   },
   "module": "./esm/tinycolor.js",
   "main": "./cjs/tinycolor.js",
+  "browser": "./cjs/tinycolor.js",
   "exports": {
     ".": {
       "import": "./esm/tinycolor.js",
