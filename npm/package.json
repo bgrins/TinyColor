@@ -19,6 +19,7 @@
   },
   "module": "./esm/tinycolor.js",
   "main": "./cjs/tinycolor.js",
+  "browser": "./cjs/tinycolor.js",
   "exports": {
     ".": {
       "import": "./esm/tinycolor.js",
