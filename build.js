@@ -20,6 +20,12 @@ async function write_cdn_umd() {
   `;
   Deno.writeTextFileSync("npm/tinycolor.js", preamble + output[0].code);
   Deno.writeTextFileSync("npm/dist/tinycolor-min.js", preamble + minified.code);
+
+  // Keeping these (without preamble) until we can confirm they aren't used by CDNs
+  // after moving to the npm/ path. At that point these files can be removed in
+  // https://github.com/bgrins/TinyColor/issues/260.
+  Deno.writeTextFileSync("tinycolor.js", output[0].code);
+  Deno.writeTextFileSync("dist/tinycolor-min.js", minified.code);
 }
 
 // Write necessary files for testing & publishing commonjs to npm.
