@@ -104,7 +104,7 @@ const handler = (req) => {
   if (pathname === "/") {
     return serveFile(req, "./index.html");
   }
-  if (["/demo/demo.css", "/tinycolor.js"].includes(pathname)) {
+  if (["/demo/demo.css", "/npm/tinycolor.js"].includes(pathname)) {
     return serveFile(req, `.${pathname}`);
   }
   if (pathname.startsWith("/api/")) {
