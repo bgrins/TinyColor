@@ -30,8 +30,6 @@ The package can be bundled from npm, but if you prefer to download it locally yo
 
 ### ESM
 
-** Note: This support is in progress and was landed in [1.5.0](https://www.npmjs.com/package/tinycolor2/v/1.5.0) but has been temporarily reverted in 1.5.1 due to a bug report: https://github.com/bgrins/TinyColor/issues/249 **
-
 It can be used as a module by downloading [npm/esm/tinycolor.js](https://github.com/bgrins/TinyColor/blob/master/npm/esm/tinycolor.js) or using https://esm.sh/tinycolor2.
 
 ```html
