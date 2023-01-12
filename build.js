@@ -1,8 +1,18 @@
 import { rollup } from "npm:rollup";
 import { minify } from "npm:terser";
+import { babel } from "npm:@rollup/plugin-babel";
+// This import is required for presetEnv to work:
+import _ from "https://esm.sh/@babel/core";
+import babelPresetEnv from "https://esm.sh/@babel/preset-env";
 
 let bundle = await rollup({
   input: "mod.js",
+  plugins: [
+    babel({
+      babelHelpers: "bundled",
+      presets: [[babelPresetEnv]],
+    }),
+  ],
 });
 
 // Write legacy UMD files to tinycolor.js and dist/tinycolor-min.js.
