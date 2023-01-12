@@ -7,8 +7,8 @@
   // https://github.com/bgrins/TinyColor
   // Brian Grinstead, MIT License
 
-  const trimLeft = /^\s+/;
-  const trimRight = /\s+$/;
+  var trimLeft = /^\s+/;
+  var trimRight = /\s+$/;
 
   function tinycolor(color, opts) {
     color = color ? color : "";
