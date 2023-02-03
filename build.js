@@ -1,6 +1,6 @@
-import { rollup } from "npm:rollup";
-import { minify } from "npm:terser";
-import { babel } from "npm:@rollup/plugin-babel";
+import { rollup } from "npm:rollup@3.13.0";
+import { minify } from "npm:terser@5.16.1";
+import { babel } from "npm:@rollup/plugin-babel@6.0.3";
 // This import is required for presetEnv to work:
 import _ from "https://esm.sh/@babel/core@7.20.12";
 import babelPresetEnv from "https://esm.sh/@babel/preset-env@7.20.2";
