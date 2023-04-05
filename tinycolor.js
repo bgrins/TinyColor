@@ -115,7 +115,7 @@
       var h = Math.round(hsl.h * 360),
         s = Math.round(hsl.s * 100),
         l = Math.round(hsl.l * 100);
-      return this._a == 1 ? "hsl(" + h + ", " + s + "%, " + l + "%)" : "hsla(" + h + ", " + s + "%, " + l + "%, " + this._roundA + ")";
+      return this._a == 1 ? "hsl(" + h + ", " + s + "%, " + l + "%)" : "hsl(" + h + ", " + s + "%, " + l + "%, " + this._roundA + ")";
     },
     toHex: function toHex(allow3Char) {
       return rgbToHex(this._r, this._g, this._b, allow3Char);
@@ -303,7 +303,7 @@
   //     "rgba (255, 0, 0, 1)" or "rgba 255, 0, 0, 1"
   //     "rgba (1.0, 0, 0, 1)" or "rgba 1.0, 0, 0, 1"
   //     "hsl(0, 100%, 50%)" or "hsl 0 100% 50%"
-  //     "hsla(0, 100%, 50%, 1)" or "hsla 0 100% 50%, 1"
+  //     "hsl(0, 100%, 50%, 1)" or "hsl 0 100% 50%, 1"
   //     "hsv(0, 100%, 100%)" or "hsv 0 100% 100%"
   //
   function inputToRGB(color) {
@@ -1038,7 +1038,7 @@
       rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
       rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
       hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
-      hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
+      hsl: new RegExp("hsl" + PERMISSIVE_MATCH4),
       hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
       hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
       hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
@@ -1101,7 +1101,7 @@
         l: match[3]
       };
     }
-    if (match = matchers.hsla.exec(color)) {
+    if (match = matchers.hsl.exec(color)) {
       return {
         h: match[1],
         s: match[2],
