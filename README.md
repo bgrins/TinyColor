@@ -89,7 +89,7 @@ tinycolor.fromRatio({ r: .5, g: .5, b: .5 });
 ### HSL, HSLA
 ```js
 tinycolor("hsl(0, 100%, 50%)");
-tinycolor("hsla(0, 100%, 50%, .5)");
+tinycolor("hsl(0, 100%, 50%, .5)");
 tinycolor("hsl(0, 100%, 50%)");
 tinycolor("hsl 0 1.0 0.5");
 tinycolor({ h: 0, s: 1, l: .5 });
@@ -247,7 +247,7 @@ color.toHsl(); // { h: 0, s: 1, l: 0.5, a: 1 }
 var color = tinycolor("red");
 color.toHslString(); // "hsl(0, 100%, 50%)"
 color.setAlpha(0.5);
-color.toHslString(); // "hsla(0, 100%, 50%, 0.5)"
+color.toHslString(); // "hsl(0, 100%, 50%, 0.5)"
 ```
 ### toHex
 ```js
