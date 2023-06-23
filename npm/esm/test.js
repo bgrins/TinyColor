@@ -379,6 +379,9 @@ Deno.test("RGB Text Parsing", function () {
   assert(
     tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgb 200 100 0")
   );
+  assert(
+    tinycolor.equals(tinycolor({ r: 200, g: 100, b: 0 }), "rgba(200,100,0)")
+  );
 });
 
 Deno.test("Percentage RGB Text Parsing", function () {

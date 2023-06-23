@@ -1032,6 +1032,7 @@ var matchers = function () {
     CSS_UNIT: new RegExp(CSS_UNIT),
     rgb: new RegExp("rgb" + PERMISSIVE_MATCH3),
     rgba: new RegExp("rgba" + PERMISSIVE_MATCH4),
+    rgbAsRgba: new RegExp("rgba" + PERMISSIVE_MATCH3),
     hsl: new RegExp("hsl" + PERMISSIVE_MATCH3),
     hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
     hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
@@ -1087,6 +1088,14 @@ function stringInputToObject(color) {
       g: match[2],
       b: match[3],
       a: match[4]
+    };
+  }
+  // some programs treat rgba value without the a as rgb values
+  if (match = matchers.rgbAsRgba.exec(color)) {
+    return {
+      r: match[1],
+      g: match[2],
+      b: match[3]
     };
   }
   if (match = matchers.hsl.exec(color)) {
