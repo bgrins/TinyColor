@@ -325,7 +325,7 @@
       if (isValidCSSUnit(color.r) && isValidCSSUnit(color.g) && isValidCSSUnit(color.b)) {
         rgb = rgbToRgb(color.r, color.g, color.b);
         ok = true;
-        format = String(color.r).substr(-1) === "%" ? "prgb" : "rgb";
+        format = String(color.r).slice(-1) === "%" ? "prgb" : "rgb";
       } else if (isValidCSSUnit(color.h) && isValidCSSUnit(color.s) && isValidCSSUnit(color.v)) {
         s = convertToPercentage(color.s);
         v = convertToPercentage(color.v);
