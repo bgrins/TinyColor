@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "test": "deno test",
+    "dev": "deno test --watch test.js",
+    "coverage": "deno test --coverage=cov_profile && deno coverage cov_profile --lcov --output=cov_profile.lcov && genhtml -o cov_profile/html cov_profile.lcov && open cov_profile/html/TinyColor/mod.js.gcov.html",
+    "serve": "deno run --watch --allow-env --allow-net=unpkg.com,0.0.0.0 --allow-read=. demo/server.jsx",
+    "test-npm": "npm install --prefix npm && npm test --prefix npm",
+    "build": "deno task test && deno run --allow-env --allow-read --allow-write=. build.js && deno task test-npm",
+    "publish": "deno task build && cd npm && npm publish --access public",
+    "publish-beta": "deno task build && cd npm && npm publish --tag beta --access public"
+  },
+  "test": {
+    "files": {
+      "exclude": [
+        "npm"
+      ]
+    }
+  }
+}
