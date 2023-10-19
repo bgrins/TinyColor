@@ -8,6 +8,9 @@
     "type": "git",
     "url": "https://github.com/bgrins/TinyColor.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "color",
     "parser",
