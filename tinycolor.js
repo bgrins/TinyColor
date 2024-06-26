@@ -137,6 +137,14 @@
         a: this._a
       };
     },
+    toRgbValues: function toRgbValues() {
+      return {
+        r: this._r,
+        g: this._g,
+        b: this._b,
+        a: this._a
+      };
+    },
     toRgbString: function toRgbString() {
       return this._a == 1 ? "rgb(" + Math.round(this._r) + ", " + Math.round(this._g) + ", " + Math.round(this._b) + ")" : "rgba(" + Math.round(this._r) + ", " + Math.round(this._g) + ", " + Math.round(this._b) + ", " + this._roundA + ")";
     },

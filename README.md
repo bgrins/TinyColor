@@ -274,6 +274,12 @@ color.toHex8String(); // "#ff0000ff"
 var color = tinycolor("red");
 color.toRgb(); // { r: 255, g: 0, b: 0, a: 1 }
 ```
+### toRgbValues
+Like `toRgb` but values are not rounded.
+```js
+var color = tinycolor("rgb(33.3, 66.7, 1)");
+color.toRgbValues(); // { r: 33.3, g: 66.7, b: 1, a: 1 }
+```
 ### toRgbString
 ```js
 var color = tinycolor("red");
