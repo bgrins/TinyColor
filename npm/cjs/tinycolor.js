@@ -990,7 +990,7 @@
   // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
   // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
   function isOnePointZero(n) {
-    return typeof n == "string" && n.indexOf(".") != -1 && parseFloat(n) === 1;
+    return typeof n == "string" && n.indexOf(".") != -1 && n.indexOf("%") === -1 && parseFloat(n) === 1;
   }
 
   // Check to see if string passed in is a percentage
