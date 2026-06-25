@@ -455,6 +455,33 @@ Deno.test("Percentage RGB Text Parsing", function () {
   );
 });
 
+Deno.test("Percentage of 1.0 is not treated as 100%", function () {
+  // Per CSS Color, "1.0%" is identical to "1%". A percentage whose numeric
+  // part is exactly 1 written with a decimal point must not be coerced to 100%.
+  assertEquals(
+    tinycolor("rgb(1.0%, 0, 0)").toRgb().r,
+    tinycolor("rgb(1%, 0, 0)").toRgb().r,
+    "rgb 1.0% red channel matches 1%"
+  );
+  assertEquals(tinycolor("rgb(1.0%, 0, 0)").toRgb().r, 3, "rgb 1.0% red channel");
+  assertEquals(
+    tinycolor("hsl(0, 100%, 1.0%)").toHexString(),
+    tinycolor("hsl(0, 100%, 1%)").toHexString(),
+    "hsl 1.0% lightness matches 1%"
+  );
+  assertEquals(
+    tinycolor("hsl(0, 100%, 1.0%)").toHexString(),
+    "#050000",
+    "hsl 1.0% lightness"
+  );
+  // The bare ratio string "1.0" (no percent sign) must still mean full 100%.
+  assertEquals(
+    tinycolor.fromRatio({ r: 1.0, g: 0, b: 0 }).toHexString(),
+    "#ff0000",
+    "ratio 1.0 still means 100%"
+  );
+});
+
 Deno.test("HSL parsing", function () {
   assertEquals(
     tinycolor({ h: 251, s: 100, l: 0.38 }).toHexString(),
