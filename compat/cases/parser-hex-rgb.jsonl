@@ -1,0 +1,26 @@
+{"id":"hex-3","operation":"inspect","input":"#f00"}
+{"id":"hex-3-no-hash","operation":"inspect","input":"F00"}
+{"id":"hex-4","operation":"inspect","input":"#f008"}
+{"id":"hex-6","operation":"inspect","input":"ff0000"}
+{"id":"hex-8","operation":"inspect","input":"#ff000080"}
+{"id":"hex-invalid","operation":"inspect","input":"##123456"}
+{"id":"rgb-space","operation":"inspect","input":"rgb 255 0 0"}
+{"id":"rgb-paren","operation":"inspect","input":"rgb(255, 0, 0)"}
+{"id":"rgba-alpha","operation":"inspect","input":"rgba 255 0 0 .5"}
+{"id":"rgb-percent","operation":"inspect","input":"rgb 100% 0% 0%"}
+{"id":"rgb-percent-object","operation":"inspect","input":{"r":"90%","g":"45%","b":"0%","a":0.4}}
+{"id":"rgb-clamped","operation":"inspect","input":"rgb 300 -1 0"}
+{"id":"rgb-alpha-invalid","operation":"inspect","input":{"r":255,"g":20,"b":10,"a":-1}}
+{"id":"rgb-alpha-zero","operation":"inspect","input":{"r":255,"g":20,"b":10,"a":0}}
+{"id":"name-red","operation":"inspect","input":"red"}
+{"id":"name-alias-aqua","operation":"inspect","input":"aqua"}
+{"id":"name-trim-case","operation":"inspect","input":"  InDiAnReD "}
+{"id":"name-grey","operation":"inspect","input":"grey"}
+{"id":"transparent","operation":"inspect","input":"transparent"}
+{"id":"invalid-string","operation":"inspect","input":"this is not a color"}
+{"id":"invalid-object","operation":"inspect","input":{"r":"invalid","g":"invalid","b":"invalid"}}
+{"id":"original-empty","operation":"inspect","input":""}
+{"id":"original-null","operation":"inspect","input":null}
+{"id":"original-object","operation":"inspect","input":{"r":255,"g":0,"b":0}}
+{"id":"ratio-white","operation":"fromRatio","input":{"r":1,"g":1,"b":1}}
+{"id":"ratio-alpha","operation":"fromRatio","input":{"r":1,"g":0,"b":0,"a":0.5}}

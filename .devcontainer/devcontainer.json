@@ -1,0 +1,18 @@
+{
+  "name": "TinyColor Go",
+  "image": "mcr.microsoft.com/devcontainers/go:1-1.26-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/devcontainers-extra/features/deno:1": {}
+  },
+  "postCreateCommand": "make build",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "golang.Go"
+      ]
+    }
+  }
+}

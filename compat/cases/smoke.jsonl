@@ -1,0 +1,9 @@
+{"id":"name-red","operation":"inspect","input":"red"}
+{"id":"hex-black","operation":"inspect","input":"#000"}
+{"id":"invalid","operation":"inspect","input":"not a color"}
+{"id":"transparent","operation":"inspect","input":"transparent"}
+{"id":"rgba-red","operation":"inspect","input":"rgba(255, 0, 0, .5)"}
+{"id":"hsl-red","operation":"inspect","input":"hsl(0, 100%, 50%)"}
+{"id":"hsv-red","operation":"inspect","input":"hsv(0, 100%, 100%)"}
+{"id":"rgb-object","operation":"inspect","input":{"r":255,"g":0,"b":0}}
+{"id":"ratio-red","operation":"fromRatio","input":{"r":1,"g":0,"b":0}}

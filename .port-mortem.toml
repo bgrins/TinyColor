@@ -1,0 +1,4 @@
+track = "H"
+source_url = "https://github.com/bgrins/TinyColor.git"
+kickoff_commit = "b49018c9f2dbca313d80d7a4dad25e26143cfe01"
+oracle_manifest = "tests/original/manifest.sha256"

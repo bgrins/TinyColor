@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-08-01T05:53:35.885Z",
+  "os": "win32",
+  "architecture": "x64",
+  "cpu": "AMD Ryzen 9 8940HX with Radeon Graphics        ",
+  "nodeVersion": "v24.18.0",
+  "goVersion": "go version go1.26.1 windows/amd64",
+  "workloadSha256": "3d91bf1f988e4a69173c8413d08ee6ba5b0d4179b9905778e4093da778206f8f",
+  "samples": {
+    "coldStarts": 20,
+    "requests": 1000
+  },
+  "implementations": {
+    "javascript": {
+      "startupP99Ms": 41.4131,
+      "latencyP99Ms": 0.2795,
+      "throughputOpsPerSecond": 7834.77401769562,
+      "peakRssBytes": 42868736
+    },
+    "go": {
+      "startupP99Ms": 11.0109,
+      "latencyP99Ms": 0.1808,
+      "throughputOpsPerSecond": 16756.790270337297,
+      "peakRssBytes": 12668928
+    }
+  }
+}

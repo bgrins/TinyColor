@@ -1,0 +1,23 @@
+{"id":"hsl-red","operation":"inspect","input":"hsl(0, 100%, 50%)"}
+{"id":"hsl-decimal","operation":"inspect","input":"hsl 251 100 0.38"}
+{"id":"hsla-alpha","operation":"inspect","input":"hsla(251,100%,38%,.5)"}
+{"id":"hsl-wrap","operation":"inspect","input":"hsl(-109,100%,50%)"}
+{"id":"hsv-red","operation":"inspect","input":"hsv(0,100%,100%)"}
+{"id":"hsv-decimal","operation":"inspect","input":"hsv 251.1 .887 .918"}
+{"id":"hsva-alpha","operation":"inspect","input":"hsva 251.1 .887 .918 .5"}
+{"id":"hsv-wrap","operation":"inspect","input":"hsv(720,100%,100%)"}
+{"id":"hsl-object","operation":"inspect","input":{"h":251,"s":100,"l":0.38}}
+{"id":"hsv-object","operation":"inspect","input":{"h":251.1,"s":0.887,"v":0.918}}
+{"id":"object-precedence-rgb","operation":"inspect","input":{"r":255,"g":0,"b":0,"h":120,"s":100,"v":100}}
+{"id":"object-precedence-hsv","operation":"inspect","input":{"h":120,"s":100,"v":100,"l":50}}
+{"id":"hsl-invalid","operation":"inspect","input":{"h":"invalid","s":"invalid","l":"invalid"}}
+{"id":"hsv-invalid","operation":"inspect","input":{"h":"invalid","s":"invalid","v":"invalid"}}
+{"id":"ratio-hsl","operation":"fromRatio","input":{"h":0,"s":1,"l":0.5,"a":0.5}}
+{"id":"ratio-hsv","operation":"fromRatio","input":{"h":0,"s":1,"v":1,"a":0.5}}
+{"id":"ratio-rgb-alpha-invalid","operation":"fromRatio","input":{"r":1,"g":0,"b":0,"a":10}}
+{"id":"hex8","operation":"inspect","input":"#ff000080"}
+{"id":"rgb-percent","operation":"inspect","input":"rgb 100% 0% 0%"}
+{"id":"name-alias","operation":"inspect","input":"aqua"}
+{"id":"transparent","operation":"inspect","input":"transparent"}
+{"id":"invalid","operation":"inspect","input":"this is not a color"}
+{"id":"original-null","operation":"inspect","input":null}

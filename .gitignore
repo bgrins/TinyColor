@@ -7,3 +7,5 @@ node_modules
 .vscode
 cov_profile
 cov_profile.lcov
+.cache/
+bin/

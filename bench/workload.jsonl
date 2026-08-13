@@ -1,0 +1,9 @@
+{"id":"bench-parse-name","operation":"inspect","input":"rebeccapurple"}
+{"id":"bench-parse-rgba","operation":"inspect","input":"rgba(12, 34, 56, 0.75)"}
+{"id":"bench-convert-hsl","operation":"output","input":"#336699","args":{"method":"toHslString"}}
+{"id":"bench-convert-hex8","operation":"output","input":"hsla(210, 50%, 40%, 0.5)","args":{"method":"toHex8String"}}
+{"id":"bench-modify","operation":"modify","input":"#80402080","args":{"method":"lighten","amount":20}}
+{"id":"bench-mix","operation":"mix","input":"rgba(255,0,0,0.25)","args":{"other":"#0000ff80","amount":35}}
+{"id":"bench-readability","operation":"readability","input":"#123456","args":{"other":"#fefefe"}}
+{"id":"bench-readable","operation":"isReadable","input":"#ff0088","args":{"other":"#2e0c3a","options":{"level":"AA","size":"small"}}}
+{"id":"bench-palette","operation":"palette","input":"#336699","args":{"method":"analogous","results":6,"slices":30}}

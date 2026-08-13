@@ -1,0 +1,4 @@
+duration_seconds: 60.012
+seed: 20260801
+cases: 1091630
+divergences: 0
