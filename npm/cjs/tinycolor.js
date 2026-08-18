@@ -653,6 +653,10 @@
   function _analogous(color, results, slices) {
     results = results || 6;
     slices = slices || 30;
+
+    if (isNaN(results) || results <= 0 || results % 1 !== 0) {
+      throw new Error("Argument to analogous must be a positive integer");
+    }
     var hsl = tinycolor(color).toHsl();
     var part = 360 / slices;
     var ret = [tinycolor(color)];
@@ -664,6 +668,10 @@
   }
   function _monochromatic(color, results) {
     results = results || 6;
+
+    if (isNaN(results) || results <= 0 || results % 1 !== 0) {
+      throw new Error("Argument to monochromatic must be a positive integer");
+    }
     var hsv = tinycolor(color).toHsv();
     var h = hsv.h,
       s = hsv.s,

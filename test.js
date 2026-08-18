@@ -2138,6 +2138,26 @@ Deno.test("tetrad", function () {
   );
 });
 
+Deno.test("analogous and monochromatic reject counts that never terminate", function () {
+  // `--results` / `results--` test for truthiness, so a negative or fractional
+  // count never lands on 0 and the loop allocates until the heap is gone.
+  // `polyad` already guards the same shape of input.
+  for (const bad of [-1, 1.5, 0.5, -0.5]) {
+    assertThrows(() => {
+      tinycolor("red").analogous(bad);
+    });
+    assertThrows(() => {
+      tinycolor("red").monochromatic(bad);
+    });
+  }
+
+  // Falsy values still fall through to the default of 6, unchanged.
+  assertEquals(tinycolor("red").analogous().length, 6);
+  assertEquals(tinycolor("red").analogous(0).length, 6);
+  assertEquals(tinycolor("red").monochromatic(null).length, 6);
+  assertEquals(tinycolor("red").analogous(3).length, 3);
+});
+
 Deno.test({
   name: "polyad",
   // Disabled until https://github.com/bgrins/TinyColor/issues/254
