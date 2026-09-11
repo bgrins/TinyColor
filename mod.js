@@ -1151,6 +1151,9 @@ var matchers = (function () {
     ")[,|\\s]+(" +
     CSS_UNIT +
     ")\\s*\\)?";
+  // Fourth value (alpha) is optional so rgba()/hsla()/hsva() match CSS
+  // Color 4, where rgb/rgba and hsl/hsla are aliases. Slash is allowed as
+  // the separator before alpha (`rgba(255 0 0 / 0.5)`).
   var PERMISSIVE_MATCH4 =
     "[\\s|\\(]+(" +
     CSS_UNIT +
@@ -1158,9 +1161,9 @@ var matchers = (function () {
     CSS_UNIT +
     ")[,|\\s]+(" +
     CSS_UNIT +
-    ")[,|\\s]+(" +
+    ")(?:[,|\\s/]+(" +
     CSS_UNIT +
-    ")\\s*\\)?";
+    "))?\\s*\\)?";
 
   return {
     CSS_UNIT: new RegExp(CSS_UNIT),

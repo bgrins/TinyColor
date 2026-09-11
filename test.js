@@ -352,6 +352,19 @@ Deno.test("RGB Text Parsing", function () {
     tinycolor.equals({ r: 200, g: 100, b: 0, a: 0.4 }, "rgba 200 100 0 .4")
   );
   assert(!tinycolor.equals({ r: 199, g: 100, b: 0 }, "rgba 200 100 0 1"));
+  assert(
+    tinycolor.equals({ r: 200, g: 100, b: 0 }, "rgba(200, 100, 0)"),
+    "rgba without alpha"
+  );
+  assert(tinycolor.equals({ r: 200, g: 100, b: 0 }, "rgba 200 100 0"));
+  assert(
+    tinycolor("rgba(255, 0, 0)").isValid(),
+    "rgba without alpha is valid"
+  );
+  assert(
+    tinycolor.equals({ r: 255, g: 0, b: 0, a: 0.5 }, "rgba(255 0 0 / 0.5)"),
+    "rgba with slash-separated alpha"
+  );
 
   assert(!tinycolor.equals({ r: 199, g: 100, b: 0 }, "rgb(200, 100, 0)"));
   assert(!tinycolor.equals({ r: 199, g: 100, b: 0 }, "rgb 200 100 0"));
@@ -410,6 +423,13 @@ Deno.test("Percentage RGB Text Parsing", function () {
       { r: "90%", g: "45%", b: "0%", a: 0.4 },
       "rgba 90% 45% 0% .4"
     )
+  );
+  assert(
+    tinycolor.equals(
+      { r: "90%", g: "45%", b: "0%" },
+      "rgba(90%, 45%, 0%)"
+    ),
+    "percentage rgba without alpha"
   );
   assert(
     !tinycolor.equals({ r: "89%", g: "45%", b: "0%" }, "rgba 90% 45% 0% 1")
@@ -482,6 +502,11 @@ Deno.test("HSL parsing", function () {
     "hsl(100, 20%, 10%)",
     "problematic hsl"
   );
+  assertEquals(
+    tinycolor("hsla(251, 100%, 38%)").toHslString(),
+    "hsl(251, 100%, 38%)",
+    "hsla without alpha"
+  );
 });
 
 Deno.test("Hex Parsing", function () {
@@ -510,6 +535,11 @@ Deno.test("HSV Parsing", function () {
   assertEquals(
     tinycolor("hsva 251.1 0.887 0.918 0.5").toHsvString(),
     "hsva(251, 89%, 92%, 0.5)"
+  );
+  assertEquals(
+    tinycolor("hsva 251.1 0.887 0.918").toHsvString(),
+    "hsv(251, 89%, 92%)",
+    "hsva without alpha"
   );
 });
 
