@@ -214,6 +214,10 @@ color3.getAlpha(); // 0
 ### setAlpha
 
 Sets the alpha value on a current color.  Accepted range is in between `0-1`.
+Finite values outside this range are clamped: negative values become `0`
+(fully transparent), and values above `1` become `1` (fully opaque).
+Non-numeric values and infinities default to `1`. The same rules apply to alpha
+values in color strings and objects.
 ```js
 var color = tinycolor("red");
 color.getAlpha(); // 1

@@ -948,11 +948,13 @@
     return flipped;
   }
 
-  // Return a valid alpha value [0,1] with all invalid values being set to 1
+  // Clamp finite alpha values to [0,1], defaulting invalid values to 1
   function boundAlpha(a) {
     a = parseFloat(a);
-    if (isNaN(a) || a < 0 || a > 1) {
+    if (!isFinite(a) || a > 1) {
       a = 1;
+    } else if (a < 0) {
+      a = 0;
     }
     return a;
   }

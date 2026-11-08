@@ -294,8 +294,8 @@ Deno.test("With Ratio", function () {
   );
   assertEquals(
     tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: -1 }).toRgbString(),
-    "rgb(255, 0, 0)",
-    "alpha < 1 works when ratio is parsed"
+    "rgba(255, 0, 0, 0)",
+    "negative alpha is clamped to 0 when ratio is parsed"
   );
 });
 
@@ -695,10 +695,10 @@ Deno.test("Named colors", function () {
   assertEquals(tinycolor("#fa0a0a").toName(), false);
 });
 
-Deno.test("Invalid alpha should normalize to 1", function () {
+Deno.test("Alpha is clamped with invalid values defaulting to 1", function () {
   assertEquals(
     tinycolor({ r: 255, g: 20, b: 10, a: -1 }).toRgbString(),
-    "rgb(255, 20, 10)",
+    "rgba(255, 20, 10, 0)",
     "Negative value"
   );
   assertEquals(
@@ -851,8 +851,8 @@ Deno.test("setting alpha", function () {
   hexSetter.setAlpha(-1);
   assertEquals(
     hexSetter.getAlpha(),
-    1,
-    "setAlpha with value < 0 should be bound to 1"
+    0,
+    "setAlpha with value < 0 should be bound to 0"
   );
   hexSetter.setAlpha(2);
   assertEquals(
@@ -878,6 +878,64 @@ Deno.test("setting alpha", function () {
     1,
     "setAlpha with invalid value should be bound to 1"
   );
+});
+
+Deno.test("Negative alpha is transparent across input formats", function () {
+  var inputs = [
+    "rgba(255, 0, 0, -0.5)",
+    "rgba(100%, 0%, 0%, -0.5)",
+    "hsla(0, 100%, 50%, -0.5)",
+    "hsva(0, 100%, 100%, -0.5)",
+    { r: 255, g: 0, b: 0, a: -0.5 },
+    { h: 0, s: 1, l: 0.5, a: -0.5 },
+    { h: 0, s: 1, v: 1, a: -0.5 },
+    tinycolor.fromRatio({ r: 1, g: 0, b: 0, a: -0.5 }),
+    tinycolor("red").setAlpha(-0.5),
+  ];
+  inputs.forEach(function (input) {
+    var color = tinycolor(input);
+    assert(color.isValid());
+    assertEquals(color.getAlpha(), 0);
+    assertEquals(color.toRgbString(), "rgba(255, 0, 0, 0)");
+    assertEquals(color.toHsl().a, 0);
+    assertEquals(color.toHsv().a, 0);
+    assertEquals(color.toHex8String(), "#ff000000");
+    assertEquals(color.toName(), "transparent");
+    assertEquals(color.clone().getAlpha(), 0);
+    assertEquals(color.lighten(10).getAlpha(), 0);
+  });
+});
+
+Deno.test("Alpha boundaries and invalid defaults", function () {
+  var cases = [
+    [-Number.MAX_VALUE, 0],
+    [-Number.MIN_VALUE, 0],
+    ["-0.5", 0],
+    [-0, 0],
+    [0, 0],
+    [Number.MIN_VALUE, Number.MIN_VALUE],
+    [0.5, 0.5],
+    ["0.5", 0.5],
+    [1, 1],
+    [Number.MAX_VALUE, 1],
+    [NaN, 1],
+    [Infinity, 1],
+    [-Infinity, 1],
+    ["Infinity", 1],
+    ["-Infinity", 1],
+    ["not a number", 1],
+    ["", 1],
+    [null, 1],
+    [undefined, 1],
+  ];
+  cases.forEach(function (testCase) {
+    var input = testCase[0];
+    var expected = testCase[1];
+    var color = tinycolor("red");
+    assertEquals(color.setAlpha(input), color);
+    assertEquals(color.getAlpha(), expected);
+    assertEquals(tinycolor({ r: 255, g: 0, b: 0, a: input }).getAlpha(), expected);
+  });
 });
 
 Deno.test("Alpha = 0 should act differently on toName()", function () {
