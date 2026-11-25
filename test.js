@@ -2140,8 +2140,6 @@ Deno.test("tetrad", function () {
 
 Deno.test({
   name: "polyad",
-  // Disabled until https://github.com/bgrins/TinyColor/issues/254
-  ignore: true,
   fn: function () {
     assertThrows(() => {
       tinycolor("red").polyad();
